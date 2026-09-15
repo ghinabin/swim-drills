@@ -1,701 +1,2005 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#04202A">
-<title>50 free — NSA Cup</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --deep:#04202A;
-  --card:#0B3A48;
-  --card-2:#0F4658;
-  --line:#17586C;
-  --foam:#E9F5F7;
-  --mute:#8FB4BF;
-  --amber:#FFB224;
-  --signal:#FF6A45;
-  --cyan:#6FD0E0;
-  --ok:#49D6A6;
-  --pad:16px;
-  --r:14px;
-  --sat:env(safe-area-inset-top,0px);
-  --sab:env(safe-area-inset-bottom,0px);
-  --ui:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  --disp:'Barlow Condensed','Oswald',Impact,sans-serif;
-}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{margin:0;padding:0;overflow-x:hidden;}
-body{
-  background:var(--deep);color:var(--foam);font-family:var(--ui);
-  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;
-  overscroll-behavior-y:contain;
-}
-button{font-family:inherit;color:inherit;border:0;background:none;cursor:pointer;text-align:left;}
-:focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:8px;}
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#04202A" />
+    <title>50 free — NSA Cup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --deep: #04202a;
+        --card: #0b3a48;
+        --card-2: #0f4658;
+        --line: #17586c;
+        --foam: #e9f5f7;
+        --mute: #8fb4bf;
+        --amber: #ffb224;
+        --signal: #ff6a45;
+        --cyan: #6fd0e0;
+        --ok: #49d6a6;
+        --pad: 16px;
+        --r: 14px;
+        --sat: env(safe-area-inset-top, 0px);
+        --sab: env(safe-area-inset-bottom, 0px);
+        --ui:
+          "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        --disp: "Barlow Condensed", "Oswald", Impact, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        background: var(--deep);
+        color: var(--foam);
+        font-family: var(--ui);
+        font-size: 15px;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        overscroll-behavior-y: contain;
+      }
+      ~ button {
+        font-family: inherit;
+        color: inherit;
+        border: 0;
+        background: none;
+        cursor: pointer;
+        text-align: left;
+      }
+      :focus-visible {
+        outline: 2px solid var(--amber);
+        outline-offset: 2px;
+        border-radius: 8px;
+      }
 
-#home{min-height:100vh;}
-body.locked{overflow:hidden;position:fixed;width:100%;}
-#detail{
-  position:fixed;inset:0;z-index:20;background:var(--deep);
-  overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;
-  overscroll-behavior:contain;
-  transform:translateX(100%);
-  transition:transform .28s cubic-bezier(.32,.72,0,1);
-  box-shadow:-18px 0 40px rgba(0,0,0,.45);
-}
-#detail.open{transform:translateX(0);}
-@media (prefers-reduced-motion:reduce){#detail{transition:none;}}
+      #home {
+        min-height: 100vh;
+      }
+      body.locked {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+      }
+      #detail {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        background: var(--deep);
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        transform: translateX(100%);
+        transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+        box-shadow: -18px 0 40px rgba(0, 0, 0, 0.45);
+      }
+      #detail.open {
+        transform: translateX(0);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #detail {
+          transition: none;
+        }
+      }
 
-/* ---------- hero ---------- */
-.hero{
-  padding:calc(var(--sat) + 22px) var(--pad) 20px;
-  background:
-    radial-gradient(120% 90% at 82% -12%, rgba(255,178,36,.13), transparent 62%),
-    linear-gradient(180deg,#083544 0%, var(--deep) 100%);
-  border-bottom:1px solid var(--line);
-}
-.kicker{font-size:12.5px;color:var(--mute);margin:0 0 3px;}
-.hero h1{font-family:var(--disp);font-weight:700;font-size:34px;line-height:.98;margin:0 0 14px;}
-.countdown{display:flex;align-items:center;gap:10px;margin:0 0 18px;}
-.countdown b{
-  font-family:var(--disp);font-weight:700;font-size:44px;line-height:.85;
-  color:var(--amber);font-variant-numeric:tabular-nums;
-}
-.countdown span{font-size:13.5px;color:var(--mute);max-width:190px;line-height:1.3;}
+      /* ---------- hero ---------- */
+      .hero {
+        padding: calc(var(--sat) + 22px) var(--pad) 20px;
+        background:
+          radial-gradient(
+            120% 90% at 82% -12%,
+            rgba(255, 178, 36, 0.13),
+            transparent 62%
+          ),
+          linear-gradient(180deg, #083544 0%, var(--deep) 100%);
+        border-bottom: 1px solid var(--line);
+      }
+      .kicker {
+        font-size: 12.5px;
+        color: var(--mute);
+        margin: 0 0 3px;
+      }
+      .hero h1 {
+        font-family: var(--disp);
+        font-weight: 700;
+        font-size: 34px;
+        line-height: 0.98;
+        margin: 0 0 14px;
+      }
+      .countdown {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 18px;
+      }
+      .countdown b {
+        font-family: var(--disp);
+        font-weight: 700;
+        font-size: 44px;
+        line-height: 0.85;
+        color: var(--amber);
+        font-variant-numeric: tabular-nums;
+      }
+      .countdown span {
+        font-size: 13.5px;
+        color: var(--mute);
+        max-width: 190px;
+        line-height: 1.3;
+      }
 
-.grid-wrap{border-top:1px solid var(--line);padding-top:14px;}
-.dowrow,.wkrow{display:flex;gap:5px;margin-bottom:5px;align-items:stretch;}
-.dowrow i{font-style:normal;font-size:10.5px;color:var(--mute);text-align:center;font-weight:600;flex:1 1 0;min-width:0;}
-.dowrow i:first-child,.wklab{flex:0 0 34px;width:34px;}
-.wklab{font-size:10.5px;color:var(--mute);display:flex;align-items:center;font-weight:600;}
-.dot{
-  flex:1 1 0;min-width:0;aspect-ratio:1/1;min-height:34px;border-radius:8px;
-  background:rgba(255,255,255,.055);border:1px solid transparent;
-  display:flex;align-items:center;justify-content:center;padding:0;
-  font-family:var(--disp);font-size:14px;font-weight:600;color:var(--mute);
-}
-.dot.rest{background:transparent;border:1px dashed rgba(143,180,191,.35);color:rgba(143,180,191,.5);}
-.dot.part{background:rgba(73,214,166,.22);color:var(--ok);}
-.dot.done{background:var(--ok);color:#04202A;border-color:var(--ok);}
-.dot.today{border-color:var(--amber);color:var(--amber);box-shadow:inset 0 0 0 1px var(--amber);}
-.dot.today.done{color:#04202A;}
-.dot.race{
-  background:var(--amber);color:#04202A;border-color:var(--amber);
-  flex:0 0 auto;width:calc((100% - 69px)/7);
-}
-.racecap{flex:1 1 auto;display:flex;align-items:center;font-size:11.5px;color:var(--mute);padding-left:9px;}
-.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:11.5px;color:var(--mute);}
-.legend i{font-style:normal;display:inline-flex;align-items:center;gap:6px;}
-.sw{width:10px;height:10px;border-radius:3px;display:inline-block;}
+      .grid-wrap {
+        border-top: 1px solid var(--line);
+        padding-top: 14px;
+      }
+      .dowrow,
+      .wkrow {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 5px;
+        align-items: stretch;
+      }
+      .dowrow i {
+        font-style: normal;
+        font-size: 10.5px;
+        color: var(--mute);
+        text-align: center;
+        font-weight: 600;
+        flex: 1 1 0;
+        min-width: 0;
+      }
+      .dowrow i:first-child,
+      .wklab {
+        flex: 0 0 34px;
+        width: 34px;
+      }
+      .wklab {
+        font-size: 10.5px;
+        color: var(--mute);
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+      }
+      .dot {
+        flex: 1 1 0;
+        min-width: 0;
+        aspect-ratio: 1/1;
+        min-height: 34px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.055);
+        border: 1px solid transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        font-family: var(--disp);
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--mute);
+      }
+      .dot.rest {
+        background: transparent;
+        border: 1px dashed rgba(143, 180, 191, 0.35);
+        color: rgba(143, 180, 191, 0.5);
+      }
+      .dot.part {
+        background: rgba(73, 214, 166, 0.22);
+        color: var(--ok);
+      }
+      .dot.done {
+        background: var(--ok);
+        color: #04202a;
+        border-color: var(--ok);
+      }
+      .dot.today {
+        border-color: var(--amber);
+        color: var(--amber);
+        box-shadow: inset 0 0 0 1px var(--amber);
+      }
+      .dot.today.done {
+        color: #04202a;
+      }
+      .dot.race {
+        background: var(--amber);
+        color: #04202a;
+        border-color: var(--amber);
+        flex: 0 0 auto;
+        width: calc((100% - 69px) / 7);
+      }
+      .racecap {
+        flex: 1 1 auto;
+        display: flex;
+        align-items: center;
+        font-size: 11.5px;
+        color: var(--mute);
+        padding-left: 9px;
+      }
+      .legend {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+        font-size: 11.5px;
+        color: var(--mute);
+      }
+      .legend i {
+        font-style: normal;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .sw {
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+        display: inline-block;
+      }
 
-/* ---------- weeks ---------- */
-main{padding:0 var(--pad) calc(var(--sab) + 44px);}
-.week{border-bottom:1px solid var(--line);}
-.wkhead{width:100%;display:flex;align-items:center;gap:12px;padding:17px 2px;min-height:62px;}
-.wkhead .idx{
-  font-family:var(--disp);font-weight:700;font-size:26px;line-height:1;
-  width:24px;flex:none;font-variant-numeric:tabular-nums;
-}
-.wkhead .meta{flex:1;min-width:0;}
-.wkhead .meta b{display:block;font-size:15.5px;font-weight:600;}
-.wkhead .meta em{display:block;font-style:normal;font-size:12.5px;color:var(--mute);margin-top:2px;}
-.ring{width:38px;height:38px;flex:none;position:relative;}
-.ring svg{transform:rotate(-90deg);display:block;}
-.ring span{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-size:10.5px;font-weight:600;color:var(--mute);font-variant-numeric:tabular-nums;
-}
-.chev{width:20px;flex:none;color:var(--mute);transition:transform .25s;}
-.week.open .chev{transform:rotate(180deg);}
-.wkbody{display:none;padding:0 0 12px;}
-.week.open .wkbody{display:block;}
-.wkcap{margin:0 2px 12px;font-size:12.5px;color:var(--mute);}
+      /* ---------- weeks ---------- */
+      main {
+        padding: 0 var(--pad) calc(var(--sab) + 44px);
+      }
+      .week {
+        border-bottom: 1px solid var(--line);
+      }
+      .wkhead {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 17px 2px;
+        min-height: 62px;
+      }
+      .wkhead .idx {
+        font-family: var(--disp);
+        font-weight: 700;
+        font-size: 26px;
+        line-height: 1;
+        width: 24px;
+        flex: none;
+        font-variant-numeric: tabular-nums;
+      }
+      .wkhead .meta {
+        flex: 1;
+        min-width: 0;
+      }
+      .wkhead .meta b {
+        display: block;
+        font-size: 15.5px;
+        font-weight: 600;
+      }
+      .wkhead .meta em {
+        display: block;
+        font-style: normal;
+        font-size: 12.5px;
+        color: var(--mute);
+        margin-top: 2px;
+      }
+      .ring {
+        width: 38px;
+        height: 38px;
+        flex: none;
+        position: relative;
+      }
+      .ring svg {
+        transform: rotate(-90deg);
+        display: block;
+      }
+      .ring span {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10.5px;
+        font-weight: 600;
+        color: var(--mute);
+        font-variant-numeric: tabular-nums;
+      }
+      .chev {
+        width: 20px;
+        flex: none;
+        color: var(--mute);
+        transition: transform 0.25s;
+      }
+      .week.open .chev {
+        transform: rotate(180deg);
+      }
+      .wkbody {
+        display: none;
+        padding: 0 0 12px;
+      }
+      .week.open .wkbody {
+        display: block;
+      }
+      .wkcap {
+        margin: 0 2px 12px;
+        font-size: 12.5px;
+        color: var(--mute);
+      }
 
-.daycard{
-  width:100%;display:flex;align-items:center;gap:13px;
-  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
-  padding:13px;margin-bottom:8px;min-height:68px;
-}
-.daycard:active{background:var(--card-2);}
-.daycard.restday{background:transparent;border-style:dashed;opacity:.72;}
-.daycard.raceday{background:linear-gradient(135deg,#FFB224,#FF8A3C);border-color:var(--amber);color:#04202A;}
-.daycard.istoday{border-color:var(--amber);}
-.dstamp{width:44px;flex:none;text-align:center;}
-.dstamp b{display:block;font-family:var(--disp);font-weight:700;font-size:22px;line-height:1;font-variant-numeric:tabular-nums;}
-.dstamp em{display:block;font-style:normal;font-size:10.5px;color:var(--mute);margin-top:2px;}
-.raceday .dstamp em,.raceday .dinfo em{color:rgba(4,32,42,.75);}
-.dinfo{flex:1;min-width:0;}
-.dinfo b{display:block;font-size:15px;font-weight:600;line-height:1.25;}
-.dinfo em{display:block;font-style:normal;font-size:12.5px;color:var(--mute);margin-top:3px;}
-.dtick{
-  width:26px;height:26px;flex:none;border-radius:50%;border:1.5px solid var(--line);
-  display:flex;align-items:center;justify-content:center;
-}
-.dtick.on{background:var(--ok);border-color:var(--ok);color:#04202A;}
-.dtick svg{width:14px;height:14px;}
-.dtick:not(.on) svg{display:none;}
-.reset{
-  display:block;margin:26px auto 0;font-size:13px;color:var(--mute);
-  padding:13px 20px;border:1px solid var(--line);border-radius:999px;text-align:center;
-}
+      .daycard {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 13px;
+        margin-bottom: 8px;
+        min-height: 68px;
+      }
+      .daycard:active {
+        background: var(--card-2);
+      }
+      .daycard.restday {
+        background: transparent;
+        border-style: dashed;
+        opacity: 0.72;
+      }
+      .daycard.raceday {
+        background: linear-gradient(135deg, #ffb224, #ff8a3c);
+        border-color: var(--amber);
+        color: #04202a;
+      }
+      .daycard.istoday {
+        border-color: var(--amber);
+      }
+      .dstamp {
+        width: 44px;
+        flex: none;
+        text-align: center;
+      }
+      .dstamp b {
+        display: block;
+        font-family: var(--disp);
+        font-weight: 700;
+        font-size: 22px;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+      }
+      .dstamp em {
+        display: block;
+        font-style: normal;
+        font-size: 10.5px;
+        color: var(--mute);
+        margin-top: 2px;
+      }
+      .raceday .dstamp em,
+      .raceday .dinfo em {
+        color: rgba(4, 32, 42, 0.75);
+      }
+      .dinfo {
+        flex: 1;
+        min-width: 0;
+      }
+      .dinfo b {
+        display: block;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.25;
+      }
+      .dinfo em {
+        display: block;
+        font-style: normal;
+        font-size: 12.5px;
+        color: var(--mute);
+        margin-top: 3px;
+      }
+      .dtick {
+        width: 26px;
+        height: 26px;
+        flex: none;
+        border-radius: 50%;
+        border: 1.5px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .dtick.on {
+        background: var(--ok);
+        border-color: var(--ok);
+        color: #04202a;
+      }
+      .dtick svg {
+        width: 14px;
+        height: 14px;
+      }
+      .dtick:not(.on) svg {
+        display: none;
+      }
+      .reset {
+        display: block;
+        margin: 26px auto 0;
+        font-size: 13px;
+        color: var(--mute);
+        padding: 13px 20px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        text-align: center;
+      }
 
-/* ---------- detail ---------- */
-.dhead{
-  position:sticky;top:0;z-index:5;
-  padding:calc(var(--sat) + 8px) var(--pad) 12px;
-  background:rgba(6,40,50,.94);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);
-}
-.backbtn{display:inline-flex;align-items:center;gap:7px;font-size:14.5px;color:var(--mute);padding:10px 12px 10px 0;margin-left:-2px;min-height:44px;}
-.dhead h2{font-family:var(--disp);font-weight:700;font-size:27px;line-height:1.02;margin:0 0 9px;}
-.chips{display:flex;gap:6px;flex-wrap:wrap;}
-.chip{font-size:11.5px;color:var(--mute);border:1px solid var(--line);border-radius:7px;padding:3px 8px;font-variant-numeric:tabular-nums;}
-.chip.hot{color:var(--amber);border-color:rgba(255,178,36,.45);}
-.bar{height:3px;background:var(--line);border-radius:2px;margin-top:13px;overflow:hidden;}
-.bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .3s;}
-.barlab{font-size:11.5px;color:var(--mute);margin-top:6px;}
+      /* ---------- detail ---------- */
+      .dhead {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        padding: calc(var(--sat) + 8px) var(--pad) 12px;
+        background: rgba(6, 40, 50, 0.94);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--line);
+      }
+      .backbtn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 14.5px;
+        color: var(--mute);
+        padding: 10px 12px 10px 0;
+        margin-left: -2px;
+        min-height: 44px;
+      }
+      .dhead h2 {
+        font-family: var(--disp);
+        font-weight: 700;
+        font-size: 27px;
+        line-height: 1.02;
+        margin: 0 0 9px;
+      }
+      .chips {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        font-size: 11.5px;
+        color: var(--mute);
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        padding: 3px 8px;
+        font-variant-numeric: tabular-nums;
+      }
+      .chip.hot {
+        color: var(--amber);
+        border-color: rgba(255, 178, 36, 0.45);
+      }
+      .bar {
+        height: 3px;
+        background: var(--line);
+        border-radius: 2px;
+        margin-top: 13px;
+        overflow: hidden;
+      }
+      .bar i {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--ok);
+        transition: width 0.3s;
+      }
+      .barlab {
+        font-size: 11.5px;
+        color: var(--mute);
+        margin-top: 6px;
+      }
 
-.dbody{padding:18px var(--pad) calc(var(--sab) + 48px);}
-.note{
-  border-left:3px solid var(--amber);background:rgba(255,178,36,.08);
-  padding:12px 14px;border-radius:0 var(--r) var(--r) 0;
-  font-size:13.5px;color:#F2E5CB;line-height:1.5;margin-bottom:16px;
-}
-.hint{font-size:12.5px;color:var(--mute);margin:0 2px 10px;}
+      .dbody {
+        padding: 18px var(--pad) calc(var(--sab) + 48px);
+      }
+      .note {
+        border-left: 3px solid var(--amber);
+        background: rgba(255, 178, 36, 0.08);
+        padding: 12px 14px;
+        border-radius: 0 var(--r) var(--r) 0;
+        font-size: 13.5px;
+        color: #f2e5cb;
+        line-height: 1.5;
+        margin-bottom: 16px;
+      }
+      .hint {
+        font-size: 12.5px;
+        color: var(--mute);
+        margin: 0 2px 10px;
+      }
 
-/* the whole card is the tap target */
-.block{
-  display:flex;width:100%;gap:12px;align-items:flex-start;
-  background:var(--card);border:1px solid var(--line);
-  border-left:4px solid var(--mute);
-  border-radius:var(--r);padding:14px 13px;margin-bottom:9px;
-  transition:background .12s,opacity .15s;
-}
-.block:active{background:var(--card-2);}
-.block[data-k="tech"]{border-left-color:var(--cyan);}
-.block[data-k="skill"]{border-left-color:var(--amber);}
-.block[data-k="pace"]{border-left-color:var(--foam);}
-.block[data-k="max"]{border-left-color:var(--signal);}
-.block.done{opacity:.5;}
-.block.done .btitle{text-decoration:line-through;}
+      /* the whole card is the tap target */
+      .block {
+        display: flex;
+        width: 100%;
+        gap: 12px;
+        align-items: flex-start;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--mute);
+        border-radius: var(--r);
+        padding: 14px 13px;
+        margin-bottom: 9px;
+        transition:
+          background 0.12s,
+          opacity 0.15s;
+      }
+      .block:active {
+        background: var(--card-2);
+      }
+      .block[data-k="tech"] {
+        border-left-color: var(--cyan);
+      }
+      .block[data-k="skill"] {
+        border-left-color: var(--amber);
+      }
+      .block[data-k="pace"] {
+        border-left-color: var(--foam);
+      }
+      .block[data-k="max"] {
+        border-left-color: var(--signal);
+      }
+      .block.done {
+        opacity: 0.5;
+      }
+      .block.done .btitle {
+        text-decoration: line-through;
+      }
 
-.bnum{flex:0 0 42px;text-align:center;font-family:var(--disp);font-weight:700;line-height:1;color:var(--mute);font-variant-numeric:tabular-nums;padding-top:1px;}
-.bnum b{display:block;font-size:26px;}
-.bnum em{display:block;font-style:normal;font-size:9.5px;color:var(--mute);margin-top:3px;}
-.block[data-k="tech"] .bnum{color:var(--cyan);}
-.block[data-k="skill"] .bnum{color:var(--amber);}
-.block[data-k="pace"] .bnum{color:var(--foam);}
-.block[data-k="max"] .bnum{color:var(--signal);}
+      .bnum {
+        flex: 0 0 42px;
+        text-align: center;
+        font-family: var(--disp);
+        font-weight: 700;
+        line-height: 1;
+        color: var(--mute);
+        font-variant-numeric: tabular-nums;
+        padding-top: 1px;
+      }
+      .bnum b {
+        display: block;
+        font-size: 26px;
+      }
+      .bnum em {
+        display: block;
+        font-style: normal;
+        font-size: 9.5px;
+        color: var(--mute);
+        margin-top: 3px;
+      }
+      .block[data-k="tech"] .bnum {
+        color: var(--cyan);
+      }
+      .block[data-k="skill"] .bnum {
+        color: var(--amber);
+      }
+      .block[data-k="pace"] .bnum {
+        color: var(--foam);
+      }
+      .block[data-k="max"] .bnum {
+        color: var(--signal);
+      }
 
-.bmain{flex:1;min-width:0;}
-.btitle{display:inline;font-size:15.5px;font-weight:600;}
-.tag{
-  display:inline-block;font-size:10.5px;font-weight:600;
-  padding:2px 7px;border-radius:6px;margin-left:7px;vertical-align:2px;font-style:normal;
-  border:1px solid currentColor;white-space:nowrap;
-}
-.tag.easy{color:var(--mute);} .tag.tech{color:var(--cyan);}
-.tag.skill{color:var(--amber);} .tag.pace{color:var(--foam);}
-.tag.max{color:var(--signal);}
-.bdesc{display:block;margin-top:6px;font-size:13.5px;color:#C7DFE4;line-height:1.45;}
-.btarget{display:block;margin-top:8px;font-size:12.5px;color:var(--mute);}
+      .bmain {
+        flex: 1;
+        min-width: 0;
+      }
+      .btitle {
+        display: inline;
+        font-size: 15.5px;
+        font-weight: 600;
+      }
+      .tag {
+        display: inline-block;
+        font-size: 10.5px;
+        font-weight: 600;
+        padding: 2px 7px;
+        border-radius: 6px;
+        margin-left: 7px;
+        vertical-align: 2px;
+        font-style: normal;
+        border: 1px solid currentColor;
+        white-space: nowrap;
+      }
+      .tag.easy {
+        color: var(--mute);
+      }
+      .tag.tech {
+        color: var(--cyan);
+      }
+      .tag.skill {
+        color: var(--amber);
+      }
+      .tag.pace {
+        color: var(--foam);
+      }
+      .tag.max {
+        color: var(--signal);
+      }
+      .bdesc {
+        display: block;
+        margin-top: 6px;
+        font-size: 13.5px;
+        color: #c7dfe4;
+        line-height: 1.45;
+      }
+      .btarget {
+        display: block;
+        margin-top: 8px;
+        font-size: 12.5px;
+        color: var(--mute);
+      }
 
-.bcheck{
-  flex:0 0 30px;height:30px;border-radius:50%;border:1.5px solid var(--line);
-  display:flex;align-items:center;justify-content:center;margin-top:2px;
-}
-.bcheck svg{width:16px;height:16px;display:none;color:#04202A;}
-.block.done .bcheck{background:var(--ok);border-color:var(--ok);}
-.block.done .bcheck svg{display:block;}
+      .bcheck {
+        flex: 0 0 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 1.5px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2px;
+      }
+      .bcheck svg {
+        width: 16px;
+        height: 16px;
+        display: none;
+        color: #04202a;
+      }
+      .block.done .bcheck {
+        background: var(--ok);
+        border-color: var(--ok);
+      }
+      .block.done .bcheck svg {
+        display: block;
+      }
 
-.allbtn{
-  display:block;width:100%;margin-top:14px;padding:15px;
-  border:1px solid var(--line);border-radius:var(--r);
-  font-size:14px;color:var(--mute);text-align:center;min-height:52px;
-}
+      .allbtn {
+        display: block;
+        width: 100%;
+        margin-top: 14px;
+        padding: 15px;
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        font-size: 14px;
+        color: var(--mute);
+        text-align: center;
+        min-height: 52px;
+      }
 
-.toast{
-  position:fixed;left:50%;bottom:calc(var(--sab) + 26px);
-  transform:translateX(-50%) translateY(14px);
-  background:var(--foam);color:#04202A;font-size:13.5px;font-weight:600;
-  padding:11px 18px;border-radius:999px;z-index:60;opacity:0;pointer-events:none;
-  transition:opacity .2s,transform .2s;
-}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: calc(var(--sab) + 26px);
+        transform: translateX(-50%) translateY(14px);
+        background: var(--foam);
+        color: #04202a;
+        font-size: 13.5px;
+        font-weight: 600;
+        padding: 11px 18px;
+        border-radius: 999px;
+        z-index: 60;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
 
-@media(min-width:620px){
-  body{max-width:560px;margin:0 auto;box-shadow:0 0 0 1px var(--line);}
-  #detail{left:50%;width:100%;max-width:560px;transform:translateX(-50%) translateX(100%);}
-  #detail.open{transform:translateX(-50%);}
-}
-</style>
-</head>
-<body>
-
-<div id="home">
-  <header class="hero">
-    <p class="kicker">14th NSA Cup, Satdobato</p>
-    <h1>50 free<br>Chasing 29.9</h1>
-    <div class="countdown"><b id="cd">28</b><span id="cdlab">days of training left before race day</span></div>
-    <div class="grid-wrap">
-      <div class="dowrow"><i></i><i>M</i><i>T</i><i>W</i><i>T</i><i>F</i><i>S</i><i>S</i></div>
-      <div id="cal"></div>
-      <div class="legend">
-        <i><span class="sw" style="background:var(--ok)"></span>Finished</i>
-        <i><span class="sw" style="box-shadow:inset 0 0 0 1.5px var(--amber)"></span>Today</i>
-        <i><span class="sw" style="border:1px dashed rgba(143,180,191,.5)"></span>Rest</i>
-        <i><span class="sw" style="background:var(--amber)"></span>Race</i>
-      </div>
+      @media (min-width: 620px) {
+        body {
+          max-width: 560px;
+          margin: 0 auto;
+          box-shadow: 0 0 0 1px var(--line);
+        }
+        #detail {
+          left: 50%;
+          width: 100%;
+          max-width: 560px;
+          transform: translateX(-50%) translateX(100%);
+        }
+        #detail.open {
+          transform: translateX(-50%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="home">
+      <header class="hero">
+        <p class="kicker">14th NSA Cup, Satdobato</p>
+        <h1>50 free<br />Chasing 29.9</h1>
+        <div class="countdown">
+          <b id="cd">28</b
+          ><span id="cdlab">days of training left before race day</span>
+        </div>
+        <div class="grid-wrap">
+          <div class="dowrow">
+            <i></i><i>M</i><i>T</i><i>W</i><i>T</i><i>F</i><i>S</i><i>S</i>
+          </div>
+          <div id="cal"></div>
+          <div class="legend">
+            <i
+              ><span class="sw" style="background: var(--ok)"></span>Finished</i
+            >
+            <i
+              ><span
+                class="sw"
+                style="box-shadow: inset 0 0 0 1.5px var(--amber)"
+              ></span
+              >Today</i
+            >
+            <i
+              ><span
+                class="sw"
+                style="border: 1px dashed rgba(143, 180, 191, 0.5)"
+              ></span
+              >Rest</i
+            >
+            <i><span class="sw" style="background: var(--amber)"></span>Race</i>
+          </div>
+        </div>
+      </header>
+      <main id="weeks"></main>
+      <button class="reset" id="resetBtn">Clear all progress</button>
     </div>
-  </header>
-  <main id="weeks"></main>
-  <button class="reset" id="resetBtn">Clear all progress</button>
-</div>
 
-<div id="detail" aria-hidden="true">
-  <div class="dhead">
-    <button class="backbtn" id="back">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      All weeks
-    </button>
-    <h2 id="dTitle"></h2>
-    <div class="chips" id="dChips"></div>
-    <div class="bar"><i id="dBar"></i></div>
-    <div class="barlab" id="dBarLab"></div>
-  </div>
-  <div class="dbody" id="dBody"></div>
-</div>
+    <div id="detail" aria-hidden="true">
+      <div class="dhead">
+        <button class="backbtn" id="back">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+          All weeks
+        </button>
+        <h2 id="dTitle"></h2>
+        <div class="chips" id="dChips"></div>
+        <div class="bar"><i id="dBar"></i></div>
+        <div class="barlab" id="dBarLab"></div>
+      </div>
+      <div class="dbody" id="dBody"></div>
+    </div>
 
-<div class="toast" id="toast"></div>
+    <div class="toast" id="toast"></div>
 
-<script>
-/* ============================ DATA ============================ */
-function b(n,t,d,r,k){return {n:n,t:t,d:d,r:r||'',k:k||'easy'};}
-function assign(a,b2){var o={},k;for(k in a){if(a.hasOwnProperty(k))o[k]=a[k];}for(k in b2){if(b2.hasOwnProperty(k))o[k]=b2[k];}return o;}
-function findBy(arr,fn){for(var i=0;i<arr.length;i++){if(fn(arr[i]))return arr[i];}return null;}
+    <script>
+      /* ============================ DATA ============================ */
+      function b(n, t, d, r, k) {
+        return { n: n, t: t, d: d, r: r || "", k: k || "easy" };
+      }
+      function assign(a, b2) {
+        var o = {},
+          k;
+        for (k in a) {
+          if (a.hasOwnProperty(k)) o[k] = a[k];
+        }
+        for (k in b2) {
+          if (b2.hasOwnProperty(k)) o[k] = b2[k];
+        }
+        return o;
+      }
+      function findBy(arr, fn) {
+        for (var i = 0; i < arr.length; i++) {
+          if (fn(arr[i])) return arr[i];
+        }
+        return null;
+      }
 
-var BASE = [
- {dow:'Mon',title:'Maximum speed and turns',pool:'25 m',laps:40,dist:'1,000 m',blocks:[
-   b(10,'Warm-up','4 easy free, 2 free with 5 dolphin kicks off each wall, 2 board kick easy, 2 build to 80%','Continuous','easy'),
-   b(6,'Kick on board','6 × 25 flutter kick, fast','30 s rest. Hold 22–25 s','tech'),
-   b(4,'Fist swimming','4 × 25, feel the pressure on your forearm','20 s rest','tech'),
-   b('8 min','Turn block','8 to 10 reps. Swim in from 10 m, flip, 5 dolphin kicks, breakout, 5 strokes.','Full rest. Quality only','skill'),
-   b(14,'Main set','7 × (25 maximum from push + 25 easy back)','2:00 cycle. Target 14.5','max'),
-   b(6,'Cool-down','6 easy, long relaxed strokes','','easy')]},
+      var BASE = [
+        {
+          dow: "Mon",
+          title: "Maximum speed and turns",
+          pool: "25 m",
+          laps: 40,
+          dist: "1,000 m",
+          blocks: [
+            b(
+              10,
+              "Warm-up",
+              "4 easy free, 2 free with 5 dolphin kicks off each wall, 2 board kick easy, 2 build to 80%",
+              "Continuous",
+              "easy",
+            ),
+            b(
+              6,
+              "Kick on board",
+              "6 × 25 flutter kick, fast",
+              "30 s rest. Hold 22–25 s",
+              "tech",
+            ),
+            b(
+              4,
+              "Fist swimming",
+              "4 × 25, feel the pressure on your forearm",
+              "20 s rest",
+              "tech",
+            ),
+            b(
+              "8 min",
+              "Turn block",
+              "8 to 10 reps. Swim in from 10 m, flip, 5 dolphin kicks, breakout, 5 strokes.",
+              "Full rest. Quality only",
+              "skill",
+            ),
+            b(
+              14,
+              "Main set",
+              "7 × (25 maximum from push + 25 easy back)",
+              "2:00 cycle. Target 14.5",
+              "max",
+            ),
+            b(6, "Cool-down", "6 easy, long relaxed strokes", "", "easy"),
+          ],
+        },
 
- {dow:'Tue',title:'Race pace and dolphin kick',pool:'25 m',laps:40,dist:'1,000 m',blocks:[
-   b(10,'Warm-up','4 easy, 4 build, 2 kick','Continuous','easy'),
-   b(6,'Pull buoy','6 × 25 with buoy, high arm tempo','30 s rest','tech'),
-   b(4,'Fist swimming','2 fist, 2 open hand. Feel the difference in grip','20 s rest','tech'),
-   b('8 min','Vertical dolphin kick','Deep corner. 10 s hard, 20 s easy. Week 1: 8 reps. Week 2: 10 reps.','Hands on chest or above head','skill'),
-   b(14,'Main set','10 × 25 at race pace on 1:00, then 4 easy','Hold 14.5–15.0 every rep','pace'),
-   b(6,'Cool-down','6 easy','','easy')]},
+        {
+          dow: "Tue",
+          title: "Race pace and dolphin kick",
+          pool: "25 m",
+          laps: 40,
+          dist: "1,000 m",
+          blocks: [
+            b(10, "Warm-up", "4 easy, 4 build, 2 kick", "Continuous", "easy"),
+            b(
+              6,
+              "Pull buoy",
+              "6 × 25 with buoy, high arm tempo",
+              "30 s rest",
+              "tech",
+            ),
+            b(
+              4,
+              "Fist swimming",
+              "2 fist, 2 open hand. Feel the difference in grip",
+              "20 s rest",
+              "tech",
+            ),
+            b(
+              "8 min",
+              "Vertical dolphin kick",
+              "Deep corner. 10 s hard, 20 s easy. Week 1: 8 reps. Week 2: 10 reps.",
+              "Hands on chest or above head",
+              "skill",
+            ),
+            b(
+              14,
+              "Main set",
+              "10 × 25 at race pace on 1:00, then 4 easy",
+              "Hold 14.5–15.0 every rep",
+              "pace",
+            ),
+            b(6, "Cool-down", "6 easy", "", "easy"),
+          ],
+        },
 
- {dow:'Wed',title:'Recovery and breakouts',pool:'25 m',laps:40,dist:'1,000 m',blocks:[
-   b(10,'Warm-up','Easy freestyle and backstroke mixed','Continuous','easy'),
-   b(6,'Board kick','6 × 25 moderate, ankles loose and relaxed','20 s rest','tech'),
-   b(6,'Pull buoy','6 × 25 breathing every 3, 5, 7, changing every 2 laps','20 s rest','tech'),
-   b(6,'Fist and catch','3 fist, 3 open hand','20 s rest','tech'),
-   b('10 min','Breakout block','25s of freestyle arms with dolphin kick, fins first. The last dolphin kick has to fire into your first arm pull. Never tack a flutter kick onto the end of the underwater.','No clock. Repeat until the timing is automatic','skill'),
-   b(6,'Main set','3 × (25 build to fast + 25 easy)','1:30 cycle','pace'),
-   b(6,'Cool-down','6 easy','','easy')]},
+        {
+          dow: "Wed",
+          title: "Recovery and breakouts",
+          pool: "25 m",
+          laps: 40,
+          dist: "1,000 m",
+          blocks: [
+            b(
+              10,
+              "Warm-up",
+              "Easy freestyle and backstroke mixed",
+              "Continuous",
+              "easy",
+            ),
+            b(
+              6,
+              "Board kick",
+              "6 × 25 moderate, ankles loose and relaxed",
+              "20 s rest",
+              "tech",
+            ),
+            b(
+              6,
+              "Pull buoy",
+              "6 × 25 breathing every 3, 5, 7, changing every 2 laps",
+              "20 s rest",
+              "tech",
+            ),
+            b(6, "Fist and catch", "3 fist, 3 open hand", "20 s rest", "tech"),
+            b(
+              "10 min",
+              "Breakout block",
+              "25s of freestyle arms with dolphin kick, fins first. The last dolphin kick has to fire into your first arm pull. Never tack a flutter kick onto the end of the underwater.",
+              "No clock. Repeat until the timing is automatic",
+              "skill",
+            ),
+            b(
+              6,
+              "Main set",
+              "3 × (25 build to fast + 25 easy)",
+              "1:30 cycle",
+              "pace",
+            ),
+            b(6, "Cool-down", "6 easy", "", "easy"),
+          ],
+        },
 
- {dow:'Thu',title:'Speed endurance',pool:'25 m',laps:40,dist:'1,000 m',blocks:[
-   b(10,'Warm-up','4 easy, 4 build, 2 kick','Continuous','easy'),
-   b(6,'Pull buoy','6 × 25 sprint arms only, maximum tempo','40 s rest','tech'),
-   b(4,'Board kick','4 × 25 fast, descending 1 to 4','30 s rest','tech'),
-   b('6 min','15 m underwater','4 × 15 m dolphin kick, timed. Write down the time and the kick count.','1:30 rest','skill'),
-   b(14,'Main set','4 × 50 all out from push, then 3 × (25 fast + 25 easy)','50s on 3:00, 25s on 2:00. This one hurts','max'),
-   b(6,'Cool-down','6 easy','','easy')]},
+        {
+          dow: "Thu",
+          title: "Speed endurance",
+          pool: "25 m",
+          laps: 40,
+          dist: "1,000 m",
+          blocks: [
+            b(10, "Warm-up", "4 easy, 4 build, 2 kick", "Continuous", "easy"),
+            b(
+              6,
+              "Pull buoy",
+              "6 × 25 sprint arms only, maximum tempo",
+              "40 s rest",
+              "tech",
+            ),
+            b(
+              4,
+              "Board kick",
+              "4 × 25 fast, descending 1 to 4",
+              "30 s rest",
+              "tech",
+            ),
+            b(
+              "6 min",
+              "15 m underwater",
+              "4 × 15 m dolphin kick, timed. Write down the time and the kick count.",
+              "1:30 rest",
+              "skill",
+            ),
+            b(
+              14,
+              "Main set",
+              "4 × 50 all out from push, then 3 × (25 fast + 25 easy)",
+              "50s on 3:00, 25s on 2:00. This one hurts",
+              "max",
+            ),
+            b(6, "Cool-down", "6 easy", "", "easy"),
+          ],
+        },
 
- {dow:'Fri',title:'Race simulation',pool:'25 m',laps:40,dist:'1,000 m',blocks:[
-   b(10,'Warm-up','4 easy, 4 build, 2 kick','Continuous','easy'),
-   b(8,'Buoy and fist','4 with pull buoy at tempo, 4 fist','25 s rest','tech'),
-   b('6 min','Start block','6 push starts with a perfect breakout. Stop at 15 m, do not swim past it.','Full rest between reps','skill'),
-   b(16,'Main set','2 × 50 maximum with full race execution, 4 × 25 maximum, 8 easy spread between them','50s on 5:00, 25s on 2:00. Time every one','max'),
-   b(6,'Cool-down','6 easy','','easy')]},
+        {
+          dow: "Fri",
+          title: "Race simulation",
+          pool: "25 m",
+          laps: 40,
+          dist: "1,000 m",
+          blocks: [
+            b(10, "Warm-up", "4 easy, 4 build, 2 kick", "Continuous", "easy"),
+            b(
+              8,
+              "Buoy and fist",
+              "4 with pull buoy at tempo, 4 fist",
+              "25 s rest",
+              "tech",
+            ),
+            b(
+              "6 min",
+              "Start block",
+              "6 push starts with a perfect breakout. Stop at 15 m, do not swim past it.",
+              "Full rest between reps",
+              "skill",
+            ),
+            b(
+              16,
+              "Main set",
+              "2 × 50 maximum with full race execution, 4 × 25 maximum, 8 easy spread between them",
+              "50s on 5:00, 25s on 2:00. Time every one",
+              "max",
+            ),
+            b(6, "Cool-down", "6 easy", "", "easy"),
+          ],
+        },
 
- {dow:'Sat',title:'Starts and underwaters',pool:'50 m',laps:20,dist:'1,000 m',blocks:[
-   b(4,'Warm-up','2 easy, 2 build','Continuous','easy'),
-   b(4,'Kick and pull','2 × 50 board kick fast, 2 × 50 pull buoy at tempo','40 s rest','tech'),
-   b('15 min','Dive block','10 to 12 dives. Entry, 5 or 6 dolphin kicks, breakout, 6 strokes at maximum. Time to 15 m on the last four.','Full rest between every dive','skill'),
-   b(8,'Main set','4 × 50 from the blocks, all out','5:00. Treat each one as an actual race','max'),
-   b(4,'Cool-down','4 easy','','easy')],
-  note:'Your only session all week on the blocks. Protect the dive block and do not let fatigue eat into it.'},
+        {
+          dow: "Sat",
+          title: "Starts and underwaters",
+          pool: "50 m",
+          laps: 20,
+          dist: "1,000 m",
+          blocks: [
+            b(4, "Warm-up", "2 easy, 2 build", "Continuous", "easy"),
+            b(
+              4,
+              "Kick and pull",
+              "2 × 50 board kick fast, 2 × 50 pull buoy at tempo",
+              "40 s rest",
+              "tech",
+            ),
+            b(
+              "15 min",
+              "Dive block",
+              "10 to 12 dives. Entry, 5 or 6 dolphin kicks, breakout, 6 strokes at maximum. Time to 15 m on the last four.",
+              "Full rest between every dive",
+              "skill",
+            ),
+            b(
+              8,
+              "Main set",
+              "4 × 50 from the blocks, all out",
+              "5:00. Treat each one as an actual race",
+              "max",
+            ),
+            b(4, "Cool-down", "4 easy", "", "easy"),
+          ],
+          note: "Your only session all week on the blocks. Protect the dive block and do not let fatigue eat into it.",
+        },
 
- {dow:'Sun',title:'Skill polish, light',pool:'50 m',laps:16,dist:'800 m',blocks:[
-   b(4,'Warm-up','Easy freestyle','Continuous','easy'),
-   b(4,'Dolphin kick','200 as 50 on back, 50 on front, alternating','30 s rest','tech'),
-   b(4,'Main set','4 × 50 building to maximum on the last 25','3:00','pace'),
-   b(4,'Cool-down','4 easy','','easy')],
-  note:'If you are beaten up, take today off completely. Rest is part of the plan, not a failure of it.'}
-];
+        {
+          dow: "Sun",
+          title: "Skill polish, light",
+          pool: "50 m",
+          laps: 16,
+          dist: "800 m",
+          blocks: [
+            b(4, "Warm-up", "Easy freestyle", "Continuous", "easy"),
+            b(
+              4,
+              "Dolphin kick",
+              "200 as 50 on back, 50 on front, alternating",
+              "30 s rest",
+              "tech",
+            ),
+            b(
+              4,
+              "Main set",
+              "4 × 50 building to maximum on the last 25",
+              "3:00",
+              "pace",
+            ),
+            b(4, "Cool-down", "4 easy", "", "easy"),
+          ],
+          note: "If you are beaten up, take today off completely. Rest is part of the plan, not a failure of it.",
+        },
+      ];
 
-function REST_DAY(dow,msg){
-  return {dow:dow,title:'Rest day',pool:'—',laps:0,dist:'—',rest:1,note:msg,
-    blocks:[b(0,'Stay out of the water','Easy mobility if you feel stiff — ankles, lats, hips. Sleep is the session today.','','easy')]};
-}
+      function REST_DAY(dow, msg) {
+        return {
+          dow: dow,
+          title: "Rest day",
+          pool: "—",
+          laps: 0,
+          dist: "—",
+          rest: 1,
+          note: msg,
+          blocks: [
+            b(
+              0,
+              "Stay out of the water",
+              "Easy mobility if you feel stiff — ankles, lats, hips. Sleep is the session today.",
+              "",
+              "easy",
+            ),
+          ],
+        };
+      }
 
-var W3 = [
- {dow:'Mon',title:'Maximum speed and turns',pool:'25 m',laps:28,dist:'700 m',blocks:[
-   b(8,'Warm-up','4 easy, 2 with dolphin kicks off the wall, 2 build','Continuous','easy'),
-   b(4,'Kick on board','4 × 25 flutter kick, fast','30 s rest','tech'),
-   b(2,'Fist swimming','2 × 25','20 s rest','tech'),
-   b('6 min','Turn block','6 reps. In from 10 m, flip, 5 dolphin kicks, breakout, 5 strokes.','Full rest','skill'),
-   b(10,'Main set','5 × (25 maximum from push + 25 easy back)','2:00 cycle. Target 14.5','max'),
-   b(4,'Cool-down','4 easy','','easy')]},
- {dow:'Tue',title:'Race pace',pool:'25 m',laps:28,dist:'700 m',blocks:[
-   b(8,'Warm-up','4 easy, 4 build','Continuous','easy'),
-   b(4,'Pull buoy','4 × 25 high arm tempo','30 s rest','tech'),
-   b(2,'Fist swimming','1 fist, 1 open hand','20 s rest','tech'),
-   b('6 min','Vertical dolphin kick','10 s hard, 20 s easy. 8 reps.','Deep corner','skill'),
-   b(10,'Main set','7 × 25 at race pace on 1:00, then 3 easy','Hold 14.5–15.0','pace'),
-   b(4,'Cool-down','4 easy','','easy')]},
- REST_DAY('Wed','Taper week. You will feel flat and heavy in the water — that is the taper working. Do not add volume back.'),
- {dow:'Thu',title:'Speed endurance, trimmed',pool:'25 m',laps:28,dist:'700 m',blocks:[
-   b(8,'Warm-up','4 easy, 4 build','Continuous','easy'),
-   b(4,'Pull buoy','4 × 25 sprint arms only','40 s rest','tech'),
-   b(2,'Board kick','2 × 25 fast','30 s rest','tech'),
-   b('4 min','15 m underwater','3 × 15 m dolphin kick, timed','1:30 rest','skill'),
-   b(10,'Main set','3 × 50 all out from push, then 2 × (25 fast + 25 easy)','50s on 3:00','max'),
-   b(4,'Cool-down','4 easy','','easy')]},
- {dow:'Fri',title:'Race simulation',pool:'25 m',laps:28,dist:'700 m',blocks:[
-   b(8,'Warm-up','4 easy, 4 build','Continuous','easy'),
-   b(4,'Buoy and fist','2 buoy at tempo, 2 fist','25 s rest','tech'),
-   b('5 min','Start block','5 push starts with a perfect breakout, stop at 15 m','Full rest','skill'),
-   b(12,'Main set','2 × 50 maximum, 2 × 25 maximum, 6 easy between','50s on 5:00, 25s on 2:00','max'),
-   b(4,'Cool-down','4 easy','','easy')]},
- {dow:'Sat',title:'Starts and underwaters',pool:'50 m',laps:14,dist:'700 m',blocks:[
-   b(4,'Warm-up','2 easy, 2 build','Continuous','easy'),
-   b(2,'Kick and pull','1 × 50 kick fast, 1 × 50 pull at tempo','40 s rest','tech'),
-   b('12 min','Dive block','8 dives. Entry, 5 or 6 dolphin kicks, breakout, 6 strokes. Time to 15 m on the last three.','Full rest','skill'),
-   b(6,'Main set','3 × 50 from the blocks, all out','5:00','max'),
-   b(2,'Cool-down','2 easy','','easy')]},
- REST_DAY('Sun','Full rest. Nothing in the pool, nothing in the gym.')
-];
+      var W3 = [
+        {
+          dow: "Mon",
+          title: "Maximum speed and turns",
+          pool: "25 m",
+          laps: 28,
+          dist: "700 m",
+          blocks: [
+            b(
+              8,
+              "Warm-up",
+              "4 easy, 2 with dolphin kicks off the wall, 2 build",
+              "Continuous",
+              "easy",
+            ),
+            b(
+              4,
+              "Kick on board",
+              "4 × 25 flutter kick, fast",
+              "30 s rest",
+              "tech",
+            ),
+            b(2, "Fist swimming", "2 × 25", "20 s rest", "tech"),
+            b(
+              "6 min",
+              "Turn block",
+              "6 reps. In from 10 m, flip, 5 dolphin kicks, breakout, 5 strokes.",
+              "Full rest",
+              "skill",
+            ),
+            b(
+              10,
+              "Main set",
+              "5 × (25 maximum from push + 25 easy back)",
+              "2:00 cycle. Target 14.5",
+              "max",
+            ),
+            b(4, "Cool-down", "4 easy", "", "easy"),
+          ],
+        },
+        {
+          dow: "Tue",
+          title: "Race pace",
+          pool: "25 m",
+          laps: 28,
+          dist: "700 m",
+          blocks: [
+            b(8, "Warm-up", "4 easy, 4 build", "Continuous", "easy"),
+            b(4, "Pull buoy", "4 × 25 high arm tempo", "30 s rest", "tech"),
+            b(2, "Fist swimming", "1 fist, 1 open hand", "20 s rest", "tech"),
+            b(
+              "6 min",
+              "Vertical dolphin kick",
+              "10 s hard, 20 s easy. 8 reps.",
+              "Deep corner",
+              "skill",
+            ),
+            b(
+              10,
+              "Main set",
+              "7 × 25 at race pace on 1:00, then 3 easy",
+              "Hold 14.5–15.0",
+              "pace",
+            ),
+            b(4, "Cool-down", "4 easy", "", "easy"),
+          ],
+        },
+        REST_DAY(
+          "Wed",
+          "Taper week. You will feel flat and heavy in the water — that is the taper working. Do not add volume back.",
+        ),
+        {
+          dow: "Thu",
+          title: "Speed endurance, trimmed",
+          pool: "25 m",
+          laps: 28,
+          dist: "700 m",
+          blocks: [
+            b(8, "Warm-up", "4 easy, 4 build", "Continuous", "easy"),
+            b(4, "Pull buoy", "4 × 25 sprint arms only", "40 s rest", "tech"),
+            b(2, "Board kick", "2 × 25 fast", "30 s rest", "tech"),
+            b(
+              "4 min",
+              "15 m underwater",
+              "3 × 15 m dolphin kick, timed",
+              "1:30 rest",
+              "skill",
+            ),
+            b(
+              10,
+              "Main set",
+              "3 × 50 all out from push, then 2 × (25 fast + 25 easy)",
+              "50s on 3:00",
+              "max",
+            ),
+            b(4, "Cool-down", "4 easy", "", "easy"),
+          ],
+        },
+        {
+          dow: "Fri",
+          title: "Race simulation",
+          pool: "25 m",
+          laps: 28,
+          dist: "700 m",
+          blocks: [
+            b(8, "Warm-up", "4 easy, 4 build", "Continuous", "easy"),
+            b(
+              4,
+              "Buoy and fist",
+              "2 buoy at tempo, 2 fist",
+              "25 s rest",
+              "tech",
+            ),
+            b(
+              "5 min",
+              "Start block",
+              "5 push starts with a perfect breakout, stop at 15 m",
+              "Full rest",
+              "skill",
+            ),
+            b(
+              12,
+              "Main set",
+              "2 × 50 maximum, 2 × 25 maximum, 6 easy between",
+              "50s on 5:00, 25s on 2:00",
+              "max",
+            ),
+            b(4, "Cool-down", "4 easy", "", "easy"),
+          ],
+        },
+        {
+          dow: "Sat",
+          title: "Starts and underwaters",
+          pool: "50 m",
+          laps: 14,
+          dist: "700 m",
+          blocks: [
+            b(4, "Warm-up", "2 easy, 2 build", "Continuous", "easy"),
+            b(
+              2,
+              "Kick and pull",
+              "1 × 50 kick fast, 1 × 50 pull at tempo",
+              "40 s rest",
+              "tech",
+            ),
+            b(
+              "12 min",
+              "Dive block",
+              "8 dives. Entry, 5 or 6 dolphin kicks, breakout, 6 strokes. Time to 15 m on the last three.",
+              "Full rest",
+              "skill",
+            ),
+            b(6, "Main set", "3 × 50 from the blocks, all out", "5:00", "max"),
+            b(2, "Cool-down", "2 easy", "", "easy"),
+          ],
+        },
+        REST_DAY("Sun", "Full rest. Nothing in the pool, nothing in the gym."),
+      ];
 
-var W4 = [
- {dow:'Mon',title:'Short and sharp',pool:'25 m',laps:20,dist:'500 m',blocks:[
-   b(6,'Warm-up','4 easy, 2 build','Continuous','easy'),
-   b(12,'Main set','6 × (25 maximum + 25 easy back)','2:30 rest. Every one has to be fast','max'),
-   b(2,'Cool-down','2 easy','','easy')]},
- {dow:'Tue',title:'Race pace and dives',pool:'25 m',laps:20,dist:'500 m',blocks:[
-   b(8,'Warm-up','4 easy, 4 build','Continuous','easy'),
-   b(8,'Main set','4 × 25 at race pace, 4 easy between','1:30 rest','pace'),
-   b(4,'Dives','4 starts with a perfect breakout. Stop at 15 m.','Full rest','skill')]},
- REST_DAY('Wed','Rest. Sleep is the session today.'),
- {dow:'Thu',title:'Venue session at Satdobato',pool:'25 m',laps:20,dist:'500 m',blocks:[
-   b(8,'Warm-up','4 easy, 4 build','Continuous','easy'),
-   b('8 min','Walls and light','Swim the turn from both ends. Look at the backstroke flags, the lane ropes, the light on the water. Find your breathing spots.','Full rest','skill'),
-   b(4,'Main set','2 × 50 from the blocks at 95 percent','5:00','pace'),
-   b(8,'Cool-down','8 easy','','easy')],
-  note:'Today is about familiarity, not fitness. Race the clock on Monday, not on Thursday.'},
- {dow:'Fri',title:'Touch the speed',pool:'25 m',laps:16,dist:'400 m',blocks:[
-   b(6,'Warm-up','4 easy, 2 build','Continuous','easy'),
-   b(8,'Main set','4 × 25 maximum, 4 easy between','Long rest, 2:30','max'),
-   b(2,'Cool-down','2 easy','','easy')],
-  note:'Nothing else. Get out while you still want more.'},
- REST_DAY('Sat','Rest, or 12 laps easy to loosen off if you feel stiff. Nothing harder.'),
- {dow:'Sun',title:'Venue shakeout',pool:'25 m',laps:12,dist:'300 m',blocks:[
-   b(6,'Warm-up','4 easy, 2 build','Continuous','easy'),
-   b(4,'Main set','2 × 25 maximum off the blocks','Full rest','max'),
-   b(2,'Cool-down','2 easy','','easy')],
-  note:'Thirty minutes at the venue, no more. Leave the pool wanting more.'}
-];
+      var W4 = [
+        {
+          dow: "Mon",
+          title: "Short and sharp",
+          pool: "25 m",
+          laps: 20,
+          dist: "500 m",
+          blocks: [
+            b(6, "Warm-up", "4 easy, 2 build", "Continuous", "easy"),
+            b(
+              12,
+              "Main set",
+              "6 × (25 maximum + 25 easy back)",
+              "2:30 rest. Every one has to be fast",
+              "max",
+            ),
+            b(2, "Cool-down", "2 easy", "", "easy"),
+          ],
+        },
+        {
+          dow: "Tue",
+          title: "Race pace and dives",
+          pool: "25 m",
+          laps: 20,
+          dist: "500 m",
+          blocks: [
+            b(8, "Warm-up", "4 easy, 4 build", "Continuous", "easy"),
+            b(
+              8,
+              "Main set",
+              "4 × 25 at race pace, 4 easy between",
+              "1:30 rest",
+              "pace",
+            ),
+            b(
+              4,
+              "Dives",
+              "4 starts with a perfect breakout. Stop at 15 m.",
+              "Full rest",
+              "skill",
+            ),
+          ],
+        },
+        REST_DAY("Wed", "Rest. Sleep is the session today."),
+        {
+          dow: "Thu",
+          title: "Venue session at Satdobato",
+          pool: "25 m",
+          laps: 20,
+          dist: "500 m",
+          blocks: [
+            b(8, "Warm-up", "4 easy, 4 build", "Continuous", "easy"),
+            b(
+              "8 min",
+              "Walls and light",
+              "Swim the turn from both ends. Look at the backstroke flags, the lane ropes, the light on the water. Find your breathing spots.",
+              "Full rest",
+              "skill",
+            ),
+            b(
+              4,
+              "Main set",
+              "2 × 50 from the blocks at 95 percent",
+              "5:00",
+              "pace",
+            ),
+            b(8, "Cool-down", "8 easy", "", "easy"),
+          ],
+          note: "Today is about familiarity, not fitness. Race the clock on Monday, not on Thursday.",
+        },
+        {
+          dow: "Fri",
+          title: "Touch the speed",
+          pool: "25 m",
+          laps: 16,
+          dist: "400 m",
+          blocks: [
+            b(6, "Warm-up", "4 easy, 2 build", "Continuous", "easy"),
+            b(
+              8,
+              "Main set",
+              "4 × 25 maximum, 4 easy between",
+              "Long rest, 2:30",
+              "max",
+            ),
+            b(2, "Cool-down", "2 easy", "", "easy"),
+          ],
+          note: "Nothing else. Get out while you still want more.",
+        },
+        REST_DAY(
+          "Sat",
+          "Rest, or 12 laps easy to loosen off if you feel stiff. Nothing harder.",
+        ),
+        {
+          dow: "Sun",
+          title: "Venue shakeout",
+          pool: "25 m",
+          laps: 12,
+          dist: "300 m",
+          blocks: [
+            b(6, "Warm-up", "4 easy, 2 build", "Continuous", "easy"),
+            b(
+              4,
+              "Main set",
+              "2 × 25 maximum off the blocks",
+              "Full rest",
+              "max",
+            ),
+            b(2, "Cool-down", "2 easy", "", "easy"),
+          ],
+          note: "Thirty minutes at the venue, no more. Leave the pool wanting more.",
+        },
+      ];
 
-var RACE = {dow:'Mon',title:'Race day',pool:'Satdobato',laps:0,dist:'50 m freestyle',race:1,blocks:[
-  b('1','Pool warm-up','Easy swimming, a few builds, and 2 or 3 starts if the warm-up pool allows it.','Raise your body temperature','easy'),
-  b('2','Get out and wait','Stay warm in your tracksuit. Relax for 10 minutes.','Let the fatigue clear','easy'),
-  b('3','Poolside activation','3 × 5 medicine ball slams, or 3 × 5 hard broad jumps if there is no ball.','Wakes up the nervous system','skill'),
-  b('4','Race','Zero breaths on the first 25. No breath into or out of the turn. One or two on the way home.','Start 4 to 8 min after the slams','max')],
- note:'Splits for 29.9: out in 14.2, home in 15.8. Do not chase the split — chase the wall.'};
+      var RACE = {
+        dow: "Mon",
+        title: "Race day",
+        pool: "Satdobato",
+        laps: 0,
+        dist: "50 m freestyle",
+        race: 1,
+        blocks: [
+          b(
+            "1",
+            "Pool warm-up",
+            "Easy swimming, a few builds, and 2 or 3 starts if the warm-up pool allows it.",
+            "Raise your body temperature",
+            "easy",
+          ),
+          b(
+            "2",
+            "Get out and wait",
+            "Stay warm in your tracksuit. Relax for 10 minutes.",
+            "Let the fatigue clear",
+            "easy",
+          ),
+          b(
+            "3",
+            "Poolside activation",
+            "3 × 5 medicine ball slams, or 3 × 5 hard broad jumps if there is no ball.",
+            "Wakes up the nervous system",
+            "skill",
+          ),
+          b(
+            "4",
+            "Race",
+            "Zero breaths on the first 25. No breath into or out of the turn. One or two on the way home.",
+            "Start 4 to 8 min after the slams",
+            "max",
+          ),
+        ],
+        note: "Splits for 29.9: out in 14.2, home in 15.8. Do not chase the split — chase the wall.",
+      };
 
-var WEEKS = [
- {name:'Load',sub:'Build power and skill volume',start:'2026-09-14',days:BASE},
- {name:'Peak',sub:'The hardest race-pace week',start:'2026-09-21',days:BASE},
- {name:'Taper begins',sub:'Cut reps 30 percent, hold every speed',start:'2026-09-28',days:W3},
- {name:'Race week',sub:'Everything at maximum speed',start:'2026-10-05',days:W4}
-];
-var RACE_DATE = new Date(2026,9,12);
-var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-var LAB = {easy:'easy',tech:'technique',skill:'skill',pace:'race pace',max:'maximum'};
+      var WEEKS = [
+        {
+          name: "Load",
+          sub: "Build power and skill volume",
+          start: "2026-09-14",
+          days: BASE,
+        },
+        {
+          name: "Peak",
+          sub: "The hardest race-pace week",
+          start: "2026-09-21",
+          days: BASE,
+        },
+        {
+          name: "Taper begins",
+          sub: "Cut reps 30 percent, hold every speed",
+          start: "2026-09-28",
+          days: W3,
+        },
+        {
+          name: "Race week",
+          sub: "Everything at maximum speed",
+          start: "2026-10-05",
+          days: W4,
+        },
+      ];
+      var RACE_DATE = new Date(2026, 9, 12);
+      var MON = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      var LAB = {
+        easy: "easy",
+        tech: "technique",
+        skill: "skill",
+        pace: "race pace",
+        max: "maximum",
+      };
 
-var DAYS = [];
-WEEKS.forEach(function(w,wi){
-  var s = new Date(w.start+'T00:00:00');
-  w.days.forEach(function(d,di){
-    var dt = new Date(s.getTime()); dt.setDate(s.getDate()+di);
-    DAYS.push(assign(d,{id:'w'+(wi+1)+'d'+di,wi:wi,di:di,date:dt,weekName:'Week '+(wi+1)+', '+w.name}));
-  });
-});
-DAYS.push(assign(RACE,{id:'race',wi:4,di:0,date:RACE_DATE,weekName:'Race day'}));
+      var DAYS = [];
+      WEEKS.forEach(function (w, wi) {
+        var s = new Date(w.start + "T00:00:00");
+        w.days.forEach(function (d, di) {
+          var dt = new Date(s.getTime());
+          dt.setDate(s.getDate() + di);
+          DAYS.push(
+            assign(d, {
+              id: "w" + (wi + 1) + "d" + di,
+              wi: wi,
+              di: di,
+              date: dt,
+              weekName: "Week " + (wi + 1) + ", " + w.name,
+            }),
+          );
+        });
+      });
+      DAYS.push(
+        assign(RACE, {
+          id: "race",
+          wi: 4,
+          di: 0,
+          date: RACE_DATE,
+          weekName: "Race day",
+        }),
+      );
 
-function fmt(d){return d.getDate()+' '+MON[d.getMonth()];}
-function total(d){return d.blocks.length;}
+      function fmt(d) {
+        return d.getDate() + " " + MON[d.getMonth()];
+      }
+      function total(d) {
+        return d.blocks.length;
+      }
 
-/* ============================ STATE ============================ */
-var S = {done:{}}, memOnly=false, saveT=null;
+      /* ============================ STATE ============================ */
+      var S = { done: {} },
+        memOnly = false,
+        saveT = null;
 
-function normalise(){ if(!S.done) S.done={}; }
-function load(cb){
-  var fin=false;
-  function done(){ if(fin)return; fin=true; normalise(); cb(); }
-  try{
-    var p = window.storage.get('swim:nsa2026:v2');
-    if(p && p.then){
-      p.then(function(r){ if(r&&r.value) S=JSON.parse(r.value); done(); },function(){ memOnly=true; done(); });
-      setTimeout(done,1200);
-    } else { memOnly=true; done(); }
-  }catch(e){ memOnly=true; done(); }
-}
-function save(){
-  clearTimeout(saveT);
-  saveT=setTimeout(function(){
-    try{
-      var p = window.storage.set('swim:nsa2026:v2', JSON.stringify(S));
-      if(p && p['catch']) p['catch'](function(){ memOnly=true; });
-    }catch(e){ memOnly=true; }
-  },250);
-}
-function isDone(id,i){ return !!(S.done[id] && S.done[id]['b'+i]); }
-function count(id){ return S.done[id] ? Object.keys(S.done[id]).length : 0; }
-function complete(d){ return total(d)>0 && count(d.id)>=total(d); }
-function buzz(p){ try{ navigator.vibrate && navigator.vibrate(p); }catch(e){} }
+      function normalise() {
+        if (!S.done) S.done = {};
+      }
+      function load(cb) {
+        var fin = false;
+        function done() {
+          if (fin) return;
+          fin = true;
+          normalise();
+          cb();
+        }
+        try {
+          var p = window.storage.get("swim:nsa2026:v2");
+          if (p && p.then) {
+            p.then(
+              function (r) {
+                if (r && r.value) S = JSON.parse(r.value);
+                done();
+              },
+              function () {
+                memOnly = true;
+                done();
+              },
+            );
+            setTimeout(done, 1200);
+          } else {
+            memOnly = true;
+            done();
+          }
+        } catch (e) {
+          memOnly = true;
+          done();
+        }
+      }
+      function save() {
+        clearTimeout(saveT);
+        saveT = setTimeout(function () {
+          try {
+            var p = window.storage.set("swim:nsa2026:v2", JSON.stringify(S));
+            if (p && p["catch"])
+              p["catch"](function () {
+                memOnly = true;
+              });
+          } catch (e) {
+            memOnly = true;
+          }
+        }, 250);
+      }
+      function isDone(id, i) {
+        return !!(S.done[id] && S.done[id]["b" + i]);
+      }
+      function count(id) {
+        return S.done[id] ? Object.keys(S.done[id]).length : 0;
+      }
+      function complete(d) {
+        return total(d) > 0 && count(d.id) >= total(d);
+      }
+      function buzz(p) {
+        try {
+          navigator.vibrate && navigator.vibrate(p);
+        } catch (e) {}
+      }
 
-var toastT=null;
-function toast(m){
-  var t=document.getElementById('toast');
-  t.textContent=m; t.classList.add('show');
-  clearTimeout(toastT); toastT=setTimeout(function(){t.classList.remove('show');},1800);
-}
+      var toastT = null;
+      function toast(m) {
+        var t = document.getElementById("toast");
+        t.textContent = m;
+        t.classList.add("show");
+        clearTimeout(toastT);
+        toastT = setTimeout(function () {
+          t.classList.remove("show");
+        }, 1800);
+      }
 
-/* ============================ HOME ============================ */
-var TICK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
-function today(){ var t=new Date(); t.setHours(0,0,0,0); return t; }
-function sameDay(a,b2){ return a.toDateString()===b2.toDateString(); }
+      /* ============================ HOME ============================ */
+      var TICK =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+      function today() {
+        var t = new Date();
+        t.setHours(0, 0, 0, 0);
+        return t;
+      }
+      function sameDay(a, b2) {
+        return a.toDateString() === b2.toDateString();
+      }
 
-function renderCountdown(){
-  var diff=Math.round((RACE_DATE-today())/86400000);
-  var el=document.getElementById('cd'), lab=document.getElementById('cdlab');
-  if(diff>1){ el.textContent=diff; lab.textContent='days of training left before race day'; }
-  else if(diff===1){ el.textContent='1'; lab.textContent='day to go. Sleep well tonight.'; }
-  else if(diff===0){ el.textContent='Today'; el.style.fontSize='32px'; lab.textContent='Out in 14.2, home in 15.8.'; }
-  else { el.textContent='—'; lab.textContent='The meet is behind you. Well swum.'; }
-}
+      function renderCountdown() {
+        var diff = Math.round((RACE_DATE - today()) / 86400000);
+        var el = document.getElementById("cd"),
+          lab = document.getElementById("cdlab");
+        if (diff > 1) {
+          el.textContent = diff;
+          lab.textContent = "days of training left before race day";
+        } else if (diff === 1) {
+          el.textContent = "1";
+          lab.textContent = "day to go. Sleep well tonight.";
+        } else if (diff === 0) {
+          el.textContent = "Today";
+          el.style.fontSize = "32px";
+          lab.textContent = "Out in 14.2, home in 15.8.";
+        } else {
+          el.textContent = "—";
+          lab.textContent = "The meet is behind you. Well swum.";
+        }
+      }
 
-function renderCal(){
-  var wrap=document.getElementById('cal'); wrap.innerHTML='';
-  WEEKS.forEach(function(w,wi){
-    var row=document.createElement('div'); row.className='wkrow';
-    var lab=document.createElement('div'); lab.className='wklab'; lab.textContent='Wk'+(wi+1);
-    row.appendChild(lab);
-    for(var i=0;i<7;i++){
-      (function(i){
-        var d=findBy(DAYS,function(x){return x.wi===wi&&x.di===i;});
-        var btn=document.createElement('button'); btn.className='dot';
-        btn.textContent=d.date.getDate();
-        btn.setAttribute('aria-label',d.dow+' '+fmt(d.date)+', '+d.title);
-        if(d.rest) btn.classList.add('rest');
-        var c=count(d.id), t=total(d);
-        if(t&&c>=t) btn.classList.add('done'); else if(c>0) btn.classList.add('part');
-        if(sameDay(d.date,today())) btn.classList.add('today');
-        btn.onclick=function(){ openDay(d.id); };
-        row.appendChild(btn);
-      })(i);
-    }
-    wrap.appendChild(row);
-  });
-  var r=document.createElement('div'); r.className='wkrow';
-  var rl=document.createElement('div'); rl.className='wklab'; rl.textContent='Race'; r.appendChild(rl);
-  var rb=document.createElement('button'); rb.className='dot race'; rb.textContent='12';
-  rb.setAttribute('aria-label','Race day, 12 October');
-  rb.onclick=function(){ openDay('race'); }; r.appendChild(rb);
-  var cap=document.createElement('div'); cap.className='racecap';
-  cap.textContent='Monday 12 October, 50 m freestyle'; r.appendChild(cap);
-  wrap.appendChild(r);
-}
+      function renderCal() {
+        var wrap = document.getElementById("cal");
+        wrap.innerHTML = "";
+        WEEKS.forEach(function (w, wi) {
+          var row = document.createElement("div");
+          row.className = "wkrow";
+          var lab = document.createElement("div");
+          lab.className = "wklab";
+          lab.textContent = "Wk" + (wi + 1);
+          row.appendChild(lab);
+          for (var i = 0; i < 7; i++) {
+            (function (i) {
+              var d = findBy(DAYS, function (x) {
+                return x.wi === wi && x.di === i;
+              });
+              var btn = document.createElement("button");
+              btn.className = "dot";
+              btn.textContent = d.date.getDate();
+              btn.setAttribute(
+                "aria-label",
+                d.dow + " " + fmt(d.date) + ", " + d.title,
+              );
+              if (d.rest) btn.classList.add("rest");
+              var c = count(d.id),
+                t = total(d);
+              if (t && c >= t) btn.classList.add("done");
+              else if (c > 0) btn.classList.add("part");
+              if (sameDay(d.date, today())) btn.classList.add("today");
+              btn.onclick = function () {
+                openDay(d.id);
+              };
+              row.appendChild(btn);
+            })(i);
+          }
+          wrap.appendChild(row);
+        });
+        var r = document.createElement("div");
+        r.className = "wkrow";
+        var rl = document.createElement("div");
+        rl.className = "wklab";
+        rl.textContent = "Race";
+        r.appendChild(rl);
+        var rb = document.createElement("button");
+        rb.className = "dot race";
+        rb.textContent = "12";
+        rb.setAttribute("aria-label", "Race day, 12 October");
+        rb.onclick = function () {
+          openDay("race");
+        };
+        r.appendChild(rb);
+        var cap = document.createElement("div");
+        cap.className = "racecap";
+        cap.textContent = "Monday 12 October, 50 m freestyle";
+        r.appendChild(cap);
+        wrap.appendChild(r);
+      }
 
-function renderWeeks(){
-  var host=document.getElementById('weeks'); host.innerHTML='';
-  var cur=-1;
-  DAYS.forEach(function(d){ if(sameDay(d.date,today())) cur=d.wi; });
-  if(cur<0) cur = today()<new Date(2026,8,14) ? 0 : 3;
+      function renderWeeks() {
+        var host = document.getElementById("weeks");
+        host.innerHTML = "";
+        var cur = -1;
+        DAYS.forEach(function (d) {
+          if (sameDay(d.date, today())) cur = d.wi;
+        });
+        if (cur < 0) cur = today() < new Date(2026, 8, 14) ? 0 : 3;
 
-  WEEKS.forEach(function(w,wi){
-    var days=DAYS.filter(function(x){return x.wi===wi;});
-    var fin=days.filter(complete).length;
-    var swims=days.filter(function(x){return !x.rest;}).length;
-    var pct=fin/days.length;
+        WEEKS.forEach(function (w, wi) {
+          var days = DAYS.filter(function (x) {
+            return x.wi === wi;
+          });
+          var fin = days.filter(complete).length;
+          var swims = days.filter(function (x) {
+            return !x.rest;
+          }).length;
+          var pct = fin / days.length;
 
-    var sec=document.createElement('section');
-    sec.className='week'+(wi===cur?' open':'');
-    var head=document.createElement('button'); head.className='wkhead';
-    head.setAttribute('aria-expanded', wi===cur?'true':'false');
-    head.innerHTML='<span class="idx">'+(wi+1)+'</span>'+
-      '<span class="meta"><b>'+w.name+'</b><em>'+fmt(days[0].date)+' to '+fmt(days[6].date)+', '+swims+' swims</em></span>'+
-      '<span class="ring"><svg width="38" height="38"><circle cx="19" cy="19" r="15.5" fill="none" stroke="#17586C" stroke-width="3"/>'+
-      '<circle cx="19" cy="19" r="15.5" fill="none" stroke="#49D6A6" stroke-width="3" stroke-linecap="round" stroke-dasharray="'+(97.4*pct).toFixed(1)+' 97.4"/></svg>'+
-      '<span>'+fin+'/'+days.length+'</span></span>'+
-      '<span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>';
-    head.onclick=function(){
-      var open=sec.classList.toggle('open');
-      head.setAttribute('aria-expanded',open?'true':'false');
-    };
-    var body=document.createElement('div'); body.className='wkbody';
-    var capel=document.createElement('p'); capel.className='wkcap'; capel.textContent=w.sub;
-    body.appendChild(capel);
-    days.forEach(function(d){ body.appendChild(dayCard(d)); });
-    if(wi===3) body.appendChild(dayCard(DAYS[DAYS.length-1]));
-    sec.appendChild(head); sec.appendChild(body); host.appendChild(sec);
-  });
-}
+          var sec = document.createElement("section");
+          sec.className = "week" + (wi === cur ? " open" : "");
+          var head = document.createElement("button");
+          head.className = "wkhead";
+          head.setAttribute("aria-expanded", wi === cur ? "true" : "false");
+          head.innerHTML =
+            '<span class="idx">' +
+            (wi + 1) +
+            "</span>" +
+            '<span class="meta"><b>' +
+            w.name +
+            "</b><em>" +
+            fmt(days[0].date) +
+            " to " +
+            fmt(days[6].date) +
+            ", " +
+            swims +
+            " swims</em></span>" +
+            '<span class="ring"><svg width="38" height="38"><circle cx="19" cy="19" r="15.5" fill="none" stroke="#17586C" stroke-width="3"/>' +
+            '<circle cx="19" cy="19" r="15.5" fill="none" stroke="#49D6A6" stroke-width="3" stroke-linecap="round" stroke-dasharray="' +
+            (97.4 * pct).toFixed(1) +
+            ' 97.4"/></svg>' +
+            "<span>" +
+            fin +
+            "/" +
+            days.length +
+            "</span></span>" +
+            '<span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>';
+          head.onclick = function () {
+            var open = sec.classList.toggle("open");
+            head.setAttribute("aria-expanded", open ? "true" : "false");
+          };
+          var body = document.createElement("div");
+          body.className = "wkbody";
+          var capel = document.createElement("p");
+          capel.className = "wkcap";
+          capel.textContent = w.sub;
+          body.appendChild(capel);
+          days.forEach(function (d) {
+            body.appendChild(dayCard(d));
+          });
+          if (wi === 3) body.appendChild(dayCard(DAYS[DAYS.length - 1]));
+          sec.appendChild(head);
+          sec.appendChild(body);
+          host.appendChild(sec);
+        });
+      }
 
-function dayCard(d){
-  var c=document.createElement('button');
-  c.className='daycard'+(d.rest?' restday':'')+(d.race?' raceday':'')+
-    (sameDay(d.date,today())&&!d.race?' istoday':'');
-  var sub = d.rest ? 'Mobility and sleep'
-    : (d.race ? '50 m freestyle, Satdobato' : d.pool+' pool, '+d.laps+' laps, '+d.dist);
-  c.innerHTML='<span class="dstamp"><b>'+d.date.getDate()+'</b><em>'+d.dow+'</em></span>'+
-    '<span class="dinfo"><b>'+d.title+'</b><em>'+sub+'</em></span>'+
-    '<span class="dtick'+(complete(d)?' on':'')+'">'+TICK+'</span>';
-  c.onclick=function(){ openDay(d.id); };
-  return c;
-}
+      function dayCard(d) {
+        var c = document.createElement("button");
+        c.className =
+          "daycard" +
+          (d.rest ? " restday" : "") +
+          (d.race ? " raceday" : "") +
+          (sameDay(d.date, today()) && !d.race ? " istoday" : "");
+        var sub = d.rest
+          ? "Mobility and sleep"
+          : d.race
+            ? "50 m freestyle, Satdobato"
+            : d.pool + " pool, " + d.laps + " laps, " + d.dist;
+        c.innerHTML =
+          '<span class="dstamp"><b>' +
+          d.date.getDate() +
+          "</b><em>" +
+          d.dow +
+          "</em></span>" +
+          '<span class="dinfo"><b>' +
+          d.title +
+          "</b><em>" +
+          sub +
+          "</em></span>" +
+          '<span class="dtick' +
+          (complete(d) ? " on" : "") +
+          '">' +
+          TICK +
+          "</span>";
+        c.onclick = function () {
+          openDay(d.id);
+        };
+        return c;
+      }
 
-/* ============================ DETAIL ============================ */
-var cur=null, pushed=false, homeY=0;
+      /* ============================ DETAIL ============================ */
+      var cur = null,
+        pushed = false,
+        homeY = 0;
 
-function openDay(id){
-  cur=findBy(DAYS,function(x){return x.id===id;});
-  draw();
-  homeY=window.scrollY||0;
-  document.body.style.top=(-homeY)+'px';
-  document.body.classList.add('locked');
-  var v=document.getElementById('detail');
-  v.classList.add('open'); v.setAttribute('aria-hidden','false'); v.scrollTop=0;
-  try{ history.pushState({d:id},''); pushed=true; }catch(e){ pushed=false; }
-}
-function closeDay(){
-  pushed=false;
-  var v=document.getElementById('detail');
-  v.classList.remove('open'); v.setAttribute('aria-hidden','true');
-  document.body.classList.remove('locked'); document.body.style.top='';
-  window.scrollTo(0,homeY);
-  renderCal(); renderWeeks();
-}
-function bar(){
-  var t=total(cur), n=count(cur.id);
-  document.getElementById('dBar').style.width=(t?n/t*100:0)+'%';
-  document.getElementById('dBarLab').textContent = t ? n+' of '+t+' done' : '';
-}
+      function openDay(id) {
+        cur = findBy(DAYS, function (x) {
+          return x.id === id;
+        });
+        draw();
+        homeY = window.scrollY || 0;
+        document.body.style.top = -homeY + "px";
+        document.body.classList.add("locked");
+        var v = document.getElementById("detail");
+        v.classList.add("open");
+        v.setAttribute("aria-hidden", "false");
+        v.scrollTop = 0;
+        try {
+          history.pushState({ d: id }, "");
+          pushed = true;
+        } catch (e) {
+          pushed = false;
+        }
+      }
+      function closeDay() {
+        pushed = false;
+        var v = document.getElementById("detail");
+        v.classList.remove("open");
+        v.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("locked");
+        document.body.style.top = "";
+        window.scrollTo(0, homeY);
+        renderCal();
+        renderWeeks();
+      }
+      function bar() {
+        var t = total(cur),
+          n = count(cur.id);
+        document.getElementById("dBar").style.width =
+          (t ? (n / t) * 100 : 0) + "%";
+        document.getElementById("dBarLab").textContent = t
+          ? n + " of " + t + " done"
+          : "";
+      }
 
-function draw(){
-  var d=cur;
-  document.getElementById('dTitle').textContent=d.title;
-  var parts=['<span class="chip">'+d.dow+' '+fmt(d.date)+'</span>','<span class="chip">'+d.weekName+'</span>'];
-  if(!d.rest&&!d.race){
-    parts.push('<span class="chip">'+d.pool+' pool</span>');
-    parts.push('<span class="chip hot">'+d.laps+' laps, '+d.dist+'</span>');
-  }
-  if(d.race) parts.push('<span class="chip hot">50 m freestyle</span>');
-  document.getElementById('dChips').innerHTML=parts.join('');
+      function draw() {
+        var d = cur;
+        document.getElementById("dTitle").textContent = d.title;
+        var parts = [
+          '<span class="chip">' + d.dow + " " + fmt(d.date) + "</span>",
+          '<span class="chip">' + d.weekName + "</span>",
+        ];
+        if (!d.rest && !d.race) {
+          parts.push('<span class="chip">' + d.pool + " pool</span>");
+          parts.push(
+            '<span class="chip hot">' + d.laps + " laps, " + d.dist + "</span>",
+          );
+        }
+        if (d.race) parts.push('<span class="chip hot">50 m freestyle</span>');
+        document.getElementById("dChips").innerHTML = parts.join("");
 
-  var body=document.getElementById('dBody'); body.innerHTML='';
-  if(d.note){ var n=document.createElement('div'); n.className='note'; n.textContent=d.note; body.appendChild(n); }
+        var body = document.getElementById("dBody");
+        body.innerHTML = "";
+        if (d.note) {
+          var n = document.createElement("div");
+          n.className = "note";
+          n.textContent = d.note;
+          body.appendChild(n);
+        }
 
-  if(d.race){ var h=document.createElement('p'); h.className='hint'; h.textContent='Work through these in order.'; body.appendChild(h); }
+        if (d.race) {
+          var h = document.createElement("p");
+          h.className = "hint";
+          h.textContent = "Work through these in order.";
+          body.appendChild(h);
+        }
 
-  d.blocks.forEach(function(bl,i){
-    var card=document.createElement('button');
-    card.className='block'+(isDone(d.id,i)?' done':'');
-    card.setAttribute('data-k',bl.k);
-    card.setAttribute('aria-pressed', isDone(d.id,i)?'true':'false');
+        d.blocks.forEach(function (bl, i) {
+          var card = document.createElement("button");
+          card.className = "block" + (isDone(d.id, i) ? " done" : "");
+          card.setAttribute("data-k", bl.k);
+          card.setAttribute("aria-pressed", isDone(d.id, i) ? "true" : "false");
 
-    var num = d.race ? '<b>'+bl.n+'</b><em>step</em>'
-      : (bl.n===0 ? '<b>·</b><em></em>'
-        : (typeof bl.n==='number' ? '<b>'+bl.n+'</b><em>laps</em>'
-          : '<b>'+String(bl.n).replace(' min','')+'</b><em>min</em>'));
+          var num = d.race
+            ? "<b>" + bl.n + "</b><em>step</em>"
+            : bl.n === 0
+              ? "<b>·</b><em></em>"
+              : typeof bl.n === "number"
+                ? "<b>" + bl.n + "</b><em>laps</em>"
+                : "<b>" + String(bl.n).replace(" min", "") + "</b><em>min</em>";
 
-    card.innerHTML='<span class="bnum">'+num+'</span>'+
-      '<span class="bmain"><span class="btitle">'+bl.t+
-      (d.race?'':'<i class="tag '+bl.k+'">'+LAB[bl.k]+'</i>')+'</span>'+
-      '<span class="bdesc">'+bl.d+'</span>'+
-      (bl.r?'<span class="btarget">'+bl.r+'</span>':'')+'</span>'+
-      '<span class="bcheck">'+TICK+'</span>';
+          card.innerHTML =
+            '<span class="bnum">' +
+            num +
+            "</span>" +
+            '<span class="bmain"><span class="btitle">' +
+            bl.t +
+            (d.race
+              ? ""
+              : '<i class="tag ' + bl.k + '">' + LAB[bl.k] + "</i>") +
+            "</span>" +
+            '<span class="bdesc">' +
+            bl.d +
+            "</span>" +
+            (bl.r ? '<span class="btarget">' + bl.r + "</span>" : "") +
+            "</span>" +
+            '<span class="bcheck">' +
+            TICK +
+            "</span>";
 
-    card.onclick=function(){
-      if(!S.done[d.id]) S.done[d.id]={};
-      if(S.done[d.id]['b'+i]) delete S.done[d.id]['b'+i]; else S.done[d.id]['b'+i]=1;
-      save();
-      var on=isDone(d.id,i);
-      card.classList.toggle('done',on);
-      card.setAttribute('aria-pressed',on?'true':'false');
-      buzz(10); bar(); syncAll();
-      if(complete(d)){ buzz([14,60,14]); toast('Session done.'); }
-    };
-    body.appendChild(card);
-  });
+          card.onclick = function () {
+            if (!S.done[d.id]) S.done[d.id] = {};
+            if (S.done[d.id]["b" + i]) delete S.done[d.id]["b" + i];
+            else S.done[d.id]["b" + i] = 1;
+            save();
+            var on = isDone(d.id, i);
+            card.classList.toggle("done", on);
+            card.setAttribute("aria-pressed", on ? "true" : "false");
+            buzz(10);
+            bar();
+            syncAll();
+            if (complete(d)) {
+              buzz([14, 60, 14]);
+              toast("Session done.");
+            }
+          };
+          body.appendChild(card);
+        });
 
-  var all=document.createElement('button'); all.className='allbtn'; all.id='allBtn';
-  all.onclick=function(){
-    var finish=!complete(d);
-    S.done[d.id]={};
-    if(finish){ for(var i=0;i<d.blocks.length;i++) S.done[d.id]['b'+i]=1; }
-    save(); buzz(finish?[14,60,14]:10); draw();
-    document.getElementById('detail').scrollTop=0;
-  };
-  body.appendChild(all);
-  syncAll(); bar();
-}
-function syncAll(){
-  var el=document.getElementById('allBtn');
-  if(el) el.textContent = complete(cur) ? 'Untick this session' : 'Tick everything off';
-}
+        var all = document.createElement("button");
+        all.className = "allbtn";
+        all.id = "allBtn";
+        all.onclick = function () {
+          var finish = !complete(d);
+          S.done[d.id] = {};
+          if (finish) {
+            for (var i = 0; i < d.blocks.length; i++) S.done[d.id]["b" + i] = 1;
+          }
+          save();
+          buzz(finish ? [14, 60, 14] : 10);
+          draw();
+          document.getElementById("detail").scrollTop = 0;
+        };
+        body.appendChild(all);
+        syncAll();
+        bar();
+      }
+      function syncAll() {
+        var el = document.getElementById("allBtn");
+        if (el)
+          el.textContent = complete(cur)
+            ? "Untick this session"
+            : "Tick everything off";
+      }
 
-/* ============================ WIRING ============================ */
-document.getElementById('back').onclick=function(){ if(pushed) history.back(); else closeDay(); };
-window.addEventListener('popstate',function(){ closeDay(); });
+      /* ============================ WIRING ============================ */
+      document.getElementById("back").onclick = function () {
+        if (pushed) history.back();
+        else closeDay();
+      };
+      window.addEventListener("popstate", function () {
+        closeDay();
+      });
 
-var armed=false, armT=null;
-document.getElementById('resetBtn').onclick=function(){
-  var btn=this;
-  if(!armed){
-    armed=true; btn.textContent='Tap again to clear everything';
-    btn.style.color='var(--signal)'; btn.style.borderColor='var(--signal)';
-    clearTimeout(armT);
-    armT=setTimeout(function(){ armed=false; btn.textContent='Clear all progress';
-      btn.style.color=''; btn.style.borderColor=''; },4000);
-    return;
-  }
-  clearTimeout(armT); armed=false;
-  btn.textContent='Clear all progress'; btn.style.color=''; btn.style.borderColor='';
-  S={done:{}}; save(); renderCal(); renderWeeks(); toast('Progress cleared.');
-};
+      var armed = false,
+        armT = null;
+      document.getElementById("resetBtn").onclick = function () {
+        var btn = this;
+        if (!armed) {
+          armed = true;
+          btn.textContent = "Tap again to clear everything";
+          btn.style.color = "var(--signal)";
+          btn.style.borderColor = "var(--signal)";
+          clearTimeout(armT);
+          armT = setTimeout(function () {
+            armed = false;
+            btn.textContent = "Clear all progress";
+            btn.style.color = "";
+            btn.style.borderColor = "";
+          }, 4000);
+          return;
+        }
+        clearTimeout(armT);
+        armed = false;
+        btn.textContent = "Clear all progress";
+        btn.style.color = "";
+        btn.style.borderColor = "";
+        S = { done: {} };
+        save();
+        renderCal();
+        renderWeeks();
+        toast("Progress cleared.");
+      };
 
-(function(){
-  var sx=0,sy=0,track=false, v=document.getElementById('detail');
-  v.addEventListener('touchstart',function(e){
-    if(!v.classList.contains('open')) return;
-    sx=e.touches[0].clientX; sy=e.touches[0].clientY; track = sx<42;
-  },{passive:true});
-  v.addEventListener('touchmove',function(e){
-    if(!track) return;
-    var dx=e.touches[0].clientX-sx, dy=Math.abs(e.touches[0].clientY-sy);
-    if(dx>70&&dy<50){ track=false; if(pushed) history.back(); else closeDay(); }
-  },{passive:true});
-})();
+      (function () {
+        var sx = 0,
+          sy = 0,
+          track = false,
+          v = document.getElementById("detail");
+        v.addEventListener(
+          "touchstart",
+          function (e) {
+            if (!v.classList.contains("open")) return;
+            sx = e.touches[0].clientX;
+            sy = e.touches[0].clientY;
+            track = sx < 42;
+          },
+          { passive: true },
+        );
+        v.addEventListener(
+          "touchmove",
+          function (e) {
+            if (!track) return;
+            var dx = e.touches[0].clientX - sx,
+              dy = Math.abs(e.touches[0].clientY - sy);
+            if (dx > 70 && dy < 50) {
+              track = false;
+              if (pushed) history.back();
+              else closeDay();
+            }
+          },
+          { passive: true },
+        );
+      })();
 
-renderCountdown(); renderCal(); renderWeeks();
-load(function(){
-  renderCal(); renderWeeks();
-  if(memOnly) setTimeout(function(){ toast('Ticks are kept for this session only.'); },1200);
-});
-</script>
-</body>
+      renderCountdown();
+      renderCal();
+      renderWeeks();
+      load(function () {
+        renderCal();
+        renderWeeks();
+        if (memOnly)
+          setTimeout(function () {
+            toast("Ticks are kept for this session only.");
+          }, 1200);
+      });
+    </script>
+  </body>
 </html>
