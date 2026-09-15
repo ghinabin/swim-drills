@@ -1,0 +1,789 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>50 m Freestyle - Daily Mobile Training</title>
+<style>
+:root {
+  --ink:#111;
+  --muted:#555;
+  --panel:#f2f3f5;
+  --panel2:#e7e9ec;
+  --line:#c9cdd2;
+  --bg:#fff;
+}
+* { box-sizing:border-box; }
+html {
+  scroll-snap-type:y mandatory;
+  scroll-behavior:smooth;
+  background:var(--bg);
+}
+body {
+  margin:0;
+  color:var(--ink);
+  background:var(--bg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+.day-card {
+  min-height:100dvh;
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+  padding:max(18px,env(safe-area-inset-top)) 18px calc(84px + env(safe-area-inset-bottom));
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  border-bottom:4px solid #111;
+}
+.topline {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+.daycount {
+  font-size:clamp(16px,4.2vw,21px);
+  font-weight:800;
+  letter-spacing:.02em;
+}
+.load {
+  background:#111;
+  color:#fff;
+  border-radius:999px;
+  padding:7px 12px;
+  font-size:clamp(15px,3.8vw,19px);
+  font-weight:800;
+}
+h1 {
+  margin:0;
+  font-size:clamp(31px,8.2vw,46px);
+  line-height:1.0;
+  letter-spacing:-.025em;
+}
+h2 {
+  margin:0 0 2px;
+  font-size:clamp(23px,6vw,32px);
+  line-height:1.08;
+}
+.meta {
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+}
+.meta > div {
+  background:var(--panel2);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:9px 11px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+.meta span, .label {
+  font-size:clamp(14px,3.5vw,18px);
+  font-weight:800;
+  letter-spacing:.03em;
+}
+.meta strong {
+  font-size:clamp(17px,4.3vw,22px);
+}
+.equipment {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:9px 10px;
+}
+.chips {
+  margin-top:6px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.chip {
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:999px;
+  background:#fff;
+  border:1px solid var(--line);
+  font-size:clamp(15px,3.8vw,19px);
+  font-weight:650;
+}
+.steps {
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+.step {
+  display:grid;
+  grid-template-columns:30px 1fr;
+  gap:8px;
+  align-items:start;
+}
+.stepnum {
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:#111;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  font-weight:800;
+  margin-top:1px;
+}
+.steptitle {
+  font-size:clamp(18px,4.7vw,24px);
+  line-height:1.12;
+  font-weight:850;
+}
+.steptext {
+  margin-top:2px;
+  font-size:clamp(17px,4.35vw,22px);
+  line-height:1.22;
+}
+.record {
+  margin-top:auto;
+  border:2px solid #111;
+  border-radius:10px;
+  padding:9px 11px;
+  font-size:clamp(16px,4vw,20px);
+  line-height:1.23;
+}
+.safety {
+  color:var(--muted);
+  font-size:clamp(13px,3.2vw,16px);
+  line-height:1.2;
+}
+.controls {
+  position:fixed;
+  z-index:999;
+  left:0; right:0; bottom:0;
+  display:flex;
+  gap:7px;
+  padding:8px max(10px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));
+  background:rgba(255,255,255,.96);
+  border-top:1px solid var(--line);
+  backdrop-filter:blur(8px);
+}
+.controls button {
+  flex:1;
+  min-height:48px;
+  border:0;
+  border-radius:10px;
+  font-size:17px;
+  font-weight:800;
+  background:#111;
+  color:#fff;
+}
+.controls button.secondary {
+  background:#e9eaec;
+  color:#111;
+}
+.toast {
+  position:fixed;
+  z-index:1000;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:72px;
+  background:#111;
+  color:#fff;
+  padding:10px 14px;
+  border-radius:10px;
+  font-size:16px;
+  display:none;
+}
+@media (max-height:760px) {
+  .day-card { gap:5px; padding-top:12px; }
+  h1 { font-size:clamp(27px,7.2vw,40px); }
+  h2 { font-size:clamp(21px,5.2vw,29px); }
+  .steptext { font-size:clamp(16px,4vw,20px); line-height:1.18; }
+  .steptitle { font-size:clamp(17px,4.3vw,22px); }
+}
+@media (prefers-color-scheme:dark) {
+  :root { --ink:#f7f7f7; --muted:#c3c3c3; --panel:#1d1f22; --panel2:#292c31; --line:#474b52; --bg:#101113; }
+  .chip { background:#17191c; }
+  .load,.stepnum,.controls button { background:#f5f5f5; color:#111; }
+  .controls { background:rgba(16,17,19,.96); }
+  .controls button.secondary { background:#31343a; color:#fff; }
+  .record { border-color:#f5f5f5; }
+}
+</style>
+</head>
+<body>
+
+    <section class="day-card" id="day-1" data-date="WED 16 SEP">
+      <div class="topline">
+        <div class="daycount">DAY 1 / 27</div>
+        <div class="load">EASY</div>
+      </div>
+      <h1>WED 16 SEP</h1>
+      <h2>Recovery + technique</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>75-90 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>Kickboard</span><span class='chip'>Pull buoy</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>300 m: 100 m easy freestyle + 50 m backstroke + 50 m easy with <b>pull buoy</b> + 100 m gradually faster.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Technique</div><div class='steptext'>6 x 25 m relaxed freestyle. Keep the body long and hips high. Rest 20-30 sec.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Dolphin + breakout</div><div class='steptext'>6 reps from the wall. <b>No kickboard.</b> Tight streamline -> 2-4 quick dolphin kicks -> smooth breakout -> 4-6 strong strokes. Rest 45-60 sec.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Turn practice</div><div class='steptext'>6 flip turns. Start 5-7 m before the wall -> attack the wall -> no glide -> quick flip -> hard push -> 2-4 dolphin kicks -> breakout. Rest 45-60 sec.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Easy aerobic</div><div class='steptext'>6 x 50 m at 65-70%. On reps 3 and 6 use the <b>pull buoy</b> and swim easy. Rest 25-30 sec.</div></div></div><div class='step'><div class='stepnum'>6</div><div class='stepbody'><div class='steptitle'>Speed finish</div><div class='steptext'>4 x 25 m: first half easy, second half fast. Rest 60 sec.</div></div></div><div class='step'><div class='stepnum'>7</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>200 m very easy.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Fatigue 1-10 • Which part felt hardest? • Any pain: yes/no</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-2" data-date="THU 17 SEP">
+      <div class="topline">
+        <div class="daycount">DAY 2 / 27</div>
+        <div class="load">HARD</div>
+      </div>
+      <h1>THU 17 SEP</h1>
+      <h2>Maximum speed + turns</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>80-100 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>No equipment for main speed work</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>300 m easy-to-fast. Finish with 2 x 25 m build to about 85%.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Breakout speed</div><div class='steptext'>6 x 15 m from wall. <b>No kickboard.</b> Hard push -> streamline -> 2-4 dolphin kicks -> explosive breakout. Rest 60-90 sec.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Turn practice</div><div class='steptext'>8 quality flip turns. Full control; never glide into the wall. Rest about 45-60 sec.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Maximum speed</div><div class='steptext'>8 x 25 m from wall push at 95-100% with clean technique. Rest <b>2.5-3 min</b>. Do not use buoy or board.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Broken 50</div><div class='steptext'>2 rounds: 25 m fast -> 15 sec rest -> 25 m fast. Rest <b>5 min</b> between rounds.</div></div></div><div class='step'><div class='stepnum'>6</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>200 m very easy.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Time 25 m reps #1, #4, #8 • Fatigue 1-10</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-3" data-date="FRI 18 SEP">
+      <div class="topline">
+        <div class="daycount">DAY 3 / 27</div>
+        <div class="load">MODERATE</div>
+      </div>
+      <h1>FRI 18 SEP</h1>
+      <h2>Kick + technique + strength</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>90-110 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>Kickboard</span><span class='chip'>Pull buoy</span><span class='chip'>Light dumbbells after pool</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>300 m easy: include 50 m with <b>pull buoy</b>.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Freestyle kick</div><div class='steptext'>8 x 25 m. Use the <b>kickboard for 6 reps</b>; do 2 reps without board in a tight streamline on your back or side. Rest 30 sec.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Smooth freestyle</div><div class='steptext'>8 x 25 m focusing on relaxed shoulders and holding water with the forearm. Rest 20-30 sec.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Aerobic support</div><div class='steptext'>8 x 50 m at about 70%. Use <b>pull buoy on reps 4 and 8</b>. Rest 25-30 sec.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Fast finish</div><div class='steptext'>4 x 25 m: first 15 m controlled, final 10 m fast into the wall. Rest 60 sec.</div></div></div><div class='step'><div class='stepnum'>6</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>200 m easy.</div></div></div><div class='step'><div class='stepnum'>7</div><div class='stepbody'><div class='steptitle'>Dryland after swimming</div><div class='steptext'>20 min only: goblet squat, dumbbell row, split squat, push-up, side plank, light shoulder external rotation. Use moderate weight and stop well before failure.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Fatigue 1-10 • Legs 1-10 • Shoulders 1-10</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-4" data-date="SAT 19 SEP">
+      <div class="topline">
+        <div class="daycount">DAY 4 / 27</div>
+        <div class="load">QUALITY</div>
+      </div>
+      <h1>SAT 19 SEP</h1>
+      <h2>50 m pool - starts</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>70-90 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>No kickboard/pull buoy needed for main set</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>400 m easy/progressive. Include 2 x 25 m building to about 85%.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Block starts</div><div class='steptext'>8 starts. Clean entry -> tight streamline -> 2-4 quick dolphin kicks -> breakout -> 4-6 fast strokes. Rest 2-3 min.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Start-to-25 speed</div><div class='steptext'>4 x 25 m from blocks at 95-100%. Rest 3-4 min. Focus on connecting the breakout directly into sprint freestyle.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Easy reset</div><div class='steptext'>4 x 50 m relaxed.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>200 m easy.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>If possible: 15 m time for final 3 starts • Best start cue</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-5" data-date="SUN 20 SEP">
+      <div class="topline">
+        <div class="daycount">DAY 5 / 27</div>
+        <div class="load">REST</div>
+      </div>
+      <h1>SUN 20 SEP</h1>
+      <h2>Full recovery</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>No pool</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>None</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Recovery</div><div class='steptext'>No structured swimming and no dumbbells.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Optional</div><div class='steptext'>Easy walking and gentle mobility only.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Goal</div><div class='steptext'>Finish the day feeling fresher than you started.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Morning fatigue 1-10 • Evening fatigue 1-10</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-6" data-date="MON 21 SEP">
+      <div class="topline">
+        <div class="daycount">DAY 6 / 27</div>
+        <div class="load">HARD</div>
+      </div>
+      <h1>MON 21 SEP</h1>
+      <h2>Pure speed + turns</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>85-105 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>No equipment for sprint set</span><span class='chip'>Light dumbbells after pool</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>300 m progressive.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Breakouts</div><div class='steptext'>6 reps from wall: streamline -> 2-4 dolphin kicks -> fast breakout. Rest 60 sec.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Turns</div><div class='steptext'>8 fast flip turns. Attack the wall; no glide. Rest 45-60 sec.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Maximum speed</div><div class='steptext'>10 x 25 m from wall push at 95-100%. Rest <b>2.5-3 min</b>. No board or buoy.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Finish practice</div><div class='steptext'>4 x 25 m easy + 4 x 25 m with the last 10 m very fast into the wall.</div></div></div><div class='step'><div class='stepnum'>6</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>200 m easy.</div></div></div><div class='step'><div class='stepnum'>7</div><div class='stepbody'><div class='steptitle'>Dryland after swimming</div><div class='steptext'>20 min moderate strength. Never lift to failure.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Time reps #1, #5, #10 • Stop if two reps clearly slow and form breaks</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-7" data-date="TUE 22 SEP">
+      <div class="topline">
+        <div class="daycount">DAY 7 / 27</div>
+        <div class="load">MOD-HARD</div>
+      </div>
+      <h1>TUE 22 SEP</h1>
+      <h2>Race speed + dolphin</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>85-100 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>Kickboard</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>300 m easy/progressive.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Fast kick</div><div class='steptext'>6 x 25 m freestyle kick with <b>kickboard</b>. Strong but controlled. Rest 30-40 sec.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Dolphin + breakout</div><div class='steptext'>6 reps from wall. <b>No kickboard.</b> 2-4 quick dolphin kicks -> breakout -> 4-6 fast strokes. Rest 60 sec.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Race-speed swimming</div><div class='steptext'>10 x 25 m at 90-95%. Rest 75-90 sec. Keep the stroke fast but clean.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Easy reset</div><div class='steptext'>4 x 50 m easy.</div></div></div><div class='step'><div class='stepnum'>6</div><div class='stepbody'><div class='steptitle'>Fast finish</div><div class='steptext'>4 x 25 m with final 10 m fast.</div></div></div><div class='step'><div class='stepnum'>7</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>200 m easy.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Fatigue 1-10 • Did stroke stay clean on reps 8-10?</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-8" data-date="WED 23 SEP">
+      <div class="topline">
+        <div class="daycount">DAY 8 / 27</div>
+        <div class="load">EASY</div>
+      </div>
+      <h1>WED 23 SEP</h1>
+      <h2>Recovery + feel for water</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>70-85 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>Pull buoy</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>300 m very easy.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Technique</div><div class='steptext'>8 x 25 m easy freestyle. Focus on long body position and relaxed recovery.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Turns</div><div class='steptext'>6 relaxed flip turns; technique only, not speed.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Easy 50s</div><div class='steptext'>6 x 50 m comfortable. Use <b>pull buoy on reps 2, 4 and 6</b>. Rest 25-30 sec.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Build</div><div class='steptext'>4 x 25 m gradually faster, only to about 85-90%.</div></div></div><div class='step'><div class='stepnum'>6</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>200 m easy.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Fatigue 1-10 • How fresh do the shoulders feel?</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-9" data-date="THU 24 SEP">
+      <div class="topline">
+        <div class="daycount">DAY 9 / 27</div>
+        <div class="load">HARD</div>
+      </div>
+      <h1>THU 24 SEP</h1>
+      <h2>Speed endurance</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>80-100 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>No equipment for main set</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>300 m + 4 x 25 m building from easy to fast.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Breakout</div><div class='steptext'>4 reps from wall, 2-4 dolphin kicks + fast breakout. Rest 60 sec.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Race-quality 50s</div><div class='steptext'>3 x 50 m at about 95-100%. Execute the turn exactly as in competition. Rest <b>6-8 min</b> between 50s.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Fast controlled</div><div class='steptext'>4 x 25 m fast but technically clean. Rest 90 sec.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>200-300 m very easy.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Time all 3 x 50 if possible • First/second 25 split if available • Fatigue</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-10" data-date="FRI 25 SEP">
+      <div class="topline">
+        <div class="daycount">DAY 10 / 27</div>
+        <div class="load">MODERATE</div>
+      </div>
+      <h1>FRI 25 SEP</h1>
+      <h2>Turns + race mechanics</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>80-95 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>Pull buoy</span><span class='chip'>Light dumbbells after pool</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>300 m, including 50 m easy with <b>pull buoy</b>.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Turns</div><div class='steptext'>8 flip turns. Fast approach -> compact flip -> hard push -> 2-4 dolphin kicks -> breakout.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Dolphin + breakout</div><div class='steptext'>6 reps from wall. No board. Rest 60 sec.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Race speed</div><div class='steptext'>6 x 25 m at race speed. Rest 90 sec.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Easy swimming</div><div class='steptext'>4 x 50 m easy; use <b>pull buoy on 2 reps</b>.</div></div></div><div class='step'><div class='stepnum'>6</div><div class='stepbody'><div class='steptitle'>Build</div><div class='steptext'>4 x 25 m gradually up to about 95%.</div></div></div><div class='step'><div class='stepnum'>7</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>200 m easy.</div></div></div><div class='step'><div class='stepnum'>8</div><div class='stepbody'><div class='steptitle'>Dryland after swimming</div><div class='steptext'>20 min lighter strength than Monday. Stop well before failure.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Best turn cue • Fatigue 1-10</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-11" data-date="SAT 26 SEP">
+      <div class="topline">
+        <div class="daycount">DAY 11 / 27</div>
+        <div class="load">QUALITY</div>
+      </div>
+      <h1>SAT 26 SEP</h1>
+      <h2>50 m pool - peak starts</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>70-90 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>No equipment for main set</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>400 m progressive.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Starts</div><div class='steptext'>8 block starts with full recovery. Clean entry, tight streamline, fast breakout.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Measure</div><div class='steptext'>If someone can time you, record the final 3 starts to 15 m.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Maximum 25s</div><div class='steptext'>4 x 25 m from blocks at maximum quality. Rest 3-4 min.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>Easy swimming until loose; do not add extra hard 50s.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>15 m times • Best 25 from block if timed</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-12" data-date="SUN 27 SEP">
+      <div class="topline">
+        <div class="daycount">DAY 12 / 27</div>
+        <div class="load">REST</div>
+      </div>
+      <h1>SUN 27 SEP</h1>
+      <h2>Full recovery</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>No pool</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>None</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Recovery</div><div class='steptext'>No structured swimming.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Optional</div><div class='steptext'>Easy walk and gentle mobility.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Goal</div><div class='steptext'>Be ready for Monday's race-specific power session.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Fatigue 1-10</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-13" data-date="MON 28 SEP">
+      <div class="topline">
+        <div class="daycount">DAY 13 / 27</div>
+        <div class="load">HARD</div>
+      </div>
+      <h1>MON 28 SEP</h1>
+      <h2>Race-specific power</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>85-105 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>No equipment for main set</span><span class='chip'>Light dumbbells after pool - last substantial session</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>300 m progressive.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Turns</div><div class='steptext'>6 race-quality flip turns.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Maximum speed</div><div class='steptext'>4 x 25 m at 95-100%. Rest 3 min.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Broken 50s</div><div class='steptext'>3 rounds: 25 m fast -> 10-15 sec rest -> 25 m fast. Rest 5 min between rounds.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Easy reset</div><div class='steptext'>4 x 50 m easy.</div></div></div><div class='step'><div class='stepnum'>6</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>200 m easy.</div></div></div><div class='step'><div class='stepnum'>7</div><div class='stepbody'><div class='steptitle'>Dryland after swimming</div><div class='steptext'>Last substantial 20 min strength session. Moderate weights only; no failure.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Broken 50 quality • Fatigue 1-10</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-14" data-date="TUE 29 SEP">
+      <div class="topline">
+        <div class="daycount">DAY 14 / 27</div>
+        <div class="load">TEST</div>
+      </div>
+      <h1>TUE 29 SEP</h1>
+      <h2>TEST DAY</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>75-95 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>No equipment during test</span><span class='chip'>Pull buoy optional after test</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>400 m progressive.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Prime</div><div class='steptext'>2 x 25 m build + 1 x 25 m at about 95%.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Full rest</div><div class='steptext'>Rest 5 min. Stay warm.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Timed 50 m</div><div class='steptext'>One 50 m at full race effort with your competition turn. No board or buoy.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>After test</div><div class='steptext'>600-800 m relaxed. You may use <b>pull buoy for 100-200 m</b> if shoulders feel good.</div></div></div><div class='step'><div class='stepnum'>6</div><div class='stepbody'><div class='steptitle'>Stop</div><div class='steptext'>No second time trial today.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>50 m total • First 25 • Second 25 • Turn quality • Fatigue</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-15" data-date="WED 30 SEP">
+      <div class="topline">
+        <div class="daycount">DAY 15 / 27</div>
+        <div class="load">EASY</div>
+      </div>
+      <h1>WED 30 SEP</h1>
+      <h2>Recovery</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>60-80 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>Pull buoy</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Easy swim</div><div class='steptext'>800-1,000 m total, very comfortable.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Technique</div><div class='steptext'>Use <b>pull buoy for 4 x 50 m easy</b> somewhere in the session. Focus on long body line and relaxed catch.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Turns</div><div class='steptext'>Only a few relaxed turns. No maximum efforts.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Goal</div><div class='steptext'>Leave fresher than you entered.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Fatigue 1-10 • Any soreness after test day?</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-16" data-date="THU 1 OCT">
+      <div class="topline">
+        <div class="daycount">DAY 16 / 27</div>
+        <div class="load">HARD</div>
+      </div>
+      <h1>THU 1 OCT</h1>
+      <h2>Final big speed-endurance</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>80-100 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>No equipment for main set</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>300 m progressive.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Maximum speed</div><div class='steptext'>6 x 25 m at 95-100%. Rest 3 min.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Race 50s</div><div class='steptext'>2 x 50 m at 95-100%. Rest <b>7-8 min</b>. Make the turn fast and clean.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Turns</div><div class='steptext'>6 quality flip turns after full recovery.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>200-300 m easy.</div></div></div><div class='step'><div class='stepnum'>6</div><div class='stepbody'><div class='steptitle'>Important</div><div class='steptext'>This is the last session where heavy fatigue is acceptable.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>25 m best time • Both 50 m times • Fatigue</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-17" data-date="FRI 2 OCT">
+      <div class="topline">
+        <div class="daycount">DAY 17 / 27</div>
+        <div class="load">MODERATE</div>
+      </div>
+      <h1>FRI 2 OCT</h1>
+      <h2>Precision</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>70-85 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>Pull buoy optional</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>300 m easy/progressive.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Dolphin + breakout</div><div class='steptext'>6 reps. No board. 2-4 fast dolphin kicks -> smooth breakout.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Turns</div><div class='steptext'>8 technically clean flip turns.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Race speed</div><div class='steptext'>6 x 25 m at race speed. Rest 90 sec.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Easy swimming</div><div class='steptext'>4 x 50 m easy; use <b>pull buoy on 2 reps</b> if desired.</div></div></div><div class='step'><div class='stepnum'>6</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>100-200 m easy.</div></div></div><div class='step'><div class='stepnum'>7</div><div class='stepbody'><div class='steptitle'>Dryland</div><div class='steptext'>Mobility/core only. No substantial dumbbell session.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Fatigue 1-10 • Best technical cue</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-18" data-date="SAT 3 OCT">
+      <div class="topline">
+        <div class="daycount">DAY 18 / 27</div>
+        <div class="load">QUALITY</div>
+      </div>
+      <h1>SAT 3 OCT</h1>
+      <h2>50 m pool - last serious starts</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>65-80 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>No equipment for main set</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>300-400 m progressive.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Starts</div><div class='steptext'>6 block starts with full recovery.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Measure</div><div class='steptext'>If possible, time 3 starts to 15 m.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Maximum 25s</div><div class='steptext'>4 x 25 m from blocks at maximum quality. Rest 3-4 min.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>Easy swimming. Leave the pool feeling powerful, not tired.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>15 m times • Best start feeling</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-19" data-date="SUN 4 OCT">
+      <div class="topline">
+        <div class="daycount">DAY 19 / 27</div>
+        <div class="load">REST</div>
+      </div>
+      <h1>SUN 4 OCT</h1>
+      <h2>Full rest</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>No pool</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>None</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Recovery</div><div class='steptext'>Full rest from structured training.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Optional</div><div class='steptext'>Easy walking and gentle mobility only.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Fatigue 1-10</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-20" data-date="MON 5 OCT">
+      <div class="topline">
+        <div class="daycount">DAY 20 / 27</div>
+        <div class="load">HARD-SHORT</div>
+      </div>
+      <h1>MON 5 OCT</h1>
+      <h2>Short maximum speed</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>55-70 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>No equipment for main set</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>250 m easy/progressive.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Breakouts</div><div class='steptext'>4 reps from wall. 2-4 dolphin kicks + fast breakout.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Maximum speed</div><div class='steptext'>6 x 25 m at 95-100%. Rest 3 min. Stop while speed is still good.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Turns</div><div class='steptext'>4 race-quality flip turns.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>200 m easy.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Best 25 m time • Fatigue 1-10</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-21" data-date="TUE 6 OCT">
+      <div class="topline">
+        <div class="daycount">DAY 21 / 27</div>
+        <div class="load">MODERATE</div>
+      </div>
+      <h1>TUE 6 OCT</h1>
+      <h2>Race speed</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>55-70 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>No equipment needed</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>250 m easy/progressive.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Skills</div><div class='steptext'>4 dolphin + breakout reps and 4 flip turns.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Race speed</div><div class='steptext'>6 x 25 m at about 90-95%. Rest 90 sec.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Easy reset</div><div class='steptext'>4 x 25 m easy.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>100 m easy.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Did every rep feel fast and controlled? • Fatigue</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-22" data-date="WED 7 OCT">
+      <div class="topline">
+        <div class="daycount">DAY 22 / 27</div>
+        <div class="load">EASY</div>
+      </div>
+      <h1>WED 7 OCT</h1>
+      <h2>Easy day</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>45-60 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>Pull buoy</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Easy swimming</div><div class='steptext'>600-800 m relaxed.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Pull buoy</div><div class='steptext'>Use <b>pull buoy for 4 x 50 m easy</b>. Do not pull hard; this is recovery.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Turns</div><div class='steptext'>2-4 relaxed turns only.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Goal</div><div class='steptext'>Leave feeling fresh.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Fatigue 1-10</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-23" data-date="THU 8 OCT">
+      <div class="topline">
+        <div class="daycount">DAY 23 / 27</div>
+        <div class="load">HARD-SHORT</div>
+      </div>
+      <h1>THU 8 OCT</h1>
+      <h2>Last race-specific session</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>55-70 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>No equipment for main set</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>250-300 m easy/progressive.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Prime</div><div class='steptext'>2 x 25 m fast, but not desperate. Rest 2 min.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Broken 50s</div><div class='steptext'>2 rounds: 25 m fast -> 15 sec rest -> 25 m fast. Rest 5 min between.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Maximum speed</div><div class='steptext'>2 x 25 m at 95-100% with full recovery.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>200 m easy. Stop while you still feel powerful.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Broken 50 quality • Fatigue</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-24" data-date="FRI 9 OCT">
+      <div class="topline">
+        <div class="daycount">DAY 24 / 27</div>
+        <div class="load">SHORT</div>
+      </div>
+      <h1>FRI 9 OCT</h1>
+      <h2>Touch speed</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>45-60 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>No equipment needed</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>250 m easy/progressive.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Maximum speed</div><div class='steptext'>4 x 25 m at 95-100%. Rest 3 min.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Turns</div><div class='steptext'>2-4 clean race turns.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>150-200 m easy.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Goal</div><div class='steptext'>Fast, sharp, fresh. Do not add extra hard work.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Best 25 feel/time • Fatigue</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-25" data-date="SAT 10 OCT">
+      <div class="topline">
+        <div class="daycount">DAY 25 / 27</div>
+        <div class="load">SHORT</div>
+      </div>
+      <h1>SAT 10 OCT</h1>
+      <h2>Last start session</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>40-55 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>No equipment needed</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>300 m easy/progressive.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Starts</div><div class='steptext'>4 block starts with full recovery. Focus on clean entry and breakout.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Speed</div><div class='steptext'>2 x 25 m at about 95%. Rest fully.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Cooldown</div><div class='steptext'>200 m easy.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Stop</div><div class='steptext'>Leave wanting to do more. That is the point.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>Best start cue • Fatigue</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-26" data-date="SUN 11 OCT">
+      <div class="topline">
+        <div class="daycount">DAY 26 / 27</div>
+        <div class="load">VERY EASY</div>
+      </div>
+      <h1>SUN 11 OCT</h1>
+      <h2>Shakeout</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>30-45 min</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>Pull buoy optional</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Easy swim</div><div class='steptext'>300-500 m very relaxed.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Optional pull</div><div class='steptext'>If it feels good, 2 x 50 m easy with <b>pull buoy</b>. Do not create shoulder fatigue.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Wake-up speed</div><div class='steptext'>2 short accelerations of 12-15 m at about 90%; full recovery.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>If no pool</div><div class='steptext'>Rest. Do not replace it with a hard workout.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>You should finish feeling fresh and eager to race</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+    <section class="day-card" id="day-27" data-date="MON 12 OCT">
+      <div class="topline">
+        <div class="daycount">DAY 27 / 27</div>
+        <div class="load">RACE</div>
+      </div>
+      <h1>MON 12 OCT</h1>
+      <h2>RACE DAY - 50 m freestyle</h2>
+      <div class="meta">
+        <div><span>POOL TIME</span><strong>Meet schedule</strong></div>
+      </div>
+      <div class="equipment">
+        <div class="label">EQUIPMENT</div>
+        <div class="chips"><span class='chip'>Race gear only - no kickboard/pull buoy needed unless warm-up area permits and you prefer them</span></div>
+      </div>
+      <div class="steps"><div class='step'><div class='stepnum'>1</div><div class='stepbody'><div class='steptitle'>Warm-up</div><div class='steptext'>400-600 m total: start with 200 m easy.</div></div></div><div class='step'><div class='stepnum'>2</div><div class='stepbody'><div class='steptitle'>Build speed</div><div class='steptext'>4 x 25 m gradually faster. Take enough rest.</div></div></div><div class='step'><div class='stepnum'>3</div><div class='stepbody'><div class='steptitle'>Race-speed feel</div><div class='steptext'>2 x 25 m at race speed with full recovery.</div></div></div><div class='step'><div class='stepnum'>4</div><div class='stepbody'><div class='steptitle'>Starts</div><div class='steptext'>1-2 starts only if permitted and safe.</div></div></div><div class='step'><div class='stepnum'>5</div><div class='stepbody'><div class='steptitle'>Before race</div><div class='steptext'>Get out, dry off, stay warm and calm. Do not keep training.</div></div></div><div class='step'><div class='stepnum'>6</div><div class='stepbody'><div class='steptitle'>Race cue</div><div class='steptext'><b>START -> STREAMLINE -> BREAKOUT -> ATTACK -> TURN -> PUSH -> BREAKOUT -> FINISH.</b></div></div></div><div class='step'><div class='stepnum'>7</div><div class='stepbody'><div class='steptitle'>Finish</div><div class='steptext'>Swim through the wall. Do not glide early.</div></div></div></div>
+      <div class="record"><b>RECORD TODAY</b><br>50 m result • First/second 25 if available • What worked best</div>
+      <div class="safety">If you have pain, unusual dizziness, illness, or technique becomes unsafe, stop the hard set and recover.</div>
+    </section>
+    
+<div class="controls">
+  <button class="secondary" onclick="goPrev()">Prev</button>
+  <button id="awakeBtn" onclick="toggleWake()">Keep screen awake</button>
+  <button class="secondary" onclick="goNext()">Next</button>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+let wakeLock = null;
+
+function visibleIndex() {
+  const cards=[...document.querySelectorAll('.day-card')];
+  let best=0, bestDist=Infinity;
+  cards.forEach((c,i)=>{
+    const d=Math.abs(c.getBoundingClientRect().top);
+    if(d<bestDist){bestDist=d;best=i;}
+  });
+  return best;
+}
+function goPrev() {
+  const cards=[...document.querySelectorAll('.day-card')];
+  cards[Math.max(0,visibleIndex()-1)].scrollIntoView({behavior:'smooth'});
+}
+function goNext() {
+  const cards=[...document.querySelectorAll('.day-card')];
+  cards[Math.min(cards.length-1,visibleIndex()+1)].scrollIntoView({behavior:'smooth'});
+}
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.display='block';
+  setTimeout(()=>t.style.display='none',1800);
+}
+async function toggleWake() {
+  const btn=document.getElementById('awakeBtn');
+  if(!('wakeLock' in navigator)) {
+    showToast('Wake Lock is not supported in this browser. Use your phone display settings.');
+    return;
+  }
+  try {
+    if(wakeLock) {
+      await wakeLock.release();
+      wakeLock=null;
+      btn.textContent='Keep screen awake';
+      showToast('Screen wake lock released');
+    } else {
+      wakeLock=await navigator.wakeLock.request('screen');
+      btn.textContent='Screen stays awake';
+      wakeLock.addEventListener('release',()=>{btn.textContent='Keep screen awake'; wakeLock=null;});
+      showToast('Screen wake lock enabled');
+    }
+  } catch(e) {
+    showToast('Could not enable wake lock');
+  }
+}
+document.addEventListener('visibilitychange', async()=>{
+  if(document.visibilityState==='visible' && document.getElementById('awakeBtn').textContent==='Screen stays awake' && !wakeLock) {
+    try { wakeLock=await navigator.wakeLock.request('screen'); } catch(e) {}
+  }
+});
+</script>
+</body>
+</html>
