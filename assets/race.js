@@ -67,7 +67,7 @@
       <section class="race-tool-section" aria-labelledby="history-title"><div class="section-title"><h2 id="history-title">Recent times</h2><button class="text-button" id="export-races">Export</button></div><p>Saved on this device.</p><div id="race-log"></div></section>
     </div>` : `
     <div class="stopwatch-page">
-      <header class="stopwatch-header"><a class="stopwatch-back" href="index.html" aria-label="Back to overview">${icon('back')}</a><h1>Stopwatch</h1><a class="text-link" href="race-tools.html" aria-label="Race history">History</a></header>
+      <header class="stopwatch-header"><a class="stopwatch-back" href="index.html" aria-label="Back to overview">${icon('back')}</a><h1>Race</h1></header>
       <section class="stopwatch" aria-label="Swim stopwatch">
         <div class="stopwatch-display" id="race-live">
           <div class="clock-face"><span id="timing-note" hidden title="Recovered timing is approximate" aria-label="Recovered timing is approximate">≈</span><p id="race-cue" role="status" aria-live="polite">Ready to swim</p><div id="race-clock" class="race-clock" role="timer" aria-label="Elapsed time">0:00.00</div><p class="clock-unit">MIN : SEC</p></div>

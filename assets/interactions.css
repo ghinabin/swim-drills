@@ -1375,7 +1375,8 @@ body[data-page="race"]:not([data-race-tools]) .offline-status { display: none; }
 #mark-race { min-width: 180px; min-height: 48px; }
 
 /* Stable poolside controls in every stopwatch state. */
-.stopwatch { height: calc(100svh - 72px); min-height: 540px; gap: 12px; padding-bottom: max(12px, env(safe-area-inset-bottom)); }
+/* Leave thumb room below the buttons, in addition to the device safe area. */
+.stopwatch { height: calc(100svh - 72px); min-height: 540px; gap: 12px; padding-bottom: calc(clamp(48px, 8svh, 80px) + env(safe-area-inset-bottom, 0px)); }
 .stopwatch-setup { flex: 0 0 auto; }
 .swim-summary { padding: 12px 16px; }
 .stopwatch-display { flex: 0 0 auto; justify-content: flex-start; }
