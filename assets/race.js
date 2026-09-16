@@ -2,6 +2,7 @@
 (() => {
   const PREFIX = 'lane50:race:';
   const ACTIVE = 'lane50:active-race';
+  const toolsPage = document.body.hasAttribute('data-race-tools');
   let audio, marks, startSignalBuffer, nodes = [], timeout, frame, wake, run, origin, busy = false;
   const $ = id => document.getElementById(id);
   const fmt = ms => `${Math.floor(ms / 60000)}:${(ms / 1000 % 60).toFixed(2).padStart(5, '0')}`;
@@ -15,25 +16,32 @@
   }
   function persist() { localStorage.setItem(ACTIVE, JSON.stringify(run)); }
   function log() {
+    if (!$('race-log')) return;
     try {
       const rows = records();
       $('race-log').innerHTML = rows.length ? rows.map(r => `<article class="race-record"><div><strong>${escapeHTML(r.distance)} m ${escapeHTML(r.stroke)}</strong><p>${escapeHTML(new Date(r.created).toLocaleString())} · ${escapeHTML(r.pool)} m pool</p><p>${escapeHTML(r.status)} · ${r.mode === 'solo' && r.elapsed == null ? 'Solo start practice' : 'Manual finish'}</p></div><strong>${r.elapsed == null ? '—' : fmt(r.elapsed)}</strong></article>`).join('') : '<p>No races yet. Your first start belongs here.</p>';
     } catch (_) { $('race-log').textContent = 'Race history is unavailable because browser storage is blocked.'; }
   }
-  main.innerHTML = `
+  main.innerHTML = toolsPage ? `
+    <div class="stopwatch-page race-tools-page">
+      <header class="stopwatch-header"><a class="stopwatch-back" href="race.html" aria-label="Back to timer">${icon('back')}</a><h1>Swim tools</h1></header>
+      <section class="race-tool-section" aria-labelledby="history-title"><div class="section-title"><h2 id="history-title">Recent swims</h2><button class="text-button" id="export-races">Export</button></div><p>Saved on this device.</p><div id="race-log"></div></section>
+      <section class="race-tool-section" aria-labelledby="sound-title"><h2 id="sound-title">Sound & start</h2><p>Turn up media volume and test from your starting position. Keep the timer screen open during your swim.</p><button class="button secondary" id="sound-test">Test voice + beep</button><p id="sound-status" role="status"></p><details><summary>How the start works</summary><p>Your preparation countdown is followed by whistles, “Take your marks”, then the start beep. Timing starts at the beep. Tap Finish to save your time.</p><p>Dive only where permitted and safe; otherwise push off. Manual timing is for practice.</p></details></section>
+    </div>` : `
     <div class="stopwatch-page">
-      <header class="stopwatch-header"><a class="stopwatch-back" href="index.html" aria-label="Back to overview">${icon('back')}</a><h1>Race</h1><a class="text-link" href="#race-history">History</a></header>
+      <header class="stopwatch-header"><a class="stopwatch-back" href="index.html" aria-label="Back to overview">${icon('back')}</a><h1>Race</h1><a class="text-link" href="race-tools.html" aria-label="Swim history and sound tools">Tools</a></header>
       <section class="stopwatch" aria-label="Swim stopwatch">
-        <section id="race-setup" class="stopwatch-setup" aria-labelledby="setup-title"><h2 id="setup-title">Set up your swim</h2>
-          <div class="race-fields">
+        <section id="race-setup" class="stopwatch-setup" aria-label="Swim setup">
+          <button type="button" id="edit-swim" class="swim-summary" aria-expanded="false" aria-controls="swim-options"><span><span class="swim-summary-label">Your swim</span><strong id="swim-summary-main">50 m Freestyle</strong><span id="swim-summary-detail">25 m pool · 15 s to get ready</span></span><span id="swim-edit-label">Edit</span></button>
+          <div id="swim-options" hidden><h2>Set up your swim</h2><div class="race-fields">
             <label>Stroke<select id="race-stroke"><option>Freestyle</option><option>Backstroke</option><option>Breaststroke</option><option>Butterfly</option></select></label>
             <label>Distance<select id="race-distance"><option value="50">50 m</option><option value="100">100 m</option><option value="200">200 m</option><option value="400">400 m</option></select></label>
             <label>Pool length<select id="race-pool"><option value="25">25 m</option><option value="50">50 m</option></select></label>
             <label>Get ready<select id="race-delay"><option value="15">15 seconds</option><option value="30">30 seconds</option><option value="60">60 seconds</option></select></label>
-          </div>
+          </div><button type="button" class="text-button" id="done-swim">Done</button></div>
         </section>
         <div class="stopwatch-display" id="race-live">
-          <p id="race-event">50 m Freestyle · 25 m pool</p>
+          <p id="race-event" class="sr-only">50 m Freestyle · 25 m pool</p>
           <div class="clock-face"><p id="race-cue" role="status" aria-live="polite">Ready to swim</p><div id="race-clock" class="race-clock" role="timer" aria-label="Elapsed race time">0:00.00</div><p class="clock-unit">MIN : SEC</p></div>
           <p id="race-help">Your timer starts with the beep.</p>
         </div>
@@ -46,19 +54,23 @@
           <p id="sound-status" role="status"></p>
         </div>
       </section>
-      <details class="stopwatch-details"><summary>Sound & start info</summary><p>Turn up media volume and keep this screen open. The countdown is followed by whistles, “Take your marks”, then the start beep. Tap Finish to save your time.</p><button class="text-button" id="sound-test">Test voice + beep</button><p>Check you can hear the beep from your starting position. Dive only where permitted and safe; otherwise push off. Manual timing is for practice.</p></details>
-      <details id="race-history" class="stopwatch-details"><summary>Recent swims</summary><div id="race-log"></div><button class="text-button" id="export-races">Export races</button></details>
     </div>`;
+  function setEditing(open) {
+    $('swim-options').hidden = !open;
+    $('edit-swim').setAttribute('aria-expanded', String(open));
+    $('swim-edit-label').textContent = open ? 'Close' : 'Edit';
+  }
   function lockSetup(locked) {
     document.querySelectorAll('.race-fields select').forEach(select => { select.disabled = locked; });
-    $('sound-test').disabled = locked;
+    $('edit-swim').disabled = locked;
+    if (locked) setEditing(false);
   }
   function eventSummary() {
-    $('race-event').textContent = `${$('race-distance').value} m ${$('race-stroke').value} · ${$('race-pool').value} m pool`;
+    const stroke = $('race-stroke').value, distance = $('race-distance').value, pool = $('race-pool').value;
+    $('swim-summary-main').textContent = `${distance} m ${stroke}`;
+    $('swim-summary-detail').textContent = `${pool} m pool · ${$('race-delay').value} s to get ready`;
+    $('race-event').textContent = `${distance} m ${stroke} · ${pool} m pool`;
   }
-  document.querySelectorAll('.race-fields select').forEach(select => select.addEventListener('change', eventSummary));
-  document.querySelector('.stopwatch-header a[href="#race-history"]').onclick = () => { $('race-history').open = true; };
-
   function tone(at, duration, frequency) {
     const oscillator = audio.createOscillator(), gain = audio.createGain();
     oscillator.type = 'sine'; oscillator.frequency.value = frequency;
@@ -103,23 +115,48 @@
   function silence() { nodes.forEach(n => { try { n.stop(); } catch (_) {} }); nodes = []; clearTimeout(timeout); cancelAnimationFrame(frame); }
   function release() { wake?.release().catch(() => {}); wake = null; }
   async function keepAwake() { try { wake = await navigator.wakeLock?.request('screen'); } catch (_) {} }
-  $('sound-test').onclick = async () => {
+  if ($('sound-test')) $('sound-test').onclick = async () => {
     if (busy || run) return;
-    busy = true; $('sound-test').disabled = true; $('arm-race').disabled = true;
+    busy = true; $('sound-test').disabled = true;
     $('sound-status').textContent = 'Playing voice + beep…';
     try {
       await prepare(); silence(); voice(audio.currentTime + .1); startSignal(audio.currentTime + .1 + marks.duration + .6);
       timeout = setTimeout(() => {
         $('sound-status').textContent = 'Sound test complete. Ready when you are.';
-        busy = false; $('sound-test').disabled = false; $('arm-race').disabled = false;
+        busy = false; $('sound-test').disabled = false;
       }, (marks.duration + startSignalBuffer.duration + .9) * 1000);
     } catch (_) {
-      busy = false; $('sound-test').disabled = false; $('arm-race').disabled = false;
+      busy = false; $('sound-test').disabled = false;
       $('sound-status').textContent = 'Sound unavailable. Reconnect to download the voice, then try again.';
     }
   };
+  if ($('export-races')) $('export-races').onclick = () => {
+    try { const entries = records(); if (run) entries.push(run); const url = URL.createObjectURL(new Blob([JSON.stringify({exportedAt: new Date().toISOString(), races: entries}, null, 2)], {type: 'application/json'})); const a = document.createElement('a'); a.href = url; a.download = 'lane50-races.json'; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); } catch (_) { toast('Export unavailable: browser storage could not be read.'); }
+  };
+  if (toolsPage) {
+    log();
+    window.addEventListener('storage', e => { if (e.key?.startsWith(PREFIX)) log(); });
+    window.addEventListener('pagehide', silence);
+    return;
+  }
+  $('edit-swim').onclick = () => setEditing($('swim-options').hidden);
+  $('done-swim').onclick = () => { setEditing(false); $('edit-swim').focus(); };
+  const fields = Array.from(document.querySelectorAll('.race-fields select'));
+  try {
+    const saved = JSON.parse(sessionStorage.getItem('lane50:swim-setup') || '{}');
+    fields.forEach(select => {
+      if (Array.from(select.options).some(option => option.value === saved[select.id])) select.value = saved[select.id];
+    });
+  } catch (_) {}
+  eventSummary();
+  fields.forEach(select => select.addEventListener('change', () => {
+    eventSummary();
+    try { sessionStorage.setItem('lane50:swim-setup', JSON.stringify(Object.fromEntries(fields.map(field => [field.id, field.value])))); } catch (_) {}
+  }));
   function showRun() {
     lockSetup(true);
+    $('swim-summary-main').textContent = `${run.distance} m ${run.stroke}`;
+    $('swim-summary-detail').textContent = `${run.pool} m pool · ${run.preparation ? run.preparation + ' s preparation' : 'In progress'}`;
     $('race-result').hidden = true; $('arm-race').hidden = true; $('another-race').hidden = true;
     $('finish-race').hidden = true; $('cancel-race').hidden = false; $('cancel-race').textContent = 'Cancel start';
     $('sound-status').textContent = '';
@@ -147,10 +184,10 @@
     frame = requestAnimationFrame(tick);
   }
   $('arm-race').onclick = async () => {
-    if (busy || run) return; busy = true; $('arm-race').disabled = true; $('arm-race').textContent = 'Starting…';
+    if (busy || run) return; busy = true; lockSetup(true); $('arm-race').disabled = true; $('arm-race').textContent = 'Starting…';
     try {
       await prepare(); silence();
-      run = {id: crypto.randomUUID(), created: Date.now(), stroke: $('race-stroke').value, distance: Number($('race-distance').value), pool: Number($('race-pool').value), mode: 'manual', status: 'Starting'};
+      run = {id: crypto.randomUUID(), created: Date.now(), stroke: $('race-stroke').value, distance: Number($('race-distance').value), pool: Number($('race-pool').value), preparation: Number($('race-delay').value), mode: 'manual', status: 'Starting'};
       run.shortAt = audio.currentTime + Number($('race-delay').value);
       run.longAt = run.shortAt + 2;
       run.voiceAt = run.longAt + (run.stroke === 'Backstroke' ? 11 : 6);
@@ -163,12 +200,12 @@
       if (run.stroke === 'Backstroke') tone(run.longAt + 5, 1.2, 2400);
       voice(run.voiceAt); startSignal(run.audioStart);
       keepAwake(); showRun(); tick();
-    } catch (_) { silence(); run = null; $('sound-status').textContent = 'Could not start. Check sound and allow browser storage, then retry.'; $('arm-race').disabled = false; }
+    } catch (_) { silence(); run = null; lockSetup(false); $('sound-status').textContent = 'Could not start. Check sound and allow browser storage, then retry.'; $('arm-race').disabled = false; }
     busy = false; $('arm-race').textContent = 'Start';
   };
   function saveResult() {
     try { localStorage.setItem(PREFIX + run.id, JSON.stringify(run)); localStorage.removeItem(ACTIVE); $('result-copy').textContent = 'Saved on this device.'; $('retry-save').hidden = true; $('another-race').disabled = false; run = null; log(); }
-    catch (_) { $('result-copy').textContent = 'Not saved. Keep this page open and retry saving, or export your races.'; $('retry-save').hidden = false; $('another-race').disabled = true; }
+    catch (_) { $('result-copy').textContent = 'Not saved. Keep this page open and retry saving.'; $('retry-save').hidden = false; $('another-race').disabled = true; }
   }
   function finish(status, elapsed = null) {
     silence(); release(); run.status = status; run.elapsed = elapsed;
@@ -194,9 +231,6 @@
     $('race-clock').textContent = '0:00.00'; $('race-cue').textContent = 'Ready to swim'; $('race-help').textContent = 'Your timer starts with the beep.';
     document.querySelector('.stopwatch').dataset.state = 'ready';
     $('arm-race').focus({ preventScroll: true });
-  };
-  $('export-races').onclick = () => {
-    try { const entries = records(); if (run) entries.push(run); const url = URL.createObjectURL(new Blob([JSON.stringify({exportedAt: new Date().toISOString(), races: entries}, null, 2)], {type: 'application/json'})); const a = document.createElement('a'); a.href = url; a.download = 'lane50-races.json'; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); } catch (_) { toast('Export unavailable: browser storage could not be read.'); }
   };
   function interrupt() { if (run?.status === 'Starting') finish('Start interrupted · no time'); }
   document.addEventListener('visibilitychange', () => { if (document.hidden) { interrupt(); release(); } else if (run?.status === 'Swimming') keepAwake(); });

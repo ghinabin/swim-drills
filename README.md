@@ -9,7 +9,8 @@ A responsive, framework-free swimming training companion. The original four-week
 - session.html?id=w1d0: individual session, set tracking, and rest timer
 - drills.html: searchable, filterable training set library
 - progress.html: completion totals, activity, export, and confirmed reset
-- race.html: standalone start simulation, manual timing, and race history
+- race.html: focused stopwatch with expandable swim setup
+- race-tools.html: race history, export, sound test, and start instructions
 
 ## Run
 
@@ -66,7 +67,7 @@ Run `python tests/progression.py` to verify preview access, mutation guards, par
 
 Open over HTTPS (or localhost) and wait for **Ready offline**. The service worker downloads every app screen, script, stylesheet, and the bundled “Take your marks” voice. All session URLs work offline. Progress and race results remain on this browser/origin; reconnecting checks for app updates, with no server upload or cross-device sync. New shell versions activate after existing app tabs close, preventing an update from replacing a running race. Bump `CACHE` in `sw.js` when publishing changes. Clearing browser site data removes downloads and saved results.
 
-Open **Race** from the header or overview. Race practice is separate from the meet-day checklist and weekly progression. Choose stroke, distance, pool, and preparation time. The standalone stopwatch keeps the timer, Start/Finish button, and compact swim settings on one screen. Tap Start directly; sound testing and recent swims are available in collapsed sections below. Settings lock during an attempt. The final time stays on the clock until Swim again resets it. Short whistles, a long whistle (two for backstroke), the bundled voice, and a short dual-tone electronic start beep are scheduled using Web Audio. Timing begins at the beep's scheduled onset, using a monotonic clock during the visit. Device output latency and manual finish reaction mean this is practice timing, not official meet timing.
+Open **Race** from the header or overview. Race practice is separate from the meet-day checklist and weekly progression. Choose stroke, distance, pool, and preparation time. The standalone stopwatch keeps the timer, Start/Finish button, and compact swim settings on one screen. Tap Start directly; a compact swim summary expands through Edit to show settings. Starting collapses and locks the settings. History, export, and sound testing live on race-tools.html, reached through Tools in the header. Settings lock during an attempt. The final time stays on the clock until Swim again resets it. Short whistles, a long whistle (two for backstroke), the bundled voice, and a short dual-tone electronic start beep are scheduled using Web Audio. Timing begins at the beep's scheduled onset, using a monotonic clock during the visit. Device output latency and manual finish reaction mean this is practice timing, not official meet timing.
 
 The sequence follows [World Aquatics start rules](https://www.worldaquatics.com/swimming/rules); automated preparation intervals and a randomized 1.5–3 second pause after the voice are practice choices, not prescribed official intervals. Keep the page visible and audible. Hiding or leaving during preparation interrupts and logs the attempt without a time. Once swimming, the timer can recover on reload using wall-clock timestamps; recovered times are explicitly labelled approximate. Screen wake lock is requested where available. Phone/browser background audio behavior still needs a poolside sound check on the actual device.
 

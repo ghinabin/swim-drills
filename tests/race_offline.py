@@ -21,7 +21,7 @@ def run():
             page.wait_for_function('navigator.serviceWorker.controller !== null')
             page.wait_for_function('document.querySelector(".offline-status").textContent.includes("Ready offline")')
             context.set_offline(True)
-            for url in ['plan.html', 'session.html?id=w1d0', 'drills.html', 'progress.html', 'race.html']:
+            for url in ['plan.html', 'session.html?id=w1d0', 'drills.html', 'progress.html', 'race.html', 'race-tools.html']:
                 page.goto(base + url)
                 page.locator('main h1').wait_for()
             page.goto(base + 'session.html?id=w1d0')
@@ -47,14 +47,14 @@ def run():
             assert page.locator('#race-clock').is_visible()
             assert page.locator('#race-clock').inner_text() != '0:00.00'
             rows = page.evaluate('Object.keys(localStorage).filter(k => k.startsWith("lane50:race:")).map(k => JSON.parse(localStorage[k]))')
-            assert len(rows) == 1 and 200 <= rows[0]['elapsed'] < 2000
+            assert len(rows) == 1 and 200 <= rows[0]['elapsed'] < 2000, rows
             assert page.evaluate('localStorage.getItem("swim:nsa2026:v2")') == before
             page.locator('#another-race').click()
             page.locator('#arm-race').click()
             page.locator('#cancel-race').click()
             assert 'Start cancelled' in page.locator('#result-heading').inner_text()
             page.reload()
-            assert page.locator('.race-record').count() == 2
+            assert page.evaluate('Object.keys(localStorage).filter(k => k.startsWith("lane50:race:")).length') == 2
             # Recover a persisted in-progress stopwatch after a reload.
             page.evaluate('''localStorage.setItem('lane50:active-race', JSON.stringify({id:'recovery',created:Date.now(),started:Date.now()-5000,status:'Swimming',distance:50,pool:25,stroke:'Freestyle',mode:'helper'}))''')
             page.reload()
@@ -78,7 +78,12 @@ def run():
             page.screenshot(path='/tmp/lane50-race-mobile.png', full_page=True)
             context.set_offline(False)
             page.reload()
+            page.goto(base + 'race-tools.html')
             assert page.locator('.race-record').count() == 5
+            page.locator('#sound-test').click()
+            page.wait_for_function('document.getElementById("sound-status").textContent.includes("complete")')
+            page.locator('.stopwatch-back').click()
+            assert page.locator('#swim-options').is_hidden()
             assert not errors, errors
             print('PASS offline pages, offline progress, audio-clock start, finish, cancellation, reload recovery, unified stopwatch logging, reconnection, and responsive race layouts')
             browser.close()

@@ -15,6 +15,9 @@ try:
             page = browser.new_page(viewport={'width': width, 'height': 844}, has_touch=width < 500)
             for route in ['race.html', 'drills.html']:
                 page.goto(base + route)
+                if route == 'race.html':
+                    assert page.locator('#swim-options').is_hidden()
+                    page.locator('#edit-swim').click()
                 for trigger in page.locator('.picker-trigger').all():
                     picker_id = trigger.get_attribute('aria-controls')
                     dialog = page.locator('#' + picker_id)
@@ -55,6 +58,18 @@ try:
                 elif width == 390:
                     page.locator('#race-stroke-trigger').click()
                     page.screenshot(path='/private/tmp/swim-themed-picker.png')
+                    page.keyboard.press('Escape')
+                    page.locator('#race-stroke-picker').wait_for(state='hidden')
+                    assert page.locator('#swim-summary-main').inner_text() == '100 m Backstroke'
+                    assert '50 m pool' in page.locator('#swim-summary-detail').inner_text()
+                    page.locator('#done-swim').click()
+                    assert page.locator('#swim-options').is_hidden()
+                    assert page.locator('#edit-swim').get_attribute('aria-expanded') == 'false'
+                    page.screenshot(path='/private/tmp/swim-disclosure-mobile.png')
+                    page.locator('a[href="race-tools.html"]').click()
+                    page.locator('.stopwatch-back').click()
+                    assert page.locator('#swim-summary-main').inner_text() == '100 m Backstroke'
+                    assert page.locator('#swim-options').is_hidden()
             page.close()
         browser.close()
     print('PASS themed options, selection, keyboard, Escape, Back/Forward, focus, filters, and responsive bottom sheets')
