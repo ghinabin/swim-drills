@@ -1,23 +1,23 @@
-/* Independent race practice: audio-clock starts, durable local records. */
+/* Simple stopwatch with durable laps and local history. */
 (() => {
   const PREFIX = 'lane50:race:';
   const ACTIVE = 'lane50:active-race';
   const toolsPage = document.body.hasAttribute('data-race-tools');
-  let audio, marks, startSignalBuffer, nodes = [], timeout, frame, wake, run, origin, busy = false;
+  let frame, wake, run, origin, audio, marks, startSignalBuffer, busy = false, nodes = [], timeout;
   const $ = id => document.getElementById(id);
-  const fmt = ms => `${Math.floor(ms / 60000)}:${(ms / 1000 % 60).toFixed(2).padStart(5, '0')}`;
-  function markerPlan(r) {
-    const plan = [];
-    if (r.trackBreakout) plan.push({kind: 'breakout', distance: 0, label: 'Breakout'});
-    for (let distance = 25; distance < r.distance; distance += 25) {
-      plan.push({kind: 'split', distance, label: `${distance} m split`});
-      if (r.trackBreakout && distance % r.pool === 0) {
-        plan.push({kind: 'breakout', distance, label: `${distance} m turn breakout`});
-      }
-    }
-    return plan;
+  const fmt = ms => {
+    const ticks = Math.floor(Math.max(0, ms) / 10);
+    return `${Math.floor(ticks / 6000)}:${String(Math.floor(ticks / 100) % 60).padStart(2, '0')}.${String(ticks % 100).padStart(2, '0')}`;
+  };
+  function lapTable(r) {
+    return `<ol class="lap-stamps">${(r.markers || []).map((marker, i) => `<li aria-label="Lap ${i + 1}: ${fmt(marker.elapsed)}">${fmt(marker.elapsed)}</li>`).reverse().join('')}</ol>`;
+  }
+  function renderTimings() {
+    $('race-splits').innerHTML = run ? lapTable(run) : '';
+    $('race-splits').scrollTop = 0;
   }
   function timingDetails(r) {
+    if (r.lapMode === 'free') return lapTable(r);
     const markers = r.markers || [];
     const rows = [];
     let previous = {distance: 0, elapsed: 0};
@@ -34,27 +34,16 @@
     }
     return rows.length ? `<ul class="race-timings">${rows.join('')}</ul>` : '';
   }
-  function updateMarkerControls() {
-    const next = markerPlan(run)[run.markerIndex || 0];
-    $('mark-race').hidden = !next;
-    $('skip-breakout').hidden = next?.kind !== 'breakout';
-    if (next) $('mark-race').textContent = next.label;
-  }
-  function recordMarker(skip = false) {
+  function elapsedNow() { return Math.max(0, origin == null ? Date.now() - run.started : performance.now() - origin); }
+  function recordMarker() {
     if (run?.status !== 'Swimming') return;
-    const next = markerPlan(run)[run.markerIndex || 0];
-    if (!next || (skip && next.kind !== 'breakout')) return;
-    if (!skip) {
-      const elapsed = Math.max(0, origin == null ? Date.now() - run.started : performance.now() - origin);
-      (run.markers ||= []).push({...next, elapsed});
-    }
-    run.markerIndex = (run.markerIndex || 0) + 1;
+    const elapsed = elapsedNow();
+    (run.markers ||= []).push({kind: 'lap', label: `Lap ${run.markers.length + 1}`, elapsed});
     try { persist(); $('sound-status').textContent = ''; }
-    catch (_) { $('sound-status').textContent = 'Timing captured. Keep this page open until the race is saved.'; }
-    $('race-splits').innerHTML = timingDetails(run);
-    updateMarkerControls();
-    if ($('mark-race').hidden) $('finish-race').focus({preventScroll: true});
-    else if (skip) $('mark-race').focus({preventScroll: true});
+    catch (_) { $('sound-status').textContent = 'Lap captured. Keep this page open until saved.'; }
+    vibrate();
+    renderTimings();
+    $('lap-announcement').textContent = `Lap ${run.markers.length}: ${fmt(elapsed)}`;
   }
   function records() {
     const result = [];
@@ -69,60 +58,35 @@
     if (!$('race-log')) return;
     try {
       const rows = records();
-      $('race-log').innerHTML = rows.length ? rows.map(r => `<article class="race-record"><div><strong>${escapeHTML(r.distance)} m ${escapeHTML(r.stroke)}</strong><p>${escapeHTML(new Date(r.created).toLocaleString())} · ${escapeHTML(r.pool)} m pool</p><p>${escapeHTML(r.status)} · ${r.mode === 'solo' && r.elapsed == null ? 'Solo start practice' : 'Manual finish'}</p>${timingDetails(r)}</div><strong>${r.elapsed == null ? '—' : fmt(r.elapsed)}</strong></article>`).join('') : '<p>No races yet. Your first start belongs here.</p>';
+      $('race-log').innerHTML = rows.length ? rows.map(r => `<article class="race-record"><div><strong>${r.distance ? escapeHTML(r.distance) + ' m ' + escapeHTML(r.stroke) : 'Stopwatch'}</strong><p>${escapeHTML(new Date(r.created).toLocaleString())}${r.pool ? ' · ' + escapeHTML(r.pool) + ' m pool' : ''}</p><p>${escapeHTML(r.status)} · ${r.mode === 'solo' && r.elapsed == null ? 'Solo start practice' : 'Manual finish'}</p>${timingDetails(r)}</div><strong>${r.elapsed == null ? '—' : fmt(r.elapsed)}</strong></article>`).join('') : '<p>No saved times yet.</p>';
     } catch (_) { $('race-log').textContent = 'Race history is unavailable because browser storage is blocked.'; }
   }
   main.innerHTML = toolsPage ? `
     <div class="stopwatch-page race-tools-page">
       <header class="stopwatch-header"><a class="stopwatch-back" href="race.html" aria-label="Back to timer">${icon('back')}</a><h1>Race history</h1></header>
-      <section class="race-tool-section" aria-labelledby="history-title"><div class="section-title"><h2 id="history-title">Recent swims</h2><button class="text-button" id="export-races">Export</button></div><p>Saved on this device.</p><div id="race-log"></div></section>
+      <section class="race-tool-section" aria-labelledby="history-title"><div class="section-title"><h2 id="history-title">Recent times</h2><button class="text-button" id="export-races">Export</button></div><p>Saved on this device.</p><div id="race-log"></div></section>
     </div>` : `
     <div class="stopwatch-page">
-      <header class="stopwatch-header"><a class="stopwatch-back" href="index.html" aria-label="Back to overview">${icon('back')}</a><h1>Race</h1><a class="text-link" href="race-tools.html" aria-label="Race history">History</a></header>
+      <header class="stopwatch-header"><a class="stopwatch-back" href="index.html" aria-label="Back to overview">${icon('back')}</a><h1>Stopwatch</h1><a class="text-link" href="race-tools.html" aria-label="Race history">History</a></header>
       <section class="stopwatch" aria-label="Swim stopwatch">
-        <section id="race-setup" class="stopwatch-setup" aria-label="Swim setup">
-          <button type="button" id="edit-swim" class="swim-summary" aria-haspopup="dialog" aria-expanded="false" aria-controls="swim-options"><span><span class="swim-summary-label">Your swim</span><strong id="swim-summary-main">50 m Freestyle</strong><span id="swim-summary-detail">25 m pool · 5 s to get ready</span></span><span id="swim-edit-label">Edit</span></button>
-          <dialog id="swim-options" class="swim-sheet" aria-labelledby="swim-options-title" data-trigger="edit-swim"><h2 id="swim-options-title">Set up your swim</h2><div class="race-fields">
-            <label>Stroke<select id="race-stroke"><option>Freestyle</option><option>Backstroke</option><option>Breaststroke</option><option>Butterfly</option></select></label>
-            <label>Distance<select id="race-distance"><option value="50">50 m</option><option value="100">100 m</option><option value="200">200 m</option><option value="400">400 m</option></select></label>
-            <label>Pool length<select id="race-pool"><option value="25">25 m</option><option value="50">50 m</option></select></label>
-            <label>Get ready<select id="race-delay"><option value="5">5 seconds</option><option value="15">15 seconds</option><option value="30">30 seconds</option><option value="60">60 seconds</option></select></label>
-            <label>Track breakout<select id="race-breakout"><option value="off">Off</option><option value="on">On · observer taps</option></select></label>
-          </div><p>Splits are recorded every 25 m. For breakout, an observer taps when your head first breaks the surface.</p><button type="button" class="text-button" id="done-swim" data-close-dialog>Done</button></dialog>
-        </section>
         <div class="stopwatch-display" id="race-live">
-          <p id="race-event" class="sr-only">50 m Freestyle · 25 m pool</p>
-          <div class="clock-face"><p id="race-cue" role="status" aria-live="polite">Ready to swim</p><div id="race-clock" class="race-clock" role="timer" aria-label="Elapsed race time">0:00.00</div><p class="clock-unit">MIN : SEC</p></div>
-          <p id="race-help">Your timer starts with the beep.</p>
+          <div class="clock-face"><span id="timing-note" hidden title="Recovered timing is approximate" aria-label="Recovered timing is approximate">≈</span><p id="race-cue" role="status" aria-live="polite">Ready to swim</p><div id="race-clock" class="race-clock" role="timer" aria-label="Elapsed time">0:00.00</div><p class="clock-unit">MIN : SEC</p></div>
         </div>
+        <section id="race-splits" tabindex="0" aria-label="Lap times, newest first"></section>
+        <p id="lap-announcement" class="sr-only" role="status"></p>
         <div class="stopwatch-controls">
-          <button class="button stopwatch-primary" id="arm-race">Start</button>
-          <button class="button secondary" id="mark-race" hidden>25 m split</button>
-          <button class="text-button" id="skip-breakout" hidden>Skip breakout</button>
-          <button class="button stopwatch-primary" id="finish-race" hidden>Finish</button>
-          <button class="button stopwatch-primary" id="another-race" hidden>Swim again</button>
-          <button class="text-button stopwatch-cancel" id="cancel-race" hidden>Cancel start</button>
+          <div class="stopwatch-actions">
+            <button class="button lap-action" id="mark-race" disabled>Lap</button>
+            <button class="button stopwatch-primary" id="arm-race">Start</button>
+            <button class="button stopwatch-primary" id="finish-race" hidden>Finish</button>
+            <button class="button stopwatch-primary" id="cancel-race" hidden>Cancel</button>
+            <button class="button stopwatch-primary" id="another-race" hidden>Reset</button>
+          </div>
           <div id="race-result" hidden><h2 id="result-heading" class="sr-only" tabindex="-1"></h2><p id="result-copy" role="status"></p><button class="text-button" id="retry-save" hidden>Retry saving</button></div>
-          <div id="race-splits" aria-live="polite"></div>
           <p id="sound-status" role="status"></p>
         </div>
       </section>
     </div>`;
-  function setEditing(open) {
-    if (open) SwimNavigation.openDialog($('swim-options'), $('edit-swim'));
-    else if ($('swim-options').open) $('swim-options').close();
-  }
-  function lockSetup(locked) {
-    document.querySelectorAll('.race-fields select').forEach(select => { select.disabled = locked; });
-    $('edit-swim').disabled = locked;
-    if (locked) setEditing(false);
-  }
-  function eventSummary() {
-    const stroke = $('race-stroke').value, distance = $('race-distance').value, pool = $('race-pool').value;
-    $('swim-summary-main').textContent = `${distance} m ${stroke}`;
-    $('swim-summary-detail').textContent = `${pool} m pool · ${$('race-delay').value} s to get ready`;
-    $('race-event').textContent = `${distance} m ${stroke} · ${pool} m pool`;
-  }
   function tone(at, duration, frequency) {
     const oscillator = audio.createOscillator(), gain = audio.createGain();
     oscillator.type = 'sine'; oscillator.frequency.value = frequency;
@@ -165,6 +129,7 @@
     if (!marks) { const response = await fetch('assets/take-your-marks.wav'); if (!response.ok) throw Error('Voice unavailable'); marks = await audio.decodeAudioData(await response.arrayBuffer()); if (marks.duration < .3) throw Error('Voice unavailable'); }
   }
   function silence() { nodes.forEach(n => { try { n.stop(); } catch (_) {} }); nodes = []; clearTimeout(timeout); cancelAnimationFrame(frame); }
+
   function release() { wake?.release().catch(() => {}); wake = null; }
   async function keepAwake() { try { wake = await navigator.wakeLock?.request('screen'); } catch (_) {} }
   if ($('export-races')) $('export-races').onclick = () => {
@@ -176,106 +141,86 @@
     window.addEventListener('pagehide', silence);
     return;
   }
-  $('mark-race').onclick = () => recordMarker();
-  $('skip-breakout').onclick = () => recordMarker(true);
-  $('edit-swim').onclick = () => setEditing(true);
-  new MutationObserver(() => {
-    $('edit-swim').setAttribute('aria-expanded', String($('swim-options').open));
-  }).observe($('swim-options'), {attributes: true, attributeFilter: ['open']});
-  const fields = Array.from(document.querySelectorAll('.race-fields select'));
-  try {
-    const saved = JSON.parse(sessionStorage.getItem('lane50:swim-setup') || '{}');
-    fields.forEach(select => {
-      if (Array.from(select.options).some(option => option.value === saved[select.id])) select.value = saved[select.id];
-    });
-  } catch (_) {}
-  eventSummary();
-  fields.forEach(select => select.addEventListener('change', () => {
-    eventSummary();
-    try { sessionStorage.setItem('lane50:swim-setup', JSON.stringify(Object.fromEntries(fields.map(field => [field.id, field.value])))); } catch (_) {}
-  }));
+  $('mark-race').onclick = recordMarker;
   function showRun() {
-    lockSetup(true);
-    $('swim-summary-main').textContent = `${run.distance} m ${run.stroke}`;
-    $('swim-summary-detail').textContent = `${run.pool} m pool · ${run.preparation ? run.preparation + ' s preparation' : 'In progress'}`;
     $('race-result').hidden = true; $('arm-race').hidden = true; $('another-race').hidden = true;
-    $('finish-race').hidden = true; $('cancel-race').hidden = false; $('cancel-race').textContent = 'Cancel start';
+    $('finish-race').hidden = run.status !== 'Swimming'; $('mark-race').disabled = run.status !== 'Swimming';
+    $('cancel-race').hidden = run.status !== 'Starting';
     $('sound-status').textContent = '';
-    $('mark-race').hidden = true; $('skip-breakout').hidden = true;
-    $('race-splits').innerHTML = timingDetails(run);
-    $('race-event').textContent = `${run.distance} m ${run.stroke} · ${run.pool} m pool`;
-    $('race-cue').tabIndex = -1; $('race-cue').focus({ preventScroll: true });
-    document.querySelector('.stopwatch').dataset.state = 'starting';
+    $('timing-note').hidden = !run.recovered;
+    document.querySelector('.stopwatch').dataset.state = run.status === 'Starting' ? 'starting' : 'swimming';
+    $('race-cue').textContent = run.status === 'Starting' ? 'Get ready' : 'Swimming';
+    renderTimings();
   }
   function tick() {
     if (!run) return;
-    const elapsed = origin == null ? Date.now() - run.started : performance.now() - origin;
     if (run.status === 'Starting') {
       const now = audio.currentTime;
-      if (now >= run.audioStart) { run.status = 'Swimming'; try { persist(); } catch (_) {} }
-      $('race-cue').textContent = now < run.shortAt ? 'Get ready' : now < run.longAt ? 'Short whistles' : now < run.voiceAt ? (run.stroke === 'Backstroke' ? 'Enter water · take position' : 'Take your position') : now < run.audioStart ? 'Take your marks' : 'Go!';
+      $('race-cue').textContent = now < run.shortAt ? 'Get ready' : now < run.longAt ? 'Short whistles' : now < run.voiceAt ? 'Take your position' : 'Take your marks';
       $('race-clock').textContent = now < run.shortAt ? `${Math.ceil(run.shortAt - now)} s` : '0:00.00';
-      $('race-help').textContent = 'Wait for the start beep. Keep this screen open.';
+      if (now >= run.audioStart) {
+        run.status = 'Swimming';
+        try { persist(); } catch (_) {}
+        showRun();
+      }
     }
-    if (run.status === 'Swimming') {
-      document.querySelector('.stopwatch').dataset.state = 'swimming';
-      $('race-cue').textContent = 'Swimming'; $('race-clock').textContent = fmt(Math.max(0, elapsed));
-      updateMarkerControls();
-      $('finish-race').hidden = false; $('finish-race').textContent = 'Finish';
-      $('cancel-race').hidden = true;
-      $('race-help').textContent = run.recovered ? 'Recovered after leaving this screen. Timing is approximate.' : 'Tap Finish to stop the stopwatch and save your time.';
-    }
+    if (run.status === 'Swimming') $('race-clock').textContent = fmt(elapsedNow());
     frame = requestAnimationFrame(tick);
   }
   $('arm-race').onclick = async () => {
-    if (busy || run) return; busy = true; lockSetup(true); $('arm-race').disabled = true; $('arm-race').textContent = 'Starting…';
+    if (busy || run) return;
+    busy = true; $('arm-race').disabled = true;
     try {
       await prepare(); silence();
-      run = {id: crypto.randomUUID(), created: Date.now(), stroke: $('race-stroke').value, distance: Number($('race-distance').value), pool: Number($('race-pool').value), preparation: Number($('race-delay').value), mode: 'manual', status: 'Starting', trackBreakout: $('race-breakout').value === 'on', markers: [], markerIndex: 0};
-      run.shortAt = audio.currentTime + Number($('race-delay').value);
+      if (document.hidden) throw Error('Page hidden');
+      run = {id: crypto.randomUUID(), created: Date.now(), mode: 'manual', status: 'Starting', lapMode: 'free', markers: []};
+      run.shortAt = audio.currentTime + 5;
       run.longAt = run.shortAt + 2;
-      run.voiceAt = run.longAt + (run.stroke === 'Backstroke' ? 11 : 6);
+      run.voiceAt = run.longAt + 6;
       run.audioStart = run.voiceAt + marks.duration + 1.5 + Math.random() * 1.5;
       const delay = (run.audioStart - audio.currentTime) * 1000;
       run.started = Date.now() + delay; origin = performance.now() + delay;
-      persist(); // Refuse to arm if the attempt cannot be recovered.
+      persist();
       for (let i = 0; i < 4; i++) tone(run.shortAt + i * .35, .16, 2400);
       tone(run.longAt, 1.2, 2400);
-      if (run.stroke === 'Backstroke') tone(run.longAt + 5, 1.2, 2400);
       voice(run.voiceAt); startSignal(run.audioStart);
-      keepAwake(); showRun(); tick();
-    } catch (_) { silence(); run = null; lockSetup(false); $('sound-status').textContent = 'Could not start. Check sound and allow browser storage, then retry.'; $('arm-race').disabled = false; }
-    busy = false; $('arm-race').textContent = 'Start';
+      showRun(); tick(); keepAwake(); vibrate();
+      $('cancel-race').focus({preventScroll: true});
+    } catch (_) {
+      silence(); run = null;
+      $('sound-status').textContent = 'Could not start. Check sound and allow browser storage, then retry.';
+    }
+    busy = false; $('arm-race').disabled = false;
   };
+  $('cancel-race').onclick = () => { if (run?.status === 'Starting') { vibrate(); finish('Start cancelled'); } };
   function saveResult() {
-    try { localStorage.setItem(PREFIX + run.id, JSON.stringify(run)); localStorage.removeItem(ACTIVE); $('result-copy').textContent = 'Saved on this device.'; $('retry-save').hidden = true; $('another-race').disabled = false; run = null; log(); }
-    catch (_) { $('result-copy').textContent = 'Not saved. Keep this page open and retry saving.'; $('retry-save').hidden = false; $('another-race').disabled = true; }
+    try { localStorage.setItem(PREFIX + run.id, JSON.stringify(run)); localStorage.removeItem(ACTIVE); $('result-copy').classList.add('sr-only'); $('result-copy').textContent = 'Saved on this device.'; $('retry-save').hidden = true; $('another-race').disabled = false; run = null; log(); }
+    catch (_) { $('result-copy').classList.remove('sr-only'); $('result-copy').textContent = 'Not saved. Keep this page open and retry saving.'; $('retry-save').hidden = false; $('another-race').disabled = true; }
   }
   function finish(status, elapsed = null) {
     silence(); release(); run.status = status; run.elapsed = elapsed;
-    $('mark-race').hidden = true; $('skip-breakout').hidden = true;
-    $('race-splits').innerHTML = timingDetails(run);
+    $('mark-race').disabled = true; $('cancel-race').hidden = true;
+    $('race-cue').textContent = elapsed == null ? status : 'Finished';
+    renderTimings();
     document.querySelector('.stopwatch').dataset.state = 'finished';
-    $('race-result').hidden = false; $('arm-race').hidden = true; $('finish-race').hidden = true; $('cancel-race').hidden = true; $('another-race').hidden = false;
+    $('race-result').hidden = false; $('arm-race').hidden = true; $('finish-race').hidden = true; $('another-race').hidden = false;
     $('race-clock').textContent = elapsed == null ? '0:00.00' : fmt(elapsed);
-    $('race-cue').textContent = status;
-    $('race-help').textContent = run.recovered ? 'Recovered timing · approximate' : 'Ready for another swim?';
     $('result-heading').textContent = elapsed == null ? status : `${fmt(elapsed)} · ${status}`;
     saveResult(); $('another-race').focus({ preventScroll: true });
   }
   $('finish-race').onclick = () => {
     if (run?.status !== 'Swimming') return;
-    const elapsed = Math.max(0, origin == null ? Date.now() - run.started : performance.now() - origin);
+    const elapsed = elapsedNow();
+    vibrate();
     run.mode = 'manual';
     finish(run.recovered ? 'Finished · recovered timing' : 'Finished', elapsed);
   };
-  $('cancel-race').onclick = () => { if (run) finish(run.status === 'Starting' ? 'Start cancelled' : 'Abandoned'); };
   $('retry-save').onclick = saveResult;
   $('another-race').onclick = () => {
     $('race-result').hidden = true; $('another-race').hidden = true; $('arm-race').hidden = false; $('arm-race').disabled = false;
-    lockSetup(false); eventSummary();
-    $('race-splits').innerHTML = ''; $('sound-status').textContent = '';
-    $('race-clock').textContent = '0:00.00'; $('race-cue').textContent = 'Ready to swim'; $('race-help').textContent = 'Your timer starts with the beep.';
+    vibrate();
+    renderTimings(); $('sound-status').textContent = ''; $('timing-note').hidden = true;
+    $('race-clock').textContent = '0:00.00'; $('race-cue').textContent = 'Ready to swim';
     document.querySelector('.stopwatch').dataset.state = 'ready';
     $('arm-race').focus({ preventScroll: true });
   };
