@@ -42,12 +42,17 @@ def run():
             assert page.locator('#race-stroke-trigger').is_disabled()
             page.wait_for_function('JSON.parse(localStorage.getItem("lane50:active-race")).status === "Swimming"', timeout=20000)
             page.wait_for_timeout(300)
+            assert page.locator('#mark-race').inner_text() == '25 m split'
+            page.locator('#mark-race').click()
+            split = page.evaluate('JSON.parse(localStorage.getItem("lane50:active-race")).markers[0].elapsed')
+            assert page.locator('#mark-race').is_hidden()
+            page.wait_for_timeout(100)
             page.locator('#finish-race').click()
             assert page.locator('#result-copy').inner_text() == 'Saved on this device.'
             assert page.locator('#race-clock').is_visible()
             assert page.locator('#race-clock').inner_text() != '0:00.00'
             rows = page.evaluate('Object.keys(localStorage).filter(k => k.startsWith("lane50:race:")).map(k => JSON.parse(localStorage[k]))')
-            assert len(rows) == 1 and 200 <= rows[0]['elapsed'] < 2000, rows
+            assert len(rows) == 1 and split < rows[0]['elapsed'] < 4000, rows
             assert page.evaluate('localStorage.getItem("swim:nsa2026:v2")') == before
             page.locator('#another-race').click()
             page.locator('#arm-race').click()
@@ -60,6 +65,30 @@ def run():
             page.reload()
             page.locator('#finish-race').click()
             assert 'recovered timing' in page.locator('#result-heading').inner_text()
+            # Breakouts and splits share a clock and survive reloads.
+            page.evaluate("""localStorage.setItem('lane50:active-race', JSON.stringify({id:'markers',created:Date.now(),started:Date.now()-5000,status:'Swimming',distance:50,pool:25,stroke:'Freestyle',trackBreakout:true,markers:[],markerIndex:0}))""")
+            page.reload()
+            assert page.locator('#mark-race').inner_text() == 'Breakout'
+            page.locator('#mark-race').click()
+            assert page.locator('#mark-race').inner_text() == '25 m split'
+            page.locator('#mark-race').click()
+            page.reload()
+            assert page.locator('#mark-race').inner_text() == '25 m turn breakout'
+            page.locator('#mark-race').click()
+            assert page.locator('#mark-race').is_hidden()
+            page.locator('#finish-race').click()
+            marked = page.evaluate('JSON.parse(localStorage.getItem("lane50:race:markers"))')
+            assert len(marked['markers']) == 3
+            assert all(m['elapsed'] <= marked['elapsed'] for m in marked['markers'])
+            assert '25–50 m' in page.locator('#race-splits').inner_text()
+            # A 50 m pool has no turn at the midpoint; a missed breakout can be skipped.
+            page.evaluate("""localStorage.setItem('lane50:active-race', JSON.stringify({id:'skip',created:Date.now(),started:Date.now()-5000,status:'Swimming',distance:50,pool:50,stroke:'Freestyle',trackBreakout:true,markers:[],markerIndex:0}))""")
+            page.reload()
+            page.locator('#skip-breakout').click()
+            assert page.locator('#mark-race').inner_text() == '25 m split'
+            page.locator('#mark-race').click()
+            assert page.locator('#mark-race').is_hidden()
+            page.locator('#finish-race').click()
             # Interrupted preparations never become a valid race time.
             page.evaluate('''localStorage.setItem('lane50:active-race', JSON.stringify({id:'interrupted',created:Date.now(),started:Date.now()+5000,status:'Starting',distance:50,pool:25,stroke:'Backstroke',mode:'solo'}))''')
             page.reload()
@@ -79,9 +108,10 @@ def run():
             context.set_offline(False)
             page.reload()
             page.goto(base + 'race-tools.html')
-            assert page.locator('.race-record').count() == 5
-            page.locator('#sound-test').click()
-            page.wait_for_function('document.getElementById("sound-status").textContent.includes("complete")')
+            assert page.locator('.race-record').count() == 7
+            assert page.locator('main h1').inner_text() == 'Race history'
+            assert page.locator('#sound-test').count() == 0
+            assert '25–50 m' in page.locator('.race-record').last.inner_text()
             page.locator('.stopwatch-back').click()
             assert page.locator('#swim-options').is_hidden()
             assert not errors, errors

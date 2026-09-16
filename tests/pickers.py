@@ -17,7 +17,18 @@ try:
                 page.goto(base + route)
                 if route == 'race.html':
                     assert page.locator('#swim-options').is_hidden()
+                    clock_before = page.locator('#race-clock').bounding_box()
+                    summary = page.locator('#race-setup').bounding_box()
+                    header = page.locator('.stopwatch-header').bounding_box()
+                    assert summary['y'] - (header['y'] + header['height']) <= 8
                     page.locator('#edit-swim').click()
+                    assert page.locator('#swim-options').is_visible()
+                    assert page.locator('#race-clock').bounding_box() == clock_before
+                    if width < 500:
+                        bounds = page.locator('#swim-options').bounding_box()
+                        assert abs(bounds['y'] + bounds['height'] - 844) < 2
+                    if width == 390:
+                        page.screenshot(path='/private/tmp/swim-settings-sheet.png')
                 for trigger in page.locator('.picker-trigger').all():
                     picker_id = trigger.get_attribute('aria-controls')
                     dialog = page.locator('#' + picker_id)
@@ -63,7 +74,7 @@ try:
                     assert page.locator('#swim-summary-main').inner_text() == '100 m Backstroke'
                     assert '50 m pool' in page.locator('#swim-summary-detail').inner_text()
                     page.locator('#done-swim').click()
-                    assert page.locator('#swim-options').is_hidden()
+                    page.locator('#swim-options').wait_for(state='hidden')
                     assert page.locator('#edit-swim').get_attribute('aria-expanded') == 'false'
                     page.screenshot(path='/private/tmp/swim-disclosure-mobile.png')
                     page.locator('a[href="race-tools.html"]').click()

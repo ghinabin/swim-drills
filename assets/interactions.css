@@ -1303,8 +1303,8 @@ body[data-page="race"] main { padding: 0; min-width: 0; }
 .stopwatch-header h1 { font-size: 22px; letter-spacing: -.03em; }
 .stopwatch-header > .text-link { margin-left: auto; min-height: 48px; display: flex; align-items: center; font-size: 14px; }
 .stopwatch-back { width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; }
-.stopwatch { min-height: calc(100svh - 72px); display: flex; flex-direction: column; justify-content: space-evenly; gap: 20px; padding: 16px 0 40px; }
-.stopwatch-display { text-align: center; }
+.stopwatch { min-height: calc(100svh - 72px); display: flex; flex-direction: column; justify-content: flex-start; gap: 20px; padding: 4px 0 24px; }
+.stopwatch-display { flex: 1; display: flex; flex-direction: column; justify-content: center; text-align: center; }
 #race-event { font-size: 14px; color: var(--cyan); }
 .clock-face { width: min(100%, 350px); aspect-ratio: 1; margin: 20px auto 16px; border: 2px solid var(--line); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle, var(--surface), transparent 72%); box-shadow: 0 0 0 8px #79d5e005; }
 #race-cue { font-size: 14px; color: var(--muted); min-height: 24px; padding: 0 20px; }
@@ -1353,7 +1353,13 @@ body[data-page="race"] .offline-status { max-width: 640px; margin: 0 auto; paddi
 #swim-edit-label { color: var(--cyan); font-size: 14px; }
 .swim-summary:disabled { opacity: 1; cursor: default; }
 .swim-summary:disabled #swim-edit-label { display: none; }
-#swim-options { padding: 20px 18px 8px; border-top: 1px solid var(--line); }
+#swim-options { width: min( calc(100% - 32px), 480px); max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; padding: 24px; border: 1px solid var(--line); border-radius: 24px; background: var(--surface); color: var(--text); }
+#swim-options::backdrop { background: #001219b8; }
+#swim-options > p { color: var(--muted); font-size: 13px; line-height: 1.6; margin-top: 20px; }
+@media (max-width: 600px) {
+  #swim-options { width: 100%; max-width: none; max-height: calc(100dvh - 24px); margin: auto 0 0; padding: 24px 20px max(16px, env(safe-area-inset-bottom)); border-radius: 24px 24px 0 0; }
+  #swim-options::before { content: ''; display: block; width: 36px; height: 4px; margin: -12px auto 20px; border-radius: 4px; background: var(--muted); }
+}
 #done-swim { display: block; min-height: 48px; padding: 12px 16px; margin: 8px 0 0 auto; }
 .race-tool-section { padding: 24px 0; border-bottom: 1px solid var(--line); }
 .race-tool-section h2 { font-size: 20px; }
@@ -1361,3 +1367,9 @@ body[data-page="race"] .offline-status { max-width: 640px; margin: 0 auto; paddi
 .race-tool-section button, .race-tool-section summary { min-height: 48px; }
 .race-tool-section summary { padding: 14px 0; cursor: pointer; }
 body[data-page="race"]:not([data-race-tools]) .offline-status { display: none; }
+
+.race-timings { list-style: none; padding: 0; margin: 12px 0; text-align: left; font-variant-numeric: tabular-nums; }
+.race-timings li { padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.race-timings span { display: block; color: var(--muted); font-size: 12px; }
+#race-splits { width: 100%; max-width: 360px; }
+#mark-race { min-width: 180px; min-height: 48px; }

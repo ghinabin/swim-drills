@@ -210,6 +210,11 @@
     requestAnimationFrame(() => restore(snapshot));
   });
   function restoreDialog() {
+    for (const id of history.state?.laneDialogParents || []) {
+      const parentDialog = document.getElementById(id);
+      if (parentDialog?.tagName === 'DIALOG' && !parentDialog.open)
+        window.SwimNavigation.openDialog(parentDialog, document.getElementById(parentDialog.dataset.trigger), false);
+    }
     const dialog = document.getElementById(history.state?.laneDialog);
     if (dialog?.tagName === "DIALOG" && !dialog.open) {
       const trigger = document.getElementById(dialog.dataset.trigger) || Array.from(
@@ -252,7 +257,8 @@
       capture();
       savedY = scrollY;
       if (recordHistory)
-        history.pushState({ ...history.state, laneDialog: dialog.id }, "");
+        history.pushState({ ...history.state, laneDialog: dialog.id,
+          laneDialogParents: Array.from(document.querySelectorAll('dialog[open]'), el => el.id) }, "");
       dialog.showModal();
       document.body.classList.add("dialog-open");
       dialog.querySelector("[data-close-dialog]")?.focus();
@@ -270,12 +276,12 @@
         dialog.removeEventListener("close", closed);
         dialog.removeEventListener("keydown", trapFocus);
         dialog.close();
-        document.body.classList.remove("dialog-open");
+        document.body.classList.toggle("dialog-open", !!document.querySelector("dialog[open]"));
         scrollTo({ top: savedY, behavior: "instant" });
         trigger?.focus({ preventScroll: true });
       };
       const popped = () => {
-        if (history.state?.laneDialog !== dialog.id) finish();
+        if (history.state?.laneDialog !== dialog.id && !(history.state?.laneDialogParents || []).includes(dialog.id)) finish();
       };
       const cancel = (event) => {
         event.preventDefault();
