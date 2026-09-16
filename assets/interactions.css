@@ -1194,3 +1194,151 @@ select:disabled {
     color: ButtonText;
   }
 }
+
+/* One option picker across race setup and library filters. */
+.picker-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid #7299a4;
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: left;
+}
+.picker-trigger::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  margin-right: 4px;
+}
+.option-picker {
+  width: min(440px, calc(100% - 32px));
+  max-height: 80vh;
+  max-height: 80dvh;
+  padding: 0;
+  border: 1px solid #7299a4;
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 24px 80px #0008;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.option-picker::backdrop { background: #001219b8; }
+.picker-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.picker-header h2 { font-size: 20px; }
+.picker-close { min-height: 48px; padding: 10px; background: transparent; color: var(--cyan); font-size: 16px; }
+.picker-options { padding: 8px 12px 16px; }
+.picker-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 56px;
+  margin-top: 4px;
+  padding: 14px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.picker-option::after { content: ''; flex: 0 0 20px; }
+.picker-option[aria-pressed="true"] { background: var(--raised); border-color: var(--amber); }
+.picker-option[aria-pressed="true"]::after { content: '✓'; color: var(--amber); }
+.picker-option:focus-visible, .picker-close:focus-visible { outline-offset: -3px; }
+@media (hover: hover) {
+  .picker-option:enabled:hover { background: var(--raised); }
+  .picker-trigger:enabled:hover { border-color: var(--cyan); }
+}
+@media (max-width: 760px) {
+  .option-picker {
+    width: 100%;
+    max-width: 100%;
+    margin: auto 0 0;
+    border-radius: 24px 24px 0 0;
+    border-bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+@media (forced-colors: active) {
+  .picker-option[aria-pressed="true"] { border-color: Highlight; }
+  .picker-option[aria-pressed="true"]::after { color: Highlight; }
+}
+
+/* Race is a standalone stopwatch, with setup and timing in one place. */
+body[data-page="race"] .site-header,
+body[data-page="race"] .navigation { display: none; }
+body[data-page="race"] { --dock-height: 0px; }
+body[data-page="race"] .layout { display: block; max-width: none; margin: 0; }
+body[data-page="race"] main { padding: 0; min-width: 0; }
+.stopwatch-page { width: min(100%, 640px); margin: auto; padding: 0 24px; }
+.stopwatch-header { display: flex; align-items: center; gap: 12px; min-height: 72px; }
+.stopwatch-header h1 { font-size: 22px; letter-spacing: -.03em; }
+.stopwatch-header > .text-link { margin-left: auto; min-height: 48px; display: flex; align-items: center; font-size: 14px; }
+.stopwatch-back { width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; }
+.stopwatch { min-height: calc(100svh - 72px); display: flex; flex-direction: column; justify-content: space-evenly; gap: 20px; padding: 16px 0 24px; }
+.stopwatch-display { text-align: center; }
+#race-event { font-size: 14px; color: var(--cyan); }
+.clock-face { width: min(100%, 350px); aspect-ratio: 1; margin: 20px auto 16px; border: 2px solid var(--line); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle, var(--surface), transparent 72%); box-shadow: 0 0 0 8px #79d5e005; }
+#race-cue { font-size: 14px; color: var(--muted); min-height: 24px; padding: 0 20px; }
+body[data-page="race"] .race-clock { font-size: clamp(48px, 16vw, 76px); font-weight: 450; letter-spacing: -.06em; line-height: 1.35; color: var(--text); }
+.clock-unit { font-size: 10px; letter-spacing: .2em; margin-top: 8px; }
+#race-help { font-size: 13px; min-height: 20px; }
+.stopwatch-controls { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.stopwatch-primary { width: min(100%, 300px); min-height: 64px; border-radius: 40px; font-size: 20px; background: var(--amber); color: var(--bg); }
+#finish-race { background: var(--green); }
+.stopwatch-cancel { min-height: 44px; padding: 8px 20px; }
+.stopwatch-controls #sound-status { font-size: 13px; margin: 0; }
+.stopwatch-controls #sound-status:empty { display: none; }
+.stopwatch-controls #result-copy { font-size: 13px; }
+.stopwatch-setup { padding-top: 20px; border-top: 1px solid var(--line); }
+.stopwatch-setup h2 { font-size: 16px; font-weight: 550; }
+.stopwatch-setup .race-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 16px 0 0; gap: 14px 16px; }
+.stopwatch-setup .race-fields label { font-size: 12px; color: var(--muted); }
+.stopwatch-setup .picker-trigger { background: transparent; border-color: #7299a4; font-size: 16px; gap: 8px; }
+.stopwatch-setup .picker-trigger:disabled { opacity: .65; }
+.stopwatch[data-state="swimming"] .clock-face { border-color: var(--green); }
+.stopwatch[data-state="starting"] .clock-face { border-color: var(--amber); }
+.stopwatch[data-state="finished"] .clock-face { border-color: var(--cyan); }
+.stopwatch-details { border-top: 1px solid var(--line); padding: 4px 0; }
+.stopwatch-details summary { min-height: 52px; padding: 16px 0; cursor: pointer; color: var(--muted); font-size: 14px; }
+.stopwatch-details > p { font-size: 13px; margin: 12px 0; }
+.stopwatch-details > button { min-height: 48px; }
+body[data-page="race"] .offline-status { max-width: 640px; margin: 0 auto; padding: 16px 24px calc(20px + env(safe-area-inset-bottom)); font-size: 11px; }
+@media (max-width: 380px) {
+  .stopwatch-page { padding: 0 16px; }
+  .stopwatch-setup .race-fields { gap: 12px 8px; }
+  .stopwatch-setup .picker-trigger { padding: 10px; gap: 6px; }
+}
+@media (max-height: 760px) {
+  .clock-face { width: min(100%, 250px); margin: 12px auto; }
+  body[data-page="race"] .race-clock { font-size: 54px; }
+  .stopwatch { gap: 16px; }
+}

@@ -25,7 +25,7 @@ Run `python -m http.server 8000` in this directory and open http://localhost:800
 
 Progress uses localStorage on the current browser and origin. It does not sync across devices. Export saves a JSON backup; there is no import interface. The rest timer catches up when returning to the tab, but does not send background notifications.
 
-Dropdowns share 48px touch targets, 16px text, visible focus, and a consistent disclosure arrow. They retain native platform option pickers and keyboard behavior. Race setup stacks fields on small screens and includes metres in distance and pool options.
+Dropdowns share 48px touch targets, 16px text, visible focus, and a consistent disclosure arrow. Options open in themed dialogs, presented as bottom sheets on mobile, with selected indicators and keyboard arrow navigation. Escape, Cancel, the backdrop, and browser Back dismiss without changing the value. Race setup stacks fields on small screens and includes metres in distance and pool options.
 
 Mobile controls include bottom navigation with safe-area spacing, large touch targets, expandable weeks and drill cards, session paging, and optional vibration on supported devices. Keyboard focus and reduced-motion preferences are supported.
 
@@ -41,6 +41,8 @@ Mobile controls include bottom navigation with safe-area spacing, large touch ta
 - View state is per tab using sessionStorage; progress uses localStorage. When browser storage is unavailable, navigation remains usable but saved view restoration is unavailable.
 
 ## Browser checks
+
+Run `python tests/pickers.py` for themed option selection, keyboard controls, dismissal, Back/Forward, focus restoration, and mobile sheet layouts.
 
 With Python, Playwright, and Chrome installed, run `python tests/navigation.py`. The test starts and stops its own local server and uses isolated browser storage. It checks contextual returns, native Back/Forward, opened weeks, library filters, scroll and focus restoration, timer dismissal, touch controls, and mobile through desktop layouts.
 
@@ -64,7 +66,7 @@ Run `python tests/progression.py` to verify preview access, mutation guards, par
 
 Open over HTTPS (or localhost) and wait for **Ready offline**. The service worker downloads every app screen, script, stylesheet, and the bundled “Take your marks” voice. All session URLs work offline. Progress and race results remain on this browser/origin; reconnecting checks for app updates, with no server upload or cross-device sync. New shell versions activate after existing app tabs close, preventing an update from replacing a running race. Bump `CACHE` in `sw.js` when publishing changes. Clearing browser site data removes downloads and saved results.
 
-Open **Race** from the header or overview. Race practice is separate from the meet-day checklist and weekly progression. Choose stroke, distance, pool, and preparation time. Test and confirm the sound, then start. Short whistles, a long whistle (two for backstroke), the bundled voice, and a short dual-tone electronic start beep are scheduled using Web Audio. Timing begins at the beep's scheduled onset, using a monotonic clock during the visit. Device output latency and manual finish reaction mean this is practice timing, not official meet timing.
+Open **Race** from the header or overview. Race practice is separate from the meet-day checklist and weekly progression. Choose stroke, distance, pool, and preparation time. The standalone stopwatch keeps the timer, Start/Finish button, and compact swim settings on one screen. Tap Start directly; sound testing and recent swims are available in collapsed sections below. Settings lock during an attempt. The final time stays on the clock until Swim again resets it. Short whistles, a long whistle (two for backstroke), the bundled voice, and a short dual-tone electronic start beep are scheduled using Web Audio. Timing begins at the beep's scheduled onset, using a monotonic clock during the visit. Device output latency and manual finish reaction mean this is practice timing, not official meet timing.
 
 The sequence follows [World Aquatics start rules](https://www.worldaquatics.com/swimming/rules); automated preparation intervals and a randomized 1.5–3 second pause after the voice are practice choices, not prescribed official intervals. Keep the page visible and audible. Hiding or leaving during preparation interrupts and logs the attempt without a time. Once swimming, the timer can recover on reload using wall-clock timestamps; recovered times are explicitly labelled approximate. Screen wake lock is requested where available. Phone/browser background audio behavior still needs a poolside sound check on the actual device.
 

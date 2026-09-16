@@ -212,7 +212,7 @@
   function restoreDialog() {
     const dialog = document.getElementById(history.state?.laneDialog);
     if (dialog?.tagName === "DIALOG" && !dialog.open) {
-      const trigger = Array.from(
+      const trigger = document.getElementById(dialog.dataset.trigger) || Array.from(
         document.querySelectorAll("[data-open-timer]"),
       ).find((el) => el.getClientRects().length);
       window.SwimNavigation.openDialog(dialog, trigger, false);
@@ -281,7 +281,8 @@
         event.preventDefault();
         close();
       };
-      const closed = () => close();
+      // A queued close event may arrive after rapid Back/Forward reopens it.
+      const closed = () => { if (!dialog.open) close(); };
       const clicked = (event) => {
         if (event.target.closest("[data-close-dialog]")) close();
         else if (event.target === dialog) {

@@ -30,19 +30,22 @@ def run():
             assert page.locator('#set-0').get_attribute('aria-pressed') == 'true'
             before = page.evaluate('localStorage.getItem("swim:nsa2026:v2")')
             page.goto(base + 'race.html')
-            assert page.locator('#arm-race').is_disabled()
+            assert page.locator('#arm-race').is_enabled()
+            assert page.locator('#race-clock').is_visible()
+            assert page.locator('#race-setup').is_visible()
             assert page.locator('[name="finish-mode"]').count() == 0
-            page.locator('#sound-test').click()
-            page.wait_for_function('!document.getElementById("sound-confirm").disabled')
-            page.locator('#sound-confirm').check()
             # Only shorten the get-ready window; exercise the real audio clock and cues.
             page.locator('#race-delay').evaluate("el => {el.add(new Option('Test', '.05')); el.value = '.05';}")
             page.locator('#arm-race').click()
             assert not page.locator('#finish-race').is_visible()
+            assert page.locator('#race-setup').is_visible()
+            assert page.locator('#race-stroke-trigger').is_disabled()
             page.wait_for_function('JSON.parse(localStorage.getItem("lane50:active-race")).status === "Swimming"', timeout=20000)
             page.wait_for_timeout(300)
             page.locator('#finish-race').click()
             assert page.locator('#result-copy').inner_text() == 'Saved on this device.'
+            assert page.locator('#race-clock').is_visible()
+            assert page.locator('#race-clock').inner_text() != '0:00.00'
             rows = page.evaluate('Object.keys(localStorage).filter(k => k.startsWith("lane50:race:")).map(k => JSON.parse(localStorage[k]))')
             assert len(rows) == 1 and 200 <= rows[0]['elapsed'] < 2000
             assert page.evaluate('localStorage.getItem("swim:nsa2026:v2")') == before
