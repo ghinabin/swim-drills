@@ -24,6 +24,14 @@
     <div class="stopwatch-page">
       <header class="stopwatch-header"><a class="stopwatch-back" href="index.html" aria-label="Back to overview">${icon('back')}</a><h1>Race</h1><a class="text-link" href="#race-history">History</a></header>
       <section class="stopwatch" aria-label="Swim stopwatch">
+        <section id="race-setup" class="stopwatch-setup" aria-labelledby="setup-title"><h2 id="setup-title">Set up your swim</h2>
+          <div class="race-fields">
+            <label>Stroke<select id="race-stroke"><option>Freestyle</option><option>Backstroke</option><option>Breaststroke</option><option>Butterfly</option></select></label>
+            <label>Distance<select id="race-distance"><option value="50">50 m</option><option value="100">100 m</option><option value="200">200 m</option><option value="400">400 m</option></select></label>
+            <label>Pool length<select id="race-pool"><option value="25">25 m</option><option value="50">50 m</option></select></label>
+            <label>Get ready<select id="race-delay"><option value="15">15 seconds</option><option value="30">30 seconds</option><option value="60">60 seconds</option></select></label>
+          </div>
+        </section>
         <div class="stopwatch-display" id="race-live">
           <p id="race-event">50 m Freestyle · 25 m pool</p>
           <div class="clock-face"><p id="race-cue" role="status" aria-live="polite">Ready to swim</p><div id="race-clock" class="race-clock" role="timer" aria-label="Elapsed race time">0:00.00</div><p class="clock-unit">MIN : SEC</p></div>
@@ -37,14 +45,6 @@
           <div id="race-result" hidden><h2 id="result-heading" class="sr-only" tabindex="-1"></h2><p id="result-copy" role="status"></p><button class="text-button" id="retry-save" hidden>Retry saving</button></div>
           <p id="sound-status" role="status"></p>
         </div>
-        <section id="race-setup" class="stopwatch-setup" aria-labelledby="setup-title"><h2 id="setup-title">Set up your swim</h2>
-          <div class="race-fields">
-            <label>Stroke<select id="race-stroke"><option>Freestyle</option><option>Backstroke</option><option>Breaststroke</option><option>Butterfly</option></select></label>
-            <label>Distance<select id="race-distance"><option value="50">50 m</option><option value="100">100 m</option><option value="200">200 m</option><option value="400">400 m</option></select></label>
-            <label>Pool length<select id="race-pool"><option value="25">25 m</option><option value="50">50 m</option></select></label>
-            <label>Get ready<select id="race-delay"><option value="15">15 seconds</option><option value="30">30 seconds</option><option value="60">60 seconds</option></select></label>
-          </div>
-        </section>
       </section>
       <details class="stopwatch-details"><summary>Sound & start info</summary><p>Turn up media volume and keep this screen open. The countdown is followed by whistles, “Take your marks”, then the start beep. Tap Finish to save your time.</p><button class="text-button" id="sound-test">Test voice + beep</button><p>Check you can hear the beep from your starting position. Dive only where permitted and safe; otherwise push off. Manual timing is for practice.</p></details>
       <details id="race-history" class="stopwatch-details"><summary>Recent swims</summary><div id="race-log"></div><button class="text-button" id="export-races">Export races</button></details>

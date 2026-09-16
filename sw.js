@@ -1,5 +1,5 @@
 /* Bump the version when publishing a new app shell. */
-const CACHE = 'lane50-shell-v6';
+const CACHE = 'lane50-shell-v7';
 const FILES = ['./', 'index.html', 'plan.html', 'session.html', 'drills.html', 'progress.html', 'race.html', 'assets/styles.css', 'assets/interactions.css', 'assets/data.js', 'assets/navigation.js', 'assets/app.js', 'assets/offline.js', 'assets/pickers.js', 'assets/race.js', 'assets/take-your-marks.wav'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES))));
 self.addEventListener('activate', event => event.waitUntil((async () => {
