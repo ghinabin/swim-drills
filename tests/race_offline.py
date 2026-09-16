@@ -43,7 +43,7 @@ def run():
                 assert page.evaluate('JSON.parse(localStorage.getItem("lane50:active-race")).status') == 'Swimming'
                 clock = page.locator('.clock-face').bounding_box()
                 lap = page.locator('#mark-race').bounding_box()
-                for _ in range(6):
+                for _ in range(20):
                     page.locator('#mark-race').click()
                 after = page.locator('.clock-face').bounding_box()
                 records = page.locator('#race-splits').bounding_box()
@@ -58,8 +58,10 @@ def run():
                 assert finish['y'] == lap['y']
                 if height >= 640:
                     assert finish['y'] + finish['height'] <= height
-                assert page.locator('#race-splits li').count() == 6
-                assert page.locator('#race-splits').evaluate('el => el.clientHeight') == 192
+                assert page.locator('#race-splits li').count() == 20
+                assert records['height'] > 0
+                if height >= 844:
+                    assert records['height'] > 192
                 assert page.locator('#race-splits').evaluate('el => el.scrollHeight > el.clientHeight')
                 assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
                 current = page.locator('#race-clock').inner_text()
@@ -90,7 +92,7 @@ def run():
             assert 'undefined' not in page.locator('main').inner_text()
             assert not errors, errors
             browser.close()
-            print('PASS five-second preparation, audio start, lap timestamps, fixed circle/buttons, four-row scroll, finish, reset, recovery, history, offline routes')
+            print('PASS five-second preparation, audio start, lap timestamps, fixed circle/buttons, adaptive lap scroll, finish, reset, recovery, history, offline routes')
     finally:
         server.shutdown()
 

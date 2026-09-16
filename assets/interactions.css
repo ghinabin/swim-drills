@@ -1403,8 +1403,7 @@ body[data-page="race"] .race-clock { font-size: clamp(48px, 14vw, 68px);  }
   .clock-face, body[data-page="race"] .race-clock { transition: none; }
 }
 
-/* Four timestamps, with a stable circular clock in every state. */
-#race-splits { flex: 0 0 192px; height: 192px; min-height: 192px; }
+/* Timestamp rows fill the space between the circular clock and controls. */
 .lap-stamps { list-style: none; margin: 0; padding: 0; font-variant-numeric: tabular-nums; }
 .lap-stamps li { height: 48px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--line); font-size: 19px; color: var(--muted); }
 .lap-stamps li:first-child { color: var(--cyan); }
