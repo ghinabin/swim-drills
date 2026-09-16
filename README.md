@@ -25,6 +25,8 @@ Run `python -m http.server 8000` in this directory and open http://localhost:800
 
 Progress uses localStorage on the current browser and origin. It does not sync across devices. Export saves a JSON backup; there is no import interface. The rest timer catches up when returning to the tab, but does not send background notifications.
 
+Dropdowns share 48px touch targets, 16px text, visible focus, and a consistent disclosure arrow. They retain native platform option pickers and keyboard behavior. Race setup stacks fields on small screens and includes metres in distance and pool options.
+
 Mobile controls include bottom navigation with safe-area spacing, large touch targets, expandable weeks and drill cards, session paging, and optional vibration on supported devices. Keyboard focus and reduced-motion preferences are supported.
 
 ## Navigation and interaction behavior
