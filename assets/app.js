@@ -193,6 +193,7 @@ function overview() {
       `NSA Cup &middot; 12 October &middot; Target 29.9 s`,
     ) +
     `<section class="hero" aria-labelledby="current-session"><div><div class="eyebrow">${dateKey(selected.date) === todayKey ? "Today" : remaining < 0 ? "Race checklist" : "Next session"}</div><h2 id="current-session">${escapeHTML(selected.title)}</h2><p>${selected.dow} ${fmt(selected.date)} &middot; ${selected.rest ? "Recovery" : selected.race ? "50 m freestyle" : selected.pool + " pool &middot; " + selected.dist}</p><a class="button" href="${href(selected)}">${completed(selected) ? "Review session" : "Open session"}${icon("arrow")}</a></div><p class="race-summary">${raceLabel}</p></section>` +
+    `<section class="panel race-entry"><div><h2>Race on your terms</h2><p>Practice the start. Time your swim. Keep a separate race log.</p></div><a class="button" href="race.html">Race &rarr;</a></section>` +
     (next.length
       ? `<section class="upcoming"><div class="section-title"><h2>Coming up</h2><a class="text-link" href="plan.html">Full plan &rarr;</a></div>${next.map(card).join("")}</section>`
       : '<a class="button secondary" href="progress.html">View progress</a>');
@@ -591,12 +592,13 @@ function refreshView() {
   try {
     state = normalize(JSON.parse(localStorage.getItem(KEY) || "null"));
   } catch (_) {}
+  if (page === "race") return;
   if (page === "session" && activeSession) updateSession();
   else if (page !== "drills")
     (({ overview, plan, progress })[page] || overview)();
   if (snapshot) SwimNavigation.restore(snapshot, false);
 }
-(({ overview, plan, session, drills, progress })[page] || overview)();
+if (page !== "race") (({ overview, plan, session, drills, progress })[page] || overview)();
 SwimNavigation.ready();
 if (!persistent)
   toast("Storage unavailable. Progress may not survive leaving this page.");

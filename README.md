@@ -9,6 +9,7 @@ A responsive, framework-free swimming training companion. The original four-week
 - session.html?id=w1d0: individual session, set tracking, and rest timer
 - drills.html: searchable, filterable training set library
 - progress.html: completion totals, activity, export, and confirmed reset
+- race.html: standalone start simulation, manual timing, and race history
 
 ## Run
 
@@ -56,3 +57,20 @@ Week 1 is available immediately. Each subsequent week unlocks after all checks i
 Access is derived from saved progress and survives reload. Undoing a prerequisite or clearing progress relocks later weeks while keeping any remaining saved checks. Open tabs update when progress changes in another tab. The race-day checklist and drill instructions remain available independently of the week gates.
 
 Run `python tests/progression.py` to verify preview access, mutation guards, partial completion, sequential unlocks, cross-tab updates, and reset behavior. This is a browser-based training progression feature, not server-side access control.
+
+## Offline access and independent race practice
+
+Open over HTTPS (or localhost) and wait for **Ready offline**. The service worker downloads every app screen, script, stylesheet, and the bundled “Take your marks” voice. All session URLs work offline. Progress and race results remain on this browser/origin; reconnecting checks for app updates, with no server upload or cross-device sync. New shell versions activate after existing app tabs close, preventing an update from replacing a running race. Bump `CACHE` in `sw.js` when publishing changes. Clearing browser site data removes downloads and saved results.
+
+Open **Race** from the header or overview. Race practice is separate from the meet-day checklist and weekly progression. Choose stroke, distance, pool, and preparation time. Test and confirm the sound, then start. Short whistles, a long whistle (two for backstroke), the bundled voice, and a short dual-tone electronic start beep are scheduled using Web Audio. Timing begins at the beep's scheduled onset, using a monotonic clock during the visit. Device output latency and manual finish reaction mean this is practice timing, not official meet timing.
+
+The sequence follows [World Aquatics start rules](https://www.worldaquatics.com/swimming/rules); automated preparation intervals and a randomized 1.5–3 second pause after the voice are practice choices, not prescribed official intervals. Keep the page visible and audible. Hiding or leaving during preparation interrupts and logs the attempt without a time. Once swimming, the timer can recover on reload using wall-clock timestamps; recovered times are explicitly labelled approximate. Screen wake lock is requested where available. Phone/browser background audio behavior still needs a poolside sound check on the actual device.
+
+Tap the large Finish button to stop and save the stopwatch, whether you or a helper operates it. Test the start beep from 3–4 metres away on the actual device; a phone speaker cannot guarantee that range over pool noise. The 0.25-second start beep is generated offline and normalized to 95% peak to avoid clipping. Completed, cancelled, abandoned, and interrupted attempts appear in a separate race log and JSON export. Training reset does not delete race records. Saves that fail offer retry and keep the unsaved result on screen. Race mode requires writable browser storage before arming.
+
+Run `python tests/race_offline.py` with Playwright and Chrome installed for offline navigation, saved training checks, the audio-clock race start, finish logging, cancellation, reload recovery, unified stopwatch logging, reconnect, and responsive layout checks.
+
+
+### Start-signal reference
+
+[World Aquatics describes OMEGA’s swimming start signal as a beep](https://www.worldaquatics.com/news/3251540/how-omega-keeps-advancing-timekeeping-in-swimming-a-partnership-celebrating-50-years). The [Colorado Time Systems Infinity Pro manual, Features](https://coloradotime.com/hubfs/CTS%20Website%20%20Assets/Manuals/Swim%20Timing%20Components/Start%20Systems/Infinity%20Pro/INF-PRO%20Starter_F1063.pdf?hsLang=en) specifies a 0.25-second dual-tone electronic signal. We use that duration and format instead of the previous sustained air-horn sound. Our 1000/1500 Hz sine tones are an explicitly chosen practice approximation: the cited manual does not specify frequencies, and this is not a recording or exact reproduction of CTS or OMEGA hardware. The sound test and race share the same buffer; the stopwatch starts at its onset. Phone output cannot reproduce the sound-pressure level of poolside starting equipment.
