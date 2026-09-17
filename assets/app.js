@@ -3,20 +3,24 @@
 const page = document.body.dataset.page;
 const main = document.getElementById("main");
 const KEY = "swim:nsa2026:v2";
-let state = { done: {} };
+let state = { done: {}, sequenceVersion: 1 };
 let persistent = true;
+const progressKey = (d, i) => d.blocks[i].progressKey || "b" + i;
 function normalize(saved) {
   const done = {};
   DAYS.forEach((d) => {
     const checks = saved && saved.done && saved.done[d.id];
     if (checks && typeof checks === "object") {
       done[d.id] = {};
-      d.blocks.forEach((_, i) => {
-        if (checks["b" + i]) done[d.id]["b" + i] = 1;
+      d.blocks.forEach((block, i) => {
+        const key = progressKey(d, i);
+        // The old October 6 Dives check included both starts and cool-down.
+        const legacy = !saved.sequenceVersion && block.legacyProgressKey;
+        if (checks[key] || (legacy && checks[legacy])) done[d.id][key] = 1;
       });
     }
   });
-  return { done };
+  return { done, sequenceVersion: 1 };
 }
 try {
   state = normalize(JSON.parse(localStorage.getItem(KEY) || "null"));
@@ -50,7 +54,7 @@ const dateKey = (d) =>
   "-" +
   String(d.getDate()).padStart(2, "0");
 const todayKey = dateKey(new Date());
-const checked = (d, i) => !!(state.done[d.id] && state.done[d.id]["b" + i]);
+const checked = (d, i) => !!(state.done[d.id] && state.done[d.id][progressKey(d, i)]);
 const finished = (d) => d.blocks.filter((_, i) => checked(d, i)).length;
 const completed = (d) => d.blocks.length > 0 && finished(d) === d.blocks.length;
 const training = DAYS.filter((d) => !d.rest && !d.race);
@@ -280,8 +284,8 @@ function session() {
       const previouslyComplete = !d.race && weekComplete(d.wi);
       const i = Number(button.dataset.set);
       if (!state.done[d.id]) state.done[d.id] = {};
-      if (checked(d, i)) delete state.done[d.id]["b" + i];
-      else state.done[d.id]["b" + i] = 1;
+      if (checked(d, i)) delete state.done[d.id][progressKey(d, i)];
+      else state.done[d.id][progressKey(d, i)] = 1;
       const saved = save();
       vibrate();
       updateSession();
@@ -294,7 +298,7 @@ function session() {
     const previouslyComplete = !d.race && weekComplete(d.wi);
     const finish = !completed(d);
     state.done[d.id] = {};
-    if (finish) d.blocks.forEach((_, i) => (state.done[d.id]["b" + i] = 1));
+    if (finish) d.blocks.forEach((_, i) => (state.done[d.id][progressKey(d, i)] = 1));
     const saved = save();
     updateSession();
     if (saved)
@@ -579,7 +583,7 @@ function progress() {
     document.getElementById("reset-progress").focus();
   };
   document.getElementById("confirm-reset").onclick = () => {
-    state = { done: {} };
+    state = { done: {}, sequenceVersion: 1 };
     const saved = save();
     progress();
     document.getElementById("progress-options").open = true;

@@ -1,6 +1,12 @@
 # Lane 50
 
-A responsive, framework-free swimming training companion. The original four-week NSA Cup training content is preserved in assets/data.js.
+A responsive, framework-free swimming training companion. The four-week NSA Cup training plan lives in assets/data.js.
+
+The [training review and short reading list](TRAINING-REVIEW.md) explain the revised race rehearsals, speed/endurance balance, recovery days and taper for the October 12–13 meet. Friday's 25 m pool sessions use permitted deck starts (or a labelled push fallback); Saturday at Satdobato develops block starts. The plan uses the reported 34 s push-start baseline and a 28 s-or-below goal, without assuming equivalent times across different starts or pool lengths.
+
+Revisions take effect on **September 18, 2026**. September 14–17 retain the original workout content and block order. Week 1 has its own session array so future-week edits cannot rewrite those days; existing session IDs and progress storage remain unchanged.
+
+The [daily sequence review](SEQUENCE-REVIEW.md) records the evidence and reasons for the implemented drill order: catch-to-freestyle preparation on Fridays, speed before supplementary Monday kicking, early Wednesday breakouts, and October 6 starts before race-pace swimming. Reordered sets retain their saved checks through stable progress keys; the former combined October 6 starts/cool-down check carries over to both sets. Run `node tests/sequence.cjs` to check sequence and progress migration.
 
 ## Pages
 
