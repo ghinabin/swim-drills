@@ -1,0 +1,60 @@
+{
+  "morning": {
+    "title": "Morning warm-up",
+    "time": "7:20–7:28 a.m.",
+    "duration": "8 min",
+    "note": "Keep every movement gentle.",
+    "exercises": [
+      { "id": "march", "name": "Walk / march", "amount": "2 min" },
+      { "id": "arms", "name": "Gentle arm circles", "amount": "1 min" },
+      { "id": "rows", "name": "Light band rows", "amount": "1 × 8" },
+      { "id": "squats", "name": "Bodyweight squats", "amount": "1 × 6" },
+      { "id": "mobility", "name": "Gentle ankle / hip movements", "amount": "Easy mobility" }
+    ]
+  },
+  "strength22": {
+    "title": "Light strength",
+    "time": "4 p.m.",
+    "duration": "15–20 min",
+    "note": "Rest 60–90 s between sets. Light resistance; stop before fatigue. Skip if sore or tired from swimming.",
+    "canSkip": true,
+    "exercises": [
+      { "id": "pushups", "name": "Incline push-ups", "amount": "1 × 6–8" },
+      { "id": "rows", "name": "Light rows", "amount": "1 × 8–10" },
+      { "id": "squats", "name": "Squats", "amount": "1 × 8–10" },
+      { "id": "bridges", "name": "Glute bridges", "amount": "1 × 8" },
+      { "id": "deadbugs", "name": "Familiar dead bugs", "amount": "1 × 4 / side" }
+    ]
+  },
+  "strength29": {
+    "title": "Light strength",
+    "time": "4 p.m.",
+    "duration": "10 min",
+    "note": "Rest 60–90 s between sets. Light resistance; stop before fatigue. Skip if sore or tired from swimming.",
+    "canSkip": true,
+    "exercises": [
+      { "id": "warmup", "name": "Gentle warm-up", "amount": "Easy movements" },
+      { "id": "pushups", "name": "Incline push-ups", "amount": "1 × 6" },
+      { "id": "rows", "name": "Light rows", "amount": "1 × 8" },
+      { "id": "squats", "name": "Squats", "amount": "1 × 8" }
+    ]
+  },
+  "taper": {
+    "title": "Light warm-up",
+    "time": "Before your swim",
+    "duration": "",
+    "note": "Familiar light movements only. No strength session.",
+    "exercises": [
+      { "id": "warmup", "name": "Familiar light warm-up", "amount": "Keep it gentle" }
+    ]
+  },
+  "raceWarmup": {
+    "title": "Light warm-up",
+    "time": "Coach’s race-day timing",
+    "duration": "",
+    "note": "Familiar light movements only; follow your coach’s race-day timing.",
+    "exercises": [
+      { "id": "warmup", "name": "Familiar light warm-up", "amount": "Before your race" }
+    ]
+  }
+}

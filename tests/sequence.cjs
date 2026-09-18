@@ -1,61 +1,79 @@
-/* Workout sequence and legacy completion migration. Run: node tests/sequence.cjs */
+/* Approved-plan content, distances, dates, and saved-history migration. */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
-const context = {
-  document: { body: { dataset: {} }, getElementById() {} },
-  localStorage: { getItem() { return null; } },
-};
-vm.createContext(context);
-vm.runInContext(fs.readFileSync(path.join(root, 'assets/data.js'), 'utf8'), context);
-const app = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8');
-vm.runInContext(app.slice(0, app.indexOf('const icons =')), context);
-const normalize = saved => JSON.parse(JSON.stringify(context.normalize(saved)));
-const day = id => context.DAYS.find(d => d.id === id);
-const titles = id => Array.from(day(id).blocks, b => b.t);
-
-assert.deepEqual(titles('w2d0'), ['Warm-up', 'Fist swimming', 'Turn block', 'Main set', 'Kick on board', 'Cool-down']);
-assert.deepEqual(titles('w3d0'), titles('w2d0'));
-assert.match(day('w3d0').blocks[4].d, /easy to controlled/);
-assert.equal(titles('w2d2')[1], 'Breakout block');
-assert.deepEqual(titles('w4d1'), ['Warm-up', 'Start practice', 'Main set', 'Cool-down']);
-for (const id of ['w1d4', 'w2d4', 'w3d4']) {
-  assert.equal(titles(id)[1], 'Catch to freestyle');
-  assert.match(day(id).blocks[1].d, /normal freestyle/);
+const c = {document:{body:{dataset:{}},getElementById(){}},localStorage:{getItem(){return null;}}};
+vm.createContext(c);
+vm.runInContext(fs.readFileSync(path.join(root,'assets/data.js'),'utf8'),c);
+const app=fs.readFileSync(path.join(root,'assets/app.js'),'utf8');
+vm.runInContext(app.slice(0,app.indexOf('const icons =')),c);
+const day=id=>c.DAYS.find(d=>d.id===id);
+const json=value=>JSON.parse(JSON.stringify(value));
+const normalize=saved=>json(c.normalize(saved));
+assert.equal(c.DAYS.length,30);
+assert.equal(new Set(c.DAYS.map(d=>d.id)).size,30);
+for(let i=0;i<30;i++) {
+  const expected = new Date(2026,8,14+i);
+  const d=c.DAYS[i];
+  assert.equal(d.date.getDate(),expected.getDate(),d.id+' calendar date');
+  assert.equal(d.date.getMonth(),expected.getMonth(),d.id+' calendar month');
+  assert.equal(new Set(d.blocks.map((b,i)=>b.progressKey||'b'+i)).size,d.blocks.length);
+  if(d.historical || d.race) continue;
+  const meters=d.blocks.reduce((sum,b)=>sum+b.meters,0);
+  assert.equal(meters,Number(d.dist.replace(/[^0-9]/g,'')),d.id+' all metres counted');
+  assert.equal(d.blocks.reduce((sum,b)=>sum+b.n,0),d.laps,d.id+' lengths');
+  assert.equal(meters,d.laps*(d.rest?0:25));
+  if(d.di===5 || d.di===2 || (d.di===6 && d.wi!==3)) assert(d.rest,d.id+' rest day');
 }
-
-// Exhaust every partial completion pattern for each reordered/split session.
-const maps = {
-  w2d0: [0, 2, 3, 4, 1, 5],
-  w3d0: [0, 2, 3, 4, 1, 5],
-  w2d2: [0, 4, 1, 2, 3, 5, 6],
-  w4d1: [0, 2, 1, 2],
-};
-for (const [id, oldIndices] of Object.entries(maps)) {
-  const oldCount = Math.max(...oldIndices) + 1;
-  for (let mask = 0; mask < 2 ** oldCount; mask++) {
-    const checks = {};
-    for (let i = 0; i < oldCount; i++) if (mask & (1 << i)) checks['b' + i] = 1;
-    const migrated = normalize({ done: { [id]: checks } });
-    day(id).blocks.forEach((block, i) => {
-      assert.equal(!!migrated.done[id][block.progressKey], !!(mask & (1 << oldIndices[i])), `${id} mask ${mask} set ${i}`);
-    });
-    assert.deepEqual(normalize(migrated), migrated, 'migration is idempotent');
+assert.deepEqual(c.WEEKS.map((w,wi)=>c.DAYS.filter(d=>d.wi===wi&&!d.historical&&!d.race).reduce((sum,d)=>sum+Number(d.dist.replace(/[^0-9]/g,'')),0)).slice().join(','),'800,3400,2550,1750');
+assert(day('w4d6').optional);
+assert.equal(day('w4d6').dist,'250 m');
+assert(!day('w1d4').blocks.some(b=>b.t.includes('rehearsal')));
+for(const id of ['w2d1','w2d4','w3d1','w3d4','w4d1']) {
+  const d=day(id),start=d.blocks.findIndex(b=>b.t==='Start practice');
+  assert(start>=0,id+' weekday starts');
+  assert.match(d.blocks[start].d,/2 × 25/);
+  assert(d.blocks[start].group==='B');
+  const endurance=d.blocks.findIndex(b=>b.t==='Endurance');
+  if(endurance>=0) assert(start<endurance);
+}
+for(const id of ['w2d4','w3d4','w4d3']) {
+  const b=day(id).blocks.find(b=>b.t==='Full 50 m race rehearsal');
+  assert.equal(b.meters,50);
+  assert.match(b.d,/No second attempt/);
+  assert.match(b.r,/3\+ min/);
+}
+assert.equal(day('race').blocks.length,6);
+assert.equal(day('race2').blocks.length,6);
+assert(day('race').noteDetails.some(s=>s.includes('before 13 October')));
+assert(day('race2').noteDetails.some(s=>s.includes('Morning check')));
+// Every supplied table instruction/rest remains visible either directly or under More.
+const source=fs.readFileSync(path.join(root,'SWIMMING-PLAN.md'),'utf8');
+const active=c.DAYS.filter(d=>!d.historical);
+const all=active.flatMap(d=>d.blocks.flatMap(b=>[b.d,b.r,...(b.details||[])]));
+for(const row of source.matchAll(/^\| \d+ \| (.+?) \| (.+?) \| (.+?) \| (.+?) \|$/gm)) {
+  assert(all.some(text=>text.includes(row[3])),'Missing instruction: '+row[3]);
+  assert(all.some(text=>text.includes(row[4])),'Missing rest: '+row[4]);
+}
+// Test every legacy completion pattern, including the previous split-start migration.
+for(const d of c.PREVIOUS_DAYS) {
+  for(let mask=0;mask<2**d.blocks.length;mask++) {
+    const checks={};
+    d.blocks.forEach((b,i)=>{if(mask&(1<<i))checks[b.progressKey||'b'+i]=1;});
+    const migrated=normalize({done:{[d.id]:checks},sequenceVersion:1});
+    if(day(d.id)?.historical) assert.deepEqual(migrated.done[d.id],checks);
+    else {
+      assert.equal(Object.keys(migrated.done[d.id]||{}).length,0,'Changed workouts never inherit checks');
+      if(mask) assert.deepEqual(migrated.archived.find(a=>a.id===d.id).done,checks);
+    }
+    assert.deepEqual(normalize(migrated),migrated,'Idempotent migration');
   }
 }
-const split = normalize({ done: { w4d1: { b2: 1 } } });
-assert.deepEqual(split.done.w4d1, { b2: 1, 'b2-cooldown': 1 });
-delete split.done.w4d1['b2-cooldown'];
-assert.deepEqual(normalize(split).done.w4d1, { b2: 1 }, 'unchecking cool-down survives reload');
-assert.deepEqual(normalize({ done: { w1d0: { b1: 1 }, w1d3: { b3: 1 } } }).done,
-  { w1d0: { b1: 1 }, w1d3: { b3: 1 } }, 'historical checks retain positions');
-for (const d of context.DAYS) {
-  const keys = d.blocks.map((b, i) => b.progressKey || 'b' + i);
-  assert.equal(new Set(keys).size, keys.length, `${d.id}: unique progress keys`);
-  if (!d.rest && !d.race) {
-    assert.equal(d.blocks.reduce((sum, b) => sum + (typeof b.n === 'number' ? b.n : 0), 0), d.laps, `${d.id}: length total`);
-  }
-}
-console.log('PASS sequence, distances, all partial legacy progress patterns, and independent split-set migration');
+const legacy=normalize({done:{w4d1:{b2:1}}});
+assert.deepEqual(legacy.archived[0].done,{b2:1,'b2-cooldown':1});
+const current=normalize({planRevision:c.PLAN_REVISION,done:{w1d4:{'r2-b0':1}},logs:{w1d4:{meters:550,effort:3}},skipped:{w4d6:true}});
+assert.deepEqual(normalize(current),current);
+assert.equal(current.logs.w1d4.meters,550);
+console.log('PASS 30 dated entries, latest Saturday-free schedule, weekly totals, all source instructions, and every legacy progress pattern.');

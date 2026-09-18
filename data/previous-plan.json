@@ -1,0 +1,1354 @@
+[
+  {
+    "dow": "Mon",
+    "title": "Maximum speed and turns",
+    "pool": "25 m",
+    "laps": 40,
+    "dist": "1,000 m",
+    "blocks": [
+      {
+        "n": 10,
+        "t": "Warm-up",
+        "d": "4 easy free, 2 free with 5 dolphin kicks off each wall, 2 board kick easy, 2 build to 80%",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 6,
+        "t": "Kick on board",
+        "d": "6 × 25 flutter kick, fast",
+        "r": "30 s rest. Hold 22–25 s",
+        "k": "tech"
+      },
+      {
+        "n": 4,
+        "t": "Fist swimming",
+        "d": "4 × 25, feel the pressure on your forearm",
+        "r": "20 s rest",
+        "k": "tech"
+      },
+      {
+        "n": "8 min",
+        "t": "Turn block",
+        "d": "8 to 10 reps. Swim in from 10 m, flip, 5 dolphin kicks, breakout, 5 strokes.",
+        "r": "Full rest. Quality only",
+        "k": "skill"
+      },
+      {
+        "n": 14,
+        "t": "Main set",
+        "d": "7 × (25 maximum from push + 25 easy back)",
+        "r": "2:00 cycle. Target 14.5",
+        "k": "max"
+      },
+      {
+        "n": 6,
+        "t": "Cool-down",
+        "d": "6 easy, long relaxed strokes",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "id": "w1d0",
+    "wi": 0,
+    "di": 0,
+    "date": "2026-09-14",
+    "weekName": "Week 1, Load"
+  },
+  {
+    "dow": "Tue",
+    "title": "Race pace and dolphin kick",
+    "pool": "25 m",
+    "laps": 40,
+    "dist": "1,000 m",
+    "blocks": [
+      {
+        "n": 10,
+        "t": "Warm-up",
+        "d": "4 easy, 4 build, 2 kick",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 6,
+        "t": "Pull buoy",
+        "d": "6 × 25 with buoy, high arm tempo",
+        "r": "30 s rest",
+        "k": "tech"
+      },
+      {
+        "n": 4,
+        "t": "Fist swimming",
+        "d": "2 fist, 2 open hand. Feel the difference in grip",
+        "r": "20 s rest",
+        "k": "tech"
+      },
+      {
+        "n": "8 min",
+        "t": "Vertical dolphin kick",
+        "d": "Deep corner. 10 s hard, 20 s easy. Week 1: 8 reps. Week 2: 10 reps.",
+        "r": "Hands on chest or above head",
+        "k": "skill"
+      },
+      {
+        "n": 14,
+        "t": "Main set",
+        "d": "10 × 25 at race pace on 1:00, then 4 easy",
+        "r": "Hold 14.5–15.0 every rep",
+        "k": "pace"
+      },
+      {
+        "n": 6,
+        "t": "Cool-down",
+        "d": "6 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "id": "w1d1",
+    "wi": 0,
+    "di": 1,
+    "date": "2026-09-15",
+    "weekName": "Week 1, Load"
+  },
+  {
+    "dow": "Wed",
+    "title": "Recovery and breakouts",
+    "pool": "25 m",
+    "laps": 40,
+    "dist": "1,000 m",
+    "blocks": [
+      {
+        "n": 10,
+        "t": "Warm-up",
+        "d": "Easy freestyle and backstroke mixed",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 6,
+        "t": "Board kick",
+        "d": "6 × 25 moderate, ankles loose and relaxed",
+        "r": "20 s rest",
+        "k": "tech"
+      },
+      {
+        "n": 6,
+        "t": "Pull buoy",
+        "d": "6 × 25 breathing every 3, 5, 7, changing every 2 laps",
+        "r": "20 s rest",
+        "k": "tech"
+      },
+      {
+        "n": 6,
+        "t": "Fist and catch",
+        "d": "3 fist, 3 open hand",
+        "r": "20 s rest",
+        "k": "tech"
+      },
+      {
+        "n": "10 min",
+        "t": "Breakout block",
+        "d": "25s of freestyle arms with dolphin kick, fins first. The last dolphin kick has to fire into your first arm pull. Never tack a flutter kick onto the end of the underwater.",
+        "r": "No clock. Repeat until the timing is automatic",
+        "k": "skill"
+      },
+      {
+        "n": 6,
+        "t": "Main set",
+        "d": "3 × (25 build to fast + 25 easy)",
+        "r": "1:30 cycle",
+        "k": "pace"
+      },
+      {
+        "n": 6,
+        "t": "Cool-down",
+        "d": "6 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "id": "w1d2",
+    "wi": 0,
+    "di": 2,
+    "date": "2026-09-16",
+    "weekName": "Week 1, Load"
+  },
+  {
+    "dow": "Thu",
+    "title": "Speed endurance",
+    "pool": "25 m",
+    "laps": 40,
+    "dist": "1,000 m",
+    "blocks": [
+      {
+        "n": 10,
+        "t": "Warm-up",
+        "d": "4 easy, 4 build, 2 kick",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 6,
+        "t": "Pull buoy",
+        "d": "6 × 25 sprint arms only, maximum tempo",
+        "r": "40 s rest",
+        "k": "tech"
+      },
+      {
+        "n": 4,
+        "t": "Board kick",
+        "d": "4 × 25 fast, descending 1 to 4",
+        "r": "30 s rest",
+        "k": "tech"
+      },
+      {
+        "n": "6 min",
+        "t": "15 m underwater",
+        "d": "4 × 15 m dolphin kick, timed. Write down the time and the kick count.",
+        "r": "1:30 rest",
+        "k": "skill"
+      },
+      {
+        "n": 14,
+        "t": "Main set",
+        "d": "4 × 50 all out from push, then 3 × (25 fast + 25 easy)",
+        "r": "50s on 3:00, 25s on 2:00. This one hurts",
+        "k": "max"
+      },
+      {
+        "n": 6,
+        "t": "Cool-down",
+        "d": "6 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "id": "w1d3",
+    "wi": 0,
+    "di": 3,
+    "date": "2026-09-17",
+    "weekName": "Week 1, Load"
+  },
+  {
+    "dow": "Fri",
+    "title": "Race simulation",
+    "pool": "25 m",
+    "laps": 40,
+    "dist": "1,000 m",
+    "blocks": [
+      {
+        "n": 10,
+        "t": "Warm-up",
+        "d": "4 easy, 4 build, 2 kick",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 8,
+        "t": "Catch to freestyle",
+        "d": "2 × 25 buoy + 2 × (25 fist + 25 normal freestyle) + 2 × 25 build. Smooth catch; no sprint. 200 m total.",
+        "r": "25 s rest",
+        "k": "tech"
+      },
+      {
+        "n": "6 min",
+        "t": "Controlled start practice",
+        "d": "3–4 controlled starts: breakout → swim to 15 m. Permitted dive or push; save max effort for the 50s.",
+        "r": "Full rest between reps",
+        "k": "skill"
+      },
+      {
+        "n": 16,
+        "t": "Full 50 m race simulation",
+        "d": "2 × 50 timed: push + side turn, then permitted deck dive (or push). Add 12 × 25 easy before, between and after.",
+        "r": "5+ min recovery per timed 50, including easy swimming; longer if needed",
+        "k": "max",
+        "details": [
+          "Start → streamline → dolphin kicks → breakout → 25 m → turn → breakout → 25 m → touch. Use your reliable side turn until flips are consistently faster. Surface by 15 m; breathe as needed.",
+          "Weekdays: supervised, permitted deck dive; otherwise push. Blocks: Saturday at Satdobato only. Log start, pool length, turn, 50 m time and one technique note; add a 25 m split if available. Baseline: 34 s, push + side turn, 25 m pool. Compare matching conditions."
+        ]
+      },
+      {
+        "n": 6,
+        "t": "Cool-down",
+        "d": "6 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "note": "Tired or slow in warm-up? Replace both timed 50s with easy 50s; keep today easy. Hard session yesterday. Next test: 25 Sep; no catch-up efforts Saturday. Two slower reps or poor technique: rest longer; switch to easy if quality stays low. Distance excludes timed drills. No extra sprints. Dives and underwaters: supervised and permitted only. No hyperventilation or forced breath holds. Surface as needed, by 15 m. Full recovery before timed 50s. Fewer starts if needed; keep full rest.",
+    "id": "w1d4",
+    "wi": 0,
+    "di": 4,
+    "date": "2026-09-18",
+    "weekName": "Week 1, Load"
+  },
+  {
+    "dow": "Sat",
+    "title": "Starts and underwaters",
+    "pool": "50 m",
+    "laps": 20,
+    "dist": "1,000 m",
+    "blocks": [
+      {
+        "n": 4,
+        "t": "Warm-up",
+        "d": "2 easy, 2 build",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 4,
+        "t": "Kick and pull",
+        "d": "2 × 50 board kick easy, 2 × 50 pull buoy smooth",
+        "r": "40 s rest",
+        "k": "tech"
+      },
+      {
+        "n": "15 min",
+        "t": "Dive block",
+        "d": "4–6 dives: entry → dolphin kicks → breakout → swim to 15 m. Stop if fatigue affects technique; swim easy after.",
+        "r": "Full rest between every dive",
+        "k": "skill"
+      },
+      {
+        "n": 8,
+        "t": "Main set",
+        "d": "2 × (50 smooth build to 80% + 50 easy), then 4 × 50 easy. No extra all-out 50s after Friday",
+        "r": "1 min after builds; 20–30 s after easy lengths",
+        "k": "easy"
+      },
+      {
+        "n": 4,
+        "t": "Cool-down",
+        "d": "4 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "note": "Satdobato: block starts, then easy swimming. No turn in the 50 m pool. Confirm race pool length before comparing times. Dives and underwaters: supervised and permitted only. No hyperventilation or forced breath holds. Surface as needed, by 15 m. Two slower reps or poor technique: rest longer; switch to easy if quality stays low. Distance excludes timed drills.",
+    "id": "w1d5",
+    "wi": 0,
+    "di": 5,
+    "date": "2026-09-19",
+    "weekName": "Week 1, Load"
+  },
+  {
+    "dow": "Sun",
+    "title": "Rest day",
+    "pool": "—",
+    "laps": 0,
+    "dist": "—",
+    "rest": 1,
+    "note": "Rest: no swimming or hard gym work. Optional walk or mobility; no catch-up sprints.",
+    "blocks": [
+      {
+        "n": 0,
+        "t": "Stay out of the water",
+        "d": "Optional gentle mobility: ankles, lats, hips. Prioritise sleep.",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "id": "w1d6",
+    "wi": 0,
+    "di": 6,
+    "date": "2026-09-20",
+    "weekName": "Week 1, Load"
+  },
+  {
+    "dow": "Mon",
+    "title": "Maximum speed and turns",
+    "pool": "25 m",
+    "laps": 40,
+    "dist": "1,000 m",
+    "blocks": [
+      {
+        "n": 10,
+        "t": "Warm-up",
+        "d": "4 easy free, 2 free with a short comfortable dolphin-kick breakout off each wall, 2 board kick easy, 2 build to 80%",
+        "r": "Continuous",
+        "k": "easy",
+        "progressKey": "b0"
+      },
+      {
+        "n": 4,
+        "t": "Fist swimming",
+        "d": "2 × (25 fist + 25 normal freestyle). Keep the same catch.",
+        "r": "20 s rest",
+        "k": "tech",
+        "progressKey": "b2"
+      },
+      {
+        "n": "8 min",
+        "t": "Turn block",
+        "d": "6–8 reps: 10 m approach → flip → comfortable dolphin kicks → breakout → 5 strokes. Timed 50s: use your reliable turn.",
+        "r": "Full rest. Quality only",
+        "k": "skill",
+        "progressKey": "b3"
+      },
+      {
+        "n": 14,
+        "t": "Main set",
+        "d": "7 × (25 maximum from push + 25 easy back)",
+        "r": "2–3 min recovery per fast 25, including easy return; repeatable speed",
+        "k": "max",
+        "progressKey": "b4"
+      },
+      {
+        "n": 6,
+        "t": "Kick on board",
+        "d": "6 × 25 flutter kick, controlled; save maximum effort for the swim set",
+        "r": "30 s rest. Keep ankles relaxed",
+        "k": "tech",
+        "progressKey": "b1"
+      },
+      {
+        "n": 6,
+        "t": "Cool-down",
+        "d": "6 easy, long relaxed strokes",
+        "r": "",
+        "k": "easy",
+        "progressKey": "b5"
+      }
+    ],
+    "note": "Two slower reps or poor technique: rest longer; switch to easy if quality stays low. Distance excludes timed drills. Dives and underwaters: supervised and permitted only. No hyperventilation or forced breath holds. Surface as needed, by 15 m. Turns → speed → easy kick. Full recovery; stop hard reps if technique fades.",
+    "id": "w2d0",
+    "wi": 1,
+    "di": 0,
+    "date": "2026-09-21",
+    "weekName": "Week 2, Peak"
+  },
+  {
+    "dow": "Tue",
+    "title": "Controlled endurance and dolphin kick",
+    "pool": "25 m",
+    "laps": 40,
+    "dist": "1,000 m",
+    "blocks": [
+      {
+        "n": 10,
+        "t": "Warm-up",
+        "d": "4 easy, 4 build, 2 kick",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 6,
+        "t": "Pull buoy",
+        "d": "6 × 25 with buoy, smooth catch at controlled tempo",
+        "r": "30 s rest",
+        "k": "tech"
+      },
+      {
+        "n": 4,
+        "t": "Fist swimming",
+        "d": "2 fist, 2 open hand. Feel the difference in grip",
+        "r": "20 s rest",
+        "k": "tech"
+      },
+      {
+        "n": "8 min",
+        "t": "Vertical dolphin kick",
+        "d": "6 × 10 s vertical dolphin kick; 30 s easy recovery. Supervised deep water; head above water. Progress only when fresh.",
+        "r": "Hands by your sides; stop if you cannot keep your airway clear",
+        "k": "skill"
+      },
+      {
+        "n": 14,
+        "t": "Main set",
+        "d": "6 × 50 smooth freestyle at moderate effort (5–6/10), then 2 × 25 easy. Hold stroke length and a consistent second length",
+        "r": "20–30 s rest after each 50; breathe normally",
+        "k": "endurance"
+      },
+      {
+        "n": 6,
+        "t": "Cool-down",
+        "d": "6 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "note": "Two slower reps or poor technique: rest longer; switch to easy if quality stays low. Distance excludes timed drills.",
+    "id": "w2d1",
+    "wi": 1,
+    "di": 1,
+    "date": "2026-09-22",
+    "weekName": "Week 2, Peak"
+  },
+  {
+    "dow": "Wed",
+    "title": "Recovery and breakouts",
+    "pool": "25 m",
+    "laps": 40,
+    "dist": "1,000 m",
+    "blocks": [
+      {
+        "n": 10,
+        "t": "Warm-up",
+        "d": "Easy freestyle and backstroke mixed",
+        "r": "Continuous",
+        "k": "easy",
+        "progressKey": "b0"
+      },
+      {
+        "n": "10 min",
+        "t": "Breakout block",
+        "d": "4–6 × 25 easy: short dolphin breakout → first pull → freestyle. Fins optional. Breathe normally; no long underwaters.",
+        "r": "Full rest. Stop at 10 min or when tired",
+        "k": "skill",
+        "progressKey": "b4"
+      },
+      {
+        "n": 6,
+        "t": "Board kick",
+        "d": "2 × 25 easy board kick, then 4 × 25 easy surface dolphin kick alternating back and front; breathe freely",
+        "r": "20 s rest",
+        "k": "tech",
+        "progressKey": "b1"
+      },
+      {
+        "n": 6,
+        "t": "Pull buoy",
+        "d": "6 × 25 easy with buoy, comfortable breathing; no breath restriction",
+        "r": "20 s rest",
+        "k": "tech",
+        "progressKey": "b2"
+      },
+      {
+        "n": 6,
+        "t": "Fist and catch",
+        "d": "3 fist, 3 open hand",
+        "r": "20 s rest",
+        "k": "tech",
+        "progressKey": "b3"
+      },
+      {
+        "n": 6,
+        "t": "Main set",
+        "d": "3 × 50 easy freestyle, relaxed turns and normal breathing",
+        "r": "20 s rest. Easy means 2–3/10 effort",
+        "k": "easy",
+        "progressKey": "b5"
+      },
+      {
+        "n": 6,
+        "t": "Cool-down",
+        "d": "6 easy",
+        "r": "",
+        "k": "easy",
+        "progressKey": "b6"
+      }
+    ],
+    "note": "Two slower reps or poor technique: rest longer; switch to easy if quality stays low. Distance excludes timed drills. Dives and underwaters: supervised and permitted only. No hyperventilation or forced breath holds. Surface as needed, by 15 m. Breakouts first; keep all swimming easy.",
+    "id": "w2d2",
+    "wi": 1,
+    "di": 2,
+    "date": "2026-09-23",
+    "weekName": "Week 2, Peak"
+  },
+  {
+    "dow": "Thu",
+    "title": "Race preparation, light",
+    "pool": "25 m",
+    "laps": 40,
+    "dist": "1,000 m",
+    "blocks": [
+      {
+        "n": 10,
+        "t": "Warm-up",
+        "d": "4 easy, 4 build, 2 kick",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 6,
+        "t": "Pull buoy",
+        "d": "6 × 25 pull buoy, easy catch practice",
+        "r": "40 s rest",
+        "k": "tech"
+      },
+      {
+        "n": 4,
+        "t": "Board kick",
+        "d": "4 × 25 board kick easy, loose ankles",
+        "r": "30 s rest",
+        "k": "tech"
+      },
+      {
+        "n": "6 min",
+        "t": "Breakout check to 15 m",
+        "d": "4 push starts: short dolphin breakout → swim to 15 m. Compare kick counts by time to 15 m; surface early.",
+        "r": "1:30 rest",
+        "k": "skill"
+      },
+      {
+        "n": 14,
+        "t": "Main set",
+        "d": "3 × (25 smooth build to 80% + 25 easy), then 8 × 25 easy",
+        "r": "1:30 per pair; 15–20 s between easy lengths. Save race effort for Friday",
+        "k": "easy"
+      },
+      {
+        "n": 6,
+        "t": "Cool-down",
+        "d": "6 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "note": "Two slower reps or poor technique: rest longer; switch to easy if quality stays low. Distance excludes timed drills. Dives and underwaters: supervised and permitted only. No hyperventilation or forced breath holds. Surface as needed, by 15 m.",
+    "id": "w2d3",
+    "wi": 1,
+    "di": 3,
+    "date": "2026-09-24",
+    "weekName": "Week 2, Peak"
+  },
+  {
+    "dow": "Fri",
+    "title": "Race simulation",
+    "pool": "25 m",
+    "laps": 40,
+    "dist": "1,000 m",
+    "blocks": [
+      {
+        "n": 10,
+        "t": "Warm-up",
+        "d": "4 easy, 4 build, 2 kick",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 8,
+        "t": "Catch to freestyle",
+        "d": "2 × 25 buoy + 2 × (25 fist + 25 normal freestyle) + 2 × 25 build. Smooth catch; no sprint. 200 m total.",
+        "r": "25 s rest",
+        "k": "tech"
+      },
+      {
+        "n": "6 min",
+        "t": "Controlled start practice",
+        "d": "3–4 controlled starts: breakout → swim to 15 m. Permitted dive or push; save max effort for the 50s.",
+        "r": "Full rest between reps",
+        "k": "skill"
+      },
+      {
+        "n": 16,
+        "t": "Full 50 m race simulation",
+        "d": "2 × 50 timed, permitted deck dive or push + 12 × 25 easy spread before, between and after.",
+        "r": "5+ min recovery per timed 50, including easy swimming; longer if needed",
+        "k": "max",
+        "details": [
+          "Start → streamline → dolphin kicks → breakout → 25 m → turn → breakout → 25 m → touch. Use your reliable side turn until flips are consistently faster. Surface by 15 m; breathe as needed.",
+          "Weekdays: supervised, permitted deck dive; otherwise push. Blocks: Saturday at Satdobato only. Log start, pool length, turn, 50 m time and one technique note; add a 25 m split if available. Baseline: 34 s, push + side turn, 25 m pool. Compare matching conditions."
+        ]
+      },
+      {
+        "n": 6,
+        "t": "Cool-down",
+        "d": "6 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "note": "Two slower reps or poor technique: rest longer; switch to easy if quality stays low. Distance excludes timed drills. No extra sprints. Dives and underwaters: supervised and permitted only. No hyperventilation or forced breath holds. Surface as needed, by 15 m. Full recovery before timed 50s. Fewer starts if needed; keep full rest.",
+    "id": "w2d4",
+    "wi": 1,
+    "di": 4,
+    "date": "2026-09-25",
+    "weekName": "Week 2, Peak"
+  },
+  {
+    "dow": "Sat",
+    "title": "Starts and underwaters",
+    "pool": "50 m",
+    "laps": 20,
+    "dist": "1,000 m",
+    "blocks": [
+      {
+        "n": 4,
+        "t": "Warm-up",
+        "d": "2 easy, 2 build",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 4,
+        "t": "Kick and pull",
+        "d": "2 × 50 board kick easy, 2 × 50 pull buoy smooth",
+        "r": "40 s rest",
+        "k": "tech"
+      },
+      {
+        "n": "15 min",
+        "t": "Dive block",
+        "d": "4–6 dives: entry → dolphin kicks → breakout → swim to 15 m. Stop if fatigue affects technique; swim easy after.",
+        "r": "Full rest between every dive",
+        "k": "skill"
+      },
+      {
+        "n": 8,
+        "t": "Main set",
+        "d": "2 × (50 smooth build to 80% + 50 easy), then 4 × 50 easy. No extra all-out 50s after Friday",
+        "r": "1 min after builds; 20–30 s after easy lengths",
+        "k": "easy"
+      },
+      {
+        "n": 4,
+        "t": "Cool-down",
+        "d": "4 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "note": "Satdobato: block starts, then easy swimming. No turn in the 50 m pool. Confirm race pool length before comparing times. Dives and underwaters: supervised and permitted only. No hyperventilation or forced breath holds. Surface as needed, by 15 m. Two slower reps or poor technique: rest longer; switch to easy if quality stays low. Distance excludes timed drills.",
+    "id": "w2d5",
+    "wi": 1,
+    "di": 5,
+    "date": "2026-09-26",
+    "weekName": "Week 2, Peak"
+  },
+  {
+    "dow": "Sun",
+    "title": "Rest day",
+    "pool": "—",
+    "laps": 0,
+    "dist": "—",
+    "rest": 1,
+    "note": "Rest: no swimming or hard gym work. Optional walk or mobility; no catch-up sprints.",
+    "blocks": [
+      {
+        "n": 0,
+        "t": "Stay out of the water",
+        "d": "Optional gentle mobility: ankles, lats, hips. Prioritise sleep.",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "id": "w2d6",
+    "wi": 1,
+    "di": 6,
+    "date": "2026-09-27",
+    "weekName": "Week 2, Peak"
+  },
+  {
+    "dow": "Mon",
+    "title": "Maximum speed and turns",
+    "pool": "25 m",
+    "laps": 28,
+    "dist": "700 m",
+    "blocks": [
+      {
+        "n": 8,
+        "t": "Warm-up",
+        "d": "4 easy, 2 with dolphin kicks off the wall, 2 build",
+        "r": "Continuous",
+        "k": "easy",
+        "progressKey": "b0"
+      },
+      {
+        "n": 2,
+        "t": "Fist swimming",
+        "d": "25 fist + 25 normal freestyle. Keep the same catch.",
+        "r": "20 s rest",
+        "k": "tech",
+        "progressKey": "b2"
+      },
+      {
+        "n": "6 min",
+        "t": "Turn block",
+        "d": "4–6 reps: 10 m approach → flip → comfortable dolphin kicks → breakout → 5 strokes. Timed swims: use your reliable turn.",
+        "r": "Full rest",
+        "k": "skill",
+        "progressKey": "b3"
+      },
+      {
+        "n": 10,
+        "t": "Main set",
+        "d": "5 × (25 maximum from push + 25 easy back)",
+        "r": "2–3 min recovery per fast 25, including easy return; repeatable speed",
+        "k": "max",
+        "progressKey": "b4"
+      },
+      {
+        "n": 4,
+        "t": "Kick on board",
+        "d": "4 × 25 flutter kick, easy to controlled. Stay relaxed.",
+        "r": "30 s rest",
+        "k": "tech",
+        "progressKey": "b1"
+      },
+      {
+        "n": 4,
+        "t": "Cool-down",
+        "d": "4 easy",
+        "r": "",
+        "k": "easy",
+        "progressKey": "b5"
+      }
+    ],
+    "note": "Two slower reps or poor technique: rest longer; switch to easy if quality stays low. Distance excludes timed drills. Dives and underwaters: supervised and permitted only. No hyperventilation or forced breath holds. Surface as needed, by 15 m. Turns → speed → easy kick. Full recovery; stop hard reps if technique fades.",
+    "id": "w3d0",
+    "wi": 2,
+    "di": 0,
+    "date": "2026-09-28",
+    "weekName": "Week 3, Taper begins"
+  },
+  {
+    "dow": "Tue",
+    "title": "Controlled endurance, trimmed",
+    "pool": "25 m",
+    "laps": 28,
+    "dist": "700 m",
+    "blocks": [
+      {
+        "n": 8,
+        "t": "Warm-up",
+        "d": "4 easy, 4 build",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 4,
+        "t": "Pull buoy",
+        "d": "4 × 25 smooth catch at controlled tempo",
+        "r": "30 s rest",
+        "k": "tech"
+      },
+      {
+        "n": 2,
+        "t": "Fist swimming",
+        "d": "1 fist, 1 open hand",
+        "r": "20 s rest",
+        "k": "tech"
+      },
+      {
+        "n": "6 min",
+        "t": "Vertical dolphin kick",
+        "d": "4 × 10 s controlled, head above water, 30 s easy recovery.",
+        "r": "Supervised deep corner; hands by your sides",
+        "k": "skill"
+      },
+      {
+        "n": 10,
+        "t": "Main set",
+        "d": "4 × 50 moderate freestyle (5/10 effort), then 2 × 25 easy",
+        "r": "20–30 s rest after each 50; normal breathing",
+        "k": "endurance"
+      },
+      {
+        "n": 4,
+        "t": "Cool-down",
+        "d": "4 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "note": "Two slower reps or poor technique: rest longer; switch to easy if quality stays low. Distance excludes timed drills.",
+    "id": "w3d1",
+    "wi": 2,
+    "di": 1,
+    "date": "2026-09-29",
+    "weekName": "Week 3, Taper begins"
+  },
+  {
+    "dow": "Wed",
+    "title": "Rest day",
+    "pool": "—",
+    "laps": 0,
+    "dist": "—",
+    "rest": 1,
+    "note": "Rest today. Reduce load if fatigue persists; no catch-up training.",
+    "blocks": [
+      {
+        "n": 0,
+        "t": "Stay out of the water",
+        "d": "Optional gentle mobility: ankles, lats, hips. Prioritise sleep.",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "id": "w3d2",
+    "wi": 2,
+    "di": 2,
+    "date": "2026-09-30",
+    "weekName": "Week 3, Taper begins"
+  },
+  {
+    "dow": "Thu",
+    "title": "Race preparation, trimmed",
+    "pool": "25 m",
+    "laps": 28,
+    "dist": "700 m",
+    "blocks": [
+      {
+        "n": 8,
+        "t": "Warm-up",
+        "d": "4 easy, 4 build",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 4,
+        "t": "Pull buoy",
+        "d": "4 × 25 pull buoy, easy catch practice",
+        "r": "40 s rest",
+        "k": "tech"
+      },
+      {
+        "n": 2,
+        "t": "Board kick",
+        "d": "2 × 25 easy",
+        "r": "30 s rest",
+        "k": "tech"
+      },
+      {
+        "n": "4 min",
+        "t": "Breakout check to 15 m",
+        "d": "3 push starts with a short dolphin-kick breakout, then surface swimming to 15 m; use your comfortable kick count",
+        "r": "1:30 rest",
+        "k": "skill"
+      },
+      {
+        "n": 10,
+        "t": "Main set",
+        "d": "2 × (25 build to 80% + 25 easy), then 6 × 25 easy",
+        "r": "1:30 per pair; 20 s between easy lengths",
+        "k": "easy"
+      },
+      {
+        "n": 4,
+        "t": "Cool-down",
+        "d": "4 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "note": "Two slower reps or poor technique: rest longer; switch to easy if quality stays low. Distance excludes timed drills. Dives and underwaters: supervised and permitted only. No hyperventilation or forced breath holds. Surface as needed, by 15 m.",
+    "id": "w3d3",
+    "wi": 2,
+    "di": 3,
+    "date": "2026-10-01",
+    "weekName": "Week 3, Taper begins"
+  },
+  {
+    "dow": "Fri",
+    "title": "Race simulation",
+    "pool": "25 m",
+    "laps": 28,
+    "dist": "700 m",
+    "blocks": [
+      {
+        "n": 8,
+        "t": "Warm-up",
+        "d": "4 easy, 4 build",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 4,
+        "t": "Catch to freestyle",
+        "d": "25 buoy + 25 fist + 25 normal freestyle + 25 build. Smooth catch; no sprint. 100 m total.",
+        "r": "25 s rest",
+        "k": "tech"
+      },
+      {
+        "n": "5 min",
+        "t": "Controlled start practice",
+        "d": "2 to 3 controlled starts to 15 m including breakout and surface swimming; dive only where permitted, otherwise push",
+        "r": "Full rest",
+        "k": "skill"
+      },
+      {
+        "n": 12,
+        "t": "Full 50 m race simulation",
+        "d": "1 × 50 timed, permitted deck dive or push + 10 × 25 easy spread before and after.",
+        "r": "Full recovery before the timed 50; no extra test if fatigued",
+        "k": "max",
+        "details": [
+          "Start → streamline → dolphin kicks → breakout → 25 m → turn → breakout → 25 m → touch. Use your reliable side turn until flips are consistently faster. Surface by 15 m; breathe as needed.",
+          "Weekdays: supervised, permitted deck dive; otherwise push. Blocks: Saturday at Satdobato only. Log start, pool length, turn, 50 m time and one technique note; add a 25 m split if available. Baseline: 34 s, push + side turn, 25 m pool. Compare matching conditions."
+        ]
+      },
+      {
+        "n": 4,
+        "t": "Cool-down",
+        "d": "4 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "note": "Two slower reps or poor technique: rest longer; switch to easy if quality stays low. Distance excludes timed drills. No extra sprints. Dives and underwaters: supervised and permitted only. No hyperventilation or forced breath holds. Surface as needed, by 15 m. Full recovery before timed 50s. Fewer starts if needed; keep full rest.",
+    "id": "w3d4",
+    "wi": 2,
+    "di": 4,
+    "date": "2026-10-02",
+    "weekName": "Week 3, Taper begins"
+  },
+  {
+    "dow": "Sat",
+    "title": "Starts and underwaters",
+    "pool": "50 m",
+    "laps": 14,
+    "dist": "700 m",
+    "blocks": [
+      {
+        "n": 4,
+        "t": "Warm-up",
+        "d": "2 easy, 2 build",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 2,
+        "t": "Kick and pull",
+        "d": "1 × 50 easy kick, 1 × 50 smooth pull",
+        "r": "40 s rest",
+        "k": "tech"
+      },
+      {
+        "n": "12 min",
+        "t": "Dive block",
+        "d": "3–4 dives: entry → dolphin kicks → breakout → swim to 15 m. Skip if fatigue affects technique.",
+        "r": "Full rest",
+        "k": "skill"
+      },
+      {
+        "n": 6,
+        "t": "Main set",
+        "d": "2 × (50 build to 80% + 50 easy), then 2 × 50 easy",
+        "r": "1 min after builds; 20–30 s after easy lengths",
+        "k": "easy"
+      },
+      {
+        "n": 2,
+        "t": "Cool-down",
+        "d": "2 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "note": "Two slower reps or poor technique: rest longer; switch to easy if quality stays low. Distance excludes timed drills. Satdobato: block starts, then easy swimming. No turn in the 50 m pool. Dives and underwaters: supervised and permitted only. No hyperventilation or forced breath holds. Surface as needed, by 15 m.",
+    "id": "w3d5",
+    "wi": 2,
+    "di": 5,
+    "date": "2026-10-03",
+    "weekName": "Week 3, Taper begins"
+  },
+  {
+    "dow": "Sun",
+    "title": "Rest day",
+    "pool": "—",
+    "laps": 0,
+    "dist": "—",
+    "rest": 1,
+    "note": "Full rest. Nothing in the pool, nothing in the gym.",
+    "blocks": [
+      {
+        "n": 0,
+        "t": "Stay out of the water",
+        "d": "Optional gentle mobility: ankles, lats, hips. Prioritise sleep.",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "id": "w3d6",
+    "wi": 2,
+    "di": 6,
+    "date": "2026-10-04",
+    "weekName": "Week 3, Taper begins"
+  },
+  {
+    "dow": "Mon",
+    "title": "Short and sharp",
+    "pool": "25 m",
+    "laps": 20,
+    "dist": "500 m",
+    "blocks": [
+      {
+        "n": 6,
+        "t": "Warm-up",
+        "d": "4 easy, 2 build",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 12,
+        "t": "Main set",
+        "d": "6 × (25 maximum + 25 easy back)",
+        "r": "2:30 rest. Every one has to be fast",
+        "k": "max"
+      },
+      {
+        "n": 2,
+        "t": "Cool-down",
+        "d": "2 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "id": "w4d0",
+    "wi": 3,
+    "di": 0,
+    "date": "2026-10-05",
+    "weekName": "Week 4, Race week"
+  },
+  {
+    "dow": "Tue",
+    "title": "Race pace and dives",
+    "pool": "25 m",
+    "laps": 20,
+    "dist": "500 m",
+    "blocks": [
+      {
+        "n": 8,
+        "t": "Warm-up",
+        "d": "4 easy, 4 build",
+        "r": "Continuous",
+        "k": "easy",
+        "progressKey": "b0"
+      },
+      {
+        "n": 2,
+        "t": "Start practice",
+        "d": "2 × 25: permitted dive or push → breakout → easy freestyle. Full recovery before race pace; no breath holding.",
+        "r": "Full rest",
+        "k": "skill",
+        "progressKey": "b2"
+      },
+      {
+        "n": 8,
+        "t": "Main set",
+        "d": "4 × 25 at race pace, 4 easy between",
+        "r": "1:30 rest",
+        "k": "pace",
+        "progressKey": "b1"
+      },
+      {
+        "n": 2,
+        "t": "Cool-down",
+        "d": "2 × 25 easy freestyle",
+        "r": "",
+        "k": "easy",
+        "progressKey": "b2-cooldown",
+        "legacyProgressKey": "b2"
+      }
+    ],
+    "note": "Dives and underwaters: supervised and permitted only. No hyperventilation or forced breath holds. Surface as needed, by 15 m. Starts → race pace → cool-down.",
+    "id": "w4d1",
+    "wi": 3,
+    "di": 1,
+    "date": "2026-10-06",
+    "weekName": "Week 4, Race week"
+  },
+  {
+    "dow": "Wed",
+    "title": "Rest day",
+    "pool": "—",
+    "laps": 0,
+    "dist": "—",
+    "rest": 1,
+    "note": "Rest. Sleep is the session today.",
+    "blocks": [
+      {
+        "n": 0,
+        "t": "Stay out of the water",
+        "d": "Optional gentle mobility: ankles, lats, hips. Prioritise sleep.",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "id": "w4d2",
+    "wi": 3,
+    "di": 2,
+    "date": "2026-10-07",
+    "weekName": "Week 4, Race week"
+  },
+  {
+    "dow": "Thu",
+    "title": "Race rehearsal, controlled",
+    "pool": "25 m",
+    "laps": 20,
+    "dist": "500 m",
+    "blocks": [
+      {
+        "n": 8,
+        "t": "Warm-up",
+        "d": "4 easy, 4 build",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": "8 min",
+        "t": "Turn approach and finish",
+        "d": "Controlled turns from both ends + firm finish touch. Judge distance from wall markings; breathe normally.",
+        "r": "Full rest",
+        "k": "skill"
+      },
+      {
+        "n": 4,
+        "t": "Full 50 m race simulation",
+        "d": "2 × 50 at 90–95%. Permitted deck dive or push; complete start, turn and finish.",
+        "r": "At least 5 min recovery; no personal-best chasing",
+        "k": "pace",
+        "details": [
+          "Start → streamline → dolphin kicks → breakout → 25 m → turn → breakout → 25 m → touch. Use your reliable side turn until flips are consistently faster. Surface by 15 m; breathe as needed.",
+          "Weekdays: supervised, permitted deck dive; otherwise push. Blocks: Saturday at Satdobato only. Log start, pool length, turn, 50 m time and one technique note; add a 25 m split if available. Baseline: 34 s, push + side turn, 25 m pool. Compare matching conditions."
+        ]
+      },
+      {
+        "n": 8,
+        "t": "Cool-down",
+        "d": "8 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "note": "Controlled rehearsal; finish fresh. 25 m pool: permitted deck dive or push, no blocks. Dives and underwaters: supervised and permitted only. No hyperventilation or forced breath holds. Surface as needed, by 15 m.",
+    "id": "w4d3",
+    "wi": 3,
+    "di": 3,
+    "date": "2026-10-08",
+    "weekName": "Week 4, Race week"
+  },
+  {
+    "dow": "Fri",
+    "title": "Touch the speed",
+    "pool": "25 m",
+    "laps": 16,
+    "dist": "400 m",
+    "blocks": [
+      {
+        "n": 6,
+        "t": "Warm-up",
+        "d": "4 easy, 2 build",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 8,
+        "t": "Main set",
+        "d": "4 × 25 maximum, 4 easy between",
+        "r": "Long rest, 2:30",
+        "k": "max"
+      },
+      {
+        "n": 2,
+        "t": "Cool-down",
+        "d": "2 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "note": "Nothing else. Get out while you still want more.",
+    "id": "w4d4",
+    "wi": 3,
+    "di": 4,
+    "date": "2026-10-09",
+    "weekName": "Week 4, Race week"
+  },
+  {
+    "dow": "Sat",
+    "title": "Rest day",
+    "pool": "—",
+    "laps": 0,
+    "dist": "—",
+    "rest": 1,
+    "note": "Rest, or 12 laps easy to loosen off if you feel stiff. Nothing harder.",
+    "blocks": [
+      {
+        "n": 0,
+        "t": "Stay out of the water",
+        "d": "Optional gentle mobility: ankles, lats, hips. Prioritise sleep.",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "id": "w4d5",
+    "wi": 3,
+    "di": 5,
+    "date": "2026-10-10",
+    "weekName": "Week 4, Race week"
+  },
+  {
+    "dow": "Sun",
+    "title": "Pre-meet shakeout",
+    "pool": "25 m",
+    "laps": 12,
+    "dist": "300 m",
+    "blocks": [
+      {
+        "n": 6,
+        "t": "Warm-up",
+        "d": "4 easy, 2 build",
+        "r": "Continuous",
+        "k": "easy"
+      },
+      {
+        "n": 4,
+        "t": "Main set",
+        "d": "2 × (25 fast and relaxed from a permitted deck dive or push + 25 easy). No extra repeats",
+        "r": "Full rest",
+        "k": "max"
+      },
+      {
+        "n": 2,
+        "t": "Cool-down",
+        "d": "2 easy",
+        "r": "",
+        "k": "easy"
+      }
+    ],
+    "note": "Shakeout: 30 min max; finish fresh. Permitted deck dive or push. Dives and underwaters: supervised and permitted only. No hyperventilation or forced breath holds. Surface as needed, by 15 m.",
+    "id": "w4d6",
+    "wi": 3,
+    "di": 6,
+    "date": "2026-10-11",
+    "weekName": "Week 4, Race week"
+  },
+  {
+    "dow": "Mon",
+    "title": "Race day",
+    "pool": "Satdobato",
+    "laps": 0,
+    "dist": "50 m freestyle",
+    "race": 1,
+    "blocks": [
+      {
+        "n": "1",
+        "t": "Pool warm-up",
+        "d": "Easy swimming, a few builds, and 2 or 3 starts if the warm-up pool allows it.",
+        "r": "Raise your body temperature",
+        "k": "easy"
+      },
+      {
+        "n": "2",
+        "t": "Get out and wait",
+        "d": "Stay warm. Follow call-room timing and your rehearsed warm-up schedule.",
+        "r": "Let the fatigue clear",
+        "k": "easy"
+      },
+      {
+        "n": "3",
+        "t": "Poolside activation",
+        "d": "Use your rehearsed activation routine. Keep it brief; no new exercises.",
+        "r": "Match the routine that worked in your rehearsal",
+        "k": "skill"
+      },
+      {
+        "n": "4",
+        "t": "Race",
+        "d": "Use your rehearsed start, breakout and finish. Breathe as needed. 25 m pool: turn; 50 m pool: no turn.",
+        "r": "Follow the call-room schedule and your rehearsed warm-up timing",
+        "k": "max"
+      }
+    ],
+    "note": "Nationals: 12–13 Oct. Goal: ≤28 s. Baseline: 34 s, push + side turn, 25 m pool. Confirm pool length and event times. Use your rehearsed routine both days; easy recovery between events, no extra time trials.",
+    "id": "race",
+    "wi": 4,
+    "di": 0,
+    "date": "2026-10-12",
+    "weekName": "Race day"
+  }
+]

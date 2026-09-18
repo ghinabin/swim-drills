@@ -1,17 +1,15 @@
 # Lane 50
 
-A responsive, framework-free swimming training companion. The four-week NSA Cup training plan lives in assets/data.js.
+A responsive swimming training companion for the October 12–13, 2026 NSA Cup. The current [daily plan](SWIMMING-PLAN.md) follows the supplied September 18 revision with Saturdays free for family/rest.
 
-The [training review and short reading list](TRAINING-REVIEW.md) explain the revised race rehearsals, speed/endurance balance, recovery days and taper for the October 12–13 meet. Friday's 25 m pool sessions use permitted deck starts (or a labelled push fallback); Saturday at Satdobato develops block starts. The plan uses the reported 34 s push-start baseline and a 28 s-or-below goal, without assuming equivalent times across different starts or pool lengths.
+The [training update](TRAINING-REVIEW.md) summarises the schedule and the [sequence review](SEQUENCE-REVIEW.md) lists every day's set order. Active swimming starts September 18: weekly totals are 800 m, 3,400 m, 2,550 m and 1,500–1,750 m, including optional October 11. Both competition days have separate checklists. Confirm actual events and competition pool length.
 
-Revisions take effect on **September 18, 2026**. September 14–17 retain the original workout content and block order. Week 1 has its own session array so future-week edits cannot rewrite those days; existing session IDs and progress storage remain unchanged.
-
-The [daily sequence review](SEQUENCE-REVIEW.md) records the evidence and reasons for the implemented drill order: catch-to-freestyle preparation on Fridays, speed before supplementary Monday kicking, early Wednesday breakouts, and October 6 starts before race-pace swimming. Reordered sets retain their saved checks through stable progress keys; the former combined October 6 starts/cool-down check carries over to both sets. Run `node tests/sequence.cjs` to check sequence and progress migration.
+September 14–17 are read-only historical records. The app preserves previous checks for replaced workouts in History instead of assigning them to new sets. The revised plan is date-based; no missed session blocks access or delays the taper.
 
 ## Pages
 
 - index.html: current session, race countdown, and upcoming sessions
-- plan.html: expandable four-week plan and race day
+- plan.html: expandable four-week plan and both competition days
 - session.html?id=w1d0: individual session, set tracking, and rest timer
 - drills.html: searchable, filterable training set library
 - progress.html: completion totals, activity, export, and confirmed reset
@@ -25,7 +23,11 @@ Run `python -m http.server 8000` in this directory and open http://localhost:800
 ## Organization
 
 - assets/styles.css: shared layout, components, responsive breakpoints, print styles
-- assets/data.js: original training data and date helpers
+- SWIMMING-PLAN.md: approved full plan, including guidance and both competition days
+- assets/data.js: generated current sessions, previous prescriptions and date helpers
+- scripts/import-plan.cjs: rebuilds data from the Markdown; run `node scripts/import-plan.cjs`
+- data/compact-copy.json: concise display text; full source instructions remain under More
+- data/previous-plan.json: original prescriptions for read-only history and check migration
 - assets/app.js: page rendering, progress storage, and workout controls
 - assets/navigation.js: return context, browser history, focus, scroll restoration, and dialog navigation
 - assets/interactions.css: sticky controls, session layout, and timer sheet
@@ -40,10 +42,10 @@ Mobile controls include bottom navigation with safe-area spacing, large touch ta
 
 - Overview answers what to do next; the plan provides week shortcuts and expandable sessions; the library supports searching sets and opening their sessions; progress summarizes completed work.
 - Session entry remembers the originating page. The header and completion area return to that page with its scroll position, expanded sections, and link focus restored.
-- Choosing a day requires pressing View; changing a selection alone never navigates. Day switching replaces the current session entry in browser history, so Back returns to the originating list in one step. Direct session links fall back to the matching day in the plan.
+- Direct session links fall back to the matching day in the plan. Session IDs stay stable, including `race` for October 12 and `race2` for October 13.
 - Plan week shortcuts expand their destination and account for sticky header height. Search and focus filters live in the library URL.
-- On mobile, a compact session action bar replaces the main tabs. It provides the next unfinished set and rest timer; the sticky header retains the return route and an All days link.
-- Checking a set never automatically advances the scroll. The next-set button explicitly scrolls and focuses the unfinished set.
+- On mobile, a compact session action bar replaces the main tabs. It provides completion totals and a rest timer; the sticky header retains the return route and an All days link.
+- Checking a set never automatically advances the scroll. More/Less controls are separate from completion buttons.
 - The native timer dialog traps keyboard focus, locks background scroll, and returns focus and scroll on close. Escape, browser Back, and the close button dismiss it; Forward restores it. The timer continues when the sheet is closed, but resets if the document is reloaded or another day is opened.
 - View state is per tab using sessionStorage; progress uses localStorage. When browser storage is unavailable, navigation remains usable but saved view restoration is unavailable.
 
@@ -61,13 +63,15 @@ Controls have visible labels, descriptive accessible names, keyboard focus, and 
 
 Run `python tests/accessibility.py --axe PATH_TO_AXE_MIN_JS` with a local axe-core script (tested with 4.10.3). It audits desktop/mobile pages and dialogs, then checks keyboard controls, announcements, confirmation, enlarged text, and forced-colors focus. Automated checks do not replace testing with actual assistive technology.
 
-## Week progression
+## Dated sessions, logs and history
 
-Week 1 is available immediately. Each subsequent week unlocks after all checks in all earlier weeks are complete. All seven days count, including recovery checklists. Locked weeks can be expanded and their sessions can be opened from the plan, library, or a direct URL; only progress changes are disabled. The preview links back to the first unfinished prerequisite session.
+All active dates are available immediately. Overview follows today or the next scheduled date, including rest days. Completing or missing a session does not reschedule later workouts. The optional October 11 swim has a Choose rest instead action.
 
-Access is derived from saved progress and survives reload. Undoing a prerequisite or clearing progress relocks later weeks while keeping any remaining saved checks. Open tabs update when progress changes in another tab. The race-day checklist and drill instructions remain available independently of the week gates.
+Quick log saves actual metres, effort, breathing comfort and a coach cue locally. Rehearsal and competition days also accept event, pool length, start type, first split and total time, with a calculated second split. There is one log per date; additional events can be noted in the observation. Progress distance sums actual training logs, not prescribed metres or competition swims. Export includes checks, logs, rest choices and archived records. Reset clears all of these after confirmation.
 
-Run `python tests/progression.py` to verify preview access, mutation guards, partial completion, sequential unlocks, cross-tab updates, and reset behavior. This is a browser-based training progression feature, not server-side access control.
+Revision-specific progress keys keep old checks off new workouts. September 14–17 retain their original content and checks as read-only records. Saved checks for replaced later sessions appear under Previous workout history. Old split-set migration remains supported. The drill library contains only current training sets.
+
+Run `node tests/sequence.cjs` for dates, all source instructions, totals and every prior completion pattern. Run `python tests/progression.py` for calendar access, historical records, More controls, logging, optional rest, mobile layout and offline checks.
 
 ## Offline access and independent race practice
 

@@ -1440,3 +1440,18 @@ body[data-page="race"] .race-clock { font-size: clamp(48px, 14vw, 68px);  }
 .copy-details ul, .drill-notes { margin: 0; padding: 0 8px 12px 24px; color: var(--muted); }
 .copy-details li + li, .drill-notes li + li { margin-top: 8px; }
 .copy-details > summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: 4px; }
+
+.plan-guide { margin-bottom: 20px; }
+.plan-guide p { margin: 6px 0 0; font-size: 13px; }
+.plan-guide > a { font-size: 13px; }
+.set-volume { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+.session-log, .optional-rest { margin-top: 24px; }
+.session-log > summary, #previous-progress > summary { cursor: pointer; min-height: 44px; }
+.log-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 16px; margin: 12px 0; }
+.log-fields label { display: grid; gap: 8px; font-size: 14px; }
+.log-fields input { min-width: 0; width: 100%; min-height: 48px; padding: 10px; border: 1px solid var(--line); border-radius: 8px; color: var(--text); background: var(--surface); font-size: 16px; }
+#previous-progress { margin: 24px 0; }
+#previous-progress .copy-details > summary { width: auto; flex-wrap: wrap; padding: 12px 8px; }
+
+.plan-guide > summary { gap: 10px; padding: 0; }
+.plan-guide ul { margin-top: 12px; }
