@@ -1417,3 +1417,26 @@ body[data-page="race"] .race-clock { font-size: clamp(48px, 14vw, 68px);  }
 #timing-note { position: absolute; top: 24px; color: var(--muted); font-size: 22px; }
 
 .stopwatch-actions > #cancel-race { margin: 0; min-height: 88px; }
+
+/* Optional coaching detail, outside the set completion button. */
+.set-item { min-width: 0; }
+.copy-details { font-size: 13px; }
+.set-item > .copy-details { padding: 0 16px; }
+.copy-details > summary {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 44px;
+  padding: 0 8px;
+  color: var(--cyan);
+  cursor: pointer;
+  list-style: none;
+}
+.copy-details > summary::-webkit-details-marker { display: none; }
+.copy-details > summary::after { content: "+"; margin-left: 8px; }
+.copy-details[open] > summary::after { content: "−"; }
+.copy-details .copy-less, .copy-details[open] .copy-more { display: none; }
+.copy-details[open] .copy-less { display: inline; }
+.copy-details ul, .drill-notes { margin: 0; padding: 0 8px 12px 24px; color: var(--muted); }
+.copy-details li + li, .drill-notes li + li { margin-top: 8px; }
+.copy-details > summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: 4px; }

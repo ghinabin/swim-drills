@@ -21,10 +21,10 @@
       }
 
       // Weekday deck starts rehearse the full swim; Saturday block starts use Satdobato.
-      var RACE_SEQUENCE = "On the start signal: use the prescribed start (normally a permitted deck dive), streamline and dolphin kicks, breakout, first 25 m, your practised turn and wall push, dolphin kicks, breakout, return 25 m, finish touch. Use your reliable side turn until a flip turn is consistently quicker in practice. Choose kick counts that preserve speed; surface by 15 m after each wall and breathe as needed.";
-      var TEST_SETUP = "Weekdays: use a permitted deck dive with supervision in the 25 m pool; blocks are available only on Saturdays at Satdobato. If deck diving is not permitted, use a push start. Record deck / push / blocks, pool length, turn type, 50 m time and one technique observation; ask an observer for a 25 m split if possible. Baseline: 34 s from push with a side turn in 25 m. Compare matching starts and turns; a deck dive rehearses the whole swim but not the block launch.";
-      var QUALITY = "If two successive efforts slow noticeably or technique breaks down, extend rest; if quality does not return, finish the hard work and swim easy. Distances listed exclude timed skill blocks.";
-      var WATER_SKILLS = "Practise dives and underwaters with direct supervision and only where permitted. Never hyperventilate or force breath holds. Surface sooner when needed; 15 m is a limit, not a target.";
+      var RACE_SEQUENCE = "Start → streamline → dolphin kicks → breakout → 25 m → turn → breakout → 25 m → touch. Use your reliable side turn until flips are consistently faster. Surface by 15 m; breathe as needed.";
+      var TEST_SETUP = "Weekdays: supervised, permitted deck dive; otherwise push. Blocks: Saturday at Satdobato only. Log start, pool length, turn, 50 m time and one technique note; add a 25 m split if available. Baseline: 34 s, push + side turn, 25 m pool. Compare matching conditions.";
+      var QUALITY = "Two slower reps or poor technique: rest longer; switch to easy if quality stays low. Distance excludes timed drills.";
+      var WATER_SKILLS = "Dives and underwaters: supervised and permitted only. No hyperventilation or forced breath holds. Surface as needed, by 15 m.";
 
       var BASE = [
         {
@@ -58,7 +58,7 @@
             b(
               "8 min",
               "Turn block",
-              "6 to 8 reps. Swim in from 10 m, flip, dolphin kicks, breakout, 5 strokes. Use your quickest comfortable kick count, not a fixed five. Learn flips here; use the reliable side turn for timed 50s until flips are consistent.",
+              "6–8 reps: 10 m approach → flip → comfortable dolphin kicks → breakout → 5 strokes. Timed 50s: use your reliable turn.",
               "Full rest. Quality only",
               "skill",
             ),
@@ -66,7 +66,7 @@
               14,
               "Main set",
               "7 × (25 maximum from push + 25 easy back)",
-              "2–3 min recovery after each fast 25, including the easy return. Use current repeatable speed",
+              "2–3 min recovery per fast 25, including easy return; repeatable speed",
               "max",
             ),
             b(6, "Cool-down", "6 easy, long relaxed strokes", "", "easy"),
@@ -98,7 +98,7 @@
             b(
               "8 min",
               "Vertical dolphin kick",
-              "Deep corner with supervision, head above water. 6 × 10 s controlled dolphin kick, 30 s easy recovery. Repeat in both weeks; progress only when fresh.",
+              "6 × 10 s vertical dolphin kick; 30 s easy recovery. Supervised deep water; head above water. Progress only when fresh.",
               "Hands by your sides; stop if you cannot keep your airway clear",
               "skill",
             ),
@@ -145,8 +145,8 @@
             b(
               "10 min",
               "Breakout block",
-              "4 to 6 relaxed 25s, fins optional. Start with a short comfortable dolphin-kick breakout, link the last kick to the first pull, then easy freestyle with normal breathing. Rest fully; no prolonged underwater swimming.",
-              "Stop after 10 min or sooner if tired",
+              "4–6 × 25 easy: short dolphin breakout → first pull → freestyle. Fins optional. Breathe normally; no long underwaters.",
+              "Full rest. Stop at 10 min or when tired",
               "skill",
             ),
             b(
@@ -185,7 +185,7 @@
             b(
               "6 min",
               "Breakout check to 15 m",
-              "4 push starts: short dolphin kicks, breakout, then swim to 15 m. Compare comfortable kick counts using time to 15 m, including surface swimming. No full-distance underwater target.",
+              "4 push starts: short dolphin breakout → swim to 15 m. Compare kick counts by time to 15 m; surface early.",
               "1:30 rest",
               "skill",
             ),
@@ -218,15 +218,15 @@
             b(
               "6 min",
               "Start block",
-              "3 to 4 controlled start rehearsals to 15 m including the breakout and surface swimming. Dive only where permitted; otherwise push. Save your best effort for the full 50s.",
+              "3–4 controlled starts: breakout → swim to 15 m. Permitted dive or push; save max effort for the 50s.",
               "Full rest between reps",
               "skill",
             ),
             b(
               16,
               "Full 50 m race simulation",
-              "2 × 50 timed deck-dive race rehearsals, with 12 × 25 easy spread before, between and after. Keep each attempt continuous through the turn. " + RACE_SEQUENCE + " " + TEST_SETUP,
-              "At least 5 min recovery after each timed 50, including easy swimming; extend until ready",
+              "2 × 50 timed, permitted deck dive or push + 12 × 25 easy spread before, between and after.",
+              "5+ min recovery per timed 50, including easy swimming; longer if needed",
               "max",
             ),
             b(6, "Cool-down", "6 easy", "", "easy"),
@@ -251,7 +251,7 @@
             b(
               "15 min",
               "Dive block",
-              "4 to 6 quality dives. Entry, a comfortable fast dolphin-kick sequence, breakout, then swim to 15 m. Keep the rest of the session easy; stop dives if Friday fatigue affects entry or breakout.",
+              "4–6 dives: entry → dolphin kicks → breakout → swim to 15 m. Stop if fatigue affects technique; swim easy after.",
               "Full rest between every dive",
               "skill",
             ),
@@ -264,10 +264,10 @@
             ),
             b(4, "Cool-down", "4 easy", "", "easy"),
           ],
-          note: "Saturday at Satdobato: practise the block launch while fresh. A 50 m length in this scheduled 50 m pool has no turn; Friday in 25 m rehearses the turn and return from a deck dive. Confirm the actual competition course before comparing times. " + WATER_SKILLS,
+          note: "Satdobato: block starts, then easy swimming. No turn in the 50 m pool. Confirm race pool length before comparing times. " + WATER_SKILLS,
         },
 
-        REST_DAY("Sun", "Full rest from pool and hard gym work. Easy walking or mobility is optional. Recover for Monday; do not make up missed sprints."),
+        REST_DAY("Sun", "Rest: no swimming or hard gym work. Optional walk or mobility; no catch-up sprints."),
       ];
 
       function REST_DAY(dow, msg) {
@@ -283,7 +283,7 @@
             b(
               0,
               "Stay out of the water",
-              "Easy mobility if you feel stiff — ankles, lats, hips. Sleep is the session today.",
+              "Optional gentle mobility: ankles, lats, hips. Prioritise sleep.",
               "",
               "easy",
             ),
@@ -317,7 +317,7 @@
             b(
               "6 min",
               "Turn block",
-              "4 to 6 reps. In from 10 m, flip, dolphin kicks, breakout, 5 strokes. Use your tested comfortable kick count. Keep the reliable side turn in timed swims until flips are consistent.",
+              "4–6 reps: 10 m approach → flip → comfortable dolphin kicks → breakout → 5 strokes. Timed swims: use your reliable turn.",
               "Full rest",
               "skill",
             ),
@@ -325,7 +325,7 @@
               10,
               "Main set",
               "5 × (25 maximum from push + 25 easy back)",
-              "2–3 min recovery after each fast 25, including the easy return. Use current repeatable speed",
+              "2–3 min recovery per fast 25, including easy return; repeatable speed",
               "max",
             ),
             b(4, "Cool-down", "4 easy", "", "easy"),
@@ -360,7 +360,7 @@
         },
         REST_DAY(
           "Wed",
-          "Taper week. Rest today. Feeling flat is possible, but persistent fatigue is a reason to reduce load, not proof the taper is working. Do not add missed volume back.",
+          "Rest today. Reduce load if fatigue persists; no catch-up training.",
         ),
         {
           dow: "Thu",
@@ -414,7 +414,7 @@
             b(
               12,
               "Full 50 m race simulation",
-              "1 × 50 timed race rehearsal, with 10 × 25 easy before and after. " + RACE_SEQUENCE + " " + TEST_SETUP,
+              "1 × 50 timed, permitted deck dive or push + 10 × 25 easy spread before and after.",
               "Full recovery before the timed 50; no extra test if fatigued",
               "max",
             ),
@@ -439,7 +439,7 @@
             b(
               "12 min",
               "Dive block",
-              "3 to 4 quality dives. Entry, comfortable dolphin kicks, breakout, then swim to 15 m. Full recovery; skip dives if Friday fatigue affects technique.",
+              "3–4 dives: entry → dolphin kicks → breakout → swim to 15 m. Skip if fatigue affects technique.",
               "Full rest",
               "skill",
             ),
@@ -505,20 +505,20 @@
             b(
               "8 min",
               "Turn approach and finish",
-              "Rehearse your reliable turn from both ends and a firm finish touch. Use the wall markings to judge distance. Keep efforts controlled and breathe normally.",
+              "Controlled turns from both ends + firm finish touch. Judge distance from wall markings; breathe normally.",
               "Full rest",
               "skill",
             ),
             b(
               4,
               "Full 50 m race simulation",
-              "2 × 50 complete race rehearsals at controlled 90–95% effort. " + RACE_SEQUENCE + " " + TEST_SETUP,
+              "2 × 50 at 90–95%. Permitted deck dive or push; complete start, turn and finish.",
               "At least 5 min recovery; no personal-best chasing",
               "pace",
             ),
             b(8, "Cool-down", "8 easy", "", "easy"),
           ],
-          note: "Controlled rehearsal in your weekday 25 m pool. Use the permitted deck start you practised; no block access today. Leave fresh for the October 12–13 meet.",
+          note: "Controlled rehearsal; finish fresh. 25 m pool: permitted deck dive or push, no blocks.",
         },
         {
           dow: "Fri",
@@ -560,7 +560,7 @@
             ),
             b(2, "Cool-down", "2 easy", "", "easy"),
           ],
-          note: "Short shakeout in your available pool, no more than 30 minutes. Deck dive only if permitted; otherwise push. Leave fresh.",
+          note: "Shakeout: 30 min max; finish fresh. Permitted deck dive or push.",
         },
       ];
 
@@ -582,26 +582,26 @@
           b(
             "2",
             "Get out and wait",
-            "Stay warm in your tracksuit. Time your wait and familiar activation around the call-room schedule and the warm-up timing that worked in rehearsal; do not force a fixed ten-minute wait.",
+            "Stay warm. Follow call-room timing and your rehearsed warm-up schedule.",
             "Let the fatigue clear",
             "easy",
           ),
           b(
             "3",
             "Poolside activation",
-            "Use only your familiar, rehearsed activation routine. Keep it brief and stop while fresh; do not introduce new jumps or strength work on race day.",
+            "Use your rehearsed activation routine. Keep it brief; no new exercises.",
             "Match the routine that worked in your rehearsal",
             "skill",
           ),
           b(
             "4",
             "Race",
-            "Use your rehearsed start, breakout, turn and finish. Breathe as needed using the pattern practised in training; never force a zero-breath length. In a 50 m competition pool, swim straight through with no turn.",
+            "Use your rehearsed start, breakout and finish. Breathe as needed. 25 m pool: turn; 50 m pool: no turn.",
             "Follow the call-room schedule and your rehearsed warm-up timing",
             "max",
           ),
         ],
-        note: "Nationals: October 12–13. Goal: 28 seconds or below; current baseline is 34 s from push with a side turn in a 25 m pool. Use rehearsed execution, not a forced target split. Confirm the competition course and your event schedule. Between meet days, recover and use only familiar easy loosening; no extra time trials. Repeat the race-day routine for your October 13 events if scheduled.",
+        note: "Nationals: 12–13 Oct. Goal: ≤28 s. Baseline: 34 s, push + side turn, 25 m pool. Confirm pool length and event times. Use your rehearsed routine both days; easy recovery between events, no extra time trials.",
       };
 
       [BASE, W3].forEach(function (week) {
@@ -612,11 +612,11 @@
             day.note += " " + WATER_SKILLS;
           }
           if (day.dow === "Fri") {
-            day.note += " Friday tests replace the former extra sprint set; do not add more hard efforts. " + WATER_SKILLS;
+            day.note += " No extra sprints. " + WATER_SKILLS;
           }
         });
       });
-      W3[5].note += " Saturday at Satdobato: block-start skill only, with easy swimming afterwards. The scheduled 50 m pool has no turn within a 50. " + WATER_SKILLS;
+      W3[5].note += " Satdobato: block starts, then easy swimming. No turn in the 50 m pool. " + WATER_SKILLS;
       W4[1].note = WATER_SKILLS;
       W4[3].note += " " + WATER_SKILLS;
       W4[6].note += " " + WATER_SKILLS;
@@ -628,36 +628,36 @@
         day.blocks = order.map(function (i) { return original[i]; });
       }
       BASE[4].blocks[1].t = "Catch to freestyle";
-      BASE[4].blocks[1].d = "2 × 25 smooth buoy, then 2 × (25 fist + 25 normal freestyle), then 2 × 25 progressive freestyle. Carry the catch feeling into your normal stroke; build smoothly, not all-out. Total 200 m.";
+      BASE[4].blocks[1].d = "2 × 25 buoy + 2 × (25 fist + 25 normal freestyle) + 2 × 25 build. Smooth catch; no sprint. 200 m total.";
       W3[4].blocks[1].t = "Catch to freestyle";
-      W3[4].blocks[1].d = "25 smooth buoy + 25 fist + 25 normal freestyle + 25 progressive freestyle. Carry the catch into your normal stroke; finish with a smooth build, not a sprint. Total 100 m.";
+      W3[4].blocks[1].d = "25 buoy + 25 fist + 25 normal freestyle + 25 build. Smooth catch; no sprint. 100 m total.";
       [BASE[4], W3[4]].forEach(function (day) {
         day.blocks[2].t = "Controlled start practice";
-        day.note += " Catch drills lead into normal freestyle before starts. Recover fully before the first timed 50. Time limits are caps: do fewer starts rather than shorten recovery.";
+        day.note += " Full recovery before timed 50s. Fewer starts if needed; keep full rest.";
       });
 
-      BASE[0].blocks[2].d = "2 × (25 fist + 25 normal freestyle). Transfer the catch feeling into your usual stroke before turns and speed.";
-      W3[0].blocks[2].d = "25 fist + 25 normal freestyle. Transfer the catch feeling into your usual stroke.";
-      W3[0].blocks[1].d = "4 × 25 flutter kick, easy to controlled. Keep this supplementary work relaxed after the speed set.";
+      BASE[0].blocks[2].d = "2 × (25 fist + 25 normal freestyle). Keep the same catch.";
+      W3[0].blocks[2].d = "25 fist + 25 normal freestyle. Keep the same catch.";
+      W3[0].blocks[1].d = "4 × 25 flutter kick, easy to controlled. Stay relaxed.";
       [BASE[0], W3[0]].forEach(function (day) {
         reorderBlocks(day, [0, 2, 3, 4, 1, 5]);
-        day.note += " Practise turns with full recovery, then prioritise maximum swimming before supplementary kicking. Stop the hard work when quality fades; do not chase the repetition count.";
+        day.note += " Turns → speed → easy kick. Full recovery; stop hard reps if technique fades.";
       });
       reorderBlocks(BASE[2], [0, 4, 1, 2, 3, 5, 6]);
-      BASE[2].note += " Practise relaxed breakouts early while attentive, then keep every remaining drill and length easy.";
+      BASE[2].note += " Breakouts first; keep all swimming easy.";
 
       var racePaceDay = W4[1];
       var originalPaceBlocks = racePaceDay.blocks;
       originalPaceBlocks.forEach(function (block, i) { block.progressKey = "b" + i; });
       var startPractice = assign(originalPaceBlocks[2], {
         n: 2, t: "Start practice",
-        d: "2 × 25: permitted deck dive or push, breakout, then easy freestyle to the wall. Practise while fresh; recover fully before the race-pace set. No extra starts or breath holding."
+        d: "2 × 25: permitted dive or push → breakout → easy freestyle. Full recovery before race pace; no breath holding."
       });
       var paceCoolDown = b(2, "Cool-down", "2 × 25 easy freestyle", "", "easy");
       paceCoolDown.progressKey = "b2-cooldown";
       paceCoolDown.legacyProgressKey = "b2";
       racePaceDay.blocks = [originalPaceBlocks[0], startPractice, originalPaceBlocks[1], paceCoolDown];
-      racePaceDay.note += " Starts come before race-pace swimming so you can rehearse entry and breakout while fresh. Keep the easy cool-down last.";
+      racePaceDay.note += " Starts → race pace → cool-down.";
 
       // Preserve September 14–17 exactly as trained, including block order for saved checks.
       // Revised BASE applies to September 21 onward; Week 1 changes only from September 18.
@@ -877,8 +877,12 @@
       var W1 = COMPLETED_WEEK1_DAYS.concat(BASE.slice(4).map(function (day) {
         return assign(day, { blocks: day.blocks.map(function (block) { return assign(block, {}); }) });
       }));
-      W1[4].blocks[3].d = "2 × 50 timed race rehearsals: first from push with your current side turn to check the 34 s baseline, then from a permitted deck dive. Include 12 × 25 easy before, between and after. " + RACE_SEQUENCE + " " + TEST_SETUP;
-      W1[4].note = "September 18: you completed the original hard September 17 session. Assess recovery during warm-up. If still fatigued or your builds feel unusually slow, replace both timed 50s with easy 50s and keep the rest of today easy. Next planned test: September 25; do not make up missed efforts on Saturday. " + W1[4].note;
+      W1[4].blocks[3].d = "2 × 50 timed: push + side turn, then permitted deck dive (or push). Add 12 × 25 easy before, between and after.";
+      W1[4].note = "Tired or slow in warm-up? Replace both timed 50s with easy 50s; keep today easy. Hard session yesterday. Next test: 25 Sep; no catch-up efforts Saturday. " + W1[4].note;
+
+      [W1[4], BASE[4], W3[4], W4[3]].forEach(function (day) {
+        day.blocks.find(function (block) { return block.t === "Full 50 m race simulation"; }).details = [RACE_SEQUENCE, TEST_SETUP];
+      });
 
       var WEEKS = [
         {
@@ -926,8 +930,8 @@
         tech: "technique",
         skill: "skill",
         pace: "race pace",
-        endurance: "controlled endurance",
-        max: "maximum",
+        endurance: "endurance",
+        max: "max effort",
       };
 
       var DAYS = [];

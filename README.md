@@ -55,7 +55,7 @@ With Python, Playwright, and Chrome installed, run `python tests/navigation.py`.
 
 ## Lean content and accessibility
 
-Overview shows the current session and the next two days. Totals live on Progress; export and reset are under Manage progress. Repeated slogans, decorative labels, duplicated dates, and the overview calendar have been removed. Workout instructions and rest targets remain intact.
+Overview shows the current session and the next two days. Totals live on Progress; export and reset are under Manage progress. Repeated slogans, decorative labels, duplicated dates, and the overview calendar have been removed. Sets use short instructions with reps and rest targets visible. Longer session notes and race guidance expand under More; opening details never changes completion.
 
 Controls have visible labels, descriptive accessible names, keyboard focus, and non-color completion states. Session completion feedback uses a live region that stays available on mobile. Reset has an explicit, untimed confirmation and Cancel action. Text can reflow at 200%; forced-colors focus styles are included.
 

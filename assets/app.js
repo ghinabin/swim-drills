@@ -97,7 +97,7 @@ function completionMessage(d, previouslyComplete) {
       "Week " + (d.wi + 1) + " complete. Week " + (d.wi + 2) + " unlocked."
     );
   }
-  return "Session complete. Your progress is saved.";
+  return "Session complete. Progress saved.";
 }
 
 const currentDay =
@@ -158,6 +158,17 @@ document.getElementById("navigation").innerHTML = links
 function intro(title, description = "") {
   return `<div class="page-intro"><div><h1>${title}</h1>${description ? `<p>${description}</p>` : ""}</div></div>`;
 }
+// Native disclosures stay separate from completion buttons.
+function moreDetails(items, id, label) {
+  if (!items || !items.length) return "";
+  return `<details class="copy-details" id="${id}"><summary><span class="copy-more">More</span><span class="copy-less">Less</span><span class="sr-only">: ${escapeHTML(label)}</span></summary><ul>${items.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}</ul></details>`;
+}
+function sessionNote(note) {
+  if (!note) return "";
+  const sentences = note.split(/(?<=\.)\s+/);
+  const compact = note.length > 160 && sentences.length > 1;
+  return `<aside class="callout session-note" aria-label="Session focus"><strong>Session focus</strong><p>${escapeHTML(compact ? sentences[0] : note)}</p>${compact ? moreDetails(sentences.slice(1), "session-note-details", "session focus") : ""}</aside>`;
+}
 function card(d) {
   const status = !sessionUnlocked(d)
     ? "Locked - preview"
@@ -197,7 +208,7 @@ function overview() {
       `NSA Cup &middot; 12 October &middot; Target 29.9 s`,
     ) +
     `<section class="hero" aria-labelledby="current-session"><div><div class="eyebrow">${dateKey(selected.date) === todayKey ? "Today" : remaining < 0 ? "Race checklist" : "Next session"}</div><h2 id="current-session">${escapeHTML(selected.title)}</h2><p>${selected.dow} ${fmt(selected.date)} &middot; ${selected.rest ? "Recovery" : selected.race ? "50 m freestyle" : selected.pool + " pool &middot; " + selected.dist}</p><a class="button" href="${href(selected)}">${completed(selected) ? "Review session" : "Open session"}${icon("arrow")}</a></div><p class="race-summary">${raceLabel}</p></section>` +
-    `<section class="panel race-entry"><div><h2>Race on your terms</h2><p>Practice the start. Time your swim. Keep a separate race log.</p></div><a class="button" href="race.html">Race &rarr;</a></section>` +
+    `<section class="panel race-entry"><div><h2>Race practice</h2><p>Practise starts and save swim times.</p></div><a class="button" href="race.html">Race &rarr;</a></section>` +
     (next.length
       ? `<section class="upcoming"><div class="section-title"><h2>Coming up</h2><a class="text-link" href="plan.html">Full plan &rarr;</a></div>${next.map(card).join("")}</section>`
       : '<a class="button secondary" href="progress.html">View progress</a>');
@@ -206,7 +217,7 @@ function plan() {
   main.innerHTML =
     intro(
       "Training plan",
-      "Finish all 7 days to unlock the next week. You can preview every week.",
+      "Complete 7 days to unlock the next week. Preview any week.",
     ) +
     '<nav class="week-jump" aria-label="Jump to week">' +
     WEEKS.map(
@@ -220,7 +231,7 @@ function plan() {
     WEEKS.map((w, wi) => {
       const days = DAYS.filter((d) => d.wi === wi);
       const locked = !weekUnlocked(wi);
-      return `<details class="week" id="week-${wi + 1}" ${wi === Math.min(suggestedDay().wi, 3) ? "open" : ""}><summary><span class="week-number">0${wi + 1}</span><span><h2>${w.name}</h2><small>${fmt(days[0].date)} &ndash; ${fmt(days[6].date)}</small><span class="week-access">${weekStatus(wi)}</span></span><span class="week-count">${days.filter(completed).length} / ${days.length} days</span></summary><div class="week-body">${locked ? `<p class="week-requirement">${unlockRequirement(wi)} All sessions are available to preview.</p>` : ""}<p>${w.sub}</p>${days.map(card).join("")}</div></details>`;
+      return `<details class="week" id="week-${wi + 1}" ${wi === Math.min(suggestedDay().wi, 3) ? "open" : ""}><summary><span class="week-number">0${wi + 1}</span><span><h2>${w.name}</h2><small>${fmt(days[0].date)} &ndash; ${fmt(days[6].date)}</small><span class="week-access">${weekStatus(wi)}</span></span><span class="week-count">${days.filter(completed).length} / ${days.length} days</span></summary><div class="week-body">${locked ? `<p class="week-requirement">${unlockRequirement(wi)} Preview available.</p>` : ""}<p>${w.sub}</p>${days.map(card).join("")}</div></details>`;
     }).join("") +
     '<section class="race-section" aria-label="Race day">' +
     card(DAYS[DAYS.length - 1]) +
@@ -251,8 +262,8 @@ function session() {
   if (!activeSession) {
     main.innerHTML =
       intro(
-        "Let’s get you back on track.",
-        "This session link does not match the training plan.",
+        "Session not found",
+        "Choose a session from the plan.",
       ) + '<a class="button" href="plan.html">View training plan</a>';
     return;
   }
@@ -266,18 +277,16 @@ function session() {
       `${d.dow} ${fmt(d.date)} &middot; ${d.rest ? "Mobility and sleep" : d.race ? "50 m freestyle &middot; Satdobato" : d.pool + " pool &middot; " + d.dist + " &middot; " + d.blocks.length + " sets"}`,
     ) +
     '<aside id="week-lock" class="week-lock" aria-labelledby="week-lock-title" hidden><strong id="week-lock-title">Locked week preview</strong><p id="week-lock-description"></p></aside>' +
-    (d.note
-      ? `<aside class="callout session-note" aria-label="Session focus"><strong>Session focus</strong><p>${escapeHTML(d.note)}</p></aside>`
-      : "") +
-    `<div class="session-layout"><section class="workout" aria-labelledby="sets-heading"><div class="section-title"><h2 id="sets-heading">${d.rest ? "Recovery checklist" : d.race ? "Race checklist" : "Session sets"}</h2></div><p class="set-hint" id="set-hint">Select a ${d.rest ? "check" : "set"} to mark it done or undo.</p><div class="set-list">` +
+    sessionNote(d.note) +
+    `<div class="session-layout"><section class="workout" aria-labelledby="sets-heading"><div class="section-title"><h2 id="sets-heading">${d.rest ? "Recovery checklist" : d.race ? "Race checklist" : "Session sets"}</h2></div><p class="set-hint" id="set-hint">Tap to check or uncheck.</p><div class="set-list">` +
     d.blocks
       .map(
         (b, i) =>
-          `<button type="button" id="set-${i}" aria-labelledby="set-title-${i} set-amount-${i}" aria-describedby="week-lock-description set-order-${i} set-desc-${i}${b.r ? " set-target-" + i : ""}" class="set-card" data-set="${i}" data-kind="${b.k}" aria-pressed="${checked(d, i)}"><span class="set-number" id="set-amount-${i}">${b.n === 0 ? "&#8226;" : escapeHTML(String(b.n).replace(" min", ""))}<small>${d.race ? "STEP" : typeof b.n === "number" ? (b.n ? "LAPS" : "") : String(b.n).includes("min") ? "MIN" : ""}</small></span><span class="set-content"><span class="set-order" id="set-order-${i}">${i + 1}. ${LAB[b.k]}</span><span class="set-title" id="set-title-${i}">${escapeHTML(b.t)}</span><span class="set-description" id="set-desc-${i}">${escapeHTML(b.d)}</span>${b.r ? `<span class="target" id="set-target-${i}">${escapeHTML(b.r)}</span>` : ""}</span><span class="status-dot" aria-hidden="true">${checked(d, i) ? "&#10003;" : ""}</span></button>`,
+          `<div class="set-item"><button type="button" id="set-${i}" aria-labelledby="set-title-${i} set-amount-${i}" aria-describedby="week-lock-description set-order-${i} set-desc-${i}${b.r ? " set-target-" + i : ""}" class="set-card" data-set="${i}" data-kind="${b.k}" aria-pressed="${checked(d, i)}"><span class="set-number" id="set-amount-${i}">${b.n === 0 ? "&#8226;" : escapeHTML(String(b.n).replace(" min", ""))}<small>${d.race ? "STEP" : typeof b.n === "number" ? (b.n ? "LAPS" : "") : String(b.n).includes("min") ? "MIN" : ""}</small></span><span class="set-content"><span class="set-order" id="set-order-${i}">${i + 1}. ${LAB[b.k]}</span><span class="set-title" id="set-title-${i}">${escapeHTML(b.t)}</span><span class="set-description" id="set-desc-${i}">${escapeHTML(b.d)}</span>${b.r ? `<span class="target" id="set-target-${i}">${escapeHTML(b.r)}</span>` : ""}</span><span class="status-dot" aria-hidden="true">${checked(d, i) ? "&#10003;" : ""}</span></button>${moreDetails(b.details, "set-details-" + i, b.t)}</div>`,
       )
       .join("") +
     `</div><section class="session-finish" id="session-finish" tabindex="-1"><h2 id="finish-heading">Finish this session</h2><div class="actions"><button id="complete-all" class="button secondary" aria-describedby="week-lock-description"></button><a class="button" data-return href="${escapeHTML(SwimNavigation.returnURL())}">Back to ${SwimNavigation.returnLabel().toLowerCase()}</a></div></section></section></div>` +
-    `<p id="session-announcement" class="sr-only" role="status" aria-atomic="true"></p><div class="session-dock" role="group" aria-label="Session actions"><div class="session-progress-summary"><span id="dock-count"></span><div class="progress-track" role="progressbar" aria-label="Completed sets" aria-valuemin="0" aria-valuemax="${d.blocks.length}" id="session-progress"><span id="session-bar"></span></div></div>${d.rest ? "" : '<button class="dock-timer" data-open-timer><span>Rest timer</span><strong data-timer-preview>00:30</strong></button>'}</div><dialog class="timer-sheet" id="timer-sheet" aria-labelledby="timer-heading"><div class="sheet-header"><div><h2 id="timer-heading">Rest timer</h2></div><button class="icon-button" data-close-dialog aria-label="Close rest timer">&#10005;</button></div><p>The timer keeps running when closed.</p><div class="timer-value" id="timer" role="timer" aria-label="Rest time remaining">00:30</div><div class="timer-presets" role="group" aria-label="Timer duration"><button data-seconds="30" class="active" aria-pressed="true">30 sec</button><button data-seconds="60" aria-pressed="false">1 min</button><button data-seconds="120" aria-pressed="false">2 min</button></div><div class="timer-actions"><button id="timer-toggle" class="button">Start</button><button id="timer-reset" class="button secondary">Reset</button></div><p id="timer-status" role="status">Choose your rest, then start.</p></dialog>`;
+    `<p id="session-announcement" class="sr-only" role="status" aria-atomic="true"></p><div class="session-dock" role="group" aria-label="Session actions"><div class="session-progress-summary"><span id="dock-count"></span><div class="progress-track" role="progressbar" aria-label="Completed sets" aria-valuemin="0" aria-valuemax="${d.blocks.length}" id="session-progress"><span id="session-bar"></span></div></div>${d.rest ? "" : '<button class="dock-timer" data-open-timer><span>Rest timer</span><strong data-timer-preview>00:30</strong></button>'}</div><dialog class="timer-sheet" id="timer-sheet" aria-labelledby="timer-heading"><div class="sheet-header"><div><h2 id="timer-heading">Rest timer</h2></div><button class="icon-button" data-close-dialog aria-label="Close rest timer">&#10005;</button></div><p>Runs while closed.</p><div class="timer-value" id="timer" role="timer" aria-label="Rest time remaining">00:30</div><div class="timer-presets" role="group" aria-label="Timer duration"><button data-seconds="30" class="active" aria-pressed="true">30 sec</button><button data-seconds="60" aria-pressed="false">1 min</button><button data-seconds="120" aria-pressed="false">2 min</button></div><div class="timer-actions"><button id="timer-toggle" class="button">Start</button><button id="timer-reset" class="button secondary">Reset</button></div><p id="timer-status" role="status">Choose rest time, then start.</p></dialog>`;
   main.querySelectorAll("[data-set]").forEach((button) =>
     button.addEventListener("click", () => {
       if (!sessionUnlocked(d)) return;
@@ -329,8 +338,8 @@ function updateSession() {
   document.getElementById("week-lock").hidden = !locked;
   document.getElementById("week-lock-description").textContent = reason;
   document.getElementById("set-hint").textContent = locked
-    ? "Preview only. Check off sets after this week unlocks."
-    : "Select a set to mark it done or undo.";
+    ? "Preview only. Unlock to track sets."
+    : "Tap to check or uncheck.";
   main.querySelectorAll("[data-set]").forEach((button) => {
     const done = checked(d, Number(button.dataset.set));
     button.setAttribute("aria-pressed", String(done));
@@ -389,9 +398,9 @@ function setupTimer() {
     if (remaining === 0) {
       stop();
       vibrate();
-      toast("Rest finished. Ready for your next set.");
+      toast("Rest done. Next set.");
       document.getElementById("timer-status").textContent =
-        "Rest finished. Ready for your next set.";
+        "Rest done. Next set.";
     }
   }
   toggle.onclick = () => {
@@ -406,7 +415,7 @@ function setupTimer() {
       interval = setInterval(tick, 200);
       toggle.textContent = "Pause";
       document.getElementById("timer-status").textContent =
-        "Timer running. You can close this panel.";
+        "Running. Close anytime.";
       paint();
     }
   };
@@ -414,7 +423,7 @@ function setupTimer() {
     stop();
     remaining = duration;
     document.getElementById("timer-status").textContent =
-      "Timer reset. Ready to start.";
+      "Timer reset.";
     paint();
   };
   document.querySelectorAll("[data-seconds]").forEach(
@@ -437,7 +446,7 @@ function drills() {
   const queryParams = new URLSearchParams(location.search);
   main.innerHTML =
     intro("Drill library", "Find a set and view its instructions.") +
-    '<div class="toolbar"><label class="filter-field"><span>Search drills</span><input type="search" id="drill-search" aria-label="Search drills" placeholder="e.g. kick"></label><label class="filter-field"><span>Training focus</span><select id="drill-filter" aria-label="Training focus"><option value="all">All training focuses</option>' +
+    '<div class="toolbar"><label class="filter-field"><span>Search drills</span><input type="search" id="drill-search" aria-label="Search drills" placeholder="e.g. kick"></label><label class="filter-field"><span>Training focus</span><select id="drill-filter" aria-label="Training focus"><option value="all">All focuses</option>' +
     Object.entries(LAB)
       .map(([k, label]) => '<option value="' + k + '">' + label + "</option>")
       .join("") +
@@ -475,7 +484,7 @@ function drills() {
     const matches = library.filter(
       (b) =>
         (kind === "all" || b.k === kind) &&
-        (b.t + " " + b.d + " " + b.r).toLowerCase().includes(query),
+        (b.t + " " + b.d + " " + b.r + " " + (b.details || []).join(" ")).toLowerCase().includes(query),
     );
     document.getElementById("drill-count").textContent =
       matches.length + " sets found";
@@ -495,6 +504,7 @@ function drills() {
               escapeHTML(b.d) +
               "</p>" +
               (b.r ? '<p class="target">' + escapeHTML(b.r) + "</p>" : "") +
+              (b.details ? '<ul class="drill-notes">' + b.details.map((item) => '<li>' + escapeHTML(item) + '</li>').join("") + '</ul>' : "") +
               (() => {
                 const day = training.find((d) =>
                   d.blocks.some(
