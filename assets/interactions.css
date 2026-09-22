@@ -64,7 +64,7 @@ body {
   z-index: 12;
   background: var(--bg);
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
   padding: 12px 0;
   border-bottom: 1px solid var(--line);
@@ -1102,6 +1102,21 @@ body[data-page="session"] .session-dock {
   display: block;
   font-size: 18px;
   font-variant-numeric: tabular-nums;
+}
+.session-dock.timer-only {
+  justify-content: flex-end;
+}
+.rest-card {
+  color: var(--muted);
+  border-style: dashed;
+}
+.rest-card:hover {
+  background: #ffffff02;
+  border-color: var(--line);
+}
+.drill-count {
+  font-size: 12px;
+  margin-bottom: 16px;
 }
 @media (max-width: 760px) {
   body[data-page="session"] .session-dock {

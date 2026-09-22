@@ -5,11 +5,11 @@
   document.querySelector('.layout').after(status);
   let ready = false;
   const paint = () => status.textContent = ready
-    ? (navigator.onLine ? 'Ready offline · Results saved on this device' : 'Offline · Results saved on this device')
+    ? (navigator.onLine ? 'Drills ready offline' : 'Offline · drills ready')
     : 'Preparing offline access…';
   paint();
   if (!('serviceWorker' in navigator) || !window.isSecureContext) {
-    status.textContent = 'Offline access requires HTTPS or localhost. Results stay on this device.';
+    status.textContent = 'Offline access requires HTTPS or localhost.';
     return;
   }
   navigator.serviceWorker.register('sw.js').then(async registration => {

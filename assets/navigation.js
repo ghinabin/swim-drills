@@ -5,7 +5,6 @@
     "index.html": "Overview",
     "plan.html": "Training plan",
     "drills.html": "Drill library",
-    "progress.html": "Progress",
   };
   const file = location.pathname.split("/").pop() || "index.html";
   const params = new URLSearchParams(location.search);
