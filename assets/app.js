@@ -78,7 +78,7 @@ function intro(title, description = "") {
 
 function sessionMeta(day) {
   return day.rest
-    ? "No pool session"
+    ? ""
     : day.pool + " pool &middot; " + day.laps + " laps &middot; " + day.dist;
 }
 
@@ -91,9 +91,8 @@ function card(day) {
     MON[day.date.getMonth()] +
     '</small></span><div class="session-info"><h3>' +
     escapeHTML(day.title) +
-    "</h3><p>" +
-    sessionMeta(day) +
-    "</p>" +
+    "</h3>" +
+    (day.rest ? "" : "<p>" + sessionMeta(day) + "</p>") +
     (today ? '<span class="session-state">Today</span>' : "") +
     "</div>" +
     (day.rest
@@ -140,7 +139,7 @@ function overview() {
   main.innerHTML =
     intro(
       "Pool drills",
-      "50 + 100 freestyle &middot; races 12–13 October &middot; all training in a 25 m pool",
+      "50 + 100 free · 25 m pool",
     ) +
     '<section class="hero" aria-labelledby="current-session"><div><div class="eyebrow">' +
     (dateKey(currentDay.date) === todayKey ? "Today" : "Next session") +
@@ -152,8 +151,6 @@ function overview() {
     fmt(currentDay.date) +
     " &middot; " +
     sessionMeta(currentDay) +
-    " &middot; " +
-    raceCountdown() +
     "</p>" +
     (currentDay.rest
       ? '<a class="button secondary" href="plan.html">View training plan</a>'
@@ -174,7 +171,7 @@ function plan() {
   main.innerHTML =
     intro(
       "Training plan",
-      "The pool-only taper from 23 September through the final shakeout.",
+      "23 Sep – 11 Oct",
     ) +
     '<nav class="week-jump" aria-label="Jump to phase">' +
     WEEKS.map(
@@ -208,9 +205,7 @@ function plan() {
         fmt(days[days.length - 1].date) +
         '</small></span><span class="week-count">' +
         days.filter((day) => !day.rest).length +
-        ' swims</span></summary><div class="week-body"><p>' +
-        escapeHTML(week.sub) +
-        "</p>" +
+        ' swims</span></summary><div class="week-body">' +
         days.map(card).join("") +
         "</div></details>"
       );
@@ -267,32 +262,25 @@ function session() {
   if (day.rest) {
     main.innerHTML =
       intro("Rest", day.dow + " " + fmt(day.date)) +
-      '<section class="panel"><h2>No pool session</h2><p>Return for the next scheduled swim.</p><div class="actions"><a class="button" data-return href="' +
+      '<div class="actions"><a class="button" data-return href="' +
       escapeHTML(SwimNavigation.returnURL()) +
       '">Back to ' +
       escapeHTML(SwimNavigation.returnLabel().toLowerCase()) +
-      "</a></div></section>";
+      "</a></div>";
     return;
   }
 
   main.innerHTML =
     intro(
       escapeHTML(day.title),
-      day.dow +
-        " " +
-        fmt(day.date) +
-        " &middot; " +
-        sessionMeta(day) +
-        " &middot; " +
-        day.blocks.length +
-        " sets",
+      sessionMeta(day),
     ) +
     (day.note
-      ? '<aside class="callout session-note" aria-label="Session note"><strong>Session note</strong><p>' +
+      ? '<aside class="callout session-note" aria-label="Session note"><p>' +
         escapeHTML(day.note) +
         "</p></aside>"
       : "") +
-    '<div class="session-layout"><section class="workout" aria-labelledby="sets-heading"><div class="section-title"><h2 id="sets-heading">Session drills</h2></div><div class="set-list">' +
+    '<div class="session-layout"><section class="workout" aria-labelledby="sets-heading"><h2 id="sets-heading" class="sr-only">Sets</h2><div class="set-list">' +
     day.blocks
       .map(
         (block, i) =>
@@ -308,11 +296,7 @@ function session() {
             : String(block.n).includes("min")
               ? "MIN"
               : "REPS") +
-          '</small></span><span class="set-content"><span class="set-order">' +
-          (i + 1) +
-          ". " +
-          LAB[block.k] +
-          '</span><span class="set-title">' +
+          '</small></span><span class="set-content"><span class="set-title">' +
           escapeHTML(block.t) +
           '</span><span class="set-description">' +
           escapeHTML(block.d) +
@@ -327,7 +311,7 @@ function session() {
     escapeHTML(SwimNavigation.returnURL()) +
     '">Back to ' +
     escapeHTML(SwimNavigation.returnLabel().toLowerCase()) +
-    '</a></div></section></div><div class="session-dock timer-only"><button class="dock-timer" data-open-timer><span>Rest timer</span><strong data-timer-preview>00:30</strong></button></div><dialog class="timer-sheet" id="timer-sheet" aria-labelledby="timer-heading"><div class="sheet-header"><div><h2 id="timer-heading">Rest timer</h2></div><button class="icon-button" data-close-dialog aria-label="Close rest timer">&#10005;</button></div><p>The timer keeps running when closed.</p><div class="timer-value" id="timer" role="timer" aria-label="Rest time remaining">00:30</div><div class="timer-presets" role="group" aria-label="Timer duration"><button data-seconds="30" class="active" aria-pressed="true">30 sec</button><button data-seconds="60" aria-pressed="false">1 min</button><button data-seconds="120" aria-pressed="false">2 min</button><button data-seconds="300" aria-pressed="false">5 min</button></div><div class="timer-actions"><button id="timer-toggle" class="button">Start</button><button id="timer-reset" class="button secondary">Reset</button></div><p id="timer-status" role="status">Choose your rest, then start.</p></dialog>';
+    '</a></div></section></div><div class="session-dock timer-only"><button class="dock-timer" data-open-timer><span>Rest timer</span><strong data-timer-preview>00:30</strong></button></div><dialog class="timer-sheet" id="timer-sheet" aria-labelledby="timer-heading"><div class="sheet-header"><div><h2 id="timer-heading">Rest timer</h2></div><button class="icon-button" data-close-dialog aria-label="Close rest timer">&#10005;</button></div><div class="timer-value" id="timer" role="timer" aria-label="Rest time remaining">00:30</div><div class="timer-presets" role="group" aria-label="Timer duration"><button data-seconds="30" class="active" aria-pressed="true">30 sec</button><button data-seconds="60" aria-pressed="false">1 min</button><button data-seconds="120" aria-pressed="false">2 min</button><button data-seconds="300" aria-pressed="false">5 min</button></div><div class="timer-actions"><button id="timer-toggle" class="button">Start</button><button id="timer-reset" class="button secondary">Reset</button></div><p id="timer-status" role="status"></p></dialog>';
 
   document.querySelectorAll("[data-open-timer]").forEach(
     (button) =>
@@ -383,9 +367,9 @@ function setupTimer() {
     if (remaining === 0) {
       stop();
       vibrate();
-      toast("Rest finished. Ready for your next set.");
+      toast("Rest complete");
       document.getElementById("timer-status").textContent =
-        "Rest finished. Ready for your next set.";
+        "Rest complete";
     }
   }
 
@@ -394,14 +378,14 @@ function setupTimer() {
       tick();
       stop();
       if (remaining > 0) toggle.textContent = "Resume";
-      document.getElementById("timer-status").textContent = "Timer paused.";
+      document.getElementById("timer-status").textContent = "Paused";
     } else {
       if (remaining === 0) remaining = duration;
       deadline = Date.now() + remaining * 1000;
       interval = setInterval(tick, 200);
       toggle.textContent = "Pause";
       document.getElementById("timer-status").textContent =
-        "Timer running. You can close this panel.";
+        "Running";
       paint();
     }
   };
@@ -409,7 +393,7 @@ function setupTimer() {
     stop();
     remaining = duration;
     document.getElementById("timer-status").textContent =
-      "Timer reset. Ready to start.";
+      "Ready";
     paint();
   };
   document.querySelectorAll("[data-seconds]").forEach(
@@ -435,8 +419,8 @@ function setupTimer() {
 function drills() {
   const queryParams = new URLSearchParams(location.search);
   main.innerHTML =
-    intro("Drill library", "Search every set in the taper plan.") +
-    '<div class="toolbar"><label class="filter-field"><span>Search drills</span><input type="search" id="drill-search" aria-label="Search drills" placeholder="e.g. kick"></label><label class="filter-field"><span>Training focus</span><select id="drill-filter" aria-label="Training focus"><option value="all">All training focuses</option>' +
+    intro("Drill library") +
+    '<div class="toolbar"><label class="filter-field"><span>Search drills</span><input type="search" id="drill-search" aria-label="Search drills" placeholder="e.g. kick"></label><label class="filter-field"><span>Training focus</span><select id="drill-filter" aria-label="Training focus"><option value="all">All sets</option>' +
     Object.entries(LAB)
       .map(
         ([key, label]) =>
@@ -526,7 +510,7 @@ function drills() {
             );
           })
           .join("")
-      : '<p class="empty">No matching sets. Try another search or focus.</p>';
+      : '<p class="empty">No matching sets.</p>';
   }
   document.getElementById("drill-search").addEventListener("input", filter);
   document.getElementById("drill-filter").addEventListener("change", filter);

@@ -69,13 +69,13 @@ def run():
                     "Cool-down",
                 ]
                 assert page.locator("#complete-all, .session-progress-summary").count() == 0
-                assert "Never dive into shallow water" in page.locator(
+                assert "permitted and deep enough" in page.locator(
                     ".session-note"
                 ).inner_text()
 
                 page.goto(base + "session.html?id=w3d3")
                 assert "20 laps" in page.locator(".page-intro p").inner_text()
-                assert "4–6 starts off the blocks" in page.locator("main").inner_text()
+                assert "4–6 block starts to 15 m" in page.locator("main").inner_text()
                 if width == 390:
                     page.screenshot(
                         path=str(Path(tempfile.gettempdir()) / "lane50-block-starts.png"),
@@ -86,7 +86,7 @@ def run():
                 page.locator("#drill-search").fill("block starts")
                 assert page.locator("#drill-count").inner_text() == "1 set found"
                 assert page.locator("#drill-results").text_content().find(
-                    "Feel the block, height and entry"
+                    "4–6 block starts to 15 m"
                 ) >= 0
 
                 assert not errors, errors

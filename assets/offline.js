@@ -5,7 +5,7 @@
   document.querySelector('.layout').after(status);
   let ready = false;
   const paint = () => status.textContent = ready
-    ? (navigator.onLine ? 'Drills ready offline' : 'Offline · drills ready')
+    ? (navigator.onLine ? 'Ready offline' : 'Offline')
     : 'Preparing offline access…';
   paint();
   if (!('serviceWorker' in navigator) || !window.isSecureContext) {
