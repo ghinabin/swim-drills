@@ -21,11 +21,14 @@ includes 4–6 real-block starts without increasing its 20-lap total.
 
 - `index.html`: current or next pool session and the following two days
 - `plan.html`: the complete 19-day taper schedule
-- `session.html?id=w1d0`: one session's drills and rest timer
+- `session.html?id=w1d0`: one session's drill checklist and rest timer
 - `drills.html`: searchable, filterable set library
 
 The main UI intentionally has no progress log, workout history, race log,
 progression gates, or dry-land workout content.
+
+Tap a drill card to check it off, and tap again to undo. Checks are saved per
+session in this browser, including offline, and remain after reloading.
 
 ## Run
 

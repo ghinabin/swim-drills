@@ -280,11 +280,11 @@ function session() {
         escapeHTML(day.note) +
         "</p></aside>"
       : "") +
-    '<div class="session-layout"><section class="workout" aria-labelledby="sets-heading"><h2 id="sets-heading" class="sr-only">Sets</h2><div class="set-list">' +
+    '<div class="session-layout"><section class="workout" aria-labelledby="sets-heading"><h2 id="sets-heading" class="sr-only">Sets</h2><p class="completion-help">Tap a drill to check it off. Tap again to undo.</p><p id="session-announcement" class="completion-count" role="status"></p><div class="set-list">' +
     day.blocks
       .map(
         (block, i) =>
-          '<article id="set-' +
+          '<button type="button" aria-pressed="false" id="set-' +
           i +
           '" class="set-card" data-kind="' +
           block.k +
@@ -304,7 +304,7 @@ function session() {
           (block.r
             ? '<span class="target">' + escapeHTML(block.r) + "</span>"
             : "") +
-          "</span></article>",
+          '</span><span class="status-dot" aria-hidden="true"></span></button>',
       )
       .join("") +
     '</div><div class="session-finish"><a class="button secondary" data-return href="' +
@@ -321,7 +321,47 @@ function session() {
           button,
         )),
   );
+  setupCompletion(day);
   setupTimer();
+}
+
+function setupCompletion(day) {
+  const storageKey = "lane50-drill-checks:" + dateKey(day.date) + ":" + day.id;
+  // Include the drill contents so an updated plan cannot inherit stale checks.
+  const keys = day.blocks.map((block, i) =>
+    JSON.stringify([i, block.n, block.t, block.d, block.r, block.k]),
+  );
+  let completed = new Set();
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
+    if (Array.isArray(saved))
+      completed = new Set(saved.filter((key) => keys.includes(key)));
+  } catch (_) {}
+
+  const buttons = Array.from(main.querySelectorAll(".set-card"));
+  function paint() {
+    buttons.forEach((button, i) => {
+      const checked = completed.has(keys[i]);
+      button.setAttribute("aria-pressed", String(checked));
+      button.querySelector(".status-dot").textContent = checked ? "✓" : "";
+    });
+    document.getElementById("session-announcement").textContent =
+      completed.size + " of " + keys.length + " complete";
+  }
+  buttons.forEach((button, i) => {
+    button.onclick = () => {
+      if (completed.has(keys[i])) completed.delete(keys[i]);
+      else completed.add(keys[i]);
+      paint();
+      try {
+        localStorage.setItem(storageKey, JSON.stringify([...completed]));
+      } catch (_) {
+        toast("Your checks could not be saved. Keep this page open to retain them.");
+      }
+      vibrate();
+    };
+  });
+  paint();
 }
 
 let toastTimeout;

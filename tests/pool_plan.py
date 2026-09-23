@@ -72,15 +72,52 @@ def run():
                 assert "permitted and deep enough" in page.locator(
                     ".session-note"
                 ).inner_text()
+                assert page.locator("#session-announcement").inner_text() == "0 of 6 complete"
+                page.locator("#set-0 .status-dot").click()
+                assert page.locator("#set-0").get_attribute("aria-pressed") == "true"
+                assert page.locator("#set-0 .status-dot").inner_text() == "✓"
+                assert page.locator("#session-announcement").inner_text() == "1 of 6 complete"
+                page.reload()
+                assert page.locator("#set-0").get_attribute("aria-pressed") == "true"
+                page.locator("#set-1").focus()
+                page.keyboard.press("Space")
+                assert page.locator("#session-announcement").inner_text() == "2 of 6 complete"
+                assert page.evaluate("document.activeElement.id") == "set-1"
+                page.keyboard.press("Enter")
+                assert page.locator("#set-1").get_attribute("aria-pressed") == "false"
+
+                page.goto(base + "session.html?id=w1d0")
+                assert page.locator('.set-card[aria-pressed="true"]').count() == 0
+                page.goto(base + "session.html?id=w1d4")
+                assert page.locator("#set-0").get_attribute("aria-pressed") == "true"
+                page.locator("#set-0").click()
+                page.reload()
+                assert page.locator('.set-card[aria-pressed="true"]').count() == 0
 
                 page.goto(base + "session.html?id=w3d3")
                 assert "20 laps" in page.locator(".page-intro p").inner_text()
                 assert "4–6 block starts to 15 m" in page.locator("main").inner_text()
                 if width == 390:
+                    page.locator("#set-0").click()
                     page.screenshot(
                         path=str(Path(tempfile.gettempdir()) / "lane50-block-starts.png"),
                         full_page=True,
                     )
+                assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+
+                # Storage failures must not prevent marking drills or using the timer.
+                page.evaluate("""() => {
+                    Storage.prototype.setItem = () => {
+                        throw new DOMException('Storage blocked', 'SecurityError');
+                    };
+                }""")
+                page.locator("#set-1").click()
+                assert page.locator("#set-1").get_attribute("aria-pressed") == "true"
+                assert "could not be saved" in page.locator("#toast").inner_text()
+                page.locator("[data-open-timer]").click()
+                assert page.locator("#timer-sheet").is_visible()
+                page.locator("#timer-toggle").click()
+                assert page.locator("#timer-status").inner_text() == "Running"
 
                 page.goto(base + "drills.html")
                 page.locator("#drill-search").fill("block starts")

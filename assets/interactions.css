@@ -1470,3 +1470,6 @@ body[data-page="race"] .race-clock { font-size: clamp(48px, 14vw, 68px);  }
 
 .plan-guide > summary { gap: 10px; padding: 0; }
 .plan-guide ul { margin-top: 12px; }
+
+.completion-help { margin: 0 0 8px; color: var(--muted); font-size: 13px; }
+.completion-count { margin: 0 0 16px; color: var(--cyan); font-size: 13px; }
