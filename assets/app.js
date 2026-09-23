@@ -33,11 +33,12 @@ const dateKey = (date) =>
   "-" +
   String(date.getDate()).padStart(2, "0");
 const todayKey = dateKey(new Date());
-const training = DAYS.filter((day) => !day.rest);
+const schedule = DAYS.filter((day) => !day.historical && !day.race);
+const training = schedule.filter((day) => !day.rest);
 const currentDay =
-  DAYS.find((day) => dateKey(day.date) === todayKey) ||
-  DAYS.find((day) => dateKey(day.date) > todayKey) ||
-  DAYS[DAYS.length - 1];
+  schedule.find((day) => dateKey(day.date) === todayKey) ||
+  schedule.find((day) => dateKey(day.date) > todayKey) ||
+  schedule[schedule.length - 1];
 const href = (day) => SwimNavigation.sessionURL(day.id);
 
 const links = [
@@ -78,8 +79,20 @@ function intro(title, description = "") {
 
 function sessionMeta(day) {
   return day.rest
-    ? ""
-    : day.pool + " pool &middot; " + day.laps + " laps &middot; " + day.dist;
+    ? "Rest day · 0 m"
+    : day.pool + " pool &middot; " + day.laps + " lengths &middot; " + day.dist;
+}
+
+function readableTiming(value) {
+  return String(value)
+    .replace(/\b(\d+)(?:[–-](\d+))?\s+s\b/g, (_, start, end) =>
+      (end ? start + "–" + end : start) + " seconds",
+    )
+    .replace(/\b(\d+\+?)(?:[–-](\d+))?\s+min\b/g, (_, start, end) =>
+      start.endsWith("+")
+        ? "at least " + start.slice(0, -1) + " minutes"
+        : (end ? start + "–" + end : start) + " minutes",
+    );
 }
 
 function card(day) {
@@ -92,7 +105,7 @@ function card(day) {
     '</small></span><div class="session-info"><h3>' +
     escapeHTML(day.title) +
     "</h3>" +
-    (day.rest ? "" : "<p>" + sessionMeta(day) + "</p>") +
+    "<p>" + sessionMeta(day) + "</p>" +
     (today ? '<span class="session-state">Today</span>' : "") +
     "</div>" +
     (day.rest
@@ -135,11 +148,11 @@ function raceCountdown() {
 }
 
 function overview() {
-  const next = DAYS.filter((day) => day.date > currentDay.date).slice(0, 2);
+  const next = schedule.filter((day) => day.date > currentDay.date).slice(0, 2);
   main.innerHTML =
     intro(
       "Pool drills",
-      "50 + 100 free · 25 m pool",
+      "50 m freestyle · 25 m training pool",
     ) +
     '<section class="hero" aria-labelledby="current-session"><div><div class="eyebrow">' +
     (dateKey(currentDay.date) === todayKey ? "Today" : "Next session") +
@@ -171,7 +184,7 @@ function plan() {
   main.innerHTML =
     intro(
       "Training plan",
-      "23 Sep – 11 Oct",
+      "18 Sep – 11 Oct",
     ) +
     '<nav class="week-jump" aria-label="Jump to phase">' +
     WEEKS.map(
@@ -189,7 +202,7 @@ function plan() {
     currentDay.id +
     '">Find current day</a><button class="text-button" id="expand-weeks">Expand all phases</button></div>' +
     WEEKS.map((week, wi) => {
-      const days = DAYS.filter((day) => day.wi === wi);
+      const days = schedule.filter((day) => day.wi === wi);
       return (
         '<details class="week" id="week-' +
         (wi + 1) +
@@ -241,6 +254,12 @@ function session() {
   }
 
   const day = activeSession;
+  if (day.historical) {
+    main.innerHTML =
+      intro("Past date", "This date is historical. No workout is prescribed to repeat.") +
+      '<a class="button" href="plan.html">View current plan</a>';
+    return;
+  }
   document.title = day.title + " | Lane 50";
   document.querySelector(".site-header").innerHTML =
     '<a class="context-back" aria-label="Back to ' +
@@ -261,7 +280,8 @@ function session() {
 
   if (day.rest) {
     main.innerHTML =
-      intro("Rest", day.dow + " " + fmt(day.date)) +
+      intro("Rest day", day.dow + " " + fmt(day.date) + " · 0 m") +
+      '<aside class="callout session-note"><p>' + escapeHTML(day.note) + '</p></aside>' +
       '<div class="actions"><a class="button" data-return href="' +
       escapeHTML(SwimNavigation.returnURL()) +
       '">Back to ' +
@@ -280,6 +300,7 @@ function session() {
         escapeHTML(day.note) +
         "</p></aside>"
       : "") +
+    '<aside class="callout session-note timing-note" aria-label="How rest times work"><p><strong>Timing:</strong> Rest starts after you finish each repetition. For example, “45 seconds after each 25” means swim 25 m, then rest 45 seconds before starting again. These are not fixed start times.</p></aside>' +
     '<div class="session-layout"><section class="workout" aria-labelledby="sets-heading"><h2 id="sets-heading" class="sr-only">Sets</h2><p class="completion-help">Tap a drill to check it off. Tap again to undo.</p><p id="session-announcement" class="completion-count" role="status"></p><div class="set-list">' +
     day.blocks
       .map(
@@ -292,17 +313,17 @@ function session() {
           escapeHTML(String(block.n).replace(" min", "").replace(" reps", "")) +
           "<small>" +
           (typeof block.n === "number"
-            ? "LAPS"
+            ? "LENGTHS"
             : String(block.n).includes("min")
               ? "MIN"
               : "REPS") +
           '</small></span><span class="set-content"><span class="set-title">' +
           escapeHTML(block.t) +
           '</span><span class="set-description">' +
-          escapeHTML(block.d) +
+          escapeHTML(readableTiming(block.d)) +
           "</span>" +
           (block.r
-            ? '<span class="target">' + escapeHTML(block.r) + "</span>"
+            ? '<span class="target">' + escapeHTML(readableTiming(block.r)) + "</span>"
             : "") +
           '</span><span class="status-dot" aria-hidden="true"></span></button>',
       )
@@ -534,13 +555,13 @@ function drills() {
               escapeHTML(block.t) +
               "</h3><small>" +
               (typeof block.n === "number"
-                ? block.n + " laps"
+                ? block.n + " lengths"
                 : escapeHTML(block.n)) +
               "</small></summary><p>" +
-              escapeHTML(block.d) +
+              escapeHTML(readableTiming(block.d)) +
               "</p>" +
               (block.r
-                ? '<p class="target">' + escapeHTML(block.r) + "</p>"
+                ? '<p class="target">' + escapeHTML(readableTiming(block.r)) + "</p>"
                 : "") +
               '<a class="text-link drill-session-link" aria-label="Open session: ' +
               escapeHTML(day.title + ", " + fmt(day.date)) +

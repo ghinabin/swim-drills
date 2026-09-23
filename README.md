@@ -1,27 +1,28 @@
 # Lane 50
 
-A responsive, framework-free pool drill companion for the 50 m and 100 m
-freestyle taper before the NSA Cup.
+A responsive, framework-free pool drill companion for the 50 m freestyle
+taper before the NSA Cup.
 
 ## Current plan
 
-The visible schedule runs from Wednesday 23 September through Sunday
+The visible schedule runs from Friday 18 September through Sunday
 11 October 2026:
 
-- Last load: 23–27 September
+- Reset: 18–20 September
+- Connect and rehearse: 21–27 September
 - Taper: 28 September–4 October
 - Race week: 5–11 October
 - Race dates: 12–13 October
 
-All training sessions use a 25 m pool. Saturdays are full rest days. The three
-Sunday sessions are the 25 m replacements, and the 8 October venue session
-includes 4–6 real-block starts without increasing its 20-lap total.
+All training sessions use a 25 m pool. Wednesdays and Saturdays are rest days;
+Sunday 11 October is an optional shakeout. Rest is measured after each
+repetition, as specified by the revised plan.
 
 ## Pages
 
 - `index.html`: current or next pool session and the following two days
-- `plan.html`: the complete 19-day taper schedule
-- `session.html?id=w1d0`: one session's drill checklist and rest timer
+- `plan.html`: the revised 24-day training schedule
+- `session.html?id=w2d1`: one session's drill checklist and rest timer
 - `drills.html`: searchable, filterable set library
 
 The main UI intentionally has no progress log, workout history, race log,
@@ -38,7 +39,9 @@ Use HTTPS or localhost to make the four main screens available offline.
 
 ## Organization
 
-- `assets/data.js`: dated taper sessions and drill details
+- `SWIMMING-PLAN.md`: source plan
+- `assets/data.js`: dated taper sessions and drill details generated with
+  `node scripts/import-plan.cjs`
 - `assets/app.js`: schedule, session, library, and rest-timer rendering
 - `assets/navigation.js`: return context, history, focus, and scroll restoration
 - `assets/styles.css` and `assets/interactions.css`: responsive presentation
@@ -47,6 +50,5 @@ Use HTTPS or localhost to make the four main screens available offline.
 ## Checks
 
 Run `python tests/pool_plan.py` with Python, Playwright, and Chrome installed.
-It checks both mobile and desktop layouts, all 19 dates, exact lap totals, the
-three replacement Sundays, the 8 October block-start session, clean navigation,
-drill search, and browser JavaScript errors.
+It checks mobile and desktop layouts, the revised dates and distances,
+completion controls, timing guidance, drill search, and browser JavaScript errors.

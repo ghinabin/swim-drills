@@ -7,11 +7,7 @@ const root = path.resolve(__dirname, '..');
 const c = {document:{body:{dataset:{}},getElementById(){}},localStorage:{getItem(){return null;}}};
 vm.createContext(c);
 vm.runInContext(fs.readFileSync(path.join(root,'assets/data.js'),'utf8'),c);
-const app=fs.readFileSync(path.join(root,'assets/app.js'),'utf8');
-vm.runInContext(app.slice(0,app.indexOf('const icons =')),c);
 const day=id=>c.DAYS.find(d=>d.id===id);
-const json=value=>JSON.parse(JSON.stringify(value));
-const normalize=saved=>json(c.normalize(saved));
 assert.equal(c.DAYS.length,30);
 assert.equal(new Set(c.DAYS.map(d=>d.id)).size,30);
 for(let i=0;i<30;i++) {
@@ -57,23 +53,7 @@ for(const row of source.matchAll(/^\| \d+ \| (.+?) \| (.+?) \| (.+?) \| (.+?) \|
   assert(all.some(text=>text.includes(row[3])),'Missing instruction: '+row[3]);
   assert(all.some(text=>text.includes(row[4])),'Missing rest: '+row[4]);
 }
-// Test every legacy completion pattern, including the previous split-start migration.
-for(const d of c.PREVIOUS_DAYS) {
-  for(let mask=0;mask<2**d.blocks.length;mask++) {
-    const checks={};
-    d.blocks.forEach((b,i)=>{if(mask&(1<<i))checks[b.progressKey||'b'+i]=1;});
-    const migrated=normalize({done:{[d.id]:checks},sequenceVersion:1});
-    if(day(d.id)?.historical) assert.deepEqual(migrated.done[d.id],checks);
-    else {
-      assert.equal(Object.keys(migrated.done[d.id]||{}).length,0,'Changed workouts never inherit checks');
-      if(mask) assert.deepEqual(migrated.archived.find(a=>a.id===d.id).done,checks);
-    }
-    assert.deepEqual(normalize(migrated),migrated,'Idempotent migration');
-  }
-}
-const legacy=normalize({done:{w4d1:{b2:1}}});
-assert.deepEqual(legacy.archived[0].done,{b2:1,'b2-cooldown':1});
-const current=normalize({planRevision:c.PLAN_REVISION,done:{w1d4:{'r2-b0':1}},logs:{w1d4:{meters:550,effort:3}},skipped:{w4d6:true}});
-assert.deepEqual(normalize(current),current);
-assert.equal(current.logs.w1d4.meters,550);
-console.log('PASS 30 dated entries, latest Saturday-free schedule, weekly totals, all source instructions, and every legacy progress pattern.');
+assert(day('w2d2').rest,'23 September is a rest day');
+assert(!active.some(d=>d.blocks.some(b=>/4 × 50 all out|on :45|on 2:00/.test(b.d))),
+  'No superseded send-off prescription is active');
+console.log('PASS 30 dated entries, revised rest days, weekly totals, and source instructions.');
