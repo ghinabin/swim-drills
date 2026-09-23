@@ -84,8 +84,27 @@ function sessionMeta(day) {
 }
 
 function readableTiming(value) {
+  const duration = (minutes, seconds) =>
+    [
+      Number(minutes) ? minutes + (Number(minutes) === 1 ? " minute" : " minutes") : "",
+      Number(seconds) ? seconds + " seconds" : "",
+    ].filter(Boolean).join(" ");
   return String(value)
-    .replace(/\b(\d+)(?:[–-](\d+))?\s+s\b/g, (_, start, end) =>
+    .replace(/\bOn On\b/gi, "On")
+    .replace(/\bon\s+(\d+):(\d{2})\b/gi, (_, minutes, seconds) =>
+      "with a new start every " + duration(minutes, seconds),
+    )
+    .replace(/\bon\s+:(\d{2})\b/gi, (_, seconds) =>
+      "with a new start every " + seconds + " seconds",
+    )
+    .replace(/^:(\d{2})$/, (_, seconds) =>
+      "Start each repeat every " + seconds + " seconds",
+    )
+    .replace(/\b(\d+):(\d{2})\b/g, (_, minutes, seconds) =>
+      duration(minutes, seconds),
+    )
+    .replace(/^with\b/, "With")
+    .replace(/\b(\d+(?:\.\d+)?)(?:[–-](\d+(?:\.\d+)?))?\s+s(?:\s+s)?\b/g, (_, start, end) =>
       (end ? start + "–" + end : start) + " seconds",
     )
     .replace(/\b(\d+\+?)(?:[–-](\d+))?\s+min\b/g, (_, start, end) =>
@@ -152,7 +171,7 @@ function overview() {
   main.innerHTML =
     intro(
       "Pool drills",
-      "50 m freestyle · 25 m training pool",
+      "50 + 100 free · 25 m pool",
     ) +
     '<section class="hero" aria-labelledby="current-session"><div><div class="eyebrow">' +
     (dateKey(currentDay.date) === todayKey ? "Today" : "Next session") +
@@ -184,7 +203,7 @@ function plan() {
   main.innerHTML =
     intro(
       "Training plan",
-      "18 Sep – 11 Oct",
+      "23 Sep – 11 Oct",
     ) +
     '<nav class="week-jump" aria-label="Jump to phase">' +
     WEEKS.map(
@@ -281,7 +300,7 @@ function session() {
   if (day.rest) {
     main.innerHTML =
       intro("Rest day", day.dow + " " + fmt(day.date) + " · 0 m") +
-      '<aside class="callout session-note"><p>' + escapeHTML(day.note) + '</p></aside>' +
+      (day.note ? '<aside class="callout session-note"><p>' + escapeHTML(day.note) + '</p></aside>' : "") +
       '<div class="actions"><a class="button" data-return href="' +
       escapeHTML(SwimNavigation.returnURL()) +
       '">Back to ' +
@@ -300,7 +319,7 @@ function session() {
         escapeHTML(day.note) +
         "</p></aside>"
       : "") +
-    '<aside class="callout session-note timing-note" aria-label="How rest times work"><p><strong>Timing:</strong> Rest starts after you finish each repetition. For example, “45 seconds after each 25” means swim 25 m, then rest 45 seconds before starting again. These are not fixed start times.</p></aside>' +
+    '<aside class="callout session-note timing-note" aria-label="How swim times work"><p><strong>Timing:</strong> “On 2:00” means start each repeat every 2 minutes (0:00, 2:00, 4:00). Swim time counts inside that interval: a 50 taking 50 seconds leaves 1 minute 10 seconds to rest. “On :45” means start every 45 seconds. A rest time without “on” starts after you finish the repeat.</p></aside>' +
     '<div class="session-layout"><section class="workout" aria-labelledby="sets-heading"><h2 id="sets-heading" class="sr-only">Sets</h2><p class="completion-help">Tap a drill to check it off. Tap again to undo.</p><p id="session-announcement" class="completion-count" role="status"></p><div class="set-list">' +
     day.blocks
       .map(

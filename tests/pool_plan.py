@@ -1,4 +1,4 @@
-"""Browser checks for the revised swim plan and drill checklist."""
+"""Desktop schedule, timing, checklist, and offline browser checks."""
 from datetime import datetime, timedelta, timezone
 from functools import partial
 from http.server import ThreadingHTTPServer
@@ -29,88 +29,122 @@ def run():
                 page.goto(base + "index.html")
                 assert page.locator("main h1").inner_text() == "Pool drills"
                 assert page.locator(".nav-link").all_inner_texts() == [
-                    "Overview", "Training plan", "Drill library"
+                    "Overview",
+                    "Training plan",
+                    "Drill library",
                 ]
-                assert page.locator("#current-session").inner_text() == "Rest day"
-                assert "0 m" in page.locator(".hero").inner_text()
-                assert "4 × 50" not in page.locator("main").inner_text()
+                assert page.locator('a[href*="progress"], a[href*="race"]').count() == 0
+                assert page.locator("#current-session").inner_text().startswith("4 × 50")
+                if width == 390:
+                    page.screenshot(
+                        path=str(Path(tempfile.gettempdir()) / "lane50-pool-overview.png"),
+                        full_page=True,
+                    )
 
                 page.goto(base + "plan.html")
-                assert page.locator(".week").count() == 4
-                assert page.locator(".session-card").count() == 24
-                assert page.locator(".rest-card").count() == 10
-                assert page.locator("#day-w2d2 h3").inner_text() == "Rest day"
-                assert page.locator("#day-w4d6 h3").text_content() == "Optional pre-meet shakeout"
-                assert "4 × 50 all out" not in page.locator("main").inner_text()
+                assert page.locator(".week").count() == 3
+                assert page.locator(".session-card").count() == 19
+                assert page.locator(".rest-card").count() == 3
+                assert page.locator("#day-w1d4 h3").text_content() == "Starts and turns"
+                assert page.locator("#day-w2d6 h3").text_content() == "Starts and race pace"
+                assert page.locator("#day-w3d6 h3").text_content() == "Shakeout"
 
-                totals = page.evaluate("""DAYS.filter(d => !d.historical && !d.race && !d.rest)
-                    .map(d => [d.laps, d.blocks.reduce((n, b) => n + b.n, 0),
-                        Number(d.dist.replace(/[^0-9]/g, '')),
-                        d.blocks.reduce((n, b) => n + b.meters, 0)])""")
-                assert all(laps == counted and meters == counted_meters
-                           for laps, counted, meters, counted_meters in totals)
+                totals = page.evaluate(
+                    """DAYS.map(day => ({
+                        date: fmt(day.date),
+                        declared: day.laps,
+                        counted: day.blocks.reduce(
+                          (sum, block) => sum +
+                            (typeof block.n === 'number' ? block.n : 0), 0)
+                    }))"""
+                )
+                assert all(row["declared"] == row["counted"] for row in totals)
 
-                page.goto(base + "session.html?id=w2d2")
-                assert page.locator("main h1").inner_text() == "Rest day"
-                assert "0 m" in page.locator(".page-intro").inner_text()
-                assert page.locator(".set-card").count() == 0
-
-                page.goto(base + "session.html?id=w2d1")
-                assert "36 lengths" in page.locator(".page-intro").inner_text()
-                assert "Rest starts after you finish" in page.locator(".timing-note").inner_text()
-                assert "45–60 seconds after each 50" in page.locator("main").inner_text()
-                assert "2 minutes after each full length" in page.locator("main").inner_text()
-                assert page.locator("#session-announcement").inner_text() == "0 of 7 complete"
+                page.goto(base + "session.html?id=w1d4")
+                assert "25 m pool · 40 lengths" in page.locator(".page-intro p").inner_text()
+                assert page.locator(".set-title").all_inner_texts() == [
+                    "Warm-up",
+                    "Kick",
+                    "Buoy",
+                    "Starts",
+                    "Main",
+                    "Cool-down",
+                ]
+                assert page.locator("#complete-all, .session-progress-summary").count() == 0
+                assert "permitted and deep enough" in page.locator(
+                    ".session-note:not(.timing-note)"
+                ).inner_text()
+                assert page.locator("#session-announcement").inner_text() == "0 of 6 complete"
                 page.locator("#set-0 .status-dot").click()
                 assert page.locator("#set-0").get_attribute("aria-pressed") == "true"
-                assert page.locator("#session-announcement").inner_text() == "1 of 7 complete"
+                assert page.locator("#set-0 .status-dot").inner_text() == "✓"
+                assert page.locator("#session-announcement").inner_text() == "1 of 6 complete"
                 page.reload()
                 assert page.locator("#set-0").get_attribute("aria-pressed") == "true"
                 page.locator("#set-1").focus()
                 page.keyboard.press("Space")
-                assert page.locator("#session-announcement").inner_text() == "2 of 7 complete"
+                assert page.locator("#session-announcement").inner_text() == "2 of 6 complete"
+                assert page.evaluate("document.activeElement.id") == "set-1"
                 page.keyboard.press("Enter")
                 assert page.locator("#set-1").get_attribute("aria-pressed") == "false"
 
-                page.goto(base + "session.html?id=w2d3")
+                page.goto(base + "session.html?id=w1d0")
                 assert page.locator('.set-card[aria-pressed="true"]').count() == 0
-                page.goto(base + "session.html?id=w2d1")
+                assert page.locator("main h1").inner_text() == "4 × 50 test #1"
+                assert "a 50 taking 50 seconds leaves 1 minute 10 seconds" in page.locator(".timing-note").inner_text()
+                assert "new start every 2 minutes" in page.locator("#set-4").inner_text()
+                assert "new start every 45 seconds" in page.locator("#set-4").inner_text()
+                assert "on 2:00" not in page.locator("#set-4").inner_text().lower()
+                page.goto(base + "session.html?id=w1d1")
+                assert "new start every 2 minutes" in page.locator("#set-4").inner_text()
+                assert "14.5 seconds" in page.locator("#set-4").inner_text()
+                assert "On On" not in page.locator("main").inner_text()
+                page.goto(base + "session.html?id=w1d4")
                 assert page.locator("#set-0").get_attribute("aria-pressed") == "true"
                 page.locator("#set-0").click()
                 page.reload()
                 assert page.locator('.set-card[aria-pressed="true"]').count() == 0
 
-                page.goto(base + "session.html?id=w1d0")
-                assert page.locator("main h1").inner_text() == "Past date"
-                assert page.locator(".set-card").count() == 0
-
-                page.goto(base + "session.html?id=w4d3")
-                assert "16 lengths" in page.locator(".page-intro").inner_text()
-                assert "at least 3 minutes settled recovery" in page.locator("main").inner_text()
+                page.goto(base + "session.html?id=w3d3")
+                assert "20 lengths" in page.locator(".page-intro p").inner_text()
+                assert "4–6 block starts to 15 m" in page.locator("main").inner_text()
                 if width == 390:
+                    page.locator("#set-0").click()
                     page.screenshot(
-                        path=str(Path(tempfile.gettempdir()) / "lane50-revised-session.png"),
+                        path=str(Path(tempfile.gettempdir()) / "lane50-block-starts.png"),
                         full_page=True,
                     )
                 assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
 
+                # Storage failures must not prevent marking drills or using the timer.
+                page.evaluate("""() => {
+                    Storage.prototype.setItem = () => {
+                        throw new DOMException('Storage blocked', 'SecurityError');
+                    };
+                }""")
+                page.locator("#set-1").click()
+                assert page.locator("#set-1").get_attribute("aria-pressed") == "true"
+                assert "could not be saved" in page.locator("#toast").inner_text()
                 page.locator("[data-open-timer]").click()
                 assert page.locator("#timer-sheet").is_visible()
                 page.locator("#timer-toggle").click()
                 assert page.locator("#timer-status").inner_text() == "Running"
 
                 page.goto(base + "drills.html")
-                page.locator("#drill-search").fill("4 × 50 all out")
-                assert page.locator("#drill-count").inner_text() == "0 sets found"
-                page.locator("#drill-search").fill("full 50")
-                assert page.locator("#drill-results > details").count() > 0
+                page.locator("#drill-search").fill("block starts")
+                assert page.locator("#drill-count").inner_text() == "1 set found"
+                assert page.locator("#drill-results").text_content().find(
+                    "4–6 block starts to 15 m"
+                ) >= 0
+
                 page.goto(base + "index.html")
                 page.evaluate("navigator.serviceWorker.ready")
                 page.wait_for_function("navigator.serviceWorker.controller !== null")
                 page.context.set_offline(True)
-                page.goto(base + "session.html?id=w2d2")
-                assert page.locator("main h1").inner_text() == "Rest day"
+                page.goto(base + "session.html?id=w1d0")
+                assert page.locator("main h1").inner_text() == "4 × 50 test #1"
                 page.context.set_offline(False)
+
                 assert not errors, errors
                 assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
                 page.close()
@@ -121,4 +155,4 @@ def run():
 
 if __name__ == "__main__":
     run()
-    print("PASS revised plan, timing guidance, completion, and responsive UI")
+    print("PASS desktop schedule, start intervals, checklist, and offline UI")
