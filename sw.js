@@ -1,5 +1,5 @@
 /* Cache each release as one coherent app, including race-day preparation. */
-const CACHE = 'lane50-shell-v26-competition';
+const CACHE = 'lane50-shell-v27-mobile-cards';
 const FILES = ['./','index.html','plan.html','session.html','race.html','drills.html','progress.html','race-tools.html','preview.html','SWIMMING-PLAN.md','assets/styles.css','assets/preparation.css','assets/data.js','assets/navigation.js','assets/app.js','assets/offline.js'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting())));
 self.addEventListener('activate', event => event.waitUntil((async () => {

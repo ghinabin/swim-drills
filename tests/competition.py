@@ -59,6 +59,22 @@ def run():
           page.wait_for_function("!document.querySelector('#rest-dialog').open")
           page.goto(base+'plan.html')
           assert page.locator('.prep-day').count()==18
+          cards=page.locator('.prep-timeline').first.locator('.prep-day')
+          assert cards.first.evaluate('(e) => parseFloat(getComputedStyle(e).borderRadius)') >= 16
+          if width==390:
+            first,second=cards.nth(0).bounding_box(),cards.nth(1).bounding_box()
+            assert second['y']-(first['y']+first['height']) >= 12
+          else:
+            assert cards.nth(1).bounding_box()['x'] > cards.nth(0).bounding_box()['x']
+          page.locator('#day-2026-09-28').click()
+          assert page.locator('#next-set').get_attribute('href')=='#set-s1'
+          page.locator('[data-done]').first.click()
+          assert page.locator('#next-set').get_attribute('href')=='#set-s3'
+          page.goto(base)
+          page.get_by_role('link',name='Resume session').click()
+          assert page.url.endswith('#set-s3')
+          assert page.locator('#set-s3').evaluate('(e) => e.getBoundingClientRect().top') < 200
+          page.goto(base+'plan.html')
           assert page.locator('#timer-preview').inner_text()=='3:55'
           page.locator('#timer-dock').click();page.locator('#timer-toggle').click()
           page.get_by_role('button',name='Close rest timer').click()
@@ -136,11 +152,34 @@ def run():
           page.goto(base+'drills.html');page.wait_for_url('**/plan.html')
           page.goto(base+'session.html?id=w1d0');assert page.locator('h1').inner_text()=='Session not found'
           if width==390:
+            page.goto(base+'plan.html');page.screenshot(path='/private/tmp/preparation-plan.png',full_page=True)
             page.goto(base+'session.html?id=2026-09-28');page.screenshot(path='/private/tmp/preparation-session.png',full_page=True)
             page.goto(base);page.screenshot(path='/private/tmp/preparation-today.png',full_page=True)
             page.goto(base+'race.html?event=100');page.screenshot(path='/private/tmp/preparation-race.png',full_page=True)
           assert not errors,errors
           context.close()
+        for width in (320, 430, 768):
+          mobile=browser.new_context(viewport={'width':width,'height':844},reduced_motion='reduce')
+          m=mobile.new_page()
+          for route in ('index.html','plan.html','session.html?id=2026-09-28','race.html?event=100'):
+            m.goto(base+route)
+            assert m.evaluate('document.documentElement.scrollWidth <= innerWidth'), (width,route)
+          m.goto(base+'session.html?id=2026-09-28')
+          for control in m.locator('[data-done],[data-skip],[data-timer-set],#next-set').all():
+            assert control.bounding_box()['height'] >= 48
+          m.locator('[data-timer-set]').first.click()
+          dialog=m.locator('#rest-dialog').bounding_box()
+          assert dialog['x'] >= 0 and dialog['width'] <= width
+          if width<=760: assert abs(dialog['y']+dialog['height']-844)<2
+          assert m.locator('#timer-toggle').bounding_box()['height']>=48
+          m.get_by_role('button',name='Close rest timer').click()
+          m.wait_for_function("!document.querySelector('#rest-dialog').open")
+          # Keyboard users can activate the full day card.
+          m.goto(base+'plan.html')
+          m.locator('#day-2026-09-27').focus();m.keyboard.press('Enter')
+          m.wait_for_url('**/session.html?**')
+          assert 'Technique + aerobic control' in m.locator('h1').inner_text()
+          mobile.close()
         upgrade=browser.new_context()
         up=upgrade.new_page();up.goto(base+'assets/styles.css')
         up.evaluate("async () => { const c=await caches.open('lane50-shell-v25'); await c.put('old-plan',new Response('old drills')); }")
