@@ -1,14 +1,21 @@
-/* Bump the version when publishing a new app shell. */
-const CACHE = 'lane50-shell-v25';
-const FILES = ['./', 'index.html', 'plan.html', 'session.html', 'drills.html', 'assets/styles.css', 'assets/interactions.css', 'assets/data.js', 'assets/navigation.js', 'assets/app.js', 'assets/offline.js', 'assets/pickers.js'];
+/* Cache each release as one coherent app, including race-day preparation. */
+const CACHE = 'lane50-shell-v26-competition';
+const FILES = ['./','index.html','plan.html','session.html','race.html','drills.html','progress.html','race-tools.html','preview.html','SWIMMING-PLAN.md','assets/styles.css','assets/preparation.css','assets/data.js','assets/navigation.js','assets/app.js','assets/offline.js'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting())));
 self.addEventListener('activate', event => event.waitUntil((async () => {
-  for (const key of await caches.keys()) if (key.startsWith('lane50-shell-') && key !== CACHE) await caches.delete(key);
+  const previous = (await caches.keys()).filter(key => key.startsWith('lane50-shell-') && key !== CACHE);
+  for (const key of previous) await caches.delete(key);
   await self.clients.claim();
+  // The preceding release has no update listener. Reload its open pages once
+  // so an installed old plan cannot remain visible after this release activates.
+  if (previous.length) {
+    const clients = await self.clients.matchAll({type:'window'});
+    // Navigation fetches wait for activation; do not await them inside it.
+    for (const client of clients) client.navigate(client.url).catch(() => {});
+  }
 })()));
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   if (event.request.method !== 'GET' || url.origin !== location.origin) return;
-  // A coherent version stays cached for the whole visit, including session query URLs.
   event.respondWith(caches.open(CACHE).then(async cache => (await cache.match(event.request, {ignoreSearch: true})) || fetch(event.request)));
 });

@@ -1,3 +1,5 @@
+> Historical review: superseded by [the September 26–October 13 plan](SWIMMING-PLAN.md). This document does not prescribe the app’s current workouts.
+
 ﻿# Training audit for the 12 October 2026 race
 
 Reviewed: 16 September 2026  

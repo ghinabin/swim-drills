@@ -1,55 +1,57 @@
 # Lane 50
 
-A responsive, framework-free pool drill companion for the 50 m and 100 m freestyle
-taper before the NSA Cup.
+A focused, framework-free companion for the supplied September 26–October 13,
+2026 competition plan: 50 m freestyle on October 12 and 100 m freestyle on
+October 13, in a 25 m pool.
 
-## Current plan
+## Use
 
-The visible schedule runs from Wednesday 23 September through Sunday
-11 October 2026:
+Run `python3 -m http.server 8000` and open `http://localhost:8000`.
+There are no application dependencies or build steps.
 
-- Last load: 23–27 September
-- Taper: 28 September–4 October
-- Race week: 5–11 October
-- Race dates: 12–13 October
+- **Today:** current or next scheduled session, one focus, and resume action.
+- **Plan:** all 18 dates, including Saturday rest days and both races.
+- **Race:** event-specific warm-up, race cues, reporting time, results, and rehearsal records.
+- **Session:** exact ordered sets, explicit done/skip controls, source instructions,
+  and contextual rest timers. September 30 has no stopwatch controls.
 
-All training sessions use a 25 m pool. Saturdays are rest days. This app shows
-the desktop schedule published on 22 September. `SWIMMING-PLAN.md` is a separate,
-conflicting revision and is not the source for the displayed sessions.
+Checks, skipped sets, rehearsal entries, race details, and rest timers are saved
+in this browser. They are not synchronised between devices. Storage failures
+are reported visibly. The app works offline after a successful initial load on
+HTTPS or localhost. Background timer alerts depend on browser/device support.
 
-## Pages
+## Source and updates
 
-- `index.html`: current or next pool session and the following two days
-- `plan.html`: the 19-day desktop training schedule
-- `session.html?id=w1d0`: one session's drill checklist and rest timer
-- `drills.html`: searchable, filterable set library
+`SWIMMING-PLAN.md` is the unchanged supplied plan. `data/competition-plan.json`
+contains the reviewed structured sets and each day's original instructions.
+Run `node scripts/import-plan.cjs` after editing the structured data. The command
+validates dates, source excerpts, totals, and timer durations, then generates
+`assets/data.js`. All visible pages use that same bundle.
 
-The main UI intentionally has no progress log, workout history, race log,
-progression gates, or dry-land workout content.
+Two race warm-up labels reflect the arithmetic of the prescribed sets:
+October 12 is 500 m plus optional 50–100 m; October 13 is 550–600 m.
+No prescribed sets were removed to match the original headings.
 
-Tap a drill card to check it off, and tap again to undo. Checks are saved per
-session in this browser, including offline, and remain after reloading.
-The timing note explains start intervals such as “on 2:00” and “on :45”; the
-cards display those intervals in minutes and seconds.
+Old plan documents are preserved in `docs/archive`. Legacy drill, progress,
+preview, and race-tool URLs lead to current screens. Old workout IDs display a
+current-plan link. Existing browser records from previous revisions are retained
+but never attached to replacement workouts.
 
-## Run
+`APP-PREPARATION-PLAN.md` records the agreed product plan. The application uses
+`assets/app.js`, `assets/navigation.js`, `assets/styles.css`, and
+`assets/preparation.css`. `sw.js` caches the complete current release; bump its
+cache version for subsequent releases.
 
-Run `python -m http.server 8000` in this directory and open
-http://localhost:8000. There are no application dependencies or build steps.
-Use HTTPS or localhost to make the four main screens available offline.
+## Validation
 
-## Organization
+With Python Playwright and Google Chrome available, run:
 
-- `assets/data.js`: dated desktop sessions and drill details
-- `SWIMMING-PLAN.md` and `scripts/import-plan.cjs`: a separate revised plan;
-  running the importer changes the displayed schedule
-- `assets/app.js`: schedule, session, library, and rest-timer rendering
-- `assets/navigation.js`: return context, history, focus, and scroll restoration
-- `assets/styles.css` and `assets/interactions.css`: responsive presentation
-- `sw.js`: offline shell for the four visible app screens
+```sh
+python3 tests/competition.py
+```
 
-## Checks
-
-Run `python tests/pool_plan.py` with Python, Playwright, and Chrome installed.
-It checks mobile and desktop layouts, the desktop dates and distances,
-completion controls, timing guidance, drill search, and browser JavaScript errors.
+The test validates all dates and set prescriptions, mobile/desktop rendering,
+completion and skip persistence, round rests and timer recovery, rehearsal split
+validation, reporting times, browser navigation, legacy URLs, storage errors,
+and offline sessions/race preparation. Earlier scripts in `tests` describe
+superseded app revisions; this is the current release check.

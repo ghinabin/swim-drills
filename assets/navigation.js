@@ -2,9 +2,9 @@
 (() => {
   "use strict";
   const rootPages = {
-    "index.html": "Overview",
-    "plan.html": "Training plan",
-    "drills.html": "Drill library",
+    "index.html": "Today",
+    "plan.html": "Plan",
+    "race.html": "Race",
   };
   const file = location.pathname.split("/").pop() || "index.html";
   const params = new URLSearchParams(location.search);
@@ -44,7 +44,7 @@
     const valid = Object.hasOwn(rootPages, originFile);
     parent = {
       url: valid ? originFile : "plan.html",
-      label: valid ? rootPages[originFile] : "Training plan",
+      label: valid ? rootPages[originFile] : "Plan",
       view:
         valid && saved?.url?.split(/[?#]/)[0] === originFile
           ? params.get("view")
@@ -231,7 +231,7 @@
     capture,
     restore,
     returnURL,
-    returnLabel: () => parent?.label || "Training plan",
+    returnLabel: () => parent?.label || "Plan",
     snapshot: () => storage.get("view:" + entry),
     ready() {
       ready = true;

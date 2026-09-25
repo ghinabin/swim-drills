@@ -1,653 +1,770 @@
-# Swimming plan — daily drills and race preparation
+Yes. This is the **final pool plan I would coach you on from Saturday, September 26 through your races on October 12–13**.
 
-**Updated 18 September 2026 · Active training: 18 September–11 October · Competition: 12–13 October 2026**
+I’m treating both entries as **freestyle**, because your existing training and attached plan are freestyle-focused. Your previous plan correctly identified your major weakness as maintaining a strong second 25 m after a fast opening.  For the 100 m, we expand that problem to maintaining quality through **four 25 m lengths**.
 
-**Your pool window:** 07:30–09:30 on scheduled swim mornings, local time. Saturdays are reserved for family/rest. **Your current priority:** completing a strong second 25 m after a fast opening, with comfortable breathing and a reliable turn.
+The plan intentionally includes a lot of turn work. In elite short-course racing, starts and turns contribute a substantial proportion of total race time, and turn performance significantly affects results across distances. ([PubMed][1]) The 100 m also has a substantial aerobic contribution alongside anaerobic energy systems, so we retain controlled swimming rather than converting everything into maximal sprinting. ([PubMed][2])
 
-This replaces the prospective sessions in your pasted plan. The 14–17 September entries are historical only; they are not sessions to repeat. The plan keeps the daily-table format and incorporates the reviewed changes, including whole-race rehearsals and recovery between competition days. This revision removes all Saturday dependencies and puts familiar start practice into existing weekday metres.
+# NSA 14th Short-Course Final Preparation
 
-**Working assumptions:** freestyle is the target event; scheduled training is in a 25 m pool. Saturdays are family/rest days with no required swimming or drills. Confirm the competition pool length, your events on both days and reporting times with your coach/organiser. A 50 m race has one turn in a 25 m pool and no turn in a 50 m pool. This is a 50 m freestyle plan; another stroke/distance needs its own race details.
+**50 m:** Monday, October 12
+**100 m:** Tuesday, October 13
+**Pool:** 25 m short course
+**Full rest day:** Saturday only
+**Normal training window:** 7:30–9:00/9:30 AM
 
-## Workouts — separate from swim drills
+### Effort guide
 
-Land workouts have their own checklist and do not count toward swimming distance. Times are local. Rest days stay free; no catch-up workouts.
+| Code     | Meaning                                            |
+| -------- | -------------------------------------------------- |
+| EASY     | 2–4/10, completely controlled                      |
+| BUILD    | Begin easy, progressively accelerate to ~7–8/10    |
+| RP100    | 8–9/10, your sustainable 100 m race rhythm         |
+| FAST     | 9–10/10 sprint with good technique                 |
+| RACE 50  | Very fast race execution                           |
+| Recovery | Swim very easily; goal is to feel better afterward |
 
-| When | Time | Workout |
-| --- | --- | --- |
-| Training mornings, 18 Sep–2 Oct | 7:20–7:28 a.m. | Walk/march 2 min → gentle arm circles 1 min → light band rows 1 × 8 → bodyweight squats 1 × 6 → gentle ankle/hip movements |
-| Tue 22 Sep | 4 p.m. · 15–20 min | Incline push-ups 1 × 6–8; light rows 1 × 8–10; squats 1 × 8–10; glute bridges 1 × 8; familiar dead bugs 1 × 4/side |
-| Tue 29 Sep | 4 p.m. · 10 min | Gentle warm-up → incline push-ups 1 × 6; light rows 1 × 8; squats 1 × 8 |
-| Scheduled swims/races, 5–13 Oct | Before swimming; coach’s timing on race days | Familiar light warm-up only |
-| Saturdays and recovery days | No scheduled workout | Rest; optional gentle mobility |
+For **FAST** swimming, take the prescribed long rest. You are training speed—not your ability to survive repeated exhausted sprints.
 
-**Strength:** Rest 60–90 seconds between sets. Use light resistance and stop before fatigue. Skip if sore or tired from swimming. October 11 warm-up is only needed if taking the optional swim.
+---
 
-## Reading the plan
+# Sat Sep 26 — REST
 
-- Distances are metres. **One length = one pool length.** Use “lengths” rather than the ambiguous word “laps.”
-- **Daily metres include every listed warm-up, drill, start, turn, easy return and cool-down.** There are no extra uncounted swimming skill blocks. Waiting, coach feedback and video review add time, not metres.
-- **Rest means time after a repetition**, unless the row explicitly describes recovery including an easy return. There are no send-off cycles. Between rows take 60 seconds, or the longer stated rest. One recovery interval can satisfy both the end of a set and the preparation for the next: use the longer requirement, not two added waits. Start again only when breathing has settled.
-- Easy = 2–4/10 effort; controlled = 7/10; quick = 8/10; the two timed rehearsals are about 8–9/10. These are perceived efforts, not percentages of speed. No prescribed 14.5-second repetitions or guaranteed race time.
-- A gentle fist drill is optional: loosely close your hands, swim easy, then return to normal hands and notice the catch. Replace any uncomfortable drill with easy normal freestyle. A pull buoy is optional; no paddles or new equipment are needed.
-- Exhale gently while your face is in the water and rotate to inhale. Breathing every two arm strokes to a comfortable side is a possible starting rhythm; take breaths whenever needed. Do not force a low breath count.
-- All training is in a supervised pool. Start practice needs direct coach supervision and a permitted area/depth. Use a push if a dive is not already familiar and permitted. No new block-start or tumble-turn technique close to the meet.
-- **No breath-hold training, hyperventilation, underwater distance targets or fixed dolphin-kick quotas.** Brief comfortable start/turn streamlines are enough; surface promptly and breathe when needed. Supervision does not make prolonged breath holding an appropriate drill.
+**0 m.**
 
-## How to use 07:30–09:30 and your extra half-hour
+No pool training. Normal easy activity is fine.
 
-The two-hour access window is availability, not a requirement to swim for two hours. The listed distance is the whole morning’s planned swimming. The session ends when its useful work is done, even if the pool remains available.
+This becomes your regular weekly recovery day.
 
-| Time / situation | What to do | Load rule |
-| --- | --- | --- |
-| 07:30 onward | Begin the table’s warm-up, then block A: light coached drills. | The coach’s equivalent warm-up/drill metres replace these rows; do not do both versions. |
-| After drills, up to 30 minutes; for example 09:00–09:30 if your class finishes at 09:00 | Do block B: the listed main set, one technique focus and cool-down. Respect the row order and full rests. | Block B is already inside the daily total. Do not append a separate half-hour workout. |
-| If the class finishes earlier | Start block B earlier and finish earlier. | There is no need to wait until 09:00 or add filler lengths. |
-| If coached drills have already used most of the day’s distance, or made you tired | Reserve the listed cool-down, omit the remaining main/skill sets and finish easy. | Tell the coach what you have done. Do not stack this plan onto another complete workout. |
-| 25 Sep, 2 Oct and 8 Oct: whole-race rehearsal days | Agree a short warm-up/drill block with your coach and rehearse while fresh, before a long drill class. | The rehearsal replaces hard class work that morning. If it cannot be moved and you are tired afterward, skip the timed effort. |
-| From 5 Oct | Use only the short table. The after-drill block will usually take 10–20 minutes, depending on rest. | No extra drill class to fill the remaining time. If you stay poolside, use it for feedback or watching, while warm and dry. |
+---
 
-**Saturday rule:** 19 September, 26 September, 3 October and 10 October require **0 m**. Family plans take priority; there is no make-up session. Start practice is built into 22 September, 25 September, 29 September, 2 October and 6 October without increasing those daily totals. Use familiar permitted deck starts or wall pushes under coach supervision. If blocks are available only on Saturday, block practice remains optional; your coach should confirm a familiar permitted race start before the meet. Do not learn a new dive on race morning.
+# Sun Sep 27 — Technique + aerobic control
 
-**Your extra practice focus:** one thing each day. Breathing/alignment on easy days; the familiar turn on turn days; start consistency during the designated weekday sets; carrying rhythm into the second length on quality days. Coach feedback and rest are useful parts of that half-hour. Do not add every drill you know.
+## 850 m
 
-**Fresh rehearsal timing example:** arrive 07:30; complete the listed warm-up and light drill rows over roughly the next 15–25 minutes; take the listed start/settling work and recovery; rehearse the full 50 while fresh, often around 08:00–08:20. Complete the listed easy swimming afterward. Exact timing follows recovery and lane access, not a forced clock target. There is no extra 09:00 session.
+| Set          | Distance | Instructions                                                    |      Rest |
+| ------------ | -------: | --------------------------------------------------------------- | --------: |
+| Easy warm-up |      200 | 8×25 relaxed freestyle                                          | 20–30 sec |
+| Technique    |      100 | 4×25 smooth freestyle: head still, relaxed recovery, firm catch |    30 sec |
+| Aerobic 50s  |      200 | 4×50 comfortable. Same rhythm second 25 as first                | 30–45 sec |
+| Kick         |      100 | 4×25 flutter kick with kickboard, controlled                    |    30 sec |
+| Build        |      100 | 4×25 gradually accelerate to ~75–80%                            |    45 sec |
+| Easy 50s     |      100 | 2×50 relaxed                                                    |    30 sec |
+| Cool-down    |       50 | 2×25 very easy                                                  |         — |
 
-## Progression, recovery and stop rules
+### Focus
 
-- These totals are a planned ceiling, not a distance you must finish. The two full preparation weeks use four training days: Monday, Tuesday, Thursday and Friday. Wednesday, Saturday and Sunday are rest days. Race week keeps four weekday swims and an optional Sunday shakeout; Saturday remains free.
-- **Green:** easy 50s feel controlled, you can speak comfortably by the end of the planned rest, the second length retains a recognisable stroke, and you feel normally recovered the following day. Continue to the next dated session.
-- **Amber:** repeated extra rest, gasping, a ragged stroke, persistent soreness or fatigue the next morning. Make the next swim easy, omit speed/start work and shorten the session. If this persists, take a rest day and review with your coach.
-- If a 50 becomes difficult, use **2 × 25 easy with 30–45 seconds rest** instead. For a broken 50, the 20-second pause is not mandatory: if you are not comfortable, extend it to 45–60 seconds and treat the pair as ordinary 25s.
-- If the 21 September main set is not controlled, use the easier 25 m version in the following week. **Do not repeat the entire high-volume week or move the taper later.** The dates remain anchored to 12–13 October.
-- No volume progression is needed now. Improvement means a more controlled second length and a cleaner full 50. Shorten rest on 29 September only if the specified earlier check was comfortable; otherwise keep the longer rest.
-- End hard work if two consecutive repetitions lose technique or become clearly slower despite adequate rest. Do not push through unusual breathlessness. Stop for chest discomfort, dizziness or wheeze and tell your coach; severe or persistent breathing difficulty needs urgent medical help.
+Do **not** race today.
 
-## Weekly overview
+Think:
 
-| Dates | Training swims | Planned metres | Purpose |
-| --- | ---: | ---: | --- |
-| 14–17 Sep | Historical reference only | Not included in revised totals | Keep your actual log; do not repeat old sessions. |
-| 18–20 Sep | 1 | 800 | Easy reset; the weekend is free for family/rest. |
-| 21–27 Sep | 4 | 3,400 | Controlled repeat 50s, one linking session and one whole-race rehearsal. |
-| 28 Sep–4 Oct | 4 | 2,550 | Fewer repetitions, one final timed 50 and familiar starts. |
-| 5–11 Oct | 4 + 1 optional | 1,500–1,750 | Short quality work; recover before the meet. |
-| 12–13 Oct | Competition | Depends on entries and warm-up access | Use the race-day templates; no separate training. |
+**long body → relaxed exhale → clean catch → small continuous kick.**
 
-The final week is about 49% below the planned 3,400 m week if the optional shakeout is used. This is a plan comparison, not a claim about your actual previous training load. Record any coach-adjusted distances. Taper research supports reducing volume while keeping brief quality work, but cannot guarantee the ideal reduction or race improvement for you [1].
+You should finish fresher than on a hard training day.
 
-- [Week 1 — Reset and familiar skills](#week-1--reset-and-familiar-skills)
-- [Week 2 — Connect the lengths and rehearse](#week-2--connect-the-lengths-and-rehearse)
-- [Week 3 — Taper begins](#week-3--taper-begins)
-- [Week 4 — Race week](#week-4--race-week)
-- [Race day 1 — Monday 12 October](#race-day-1--monday-12-october)
-- [Race day 2 — Tuesday 13 October](#race-day-2--tuesday-13-october)
+---
 
-## Week 1 — Reset and familiar skills
+# Mon Sep 28 — 100 m speed endurance
 
-**14 Sep–20 Sep** · Revised workouts begin 18 September; keep prior dates as historical reference only.
+## 1,000 m — IMPORTANT SESSION
 
-### Mon 14 Sep — Historical reference only
+### Warm-up — 300 m
 
-**Past date — no new workout prescribed.** Keep whatever you actually completed in your original log. Do not repeat the original maximum-effort, restricted-breathing or underwater-distance instructions to “catch up.”
+6×25 easy freestyle = **150 m**
 
-### Tue 15 Sep — Historical reference only
+2×25 backstroke/easy choice = **50 m**
 
-**Past date — no new workout prescribed.** Keep whatever you actually completed in your original log. Do not repeat the original maximum-effort, restricted-breathing or underwater-distance instructions to “catch up.”
+4×25 BUILD = **100 m**
 
-### Wed 16 Sep — Historical reference only
+Rest 20–40 sec.
 
-**Past date — no new workout prescribed.** Keep whatever you actually completed in your original log. Do not repeat the original maximum-effort, restricted-breathing or underwater-distance instructions to “catch up.”
+### Technique — 100 m
 
-### Thu 17 Sep — Historical reference only
+4×25 smooth freestyle.
 
-**Past date — no new workout prescribed.** Keep whatever you actually completed in your original log. Do not repeat the original maximum-effort, restricted-breathing or underwater-distance instructions to “catch up.”
+Concentrate on maintaining the same catch when swimming faster.
 
-### Fri 18 Sep — Recovery, breathing and reset
+### Turn set — 200 m
 
-**Workout:** 7:20–7:28 a.m. · Morning warm-up.
+**4×50**
 
-**Pool:** 25 m · **Distance:** 800 m · **Lengths:** 32
+Each 50:
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Warm-up (easy; block A) | 8 lengths / 200 m | 8 × 25 easy freestyle or backstroke. Start gently; breathe normally. | 25–30 s per length; longer if needed |
-| 2 | Catch and breathing drills (block A) | 6 lengths / 150 m | 2 × 25 easy pull buoy + 2 × 25 gentle fist drill + 2 × 25 normal freestyle. Notice a relaxed exhale and easy inhale. Replace any awkward drill with normal easy freestyle. | 25–30 s after each repetition; all drills at 2–4/10 effort |
-| 3 | Easy repeat 50s (block B) | 8 lengths / 200 m | 4 × 50 easy, 3/10 effort. Use the familiar turn. If breathing becomes strained, replace each remaining 50 with 2 × 25 easy. | 45–60 s after each 50; fallback 25s: 30–45 s |
-| 4 | Alignment practice (skill; block B) | 4 lengths / 100 m | 4 × 25 easy: look down, rotate to breathe, keep the kick small. One cue per length. | 45 s after each 25 |
-| 5 | Cool-down (easy; block B) | 6 lengths / 150 m | 6 × 25 easy freestyle or backstroke; then finish. | 25–30 s after each length |
+**25 controlled → attack wall normally → clean turn → immediately establish stroke rhythm → 25 controlled**
 
-**Practice focus:** Relaxed breathing.
+Rest **60–75 sec**.
 
-**After-drill practice:** Block B fits within up to 30 minutes after drills. If needed, omit filler/skill reps, keep full rests and cool down. Log actual metres.
+Do not glide into the wall.
 
-**Session notes:** The original plan put a race test after a hard Thursday. Today is deliberately easy. If you have already completed your coached swim, do not do this again. No timed 50 today.
+### Main set — 200 m
 
-**Quick log:** actual metres ___ · session effort /10 ___ · breathing comfortable? ___ · one coach cue ___
+**2 rounds:**
 
-### Sat 19 Sep — Rest day
+4×25 @ **RP100**
 
-**Workout:** Rest; optional gentle mobility. No scheduled workout.
+Rest:
 
-**Recovery day · Planned distance: 0 m**
+* **20–30 sec between 25s**
+* **4 min between rounds**
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Rest and recovery | — | Normal daily activity. Optional 10-minute easy walk and 5 minutes of gentle mobility if comfortable. | No pool or hard conditioning session required. |
+Treat them mentally as:
 
-**Session notes:** Family/rest day. No essential drill, pool visit or start practice depends on today. Skip swimming freely; nothing needs moving to Sunday or Monday. The 07:30–09:30 window can remain unused.
+**#1 — controlled fast**
+**#2 — rhythm**
+**#3 — hold technique**
+**#4 — strong finish**
 
-### Sun 20 Sep — Rest day
+The goal is consistency—not making #1 ridiculously fast.
 
-**Workout:** Rest; optional gentle mobility. No scheduled workout.
+### Speed endurance — 100 m
 
-**Recovery day · Planned distance: 0 m**
+**2×50 @ ~90–95%**
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Rest and recovery | — | Normal daily activity. Optional 10-minute easy walk and 5 minutes of gentle mobility if comfortable. | No pool or hard conditioning session required. |
+Rest **4 minutes**.
 
-**Session notes:** Full recovery day after the easy Friday session. No catch-up swimming or hard gym work. The 07:30–09:30 window can remain unused.
+These should be hard, but your stroke should still resemble your normal freestyle.
 
-**Week total shown above:** 800 m.
+If #2 becomes wildly slower or technically poor, stop after #1.
 
-## Week 2 — Connect the lengths and rehearse
+### Cool-down — 100 m
 
-**21 Sep–27 Sep** · One controlled linking session, one full race rehearsal, and three complete rest days; Saturday is free.
+4×25 easy.
 
-### Mon 21 Sep — Connect the two lengths
+---
 
-**Workout:** 7:20–7:28 a.m. · Morning warm-up.
+# Tue Sep 29 — 50 m speed
 
-**Pool:** 25 m · **Distance:** 900 m · **Lengths:** 36
+## 900 m — QUALITY SESSION
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Warm-up (easy; block A) | 8 lengths / 200 m | 8 × 25 easy freestyle or backstroke. Start gently; breathe normally. | 25–30 s per length; longer if needed |
-| 2 | Catch and breathing drills (block A) | 8 lengths / 200 m | 4 × 25 smooth pull buoy, then 2 × (25 gentle fist + 25 normal freestyle). Keep the same relaxed catch when opening your hands. | 25–30 s after each repetition; all drills at 2–4/10 effort |
-| 3 | Turn practice (skill; block B) | 4 lengths / 100 m | 2 × 50 easy, one familiar open/side turn each. Approach without a long glide; surface promptly. All turn metres are included. | 60 s after each 50 |
-| 4 | Broken 50s (main set; block B) | 4 lengths / 100 m | 2 × (25 at 7/10 + 20 s pause + 25 at 7–8/10). Keep regular breaths and rhythm. Do not compare the sum with a continuous 50 time. | 20 s between halves only if comfortable; 3 min after each pair. Extend rest if needed |
-| 5 | Continuous 50 (main set; block B) | 2 lengths / 50 m | 1 × 50: first 25 at 7/10, familiar turn, second 25 at 8/10 if controlled. Only proceed if earlier work was comfortable; otherwise use 2 × 25 easy per 50. | 3 min before and after each 50; fallback 25s: 30–45 s rest |
-| 6 | Easy swimming (block B) | 4 lengths / 100 m | 4 × 25 easy at 2–3/10; breathe comfortably. | 30 s after each repetition |
-| 7 | Cool-down (easy; block B) | 6 lengths / 150 m | 6 × 25 easy freestyle or backstroke; then finish. | 25–30 s after each length |
+### Warm-up — 250 m
 
-**Practice focus:** A controlled second 25.
+6×25 easy = 150
+2×25 technique = 50
+2×25 BUILD = 50
 
-**After-drill practice:** Block B fits within up to 30 minutes after drills. If needed, omit filler/skill reps, keep full rests and cool down. Log actual metres.
+### Start activation — 100 m
 
-**Session notes:** This replaces the original seven maximum-effort 25s. The main set is 150 m, not an addition to the old main set. The continuous 50 is optional if the broken pairs caused strain. Take the full rests; do not chase 14.5-second 25s.
+If blocks are available and your coach/pool permits starts:
 
-**Quick log:** actual metres ___ · session effort /10 ___ · breathing comfortable? ___ · one coach cue ___
+**2×25 familiar race start**
+**2×25 easy**
 
-### Tue 22 Sep — Comfortable repeat 50s
+Take **2–3 min** before another start.
 
-**Workout:** 7:20–7:28 a.m. · Morning warm-up. 4 p.m. · Light strength, 15–20 min.
+Use only a start you already know. Starts should be supervised.
 
-**Pool:** 25 m · **Distance:** 900 m · **Lengths:** 36
+### Main sprint set — 200 m
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Warm-up (easy; block A) | 8 lengths / 200 m | 8 × 25 easy freestyle or backstroke. Start gently; breathe normally. | 25–30 s per length; longer if needed |
-| 2 | Catch and breathing drills (block A) | 8 lengths / 200 m | 4 × 25 easy pull buoy + 2 × (25 gentle fist + 25 normal freestyle). Keep the drills light after Monday. | 25–30 s after each repetition; all drills at 2–4/10 effort |
-| 3 | Start practice (skill; block B) | 2 lengths / 50 m | 2 × 25: familiar supervised, permitted start; surface promptly and swim easy to the far wall. Use a push if a dive is not taught/permitted. | 2 min after each full length; stop if technique worsens |
-| 4 | Endurance (main set; block B) | 8 lengths / 200 m | 4 × 50 at 3–4/10. Swim the first length calmly and keep the same comfortable effort through the second. If necessary, use 8 × 25 easy instead. | 45–60 s after each 50; fallback 25s: 30–45 s |
-| 5 | Breathing practice (skill; block B) | 2 lengths / 50 m | 2 × 25 easy. Focus on gentle exhalation, then rotate for a comfortable breath without lifting your head. | 45 s after each 25 |
-| 6 | Easy swimming (block B) | 4 lengths / 100 m | 4 × 25 easy at 2–3/10; breathe comfortably. | 30 s after each repetition |
-| 7 | Cool-down (easy; block B) | 4 lengths / 100 m | 4 × 25 easy freestyle or backstroke; then finish. | 25–30 s after each length |
+**4×:**
 
-**Practice focus:** Breathing without urgency.
+25 FAST
++
+25 EASY
 
-**After-drill practice:** Block B fits within up to 30 minutes after drills. If needed, omit filler/skill reps, keep full rests and cool down. Log actual metres.
+Take **2–3 minutes after each fast 25**.
 
-**Session notes:** Two familiar supervised starts replace 50 m of breathing practice; the total stays 900 m. Use a push if weekday diving is not permitted. No vertical dolphin conditioning today. Record whether all four 50s were comfortable, whether you needed extra rest, and how you feel the next morning. This is not a second hard day.
+The FAST lengths should be genuinely fast.
 
-**Quick log:** actual metres ___ · session effort /10 ___ · breathing comfortable? ___ · one coach cue ___
+Do not rush the recovery.
 
-### Wed 23 Sep — Rest day
+### Pure-speed set — 100 m
 
-**Workout:** Rest; optional gentle mobility. No scheduled workout.
+**4×25 FAST from push**
 
-**Recovery day · Planned distance: 0 m**
+Rest **2.5–3 min**.
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Rest and recovery | — | Normal daily activity. Optional 10-minute easy walk and 5 minutes of gentle mobility if comfortable. | No pool or hard conditioning session required. |
+Target:
 
-**Session notes:** A full rest day replaces the original 1,000 m recovery session and extra breakout block. Protect recovery between Monday’s quality work and Friday’s rehearsal. The 07:30–09:30 window can remain unused.
+**fast kick + firm catch + relaxed shoulders + stable head.**
 
-### Thu 24 Sep — Light preparation and turns
+If sprint #3 is clearly deteriorating, do not force #4.
 
-**Workout:** 7:20–7:28 a.m. · Morning warm-up.
+### Easy aerobic swimming — 200 m
 
-**Pool:** 25 m · **Distance:** 800 m · **Lengths:** 32
+4×50 relaxed.
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Warm-up (easy; block A) | 8 lengths / 200 m | 8 × 25 easy freestyle or backstroke. Start gently; breathe normally. | 25–30 s per length; longer if needed |
-| 2 | Catch and breathing drills (block A) | 6 lengths / 150 m | 2 × 25 easy pull buoy + 2 × 25 gentle fist + 2 × 25 normal freestyle. Keep everything smooth. | 25–30 s after each repetition; all drills at 2–4/10 effort |
-| 3 | Turn practice (skill; block B) | 4 lengths / 100 m | 2 × 50 easy, one familiar open/side turn each. Approach without a long glide; surface promptly. All turn metres are included. | 60 s after each 50 |
-| 4 | Controlled builds (block B) | 4 lengths / 100 m | 2 × (25 gradually building from easy to 7/10 + 25 easy). Never finish a build gasping. | 90 s after each complete pair |
-| 5 | Easy swimming (block B) | 4 lengths / 100 m | 4 × 25 easy at 2–3/10; breathe comfortably. | 30 s after each repetition |
-| 6 | Cool-down (easy; block B) | 6 lengths / 150 m | 6 × 25 easy freestyle or backstroke; then finish. | 25–30 s after each length |
+### Cool-down — 50 m
 
-**Practice focus:** One familiar turn.
+2×25 easy.
 
-**After-drill practice:** Block B fits within up to 30 minutes after drills. If needed, omit filler/skill reps, keep full rests and cool down. Log actual metres.
+---
 
-**Session notes:** Save race effort for Friday. A turn should be comfortable and repeatable. Use your reliable side/open turn; do not introduce a new tumble turn now. If the coached drills were tiring, omit the builds and finish easy.
+# Wed Sep 30 — Active recovery
 
-**Quick log:** actual metres ___ · session effort /10 ___ · breathing comfortable? ___ · one coach cue ___
+## 700 m
 
-### Fri 25 Sep — Full race rehearsal 1
+Not a rest day, but **no hard training**.
 
-**Workout:** 7:20–7:28 a.m. · Morning warm-up.
+200 easy
 
-**Pool:** 25 m · **Distance:** 800 m · **Lengths:** 32
+4×25 technique = 100
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Warm-up (easy; block A) | 8 lengths / 200 m | 8 × 25 easy freestyle or backstroke. Start gently; breathe normally. | 25–30 s per length; longer if needed |
-| 2 | Catch and breathing drills (block A) | 4 lengths / 100 m | 2 × 25 normal freestyle with a breathing cue, then 2 × 25 easy catch-focused freestyle. Avoid tiring drill work before the rehearsal. | 25–30 s after each repetition; all drills at 2–4/10 effort |
-| 3 | Start practice (skill; block B) | 2 lengths / 50 m | 2 × 25: familiar supervised, permitted start; surface promptly and swim easy to the far wall. Use a push if a dive is not taught/permitted. | 2 min after each full length; stop if technique worsens |
-| 4 | Settle before the rehearsal (block B) | 4 lengths / 100 m | 4 × 25 easy. Then follow the rehearsal routine below: dry off/stay warm briefly, listen to a start cue, and return only in the permitted area. | 30 s per length; then 3–5 min comfortable waiting, following coach/pool rules |
-| 5 | Full 50 m race rehearsal (block B) | 2 lengths / 50 m | 1 × 50 timed from a familiar permitted start: start cue → brief streamline → surface swimming → 25 m turn → second length → finish touch. Swim a fast, controlled opening and a strong second length (about 8–9/10 overall), without forcing breaths or technique. Use a push if a dive is not permitted. Coach records first-25 split, total time, start type and one technique note. No second timed attempt. | At least 3 min settled recovery before; at least 3 min afterward before easy swimming |
-| 6 | Easy swimming (block B) | 6 lengths / 150 m | 6 × 25 easy at 2–3/10; breathe comfortably. | 30 s after each repetition |
-| 7 | Cool-down (easy; block B) | 6 lengths / 150 m | 6 × 25 easy freestyle or backstroke; then finish. | 25–30 s after each length |
+4×50 EASY = 200
 
-**Practice focus:** Complete start, turn and finish.
+4×25 kickboard easy = 100
 
-**After-drill practice:** Use the fresh rehearsal schedule below, rather than waiting until 09:00 after 90 minutes of drills. The listed start practice, settling lengths, single 50 and easy recovery form the practice block.
+2×50 very easy = 100
 
-**Session notes:** Do the timed swim early while fresh, before any long or demanding coached drill session. One timed 50 is enough. If warm-up feels unusually difficult, replace the rehearsal with 2 × 25 easy and skip any remaining tiring work.
+**Total = 700 m**
 
-**Quick log:** actual metres ___ · session effort /10 ___ · breathing comfortable? ___ · one coach cue ___
+No stopwatch.
 
-**Full race-simulation sequence:**
+No sprinting.
 
-- Confirm the start type, lane and finish with the coach. Rehearse a start cue only under the coach’s supervision and within pool rules.
-- Use the table’s warm-up, light drills and familiar start repetitions. The coach may omit practice starts if they would cause fatigue.
-- After the listed settling lengths, stay warm for the brief 3–5 minute waiting period. Rehearse calm preparation; do not hyperventilate.
-- Swim **one continuous 50 m**. In this 25 m training pool, complete one familiar turn and swim through the finish. Surface promptly after the start and turn, and breathe when needed.
-- Record first-25 split and total. Derive second-25 time as total minus first split. Compare matching start/pool/turn conditions; do not demand identical halves.
-- Finish the table’s easy recovery and cool-down. No immediate “one more attempt” and no separate hard drill session afterward.
+No hard turns.
 
-### Sat 26 Sep — Rest day
+---
 
-**Workout:** Rest; optional gentle mobility. No scheduled workout.
+# Thu Oct 1 — 50 m race rehearsal
 
-**Recovery day · Planned distance: 0 m**
+## 850 m
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Rest and recovery | — | Normal daily activity. Optional 10-minute easy walk and 5 minutes of gentle mobility if comfortable. | No pool or hard conditioning session required. |
+This is your first major checkpoint.
 
-**Session notes:** Family/rest day. Start practice is already included in the weekday sessions. Recover after Friday; no catch-up swimming is needed. The 07:30–09:30 window can remain unused.
+### Warm-up — 250 m
 
-### Sun 27 Sep — Rest day
+150 easy
+4×25 BUILD = 100
 
-**Workout:** Rest; optional gentle mobility. No scheduled workout.
+### Technique — 100 m
 
-**Recovery day · Planned distance: 0 m**
+4×25 smooth.
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Rest and recovery | — | Normal daily activity. Optional 10-minute easy walk and 5 minutes of gentle mobility if comfortable. | No pool or hard conditioning session required. |
+### Start work — 100 m
 
-**Session notes:** Rest. Review the first rehearsal with your coach, using one useful cue for next week. The 07:30–09:30 window can remain unused.
+2×25 familiar supervised starts
+2×25 easy
 
-**Week total shown above:** 3,400 m.
+Full recovery.
 
-## Week 3 — Taper begins
+### Turn preparation — 100 m
 
-**28 Sep–4 Oct** · Reduce total work while keeping familiar skills and one final timed 50.
+**4×25 involving your race wall approach/turn**, swimming easily except around the wall.
 
-### Mon 28 Sep — Connect the lengths, fewer repetitions
+Your objective:
 
-**Workout:** 7:20–7:28 a.m. · Morning warm-up.
+**carry speed into wall → compact turn → firm push → regain stroke rhythm.**
 
-**Pool:** 25 m · **Distance:** 650 m · **Lengths:** 26
+### Easy reset — 100 m
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Warm-up (easy; block A) | 8 lengths / 200 m | 8 × 25 easy freestyle or backstroke. Start gently; breathe normally. | 25–30 s per length; longer if needed |
-| 2 | Catch and breathing drills (block A) | 4 lengths / 100 m | 2 × 25 easy pull buoy + 25 gentle fist + 25 normal freestyle. | 25–30 s after each repetition; all drills at 2–4/10 effort |
-| 3 | Turn practice (skill; block B) | 4 lengths / 100 m | 2 × 50 easy, one familiar open/side turn each. Approach without a long glide; surface promptly. All turn metres are included. | 60 s after each 50 |
-| 4 | Broken 50s (main set; block B) | 2 lengths / 50 m | 1 × (25 at 7/10 + 20 s pause + 25 at 7–8/10). Keep regular breaths and rhythm. Do not compare the sum with a continuous 50 time. | 20 s between halves only if comfortable; 3 min after each pair. Extend rest if needed |
-| 5 | Continuous 50 (main set; block B) | 2 lengths / 50 m | 1 × 50: first 25 at 7/10, familiar turn, second 25 at 8/10 if controlled. Only proceed if earlier work was comfortable; otherwise use 2 × 25 easy per 50. | 3 min before and after each 50; fallback 25s: 30–45 s rest |
-| 6 | Easy swimming (block B) | 2 lengths / 50 m | 2 × 25 easy at 2–3/10; breathe comfortably. | 30 s after each repetition |
-| 7 | Cool-down (easy; block B) | 4 lengths / 100 m | 4 × 25 easy freestyle or backstroke; then finish. | 25–30 s after each length |
+4×25 easy.
 
-**Practice focus:** Carry rhythm through the turn.
+Then rest **4–5 minutes**.
 
-**After-drill practice:** Block B fits within up to 30 minutes after drills. If needed, omit filler/skill reps, keep full rests and cool down. Log actual metres.
+## 50 m rehearsal — 50 m
 
-**Session notes:** The main set is now one broken 50 plus one continuous 50. If the 21 September version was difficult, keep both as easy 25s instead. No volume increase and no attempt to make up omitted repetitions.
+**ONE timed 50 m.**
 
-**Quick log:** actual metres ___ · session effort /10 ___ · breathing comfortable? ___ · one coach cue ___
+Race sequence:
 
-### Tue 29 Sep — Endurance, with less total work
+**Start → fast first 25 → clean turn → attack second 25 → finish through wall.**
 
-**Workout:** 7:20–7:28 a.m. · Morning warm-up. 4 p.m. · Light strength, 10 min.
+Do not do another timed 50 because you are unhappy with the result.
 
-**Pool:** 25 m · **Distance:** 650 m · **Lengths:** 26
+Record:
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Warm-up (easy; block A) | 8 lengths / 200 m | 8 × 25 easy freestyle or backstroke. Start gently; breathe normally. | 25–30 s per length; longer if needed |
-| 2 | Catch and breathing drills (block A) | 4 lengths / 100 m | 2 × 25 easy pull buoy + 25 gentle fist + 25 normal freestyle. | 25–30 s after each repetition; all drills at 2–4/10 effort |
-| 3 | Start practice (skill; block B) | 2 lengths / 50 m | 2 × 25: familiar supervised, permitted start; surface promptly and swim easy to the far wall. Use a push if a dive is not taught/permitted. | 2 min after each full length; stop if technique worsens |
-| 4 | Endurance (main set; block B) | 8 lengths / 200 m | 4 × 50 easy at 3–4/10. Use your familiar turn and normal breathing. Use 8 × 25 easy if needed. | 45–60 s after each 50; only shorten to 30–45 s if 22 September was comfortable and you are fresh today. Fallback 25s: 30–45 s |
-| 5 | Cool-down (easy; block B) | 4 lengths / 100 m | 4 × 25 easy freestyle or backstroke; then finish. | 25–30 s after each length |
+| Metric              | Record                |
+| ------------------- | --------------------- |
+| First 25            | ___                   |
+| Total 50            | ___                   |
+| Second 25           | Total − first 25      |
+| Turn                | Good / average / poor |
+| Technique last 15 m | Good / breaking down  |
 
-**Practice focus:** Keep the second length calm.
+### Recovery — 150 m
 
-**After-drill practice:** Block B fits within up to 30 minutes after drills. If needed, omit filler/skill reps, keep full rests and cool down. Log actual metres.
+6×25 very easy.
 
-**Session notes:** Two familiar supervised starts replace the 50 m alignment block; the total stays 650 m. Use a push if weekday diving is not permitted. Change rest only if recovery and technique are both good. Do not simultaneously add repetitions, increase effort and shorten rest. No separate dolphin-conditioning block.
+---
 
-**Quick log:** actual metres ___ · session effort /10 ___ · breathing comfortable? ___ · one coach cue ___
+# Fri Oct 2 — 100 m race rehearsal
 
-### Wed 30 Sep — Rest day
+## 950 m — KEY SESSION
 
-**Workout:** Rest; optional gentle mobility. No scheduled workout.
+This is probably the most informative training session before your competition.
 
-**Recovery day · Planned distance: 0 m**
+### Warm-up — 250 m
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Rest and recovery | — | Normal daily activity. Optional 10-minute easy walk and 5 minutes of gentle mobility if comfortable. | No pool or hard conditioning session required. |
+150 easy
+4×25 BUILD = 100
 
-**Session notes:** Rest during the taper. No make-up drills or hidden extra lengths. The 07:30–09:30 window can remain unused.
+### Technique — 100 m
 
-### Thu 1 Oct — Light race preparation
+4×25 smooth.
 
-**Workout:** 7:20–7:28 a.m. · Morning warm-up.
+### Race-rhythm preparation — 100 m
 
-**Pool:** 25 m · **Distance:** 600 m · **Lengths:** 24
+4×25 @ approximately RP100.
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Warm-up (easy; block A) | 6 lengths / 150 m | 6 × 25 easy freestyle or backstroke. Start gently; breathe normally. | 25–30 s per length; longer if needed |
-| 2 | Catch and breathing drills (block A) | 4 lengths / 100 m | 2 × 25 easy pull buoy + 25 gentle fist + 25 normal freestyle. | 25–30 s after each repetition; all drills at 2–4/10 effort |
-| 3 | Turn practice (skill; block B) | 4 lengths / 100 m | 2 × 50 easy, one familiar open/side turn each. Approach without a long glide; surface promptly. All turn metres are included. | 60 s after each 50 |
-| 4 | Controlled builds (block B) | 4 lengths / 100 m | 2 × (25 gradually building from easy to 7/10 + 25 easy). Never finish a build gasping. | 90 s after each complete pair |
-| 5 | Cool-down (easy; block B) | 6 lengths / 150 m | 6 × 25 easy freestyle or backstroke; then finish. | 25–30 s after each length |
+Rest **30 sec**.
 
-**Practice focus:** Approach the wall smoothly.
+### Turn preparation — 100 m
 
-**After-drill practice:** Block B fits within up to 30 minutes after drills. If needed, omit filler/skill reps, keep full rests and cool down. Log actual metres.
+2×50 controlled with clean turns.
 
-**Session notes:** Keep the session light before the final timed rehearsal. If the turn work affects breathing, use single easy lengths. Do not extend underwater time to improve a practice split.
+Rest 60 sec.
 
-**Quick log:** actual metres ___ · session effort /10 ___ · breathing comfortable? ___ · one coach cue ___
+### Reset — 100 m
 
-### Fri 2 Oct — Full race rehearsal 2
+4×25 very easy.
 
-**Workout:** 7:20–7:28 a.m. · Morning warm-up.
+Rest **4–5 minutes**.
 
-**Pool:** 25 m · **Distance:** 650 m · **Lengths:** 26
+# 100 m race rehearsal — 100 m
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Warm-up (easy; block A) | 8 lengths / 200 m | 8 × 25 easy freestyle or backstroke. Start gently; breathe normally. | 25–30 s per length; longer if needed |
-| 2 | Catch and breathing drills (block A) | 4 lengths / 100 m | 4 × 25 easy freestyle: two with a breathing cue, two with a catch cue. No demanding drills. | 25–30 s after each repetition; all drills at 2–4/10 effort |
-| 3 | Start practice (skill; block B) | 2 lengths / 50 m | 2 × 25: familiar supervised, permitted start; surface promptly and swim easy to the far wall. Use a push if a dive is not taught/permitted. | 2 min after each full length; stop if technique worsens |
-| 4 | Settle before the rehearsal (block B) | 2 lengths / 50 m | 2 × 25 easy; then use the same brief waiting and start routine as 25 September. | 30 s per length; then 3–5 min comfortable waiting |
-| 5 | Full 50 m race rehearsal (block B) | 2 lengths / 50 m | 1 × 50 timed from a familiar permitted start: start cue → brief streamline → surface swimming → 25 m turn → second length → finish touch. Swim a fast, controlled opening and a strong second length (about 8–9/10 overall), without forcing breaths or technique. Use a push if a dive is not permitted. Coach records first-25 split, total time, start type and one technique note. No second timed attempt. | At least 3 min settled recovery before; at least 3 min afterward before easy swimming |
-| 6 | Easy swimming (block B) | 4 lengths / 100 m | 4 × 25 easy at 2–3/10; breathe comfortably. | 30 s after each repetition |
-| 7 | Cool-down (easy; block B) | 4 lengths / 100 m | 4 × 25 easy freestyle or backstroke; then finish. | 25–30 s after each length |
+Swim one strong race rehearsal at approximately **90–95%**, not a desperate PB attempt.
 
-**Practice focus:** Repeat the routine under matching conditions.
+Think:
 
-**After-drill practice:** Use the fresh rehearsal schedule. Keep the block shorter than on 25 September; one timed 50 only, with recovery and easy swimming included in the total.
+| Length     | Job                   |
+| ---------- | --------------------- |
+| **0–25**   | Fast but controlled   |
+| **25–50**  | Establish race rhythm |
+| **50–75**  | Protect technique     |
+| **75–100** | Commit and finish     |
 
-**Session notes:** This is the last scheduled timed 50 before competition. Compare with 25 September only if start, pool length and turn match. A slower result when tired is a reason to recover, not to add another test.
+Have someone record:
 
-**Quick log:** actual metres ___ · session effort /10 ___ · breathing comfortable? ___ · one coach cue ___
+**25 / 50 / 75 / 100 m splits.**
 
-**Full race-simulation sequence:**
+Those four numbers matter more than simply knowing the final 100 time.
 
-- Confirm the start type, lane and finish with the coach. Rehearse a start cue only under the coach’s supervision and within pool rules.
-- Use the table’s warm-up, light drills and familiar start repetitions. The coach may omit practice starts if they would cause fatigue.
-- After the listed settling lengths, stay warm for the brief 3–5 minute waiting period. Rehearse calm preparation; do not hyperventilate.
-- Swim **one continuous 50 m**. In this 25 m training pool, complete one familiar turn and swim through the finish. Surface promptly after the start and turn, and breathe when needed.
-- Record first-25 split and total. Derive second-25 time as total minus first split. Compare matching start/pool/turn conditions; do not demand identical halves.
-- Finish the table’s easy recovery and cool-down. No immediate “one more attempt” and no separate hard drill session afterward.
+Elite 100 m freestyle research shows velocity and stroke characteristics typically decline later in the race; the objective isn't four identical lengths, but limiting unnecessary deterioration. ([PubMed][3])
 
-### Sat 3 Oct — Rest day
+### Recovery — 200 m
 
-**Workout:** Rest; optional gentle mobility. No scheduled workout.
+8×25 very easy.
 
-**Recovery day · Planned distance: 0 m**
+Finish.
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Rest and recovery | — | Normal daily activity. Optional 10-minute easy walk and 5 minutes of gentle mobility if comfortable. | No pool or hard conditioning session required. |
+---
 
-**Session notes:** Family/rest day. The final timed rehearsal was on Friday, and familiar starts remain in the weekday plan. No required block-start visit. The 07:30–09:30 window can remain unused.
+# Sat Oct 3 — REST
 
-### Sun 4 Oct — Rest day
+**0 m.**
 
-**Workout:** Rest; optional gentle mobility. No scheduled workout.
+No swimming workout.
 
-**Recovery day · Planned distance: 0 m**
+---
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Rest and recovery | — | Normal daily activity. Optional 10-minute easy walk and 5 minutes of gentle mobility if comfortable. | No pool or hard conditioning session required. |
+# Sun Oct 4 — Recovery + short-course skills
 
-**Session notes:** Rest and family time. The following week is deliberately shorter; no missed Saturday work to make up. The 07:30–09:30 window can remain unused.
+## 700 m
 
-**Week total shown above:** 2,550 m.
+200 easy
 
-## Week 4 — Race week
+4×25 technique = 100
 
-**5 Oct–11 Oct** · Brief quality, generous recovery and no additional fitness block.
+4×50 EASY = 200
 
-### Mon 5 Oct — Short speed, full recovery
+4×25 turn-focused swimming = 100
 
-**Workout:** Familiar light warm-up before swimming only.
+4×25 very easy = 100
 
-**Pool:** 25 m · **Distance:** 400 m · **Lengths:** 16
+**Total 700 m.**
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Warm-up (easy; block A) | 6 lengths / 150 m | 6 × 25 easy freestyle or backstroke. Start gently; breathe normally. | 25–30 s per length; longer if needed |
-| 2 | Catch and breathing drills (block A) | 2 lengths / 50 m | 2 × 25 easy freestyle using your best breathing/alignment cue. | 25–30 s after each repetition; all drills at 2–4/10 effort |
-| 3 | Short speed (main set; block B) | 6 lengths / 150 m | 3 × (25 fast and relaxed at 8/10 + 25 easy). Breathe normally; keep a clean stroke. No forced sprinting. | 2–3 min recovery after the fast 25, including the easy return; longer if needed |
-| 4 | Cool-down (easy; block B) | 2 lengths / 50 m | 2 × 25 easy freestyle or backstroke; then finish. | 25–30 s after each length |
+Turn emphasis only.
 
-**Practice focus:** Fast and relaxed.
+No hard sprinting after Friday's 100.
 
-**After-drill practice:** Block B fits within up to 30 minutes after drills. If needed, omit filler/skill reps, keep full rests and cool down. Log actual metres.
+---
 
-**Session notes:** This replaces the original six maximum 25s. Three controlled quick lengths are enough. Do not add missed repetitions. No extra turn circuit or conditioning after the table.
+# Mon Oct 5 — Sprint speed
 
-**Quick log:** actual metres ___ · session effort /10 ___ · breathing comfortable? ___ · one coach cue ___
+## 700 m
 
-### Tue 6 Oct — Easy technique and familiar starts
+### Warm-up
 
-**Workout:** Familiar light warm-up before swimming only.
+200 easy
 
-**Pool:** 25 m · **Distance:** 400 m · **Lengths:** 16
+### Build
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Warm-up (easy; block A) | 6 lengths / 150 m | 6 × 25 easy freestyle or backstroke. Start gently; breathe normally. | 25–30 s per length; longer if needed |
-| 2 | Catch and breathing drills (block A) | 4 lengths / 100 m | 4 × 25 easy freestyle. Choose one cue that helped in the rehearsals; no new drill. | 25–30 s after each repetition; all drills at 2–4/10 effort |
-| 3 | Start practice (skill; block B) | 2 lengths / 50 m | 2 × 25: familiar supervised, permitted start; surface promptly and swim easy to the far wall. Use a push if a dive is not taught/permitted. | 2 min after each full length; stop if technique worsens |
-| 4 | Easy swimming (block B) | 2 lengths / 50 m | 2 × 25 easy at 2–3/10; breathe comfortably. | 30 s after each repetition |
-| 5 | Cool-down (easy; block B) | 2 lengths / 50 m | 2 × 25 easy freestyle or backstroke; then finish. | 25–30 s after each length |
+4×25 BUILD = 100
 
-**Practice focus:** Stay comfortable.
+### Main set
 
-**After-drill practice:** Block B fits within up to 30 minutes after drills. If needed, omit filler/skill reps, keep full rests and cool down. Log actual metres.
+**4×:**
 
-**Session notes:** Predominantly easy after Monday. The two start repetitions finish easy, and there is no separate race-pace set. If you feel flat or sore, replace starts with normal easy lengths.
+25 FAST
+25 EASY
 
-**Quick log:** actual metres ___ · session effort /10 ___ · breathing comfortable? ___ · one coach cue ___
+= 200 m
 
-### Wed 7 Oct — Rest day
+Take **2–3 min recovery following each FAST length**.
 
-**Workout:** Rest; optional gentle mobility. No scheduled workout.
+### Turns
 
-**Recovery day · Planned distance: 0 m**
+2×50 = 100
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Rest and recovery | — | Normal daily activity. Optional 10-minute easy walk and 5 minutes of gentle mobility if comfortable. | No pool or hard conditioning session required. |
+First 25 controlled-fast → strong turn → second 25 controlled.
 
-**Session notes:** Rest. Keep normal meals and sleep routines; no new conditioning. The 07:30–09:30 window can remain unused.
+Rest 90 sec.
 
-### Thu 8 Oct — Final controlled whole-race rehearsal
+### Cool-down
 
-**Workout:** Familiar light warm-up before swimming only.
+100 easy.
 
-**Pool:** 25 m · **Distance:** 400 m · **Lengths:** 16
+### Goal
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Warm-up (easy; block A) | 6 lengths / 150 m | 6 × 25 easy freestyle or backstroke. Start gently; breathe normally. | 25–30 s per length; longer if needed |
-| 2 | Catch and breathing drills (block A) | 2 lengths / 50 m | 2 × 25 easy freestyle with your chosen race cue. | 25–30 s after each repetition; all drills at 2–4/10 effort |
-| 3 | Full 50 m race rehearsal (block B) | 2 lengths / 50 m | 1 × 50 with a familiar start, normal breathing, familiar turn and firm finish. Keep the whole swim at 7–8/10; this is a routine rehearsal, not a personal-best test. Use a push if a dive is not permitted. No second attempt. | At least 3 min settled recovery before; at least 3 min afterward before easy swimming |
-| 4 | Easy swimming (block B) | 2 lengths / 50 m | 2 × 25 easy at 2–3/10; breathe comfortably. | 30 s after each repetition |
-| 5 | Cool-down (easy; block B) | 4 lengths / 100 m | 4 × 25 easy freestyle or backstroke; then finish. | 25–30 s after each length |
+This is now about **quality**, not conditioning.
 
-**Practice focus:** Remember the complete sequence.
+---
 
-**After-drill practice:** Do this while fresh, shortly after warm-up and the two easy drill lengths. Finish with easy swimming. Do not wait until the end of a long drill session.
+# Tue Oct 6 — 100 m race pace
 
-**Session notes:** One complete 50 at 7–8/10, four days before the first race. Timing is optional and should not become a target. If a full 50 still causes distress, replace it with 2 × 25 easy; this is not a test you must pass today.
+## 700 m
 
-**Quick log:** actual metres ___ · session effort /10 ___ · breathing comfortable? ___ · one coach cue ___
+### Warm-up
 
-### Fri 9 Oct — Brief touch of speed
+200 easy.
 
-**Workout:** Familiar light warm-up before swimming only.
+### Technique
 
-**Pool:** 25 m · **Distance:** 300 m · **Lengths:** 12
+4×25 = 100.
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Warm-up (easy; block A) | 6 lengths / 150 m | 6 × 25 easy freestyle or backstroke. Start gently; breathe normally. | 25–30 s per length; longer if needed |
-| 2 | Short speed (main set; block B) | 4 lengths / 100 m | 2 × (25 fast and relaxed at 8/10 + 25 easy). Breathe normally; keep a clean stroke. No forced sprinting. | 2–3 min recovery after the fast 25, including the easy return; longer if needed |
-| 3 | Cool-down (easy; block B) | 2 lengths / 50 m | 2 × 25 easy freestyle or backstroke; then finish. | 25–30 s after each length |
+### Main set
 
-**Practice focus:** Two clean quick lengths.
+**2 rounds:**
 
-**After-drill practice:** Block B fits within up to 30 minutes after drills. If needed, omit filler/skill reps, keep full rests and cool down. Log actual metres.
+4×25 @ RP100
 
-**Session notes:** Keep the quick lengths at 8/10, with normal breathing and full recovery. If Thursday left fatigue, make the entire 300 m easy or take rest. No timed 50 and no extra conditioning.
+Rest:
+**20–30 sec between 25s**
+**4 min between rounds**
 
-**Quick log:** actual metres ___ · session effort /10 ___ · breathing comfortable? ___ · one coach cue ___
+Total = 200 m.
 
-### Sat 10 Oct — Rest day
+### Race-pace 50s
 
-**Workout:** Rest; optional gentle mobility. No scheduled workout.
+**2×50 @ RP100**
 
-**Recovery day · Planned distance: 0 m**
+Rest **3 min**.
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Rest and recovery | — | Normal daily activity. Optional 10-minute easy walk and 5 minutes of gentle mobility if comfortable. | No pool or hard conditioning session required. |
+The second 25 must remain technically controlled.
 
-**Session notes:** Family/rest day before the meet. Optional gentle mobility on land; no swim session or catch-up drills. The 07:30–09:30 window can remain unused.
+### Cool-down
 
-### Sun 11 Oct — Optional pre-meet shakeout
+100 easy.
 
-**Workout:** Familiar light warm-up before swimming only. Skip if choosing rest.
+This is your **last significant 100 m speed-endurance workout**.
 
-**Pool:** 25 m · **Distance:** 250 m · **Lengths:** 10
+---
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Warm-up (easy; block A) | 4 lengths / 100 m | 4 × 25 easy freestyle or backstroke. Start gently; breathe normally. | 25–30 s per length; longer if needed |
-| 2 | Short speed (main set; block B) | 4 lengths / 100 m | 2 × (25 fast and relaxed at 8/10 + 25 easy). Breathe normally; keep a clean stroke. No forced sprinting. | 2–3 min recovery after the fast 25, including the easy return; longer if needed |
-| 3 | Cool-down (easy; block B) | 2 lengths / 50 m | 2 × 25 easy freestyle or backstroke; then finish. | 25–30 s after each length |
+# Wed Oct 7 — Recovery
 
-**Practice focus:** Finish feeling fresh.
+## 500 m
 
-**After-drill practice:** About 15–20 minutes including generous rests is enough. Do not fill the 07:30–09:30 window. Pack race equipment and confirm reporting times afterward.
+200 easy
 
-**Session notes:** Optional: 250 m only if familiar short swims usually leave you feeling better. Use wall pushes; no last-minute start changes. If unwell, tired or needing sleep, rest instead. The quick lengths are controlled, not maximal.
+4×25 smooth technique = 100
 
-**Quick log:** actual metres ___ · session effort /10 ___ · breathing comfortable? ___ · one coach cue ___
+4×50 easy = 200
 
-**Week total shown above:** 1,750 m if the optional 11 October shakeout is used; otherwise 1,500 m.
+Done.
 
-## Race day 1 — Monday 12 October
+No fast swimming.
 
-**Workout:** Familiar light warm-up before your race; follow your coach’s timing.
+No hard kick set.
 
-**Competition day 1 · Arrive fresh; follow your event schedule.**
+---
 
-**Event assumption:** one 50 m freestyle race is used for the distance example. Confirm your actual event(s), rounds and pool length. If you have multiple heats/finals or a different stroke/distance, your coach must adapt the event-specific warm-up and recovery. The competition timetable replaces your usual 07:30–09:30 training window.
+# Thu Oct 8 — 50 m sharpening
 
-**Base example:** 250 m warm-up + one 50 m race + optional 100 m easy recovery = **400 m**, if a suitable supervised lane is available. This is not a mandatory total or a cap on official race entries. Log any additional re-warm-up and race metres separately.
+## 550 m
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Pool warm-up (easy) | 150 m | In a 25 m lane: 6 × 25 easy. In a 50 m lane: 3 × 50 easy. Use familiar strokes and regular breathing. | 25–30 s after each repetition; longer if needed. |
-| 2 | Brief builds | 50 m | In a 25 m lane: 2 × 25, gradually building from easy to 7/10. In a 50 m lane: 1 × 50 mostly easy with a brief familiar build, then ease off. | 60 s after each repetition. No maximal sprint. |
-| 3 | Settle | 50 m | 2 × 25 easy or 1 × 50 easy. An already familiar permitted start may replace the push on one repetition only if the coach/venue allows it; no extra start lengths. | 30–45 s after each repetition. |
-| 4 | Wait and report | — | Dry off, stay warm and follow the call-room schedule. Use your rehearsed preparation. Do not try to force the training-day clock onto the meet schedule. | Aim to finish water warm-up about 15–25 minutes before the heat if the schedule allows; follow official reporting times. |
-| 5 | Race | Official event distance; example 50 m | Familiar permitted start; fast, controlled opening; regular rehearsed breathing; familiar turn if it is a 25 m pool; keep swimming through the finish. | Do not deliberately suppress the urge to breathe. |
-| 6 | Post-race recovery (optional) | Up to 100 m | Once comfortable, 4 × 25 easy or 2 × 50 easy if a supervised cool-down lane is available and you feel well. Otherwise rest out of the water. | 30–45 s between easy repetitions; this is recovery, not training. |
+### Warm-up
 
-**If water warm-up is unavailable:** use 5–8 minutes of familiar gentle mobility and follow your coach’s and organiser’s instructions. Do not improvise a hard dryland workout or new exercises.
+200 easy.
 
-**Between events on 12 October:** tell your coach how you feel; rest and stay warm. Use a brief familiar re-warm-up only if the gap and lane access warrant it. There is no extra timed 50, hard kick set or breath-control drill between races.
+### Starts
 
-**After your last event, before 13 October:** change into dry clothes, eat familiar meals/snacks containing carbohydrate and protein, drink normally, and prioritise sleep. Keep normal activity light. Review one useful race cue and pack your equipment. Do not add an evening workout to correct the morning’s result.
+2×50:
 
-**Race log:** event ___ · pool length ___ · start type ___ · first-25 split ___ · total ___ · second-25 split ___ · breathing/turn observation ___
+familiar supervised start → transition into normal swimming → finish remaining distance easily.
 
-## Race day 2 — Tuesday 13 October
+**100 m total.**
 
-**Workout:** Familiar light warm-up before your race; follow your coach’s timing.
+Take **2–3 min recovery**.
 
-**Competition day 2 · Repeat the familiar routine and reassess recovery.**
+### Sprint
 
-**Event assumption:** one 50 m freestyle race is used for the distance example. Confirm your actual event(s), rounds and pool length. If you have multiple heats/finals or a different stroke/distance, your coach must adapt the event-specific warm-up and recovery. The competition timetable replaces your usual 07:30–09:30 training window.
+2×:
 
-**Base example:** 250 m warm-up + one 50 m race + optional 100 m easy recovery = **400 m**, if a suitable supervised lane is available. This is not a mandatory total or a cap on official race entries. Log any additional re-warm-up and race metres separately.
+25 FAST
+25 EASY
 
-| # | Set / focus | Volume | Instructions | Rest / target |
-| --- | --- | --- | --- | --- |
-| 1 | Pool warm-up (easy) | 150 m | In a 25 m lane: 6 × 25 easy. In a 50 m lane: 3 × 50 easy. Use familiar strokes and regular breathing. | 25–30 s after each repetition; longer if needed. |
-| 2 | Brief builds | 50 m | In a 25 m lane: 2 × 25, gradually building from easy to 7/10. In a 50 m lane: 1 × 50 mostly easy with a brief familiar build, then ease off. | 60 s after each repetition. No maximal sprint. |
-| 3 | Settle | 50 m | 2 × 25 easy or 1 × 50 easy. An already familiar permitted start may replace the push on one repetition only if the coach/venue allows it; no extra start lengths. | 30–45 s after each repetition. |
-| 4 | Wait and report | — | Dry off, stay warm and follow the call-room schedule. Use your rehearsed preparation. Do not try to force the training-day clock onto the meet schedule. | Aim to finish water warm-up about 15–25 minutes before the heat if the schedule allows; follow official reporting times. |
-| 5 | Race | Official event distance; example 50 m | Familiar permitted start; fast, controlled opening; regular rehearsed breathing; familiar turn if it is a 25 m pool; keep swimming through the finish. | Do not deliberately suppress the urge to breathe. |
-| 6 | Post-race recovery (optional) | Up to 100 m | Once comfortable, 4 × 25 easy or 2 × 50 easy if a supervised cool-down lane is available and you feel well. Otherwise rest out of the water. | 30–45 s between easy repetitions; this is recovery, not training. |
+= 100 m.
 
-**If water warm-up is unavailable:** use 5–8 minutes of familiar gentle mobility and follow your coach’s and organiser’s instructions. Do not improvise a hard dryland workout or new exercises.
+Full **3-minute recovery**.
 
-**Morning check:** tell your coach about poor recovery, illness, unusual breathlessness or pain. Do not use extra hard swimming to “wake yourself up.” The warm-up can be shortened if it is making you tired. Seek medical help for concerning symptoms.
+### Race feel
 
-**After your final event:** easy recovery if available and comfortable, then normal food, fluids and rest. No post-meet personal-best attempt.
+**1×50 @ ~90–95%**
 
-**Race log:** event ___ · pool length ___ · start type ___ · first-25 split ___ · total ___ · second-25 split ___ · breathing/turn observation ___
+Not a PB attempt.
 
-## Rehearsal and progress record
+Clean start/entry if available, clean turn, fast second 25.
 
-| Date | Planned check | What to record | Decision |
-| --- | --- | --- | --- |
-| 21 Sep | Two broken 50s, then one continuous 50 if comfortable | Breathing, second-length technique and recovery time | Use easier 25s next time if control is lost; do not add reps. |
-| 22 Sep | Four comfortable easy 50s | Whether 45–60 s rest is enough and how you feel the next morning | Keep the long rest unless the full set and next-day recovery are good. |
-| 25 Sep | One complete timed 50 | Start, pool length, turn, first split, total and one technique cue | Select one improvement for the next rehearsal; no repeat test that day. |
-| 2 Oct | One complete timed 50 under matching conditions | The same measures as 25 Sep | Finalise the familiar race routine; no more maximal testing. |
-| 8 Oct | One controlled whole-race rehearsal | Comfortable sequence and a clean finish | Leave fresh; replace with easy lengths if it is difficult. |
-| 12–13 Oct | Competition | Actual event and official time, plus one useful observation | Recover between days; no new technique or extra conditioning. |
+### Cool-down
 
-**Race goal:** the original file listed a 34-second push/side-turn baseline and a 28-second aspiration. Those are not interchangeable with a dive time or a different pool length, and a six-second improvement is not promised. Judge preparation by a repeatable routine, a stronger second length and your coach’s observations, then record the actual race result.
+100 easy.
 
-## Evidence and limits
+**Total = 550 m.**
 
-These exact sessions, effort cues and rests are conservative coaching proposals based on the issues you described, not a tested prescription or diagnosis. Your coach’s direct observation should guide changes. The research supports broad principles, not a guarantee that this schedule will produce a particular time.
+---
 
-1. [Bosquet et al. — Effects of tapering on performance: a meta-analysis (2007)](https://pubmed.ncbi.nlm.nih.gov/17762369/). Supports reducing training volume before competition while retaining brief quality work; results from competitive athletes do not establish your individual ideal load.
-2. [Australian Institute of Sport — Breath Hold Training](https://www.ausport.gov.au/ais/position_statements/breath-hold-training). Supports avoiding hyperventilation, breath-hold challenges and ignoring the urge to breathe; prolonged breath-hold training is not part of this plan.
-3. [Tella et al. — Effect of fatigue on intra-cycle acceleration in front crawl swimming (2008)](https://arxiv.org/abs/0801.2854). A small study showing that fatigue changes swimming propulsion; it does not validate the specific broken-50 workout above.
-4. [NHS — Shortness of breath](https://www.nhs.uk/symptoms/shortness-of-breath/). Guidance on assessment and warning signs. Unusual breathlessness during easy swimming warrants medical assessment, rather than an assumption that more training will fix it.
+# Fri Oct 9 — Activation
 
-**Source review:** 18 September 2026. **Last plan revision:** 18 September 2026, including the 07:30–09:30 pool window, both competition days and Saturdays free for family/rest.
+## 400 m
+
+You should feel sharp—not tired.
+
+150 easy
+
+4×25 smooth technique = 100
+
+2×:
+
+25 QUICK at ~85–90%
+25 EASY
+
+= 100
+
+50 easy
+
+**Total = 400 m.**
+
+If something feels poor today, **don't chase it**.
+
+Competition is three days away.
+
+---
+
+# Sat Oct 10 — REST
+
+**0 m.**
+
+This is intentional.
+
+The taper literature supports substantially reducing volume before competition while retaining some high-intensity swimming rather than eliminating intensity entirely. A meta-analysis found the strongest average result with roughly a two-week taper and a **41–60% reduction in training volume while preserving intensity and frequency**. ([PubMed][4])
+
+Your final week therefore falls from your previous ~1,000 m/day pattern to approximately **3,150 m for the week**, while you continue touching race speed.
+
+---
+
+# Sun Oct 11 — Pre-meet shakeout
+
+## 300 m
+
+This session should make you want to swim more.
+
+100 easy.
+
+2×25 BUILD = 50.
+
+Then:
+
+2×:
+
+25 QUICK
+25 EASY
+
+= 100.
+
+Take **2–3 min between quick lengths**.
+
+50 easy.
+
+Finished.
+
+### Absolutely no
+
+No timed 50.
+
+No timed 100.
+
+No exhausting kick set.
+
+No last-minute technique experiment.
+
+---
+
+# MON OCT 12
+
+# 50 m RACE DAY
+
+Your training is finished.
+
+Today is about execution.
+
+## Pool warm-up — approximately 500–600 m
+
+If the competition provides sufficient warm-up access:
+
+200 easy
+
+4×25 smooth technique = 100
+
+4×25 BUILD = 100
+
+2×25 QUICK = 50
+Full recovery.
+
+2×25 easy = 50
+
+Optional additional 50–100 easy depending on how you feel.
+
+Research in competitive swimmers supports performing an in-water warm-up before 100 m racing, while excessively long warm-ups can be counterproductive. In one randomized study, 600 m and 1,200 m warm-ups produced better outcomes than 1,800 m. ([PubMed][5])
+
+Your exact meet warm-up is therefore deliberately modest compared with what high-volume elite swimmers might perform.
+
+## 50 m race cue
+
+### First 25
+
+**Explosive but controlled.**
+
+Don't spend the first 15 m fighting the water.
+
+Settle quickly into your fast stroke.
+
+### Turn
+
+**Attack wall → quick turn → firm push → immediately return to race rhythm.**
+
+The turn matters enormously in short course. ([PubMed][1])
+
+### Second 25
+
+This is where your training should show.
+
+Don't think:
+
+**"I'm tired."**
+
+Your technical cue is:
+
+**catch → kick → rhythm → wall.**
+
+Swim completely through the finish.
+
+### Breathing
+
+Use your **normal practised racing breathing**.
+
+Do not intentionally turn the race into a breath-hold test.
+
+No hyperventilation before the start. ([Australian Sports Commission][6])
+
+## After the 50
+
+If a cool-down lane is available:
+
+**100–200 m very easy.**
+
+Nothing hard.
+
+You race the 100 tomorrow.
+
+---
+
+# TUE OCT 13
+
+# 100 m RACE DAY
+
+Use essentially the same warm-up.
+
+## Warm-up — approximately 500–600 m
+
+200 easy
+
+4×25 technique = 100
+
+4×25 BUILD = 100
+
+2×25 @ approximately RP100 = 50
+
+2×25 quick = 50
+
+50–100 easy.
+
+Stay warm after exiting the pool.
+
+---
+
+# Your 100 m race
+
+Treat it as **four separate jobs**.
+
+| Length     | Mental instruction                               |
+| ---------- | ------------------------------------------------ |
+| **0–25**   | Fast start, but don't race it like your 50       |
+| **25–50**  | Establish rhythm and hit the wall with speed     |
+| **50–75**  | **Most important length: HOLD**                  |
+| **75–100** | Commit, maintain catch/kick, finish through wall |
+
+The 100 m uses substantial contributions from both aerobic and anaerobic metabolism, which is why your preparation contains both controlled swimming and high-speed work rather than only maximal sprints. ([PubMed][2])
+
+---
+
+# The four techniques I want you thinking about
+
+### Freestyle swimming
+
+Head stable.
+
+Rotate rather than lifting your head to breathe.
+
+Firm catch.
+
+Kick remains active when fatigue begins.
+
+Don't deliberately increase stroke rate so much that you lose the water.
+
+### Turn
+
+No long glide before the wall.
+
+Use the turn you already perform reliably.
+
+If your flip turn is already reliable, race it.
+
+Don't try to rebuild your entire turn during these final two weeks.
+
+### Breakout
+
+Push in a tight body line, use your **familiar** breakout and transition cleanly into swimming.
+
+There is **no prescribed underwater-distance target** in this program.
+
+### Finish
+
+Do not glide excessively toward the wall.
+
+Keep swimming through the touch.
+
+---
+
+# What matters most from now until October 13
+
+Your preparation is no longer about saying:
+
+**"I swam 1,000 m today."**
+
+It's about being able to say:
+
+**"My fast 25s stayed fast."**
+**"My second 25 stayed technically strong."**
+**"My turns were consistent."**
+**"I could maintain my 100 m rhythm."**
+**"I reached race week fresh."**
+
+That is much closer to how I want you training for these specific short-course sprint events. Starts and turns deserve particular attention in a 25 m pool, and the research specifically argues against treating competition preparation as predominantly free-swimming conditioning. ([PubMed][1])
+
+**One thing I want from you after October 2:** give me the four **25 m splits from your 100 m rehearsal** and your **October 1 50 m time + first-25 split**. With those numbers, I can tighten the Oct 4–13 race-pace work around your actual swimming rather than generic effort levels.
+
+[1]: https://pubmed.ncbi.nlm.nih.gov/33663342/?utm_source=chatgpt.com "Start and turn performances of elite male swimmers: benchmarks and underlying mechanisms - PubMed"
+[2]: https://pubmed.ncbi.nlm.nih.gov/29466071/?utm_source=chatgpt.com "Dynamics of the Metabolic Response During a Competitive 100-m Freestyle in Elite Male Swimmers - PubMed"
+[3]: https://pubmed.ncbi.nlm.nih.gov/37305663/?utm_source=chatgpt.com "Association between elite swimmers' force production and 100 m front crawl inter-lap pacing and kinematics."
+[4]: https://pubmed.ncbi.nlm.nih.gov/17762369/?utm_source=chatgpt.com "Effects of tapering on performance: a meta-analysis - PubMed"
+[5]: https://pubmed.ncbi.nlm.nih.gov/26506059/?utm_source=chatgpt.com "The Effects of Different Warm-up Volumes on the 100-m Swimming Performance: A Randomized Crossover Study - PubMed"
+[6]: https://www.ausport.gov.au/ais/position_statements/breath-hold-training?utm_source=chatgpt.com "Breath Hold Training | ASC"

@@ -1,629 +1,210 @@
-/* Pool drill schedule and session rendering. */
-"use strict";
-
+/* Competition preparation. All visible prescriptions come from PREPARATION. */
+'use strict';
+const $ = selector => document.querySelector(selector);
+const main = $('#main');
+const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const localDate = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const today = localDate(new Date());
+const days = PREPARATION.days;
+const params = new URLSearchParams(location.search);
 const page = document.body.dataset.page;
-const main = document.getElementById("main");
-const icons = {
-  overview:
-    '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
-  plan: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 11h18m-13 4h2m4 0h2"/>',
-  drills:
-    '<path d="M3 5c4-2 6-2 9 0 3-2 5-2 9 0v15c-4-2-6-2-9 0-3-2-5-2-9 0zM12 5v15"/>',
-  arrow: '<path d="M5 12h14m-5-5 5 5-5 5"/>',
-  back: '<path d="M19 12H5m5-5-5 5 5 5"/>',
-};
-const icon = (name) =>
-  '<svg viewBox="0 0 24 24" aria-hidden="true">' + icons[name] + "</svg>";
-const escapeHTML = (value) =>
-  String(value).replace(
-    /[&<>"']/g,
-    (character) =>
-      ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;",
-      })[character],
-  );
-const dateKey = (date) =>
-  date.getFullYear() +
-  "-" +
-  String(date.getMonth() + 1).padStart(2, "0") +
-  "-" +
-  String(date.getDate()).padStart(2, "0");
-const todayKey = dateKey(new Date());
-const schedule = DAYS.filter((day) => !day.historical && !day.race);
-const training = schedule.filter((day) => !day.rest);
-const currentDay =
-  schedule.find((day) => dateKey(day.date) === todayKey) ||
-  schedule.find((day) => dateKey(day.date) > todayKey) ||
-  schedule[schedule.length - 1];
-const href = (day) => SwimNavigation.sessionURL(day.id);
-
-const links = [
-  ["overview", "index.html", "Overview"],
-  ["plan", "plan.html", "Training plan"],
-  ["drills", "drills.html", "Drill library"],
-];
-document.getElementById("navigation").innerHTML = links
-  .map(
-    ([key, url, label]) =>
-      '<a class="nav-link ' +
-      (page === key || (page === "session" && key === "plan") ? "active" : "") +
-      '" href="' +
-      url +
-      '" ' +
-      (page === key
-        ? 'aria-current="page"'
-        : page === "session" && key === "plan"
-          ? 'aria-current="true"'
-          : "") +
-      ">" +
-      icon(key) +
-      "<span>" +
-      label +
-      "</span></a>",
-  )
-  .join("");
-
-function intro(title, description = "") {
-  return (
-    '<div class="page-intro"><div><h1>' +
-    title +
-    "</h1>" +
-    (description ? "<p>" + description + "</p>" : "") +
-    "</div></div>"
-  );
-}
-
-function sessionMeta(day) {
-  return day.rest
-    ? "Rest day · 0 m"
-    : day.pool + " pool &middot; " + day.laps + " lengths &middot; " + day.dist;
-}
-
-function readableTiming(value) {
-  const duration = (minutes, seconds) =>
-    [
-      Number(minutes) ? minutes + (Number(minutes) === 1 ? " minute" : " minutes") : "",
-      Number(seconds) ? seconds + " seconds" : "",
-    ].filter(Boolean).join(" ");
-  return String(value)
-    .replace(/\bOn On\b/gi, "On")
-    .replace(/\bon\s+(\d+):(\d{2})\b/gi, (_, minutes, seconds) =>
-      "with a new start every " + duration(minutes, seconds),
-    )
-    .replace(/\bon\s+:(\d{2})\b/gi, (_, seconds) =>
-      "with a new start every " + seconds + " seconds",
-    )
-    .replace(/^:(\d{2})$/, (_, seconds) =>
-      "Start each repeat every " + seconds + " seconds",
-    )
-    .replace(/\b(\d+):(\d{2})\b/g, (_, minutes, seconds) =>
-      duration(minutes, seconds),
-    )
-    .replace(/^with\b/, "With")
-    .replace(/\b(\d+(?:\.\d+)?)(?:[–-](\d+(?:\.\d+)?))?\s+s(?:\s+s)?\b/g, (_, start, end) =>
-      (end ? start + "–" + end : start) + " seconds",
-    )
-    .replace(/\b(\d+\+?)(?:[–-](\d+))?\s+min\b/g, (_, start, end) =>
-      start.endsWith("+")
-        ? "at least " + start.slice(0, -1) + " minutes"
-        : (end ? start + "–" + end : start) + " minutes",
-    );
-}
-
-function card(day) {
-  const today = dateKey(day.date) === todayKey;
-  const content =
-    '<span class="date-box"><strong>' +
-    day.date.getDate() +
-    "</strong><small>" +
-    MON[day.date.getMonth()] +
-    '</small></span><div class="session-info"><h3>' +
-    escapeHTML(day.title) +
-    "</h3>" +
-    "<p>" + sessionMeta(day) + "</p>" +
-    (today ? '<span class="session-state">Today</span>' : "") +
-    "</div>" +
-    (day.rest
-      ? ""
-      : '<span class="status-dot" aria-hidden="true">&rarr;</span>');
-  if (day.rest)
-    return (
-      '<article id="day-' +
-      day.id +
-      '" class="session-card rest-card ' +
-      (today ? "today" : "") +
-      '">' +
-      content +
-      "</article>"
-    );
-  return (
-    '<a id="day-' +
-    day.id +
-    '" class="session-card ' +
-    (today ? "today" : "") +
-    '" href="' +
-    href(day) +
-    '">' +
-    content +
-    "</a>"
-  );
-}
-
-function raceCountdown() {
-  const now = new Date();
-  const remaining = Math.ceil(
-    (Date.UTC(2026, 9, 12) -
-      Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())) /
-      86400000,
-  );
-  if (remaining > 0) return remaining + " days to the first race";
-  if (remaining === 0) return "First race today";
-  if (remaining === -1) return "Second race today";
-  return "Race block complete";
-}
-
-function overview() {
-  const next = schedule.filter((day) => day.date > currentDay.date).slice(0, 2);
-  main.innerHTML =
-    intro(
-      "Pool drills",
-      "50 + 100 free · 25 m pool",
-    ) +
-    '<section class="hero" aria-labelledby="current-session"><div><div class="eyebrow">' +
-    (dateKey(currentDay.date) === todayKey ? "Today" : "Next session") +
-    '</div><h2 id="current-session">' +
-    escapeHTML(currentDay.title) +
-    "</h2><p>" +
-    currentDay.dow +
-    " " +
-    fmt(currentDay.date) +
-    " &middot; " +
-    sessionMeta(currentDay) +
-    "</p>" +
-    (currentDay.rest
-      ? '<a class="button secondary" href="plan.html">View training plan</a>'
-      : '<a class="button" href="' +
-        href(currentDay) +
-        '">Open drills ' +
-        icon("arrow") +
-        "</a>") +
-    "</div></section>" +
-    (next.length
-      ? '<section class="upcoming"><div class="section-title"><h2>Coming up</h2><a class="text-link" href="plan.html">Full plan &rarr;</a></div>' +
-        next.map(card).join("") +
-        "</section>"
-      : "");
-}
-
-function plan() {
-  main.innerHTML =
-    intro(
-      "Training plan",
-      "23 Sep – 11 Oct",
-    ) +
-    '<nav class="week-jump" aria-label="Jump to phase">' +
-    WEEKS.map(
-      (week, wi) =>
-        '<a href="#week-' +
-        (wi + 1) +
-        '" data-jump>Phase ' +
-        (wi + 1) +
-        "<small>" +
-        escapeHTML(week.name) +
-        "</small></a>",
-    ).join("") +
-    "</nav>" +
-    '<div class="plan-actions"><a class="text-link" data-jump href="#day-' +
-    currentDay.id +
-    '">Find current day</a><button class="text-button" id="expand-weeks">Expand all phases</button></div>' +
-    WEEKS.map((week, wi) => {
-      const days = schedule.filter((day) => day.wi === wi);
-      return (
-        '<details class="week" id="week-' +
-        (wi + 1) +
-        '" ' +
-        (wi === currentDay.wi ? "open" : "") +
-        '><summary><span class="week-number">0' +
-        (wi + 1) +
-        "</span><span><h2>" +
-        escapeHTML(week.name) +
-        "</h2><small>" +
-        fmt(days[0].date) +
-        " &ndash; " +
-        fmt(days[days.length - 1].date) +
-        '</small></span><span class="week-count">' +
-        days.filter((day) => !day.rest).length +
-        ' swims</span></summary><div class="week-body">' +
-        days.map(card).join("") +
-        "</div></details>"
-      );
-    }).join("");
-
-  const expand = document.getElementById("expand-weeks");
-  const phases = Array.from(main.querySelectorAll(".week"));
-  const sync = () => {
-    expand.textContent = phases.every((element) => element.open)
-      ? "Collapse all phases"
-      : "Expand all phases";
-  };
-  phases.forEach((element) => element.addEventListener("toggle", sync));
-  expand.onclick = () => {
-    const open = !phases.every((element) => element.open);
-    phases.forEach((element) => (element.open = open));
-    sync();
-  };
-  sync();
-}
-
-let activeSession;
-function session() {
-  const id = new URLSearchParams(location.search).get("id");
-  activeSession = id ? DAYS.find((day) => day.id === id) : currentDay;
-  if (!activeSession) {
-    main.innerHTML =
-      intro(
-        "Session not found",
-        "This link does not match the current taper plan.",
-      ) + '<a class="button" href="plan.html">View training plan</a>';
-    return;
-  }
-
-  const day = activeSession;
-  if (day.historical) {
-    main.innerHTML =
-      intro("Past date", "This date is historical. No workout is prescribed to repeat.") +
-      '<a class="button" href="plan.html">View current plan</a>';
-    return;
-  }
-  document.title = day.title + " | Lane 50";
-  document.querySelector(".site-header").innerHTML =
-    '<a class="context-back" aria-label="Back to ' +
-    escapeHTML(SwimNavigation.returnLabel()) +
-    '" data-return href="' +
-    escapeHTML(SwimNavigation.returnURL()) +
-    '">' +
-    icon("back") +
-    "<span>" +
-    escapeHTML(SwimNavigation.returnLabel()) +
-    '</span></a><div class="context-title"><strong>' +
-    day.dow +
-    " " +
-    fmt(day.date) +
-    "</strong><small>" +
-    escapeHTML(day.weekName) +
-    "</small></div>";
-
-  if (day.rest) {
-    main.innerHTML =
-      intro("Rest day", day.dow + " " + fmt(day.date) + " · 0 m") +
-      (day.note ? '<aside class="callout session-note"><p>' + escapeHTML(day.note) + '</p></aside>' : "") +
-      '<div class="actions"><a class="button" data-return href="' +
-      escapeHTML(SwimNavigation.returnURL()) +
-      '">Back to ' +
-      escapeHTML(SwimNavigation.returnLabel().toLowerCase()) +
-      "</a></div>";
-    return;
-  }
-
-  main.innerHTML =
-    intro(
-      escapeHTML(day.title),
-      sessionMeta(day),
-    ) +
-    (day.note
-      ? '<aside class="callout session-note" aria-label="Session note"><p>' +
-        escapeHTML(day.note) +
-        "</p></aside>"
-      : "") +
-    '<aside class="callout session-note timing-note" aria-label="How swim times work"><p><strong>Timing:</strong> “On 2:00” means start each repeat every 2 minutes (0:00, 2:00, 4:00). Swim time counts inside that interval: a 50 taking 50 seconds leaves 1 minute 10 seconds to rest. “On :45” means start every 45 seconds. A rest time without “on” starts after you finish the repeat.</p></aside>' +
-    '<div class="session-layout"><section class="workout" aria-labelledby="sets-heading"><h2 id="sets-heading" class="sr-only">Sets</h2><p class="completion-help">Tap a drill to check it off. Tap again to undo.</p><p id="session-announcement" class="completion-count" role="status"></p><div class="set-list">' +
-    day.blocks
-      .map(
-        (block, i) =>
-          '<button type="button" aria-pressed="false" id="set-' +
-          i +
-          '" class="set-card" data-kind="' +
-          block.k +
-          '"><span class="set-number">' +
-          escapeHTML(String(block.n).replace(" min", "").replace(" reps", "")) +
-          "<small>" +
-          (typeof block.n === "number"
-            ? "LENGTHS"
-            : String(block.n).includes("min")
-              ? "MIN"
-              : "REPS") +
-          '</small></span><span class="set-content"><span class="set-title">' +
-          escapeHTML(block.t) +
-          '</span><span class="set-description">' +
-          escapeHTML(readableTiming(block.d)) +
-          "</span>" +
-          (block.r
-            ? '<span class="target">' + escapeHTML(readableTiming(block.r)) + "</span>"
-            : "") +
-          '</span><span class="status-dot" aria-hidden="true"></span></button>',
-      )
-      .join("") +
-    '</div><div class="session-finish"><a class="button secondary" data-return href="' +
-    escapeHTML(SwimNavigation.returnURL()) +
-    '">Back to ' +
-    escapeHTML(SwimNavigation.returnLabel().toLowerCase()) +
-    '</a></div></section></div><div class="session-dock timer-only"><button class="dock-timer" data-open-timer><span>Rest timer</span><strong data-timer-preview>00:30</strong></button></div><dialog class="timer-sheet" id="timer-sheet" aria-labelledby="timer-heading"><div class="sheet-header"><div><h2 id="timer-heading">Rest timer</h2></div><button class="icon-button" data-close-dialog aria-label="Close rest timer">&#10005;</button></div><div class="timer-value" id="timer" role="timer" aria-label="Rest time remaining">00:30</div><div class="timer-presets" role="group" aria-label="Timer duration"><button data-seconds="30" class="active" aria-pressed="true">30 sec</button><button data-seconds="60" aria-pressed="false">1 min</button><button data-seconds="120" aria-pressed="false">2 min</button><button data-seconds="300" aria-pressed="false">5 min</button></div><div class="timer-actions"><button id="timer-toggle" class="button">Start</button><button id="timer-reset" class="button secondary">Reset</button></div><p id="timer-status" role="status"></p></dialog>';
-
-  document.querySelectorAll("[data-open-timer]").forEach(
-    (button) =>
-      (button.onclick = () =>
-        SwimNavigation.openDialog(
-          document.getElementById("timer-sheet"),
-          button,
-        )),
-  );
-  setupCompletion(day);
-  setupTimer();
-}
-
-function setupCompletion(day) {
-  const storageKey = "lane50-drill-checks:" + dateKey(day.date) + ":" + day.id;
-  // Include the drill contents so an updated plan cannot inherit stale checks.
-  const keys = day.blocks.map((block, i) =>
-    JSON.stringify([i, block.n, block.t, block.d, block.r, block.k]),
-  );
-  let completed = new Set();
-  try {
-    const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
-    if (Array.isArray(saved))
-      completed = new Set(saved.filter((key) => keys.includes(key)));
-  } catch (_) {}
-
-  const buttons = Array.from(main.querySelectorAll(".set-card"));
-  function paint() {
-    buttons.forEach((button, i) => {
-      const checked = completed.has(keys[i]);
-      button.setAttribute("aria-pressed", String(checked));
-      button.querySelector(".status-dot").textContent = checked ? "✓" : "";
-    });
-    document.getElementById("session-announcement").textContent =
-      completed.size + " of " + keys.length + " complete";
-  }
-  buttons.forEach((button, i) => {
-    button.onclick = () => {
-      if (completed.has(keys[i])) completed.delete(keys[i]);
-      else completed.add(keys[i]);
-      paint();
-      try {
-        localStorage.setItem(storageKey, JSON.stringify([...completed]));
-      } catch (_) {
-        toast("Your checks could not be saved. Keep this page open to retain them.");
-      }
-      vibrate();
-    };
-  });
-  paint();
-}
-
+const prefix = `lane50:${PREPARATION.revision}:`;
 let toastTimeout;
 function toast(message) {
-  const element = document.getElementById("toast");
-  element.textContent = message;
-  element.classList.add("show");
+  $('#toast').textContent = message;
+  $('#toast').classList.add('show');
   clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => element.classList.remove("show"), 3200);
+  toastTimeout = setTimeout(() => $('#toast').classList.remove('show'), 5500);
 }
-
-function vibrate() {
-  try {
-    if (navigator.vibrate) navigator.vibrate(12);
-  } catch (_) {}
+function read(key, fallback={}) {
+  try { return JSON.parse(localStorage.getItem(prefix+key)) ?? fallback; }
+  catch (_) { return fallback; }
 }
-
-function setupTimer() {
-  let duration = 30;
-  let remaining = 30;
-  let deadline = 0;
-  let interval = null;
-  const display = document.getElementById("timer");
-  const toggle = document.getElementById("timer-toggle");
-
-  function paint() {
-    display.textContent =
-      String(Math.floor(remaining / 60)).padStart(2, "0") +
-      ":" +
-      String(remaining % 60).padStart(2, "0");
-    document
-      .querySelectorAll("[data-timer-preview]")
-      .forEach((element) => (element.textContent = display.textContent));
+function save(key, value) {
+  try { localStorage.setItem(prefix+key, JSON.stringify(value)); return true; }
+  catch (_) { toast('Not saved on this device. Keep this page open and try again.'); return false; }
+}
+const formatDate = key => new Date(key+'T12:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+const href = day => day.kind==='Race' ? `race.html?event=${day.event}` : SwimNavigation.sessionURL(day.id);
+const distance = day => day.distanceLabel || `${day.total.toLocaleString()} m`;
+const nextDay = days.find(d=>d.date>=today);
+const intro = (title,sub='') => `<div class="page-intro"><div><h1>${esc(title)}</h1>${sub?`<p>${esc(sub)}</p>`:''}</div></div>`;
+const navPaths = {overview:'<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M7 12h10m-5-5v10"/>',plan:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 11h18"/>',race:'<path d="M5 21V3m0 1c5-4 9 4 15 0v10c-6 4-10-4-15 0"/>'};
+$('#navigation').innerHTML = [['overview','index.html','Today'],['plan','plan.html','Plan'],['race','race.html','Race']].map(([key,url,label])=>`<a class="nav-link ${(page===key || page==='session'&&key==='plan')?'active':''}" href="${url}" ${page===key?'aria-current="page"':''}><svg viewBox="0 0 24 24" aria-hidden="true">${navPaths[key]}</svg><span>${label}</span></a>`).join('');
+function row(day) {
+  return `<a class="prep-day ${day.date===today?'is-today':''}" id="day-${day.id}" href="${href(day)}"><span class="prep-date">${esc(formatDate(day.date))}${day.date===today?'<small>Today</small>':''}</span><span><strong>${esc(day.title)}</strong><small>${esc(distance(day))}${day.kind!=='Swim'?' · '+esc(day.kind):''}</small></span><span aria-hidden="true">→</span></a>`;
+}
+function overview() {
+  if (!nextDay) {
+    main.innerHTML=intro('Preparation complete','September 26 – October 13, 2026')+'<section class="prep-panel"><h2>Your race block is complete.</h2><p>Your plan and saved results are still here.</p><a class="button" href="race.html">View results</a><a class="text-link" href="plan.html">View plan →</a></section>';
+    return;
   }
-  function stop() {
-    clearInterval(interval);
-    interval = null;
-    toggle.textContent = "Start";
+  const d=nextDay, started=Object.values(read('session:'+d.id)).some(v=>v==='done'||v==='skipped');
+  main.innerHTML=intro('Today','50 + 100 m freestyle · 25 m pool')+`<section class="prep-hero"><div class="eyebrow">${d.date===today?esc(formatDate(d.date)):'Plan starts '+esc(formatDate(d.date))}</div><h2>${esc(d.title)}</h2><p class="prep-distance">${esc(distance(d))}</p><p>${esc(d.focus)}</p><a class="button" href="${d.kind==='Rest'?'plan.html':href(d)}">${d.kind==='Rest'?'View plan':d.kind==='Race'?'Open race preparation':started?'Resume session':'Open session'} <span aria-hidden="true">→</span></a></section>`;
+  const next=days[days.indexOf(d)+1];
+  if(next) main.innerHTML+=`<section class="prep-section"><h2>Coming next</h2>${row(next)}</section>`;
+  const race=days.find(x=>x.kind==='Race'&&x.date>=today);
+  if(race&&d.kind!=='Race') main.innerHTML+=`<a class="prep-race-link" href="${href(race)}">${race.event} m freestyle · ${esc(formatDate(race.date))} <span aria-hidden="true">→</span></a>`;
+}
+function plan() {
+  main.innerHTML=intro('Your plan','26 September – 13 October 2026 · 25 m pool')+`<a class="text-link" data-jump href="#day-${(nextDay||days.at(-1)).id}">${nextDay?'Jump to today / next day':'Jump to races'} ↓</a>`;
+  const weeks=[['26–27 September',days.slice(0,2)],['28 September – 4 October',days.slice(2,9)],['5–11 October',days.slice(9,16)],['Competition',days.slice(16)]];
+  main.innerHTML+=weeks.map(([label,list])=>`<section class="prep-section"><h2>${label}</h2><div class="prep-timeline">${list.map(row).join('')}</div></section>`).join('');
+  main.innerHTML+=`<details class="prep-details"><summary>Pool & schedule details</summary><p>25 m short-course pool · freestyle. Full rest day: Saturday only.</p><p>Normal training window: 7:30–9:00/9:30 AM. Race reporting times follow the meet schedule.</p><a class="text-link" href="SWIMMING-PLAN.md" download>Download full supplied plan →</a></details>`;
+}
+function techniqueDetails(){return `<details class="prep-details"><summary>Technique reminders</summary>${PREPARATION.techniques.map(([title,text])=>`<h3>${esc(title)}</h3><p>${esc(text)}</p>`).join('')}<p>Use normal practised racing breathing. No breath-hold test or hyperventilation.</p></details>`;}
+function setCard(set,i,day) {
+  return `<article class="prep-set" id="set-${set.id}"><div class="prep-set-top"><span class="prep-number">${String(i+1).padStart(2,'0')}</span><h2>${esc(set.name)}</h2><span class="prep-set-status"></span></div><p class="prep-prescription">${esc(set.prescription)}</p><p class="prep-set-meta">${set.optional?'Optional':set.prescription.includes('50–100')?'50–100 m':set.metres+' m total'}${set.effort?` · <button class="prep-effort" data-effort>${esc(set.effort)} ⓘ</button>`:''}</p>${set.rest?`<p class="prep-rest"><strong>Rest</strong> ${esc(set.rest)}</p>`:''}${set.cue?`<p class="prep-cue">${esc(set.cue)}</p>`:''}<div class="prep-controls"><button class="button secondary prep-done" data-done="${set.id}" aria-pressed="false">Mark set done</button><button class="text-button" data-skip="${set.id}" aria-pressed="false">Skip set</button>${!day.noTimer?set.timers.map((t,j)=>`<button class="prep-timer-button" data-timer-set="${set.id}" data-timer-index="${j}">◷ ${esc(t.label)}</button>`).join(''):''}</div></article>`;
+}
+let activeDay;
+function session() {
+  activeDay=days.find(d=>d.id===params.get('id')) || (!params.has('id')?nextDay:null);
+  if(!activeDay) {main.innerHTML=intro('Session not found','This link is from a previous plan.')+'<a class="button" href="plan.html">Open current plan</a>';return;}
+  const d=activeDay;
+  if(d.kind==='Race'){location.replace(href(d));return;}
+  document.title=d.title+' · Lane 50';
+  main.innerHTML=`<a class="prep-back" data-return href="${esc(SwimNavigation.returnURL())}">← ${esc(SwimNavigation.returnLabel())}</a>`+intro(d.title,formatDate(d.date)+' · '+distance(d)+(d.kind==='Rest'?'':' · 25 m pool'));
+  if(d.kind==='Rest') {main.innerHTML+=`<section class="prep-panel"><p>${esc(d.focus)}</p></section>`;return;}
+  main.innerHTML+=`<p class="prep-focus">${esc(d.focus)}</p>${d.note?`<p class="prep-note">${esc(d.note)}</p>`:''}${d.record?`<a class="text-link" data-jump href="#record-${d.record}">Record rehearsal ↓</a>`:''}<p id="completion" class="prep-progress" role="status"></p><div class="prep-sets">${d.sets.map((s,i)=>setCard(s,i,d)).join('')}</div>${d.record?recordForm(d.record):''}<details class="prep-details"><summary>Full instructions · ${esc(formatDate(d.date))}</summary><pre>${esc(d.source)}</pre></details>${techniqueDetails()}`;
+  attachCompletion(d);
+  attachSetControls(d);
+  if(d.record) attachRecord(d.record);
+}
+function attachCompletion(day) {
+  const state=read('session:'+day.id);
+  function paint(){
+    const next=day.sets.find(s=>!['done','skipped'].includes(state[s.id]));
+    day.sets.forEach(s=>{
+      const card=$('#set-'+s.id),done=state[s.id]==='done',skip=state[s.id]==='skipped';
+      card.classList.toggle('is-done',done);card.classList.toggle('is-skipped',skip);card.classList.toggle('is-next',next?.id===s.id);
+      card.querySelector('.prep-set-status').textContent=done?'Done':skip?'Skipped':next?.id===s.id?'Next':'';
+      const b=card.querySelector('[data-done]');b.textContent=done?'✓ Done · undo':'Mark set done';b.setAttribute('aria-pressed',String(done));
+      const sk=card.querySelector('[data-skip]');sk.textContent=skip?'Undo skip':'Skip set';sk.setAttribute('aria-pressed',String(skip));
+    });
+    const done=day.sets.filter(s=>state[s.id]==='done').length,skipped=day.sets.filter(s=>state[s.id]==='skipped').length;
+    $('#completion').textContent=`${done} of ${day.sets.length} sets done${skipped?` · ${skipped} skipped`:''}${!next?' · Session reviewed':''}`;
   }
-  function tick() {
-    remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
-    paint();
-    if (remaining === 0) {
-      stop();
-      vibrate();
-      toast("Rest complete");
-      document.getElementById("timer-status").textContent =
-        "Rest complete";
-    }
-  }
-
-  toggle.onclick = () => {
-    if (interval) {
-      tick();
-      stop();
-      if (remaining > 0) toggle.textContent = "Resume";
-      document.getElementById("timer-status").textContent = "Paused";
-    } else {
-      if (remaining === 0) remaining = duration;
-      deadline = Date.now() + remaining * 1000;
-      interval = setInterval(tick, 200);
-      toggle.textContent = "Pause";
-      document.getElementById("timer-status").textContent =
-        "Running";
-      paint();
-    }
-  };
-  document.getElementById("timer-reset").onclick = () => {
-    stop();
-    remaining = duration;
-    document.getElementById("timer-status").textContent =
-      "Ready";
-    paint();
-  };
-  document.querySelectorAll("[data-seconds]").forEach(
-    (button) =>
-      (button.onclick = () => {
-        stop();
-        duration = remaining = Number(button.dataset.seconds);
-        document.querySelectorAll("[data-seconds]").forEach((candidate) => {
-          candidate.classList.toggle("active", candidate === button);
-          candidate.setAttribute(
-            "aria-pressed",
-            String(candidate === button),
-          );
-        });
-        paint();
-      }),
-  );
-  document.addEventListener("visibilitychange", () => {
-    if (interval) tick();
+  document.querySelectorAll('[data-done],[data-skip]').forEach(b=>b.onclick=()=>{
+    const id=b.dataset.done||b.dataset.skip, value=b.dataset.done?'done':'skipped';
+    if(state[id]===value)delete state[id];else state[id]=value;
+    save('session:'+day.id,state);paint();
+  });paint();
+}
+function attachSetControls(day){
+  document.querySelectorAll('[data-timer-set]').forEach(b=>b.onclick=()=>{
+    const set=day.sets.find(s=>s.id===b.dataset.timerSet), timing=set.timers[Number(b.dataset.timerIndex)];
+    openTimer(day,set,timing,b);
   });
+  document.querySelectorAll('[data-effort]').forEach(b=>b.onclick=()=>SwimNavigation.openDialog($('#effort-dialog'),b));
 }
-
-function drills() {
-  const queryParams = new URLSearchParams(location.search);
-  main.innerHTML =
-    intro("Drill library") +
-    '<div class="toolbar"><label class="filter-field"><span>Search drills</span><input type="search" id="drill-search" aria-label="Search drills" placeholder="e.g. kick"></label><label class="filter-field"><span>Training focus</span><select id="drill-filter" aria-label="Training focus"><option value="all">All sets</option>' +
-    Object.entries(LAB)
-      .map(
-        ([key, label]) =>
-          '<option value="' + key + '">' + label + "</option>",
-      )
-      .join("") +
-    '</select></label></div><h2 class="sr-only">Matching sets</h2><p id="drill-count" role="status" class="drill-count"></p><div id="drill-results" class="drill-grid"></div>';
-
-  const seen = new Set();
-  const library = [];
-  training.forEach((day) =>
-    day.blocks.forEach((block) => {
-      const key =
-        block.n +
-        "|" +
-        block.t +
-        "|" +
-        block.d +
-        "|" +
-        block.r +
-        "|" +
-        block.k;
-      if (!seen.has(key)) {
-        seen.add(key);
-        library.push(block);
-      }
-    }),
-  );
-  document.getElementById("drill-search").value = queryParams.get("q") || "";
-  document.getElementById("drill-filter").value = Object.hasOwn(
-    LAB,
-    queryParams.get("focus"),
-  )
-    ? queryParams.get("focus")
-    : "all";
-
-  function filter() {
-    const query = document
-      .getElementById("drill-search")
-      .value.toLowerCase()
-      .trim();
-    const kind = document.getElementById("drill-filter").value;
-    const url = new URL(location.href);
-    if (query) url.searchParams.set("q", query);
-    else url.searchParams.delete("q");
-    if (kind !== "all") url.searchParams.set("focus", kind);
-    else url.searchParams.delete("focus");
-    history.replaceState(history.state, "", url);
-
-    const matches = library.filter(
-      (block) =>
-        (kind === "all" || block.k === kind) &&
-        (block.t + " " + block.d + " " + block.r)
-          .toLowerCase()
-          .includes(query),
-    );
-    document.getElementById("drill-count").textContent =
-      matches.length + (matches.length === 1 ? " set found" : " sets found");
-    document.getElementById("drill-results").innerHTML = matches.length
-      ? matches
-          .map((block) => {
-            const day = training.find((candidate) =>
-              candidate.blocks.includes(block),
-            );
-            return (
-              '<details class="panel" id="drill-' +
-              library.indexOf(block) +
-              '"><summary><span class="pill">' +
-              LAB[block.k] +
-              "</span><h3>" +
-              escapeHTML(block.t) +
-              "</h3><small>" +
-              (typeof block.n === "number"
-                ? block.n + " lengths"
-                : escapeHTML(block.n)) +
-              "</small></summary><p>" +
-              escapeHTML(readableTiming(block.d)) +
-              "</p>" +
-              (block.r
-                ? '<p class="target">' + escapeHTML(readableTiming(block.r)) + "</p>"
-                : "") +
-              '<a class="text-link drill-session-link" aria-label="Open session: ' +
-              escapeHTML(day.title + ", " + fmt(day.date)) +
-              '" href="' +
-              href(day) +
-              '">Open session &rarr;</a></details>'
-            );
-          })
-          .join("")
-      : '<p class="empty">No matching sets.</p>';
+function recordForm(event) {
+  const stored=read('rehearsal:'+event),fields=event===50?[['p25','First 25 m'],['p50','Total 50 m']]:[['p25','At 25 m'],['p50','At 50 m'],['p75','At 75 m'],['p100','At 100 m']];
+  return `<section class="prep-panel prep-record" id="record-${event}"><h2>${event} m rehearsal</h2><p>${event===50?'October 1 · record one timed swim.':'October 2 · elapsed times from the start, not individual length times.'}</p><p class="prep-hint">Seconds or m:ss.xx · optional · saved on this device</p><form data-record="${event}" novalidate><div class="prep-form-grid">${fields.map(([key,label])=>`<label>${label}<input name="${key}" inputmode="decimal" type="text" autocomplete="off" placeholder="${key==='p100'?'1:20.50':'20.50'}" value="${esc(stored[key]||'')}" aria-describedby="record-message-${event}"></label>`).join('')}${event===50?selectField('turn','Turn',['Good','Average','Poor'],stored.turn)+selectField('technique','Technique in last 15 m',['Good','Breaking down'],stored.technique):''}</div><p class="prep-form-message" id="record-message-${event}" role="status"></p><p class="prep-derived" id="derived-${event}"></p><button class="button secondary" type="submit">Save record</button></form></section>`;
+}
+function selectField(name,label,options,value){return `<label>${label}<select name="${name}"><option value="">Not recorded</option>${options.map(o=>`<option ${value===o?'selected':''}>${o}</option>`).join('')}</select></label>`;}
+function seconds(value){
+  if(!value?.trim())return null;
+  const v=value.trim();
+  if(!/^(?:\d+:)?\d+(?:\.\d{1,3})?$/.test(v))return NaN;
+  const parts=v.split(':').map(Number);
+  if(parts.length===2&&parts[1]>=60)return NaN;
+  const n=parts.length===2?parts[0]*60+parts[1]:parts[0];return n>0?n:NaN;
+}
+function analyseRecord(record,event){
+  const keys=event===50?['p25','p50']:['p25','p50','p75','p100'];
+  let last=0, error='',derived=[];
+  const values=keys.map(k=>seconds(record[k]));
+  values.forEach((n,i)=>{if(n===null)return;if(!Number.isFinite(n))error='Enter a positive time in seconds or m:ss.xx.';else {if(n<=last)error='Elapsed times must increase at each distance.';last=n;}
+    const before=i===0?0:values[i-1];
+    if(Number.isFinite(n)&&before!==null&&Number.isFinite(before)&&n>before)derived.push(`${i*25}–${(i+1)*25} m: ${(n-before).toFixed(2)} s`);
+  });
+  return {error,text:error?'':derived.join(' · '),hasTime:values.some(n=>n!==null)};
+}
+function attachRecord(event){
+  const form=$(`[data-record="${event}"]`),msg=$(`#record-message-${event}`),derived=$(`#derived-${event}`);
+  function update(persist=false){
+    const record=Object.fromEntries(new FormData(form)),analysis=analyseRecord(record,event);
+    form.querySelectorAll('input').forEach(input=>input.setAttribute('aria-invalid',String(!!analysis.error)));
+    derived.textContent=analysis.text;
+    const saved=persist?save('rehearsal:'+event,record):true;
+    msg.textContent=analysis.error || (persist?(saved?'Saved on this device.':'Not saved. Try Save record again.'):'');
+    msg.classList.toggle('is-error',!!analysis.error||!saved);
   }
-  document.getElementById("drill-search").addEventListener("input", filter);
-  document.getElementById("drill-filter").addEventListener("change", filter);
-  filter();
+  form.oninput=()=>update(true);form.onchange=()=>update(true);form.onsubmit=e=>{e.preventDefault();update(true);};update();
 }
-
-if (page !== "race") {
-  const render = ({ overview, plan, session, drills })[page] || overview;
-  render();
-  SwimNavigation.ready();
+function race(){
+  const event=params.get('event')==='50'?50:params.get('event')==='100'?100:today>'2026-10-12'?100:50;
+  const day=days.find(d=>d.event===event);activeDay=day;
+  main.innerHTML=intro('Race preparation','25 m short course · freestyle')+`<nav class="prep-event-tabs" aria-label="Choose race"><a href="race.html?event=50" ${event===50?'aria-current="page"':''}>50 m <small>Mon Oct 12</small></a><a href="race.html?event=100" ${event===100?'aria-current="page"':''}>100 m <small>Tue Oct 13</small></a></nav><nav class="prep-quick-links" aria-label="Race sections"><a data-jump href="#warm-up">Warm-up</a><a data-jump href="#race-cues">Race cues</a><a data-jump href="#race-result">Results</a></nav><p class="prep-focus">${esc(day.focus)}</p><details class="prep-details prep-logistics"><summary id="reporting-summary">Reporting time · ${esc(read('race:'+event).reporting||'not set')}</summary><label>Reporting time <input id="reporting-time" type="time" value="${esc(read('race:'+event).reporting||'')}"></label><p class="prep-hint">Enter the official time when known.</p><p id="reporting-status" role="status"></p></details><section class="prep-section" id="warm-up"><h2>Warm-up</h2><p class="prep-distance">${esc(day.distanceLabel)}</p><p class="prep-note">${esc(day.note)}</p><p id="completion" class="prep-progress" role="status"></p>${day.sets.map((s,i)=>setCard(s,i,day)).join('')}</section><section class="prep-section" id="race-cues"><h2>Your ${event} m race</h2><div class="prep-race-cues">${day.raceCues.map(([label,text])=>`<article><h3>${esc(label)}</h3><p>${esc(text)}</p></article>`).join('')}</div></section>${day.after?`<section class="prep-panel"><h2>After the 50</h2><p>${esc(day.after)}</p></section>`:''}<section class="prep-panel" id="race-result"><h2>Official result</h2><label>Final ${event} m time<input id="official-result" type="text" inputmode="decimal" placeholder="Seconds or m:ss.xx" value="${esc(read('race:'+event).result||'')}" aria-describedby="official-status"></label><p id="official-status" role="status"></p><p class="prep-hint">Optional · saved on this device</p></section><details class="prep-details" id="rehearsal-results"><summary>Rehearsal results · Oct 1 & 2</summary>${recordForm(50)}${recordForm(100)}<button class="button secondary" id="copy-results">Copy results</button><p id="copy-status" role="status"></p><textarea id="copy-fallback" hidden readonly aria-label="Results to copy"></textarea></details>${techniqueDetails()}<details class="prep-details"><summary>Full race-day instructions</summary><pre>${esc(day.source)}</pre></details>`;
+  attachCompletion(day);attachSetControls(day);attachRecord(50);attachRecord(100);
+  const raceState=read('race:'+event);
+  $('#reporting-time').oninput=e=>{raceState.reporting=e.target.value;$('#reporting-summary').textContent='Reporting time · '+(e.target.value||'not set');$('#reporting-status').textContent=save('race:'+event,raceState)?'Saved on this device.':'Not saved. Change the time to retry.';};
+  $('#official-result').oninput=e=>{
+    const n=seconds(e.target.value);raceState.result=e.target.value;
+    const saved=save('race:'+event,raceState),error=n!==null&&!Number.isFinite(n);
+    e.target.setAttribute('aria-invalid',String(error));$('#official-status').textContent=error?'Enter a positive time in seconds or m:ss.xx.':saved?'Saved on this device.':'Not saved. Edit the time to retry.';
+  };
+  const savedResult=seconds(raceState.result);
+  if(savedResult!==null&&!Number.isFinite(savedResult)){ $('#official-result').setAttribute('aria-invalid','true');$('#official-status').textContent='Enter a positive time in seconds or m:ss.xx.'; }
+  $('#copy-results').onclick=async()=>{
+    const text=[50,100].map(e=>{
+      const form=$(`[data-record="${e}"]`),r=Object.fromEntries(new FormData(form)),a=analyseRecord(r,e);
+      if(a.error)return `${e} m rehearsal: correct the invalid times before sharing.`;
+      return `${e} m rehearsal (${e===50?'Oct 1':'Oct 2'})\n${Object.entries(r).filter(([,v])=>v).map(([k,v])=>`${k.startsWith('p')?'Elapsed at '+k.slice(1)+' m':k}: ${v}`).join('\n')||'Not recorded'}${a.text?'\nLengths: '+a.text:''}`;
+    }).join('\n\n');
+    try{await navigator.clipboard.writeText(text);$('#copy-status').textContent='Results copied.';}
+    catch(_){const field=$('#copy-fallback');field.hidden=false;field.value=text;field.focus();field.select();$('#copy-status').textContent='Select and copy these results.';}
+  };
 }
+// Deadline-based rest timer survives navigation, refresh, and background tabs.
+let timer=read('timer',null),timerInterval;
+if (timer && (!Array.isArray(timer.options) || !Number.isFinite(timer.duration))) timer=null;
+function timeLabel(n){return `${Math.floor(n/60)}:${String(n%60).padStart(2,'0')}`;}
+function remaining(){return timer?.deadline?Math.max(0,Math.ceil((timer.deadline-Date.now())/1000)):timer?.remaining ?? timer?.duration ?? 0;}
+function timerShell(){
+  document.body.insertAdjacentHTML('beforeend',`<dialog id="effort-dialog" class="prep-dialog" aria-labelledby="effort-heading"><div class="prep-dialog-head"><h2 id="effort-heading">Effort guide</h2><button class="text-button" data-close-dialog aria-label="Close effort guide">Close</button></div>${Object.entries(PREPARATION.efforts).map(([k,v])=>`<p><strong>${esc(k)}</strong><br>${esc(v)}</p>`).join('')}</dialog><dialog id="rest-dialog" class="prep-dialog" aria-labelledby="rest-heading"><div class="prep-dialog-head"><h2 id="rest-heading">Rest timer</h2><button class="text-button" data-close-dialog aria-label="Close rest timer">Close</button></div><p id="timer-context"></p><p id="timer-prescription"></p><div class="prep-timer-options" id="timer-options"></div><p class="prep-clock" id="timer-clock" role="timer">0:00</p><div class="prep-controls"><button class="button" id="timer-toggle">Start</button><button class="button secondary" id="timer-reset">Reset</button></div><p id="timer-status" role="status"></p><button class="text-button" id="timer-dismiss">Dismiss timer</button></dialog><button class="prep-timer-dock" id="timer-dock" hidden><span>Rest timer</span><strong id="timer-preview"></strong></button>`);
+  $('#timer-dock').onclick=()=>{paintTimer();SwimNavigation.openDialog($('#rest-dialog'),$('#timer-dock'));};
+  $('#timer-toggle').onclick=()=>{
+    if(!timer)return;
+    if(timer.deadline){timer.remaining=remaining();timer.deadline=null;timer.status='Paused';}
+    else {timer.remaining=remaining()||timer.duration;timer.deadline=Date.now()+timer.remaining*1000;timer.status='Running';}
+    save('timer',timer);paintTimer();
+  };
+  $('#timer-reset').onclick=()=>{if(!timer)return;timer.deadline=null;timer.remaining=timer.duration;timer.status='Ready';save('timer',timer);paintTimer();};
+  $('#timer-dismiss').onclick=()=>{timer=null;save('timer',null);paintTimer();$('#rest-dialog [data-close-dialog]').click();};
+  timerInterval=setInterval(paintTimer,250);document.addEventListener('visibilitychange',paintTimer);paintTimer();
+}
+function openTimer(day,set,timing,trigger){
+  if(timer?.deadline){toast('A rest timer is already running. Pause or reset it before choosing another rest.');SwimNavigation.openDialog($('#rest-dialog'),trigger);return;}
+  const options=timing.seconds;
+  timer={day:day.id,context:`${set.name} · ${timing.label}`,prescription:set.rest,options,duration:options[0],remaining:options[0],deadline:null,status:'Ready'};
+  save('timer',timer);paintTimer();SwimNavigation.openDialog($('#rest-dialog'),trigger);
+}
+let optionsSignature='';
+function paintTimer(){
+  if(!$('#timer-dock'))return;
+  $('#timer-dock').hidden=!timer||!!activeDay?.noTimer;
+  document.body.classList.toggle('has-prep-timer',!!timer&&!activeDay?.noTimer);
+  if(!timer)return;
+  let n=remaining();
+  if(timer.deadline&&n===0){timer.deadline=null;timer.remaining=0;timer.status='Rest complete';save('timer',timer);toast('Rest complete');try{navigator.vibrate?.(150);}catch(_){} }
+  // Zero is meaningful once a countdown has completed.
+  if(timer.status==='Rest complete')n=0;
+  $('#timer-clock').textContent=timeLabel(n);$('#timer-preview').textContent=timeLabel(n);
+  $('#timer-context').textContent=timer.context;$('#timer-prescription').textContent=timer.prescription;
+  $('#timer-status').textContent=timer.status;$('#timer-toggle').textContent=timer.deadline?'Pause':timer.status==='Paused'?'Resume':'Start';
+  const signature=JSON.stringify([timer.options,timer.duration,!!timer.deadline]);
+  if(signature!==optionsSignature){
+    optionsSignature=signature;
+    $('#timer-options').innerHTML=timer.options.map(s=>`<button class="button secondary" data-duration="${s}" aria-pressed="${s===timer.duration}" ${timer.deadline?'disabled':''}>${timeLabel(s)}</button>`).join('');
+    document.querySelectorAll('[data-duration]').forEach(b=>b.onclick=()=>{timer.duration=Number(b.dataset.duration);timer.remaining=timer.duration;timer.deadline=null;timer.status='Ready';save('timer',timer);paintTimer();});
+  }
+}
+({overview,plan,session,race}[page]||overview)();
+timerShell();
+SwimNavigation.ready();
 
-const chromeObserver = new ResizeObserver(() => {
-  const header = document.querySelector(".site-header");
-  const dock = document.querySelector(
-    page === "session" ? ".session-dock" : ".navigation",
-  );
-  const jump = document.querySelector(".week-jump");
-  document.documentElement.style.setProperty(
-    "--header-height",
-    header.getBoundingClientRect().height + "px",
-  );
-  if (dock && (page === "session" || matchMedia("(max-width:760px)").matches))
-    document.documentElement.style.setProperty(
-      "--dock-height",
-      dock.getBoundingClientRect().height + "px",
-    );
-  if (jump)
-    document.documentElement.style.setProperty(
-      "--jump-height",
-      jump.getBoundingClientRect().height + "px",
-    );
-});
-document
-  .querySelectorAll(".site-header,.navigation,.session-dock,.week-jump")
-  .forEach((element) => chromeObserver.observe(element));
+// An app left open overnight must follow the new local date.
+function refreshDay(){if(localDate(new Date())!==today)location.reload();}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshDay();});
+window.addEventListener('pageshow',refreshDay);

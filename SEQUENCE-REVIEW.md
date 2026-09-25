@@ -1,3 +1,5 @@
+> Historical review: superseded by [the September 26–October 13 plan](SWIMMING-PLAN.md). This document does not prescribe the app’s current workouts.
+
 # Daily sequence — latest September 18 revision
 
 Source: [Swimming plan](SWIMMING-PLAN.md). Saturdays are family/rest days. All listed swimming is included in daily totals; order does not shorten recovery.
