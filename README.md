@@ -12,8 +12,9 @@ There are no application dependencies or build steps.
 - **Today:** current or next scheduled session, one focus, and resume action.
 - **Plan:** all 18 dates, including Saturday rest days and both races.
 - **Race:** event-specific warm-up, race cues, reporting time, results, and rehearsal records.
-- **Session:** exact ordered sets, explicit done/skip controls, source instructions,
-  and contextual rest timers. September 30 has no stopwatch controls.
+- **Session:** exact ordered sets, tap-to-complete cards, skip controls, source instructions,
+  and one shared footer timer with presets and custom seconds. Day views use a
+  top back link instead of the main navigation. September 30 has no stopwatch controls.
 
 Checks, skipped sets, rehearsal entries, race details, and rest timers are saved
 in this browser. They are not synchronised between devices. Storage failures

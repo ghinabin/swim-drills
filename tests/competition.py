@@ -50,42 +50,43 @@ def run():
           assert '1 of 6 sets done · 1 skipped' in page.locator('#completion').inner_text()
           page.locator('[data-done]').first.click()
           assert page.locator('[data-done][aria-pressed=true]').count()==0
-          # Repetition and round rests remain distinct. Timer survives navigation.
-          page.locator('#set-s4 [data-timer-index="1"]').click()
+          # One independent footer timer, no main menu or per-card timer controls.
+          assert page.locator('#navigation').is_hidden()
+          assert page.locator('[data-timer-set]').count()==0
+          assert page.locator('#timer-footer').is_visible()
+          assert '20–30 sec between 25s · 4 min between rounds' in page.locator('#set-s4').inner_text()
+          page.locator('#timer-dock').click()
+          page.locator('[data-duration="240"]').click()
           assert page.locator('#timer-clock').inner_text()=='4:00'
           page.locator('#timer-toggle').click();page.clock.fast_forward(5000)
           assert page.locator('#timer-clock').inner_text()=='3:55'
+          assert page.locator('#custom-rest-seconds').is_disabled()
           page.get_by_role('button',name='Close rest timer').click()
           page.wait_for_function("!document.querySelector('#rest-dialog').open")
           page.goto(base+'plan.html')
           assert page.locator('.prep-day').count()==18
-          cards=page.locator('.prep-timeline').first.locator('.prep-day')
-          assert cards.first.evaluate('(e) => parseFloat(getComputedStyle(e).borderRadius)') >= 16
-          if width==390:
-            first,second=cards.nth(0).bounding_box(),cards.nth(1).bounding_box()
-            assert second['y']-(first['y']+first['height']) >= 12
-          else:
-            assert cards.nth(1).bounding_box()['x'] > cards.nth(0).bounding_box()['x']
+          assert page.locator('#timer-footer').is_hidden()
           page.locator('#day-2026-09-28').click()
-          assert page.locator('#next-set').get_attribute('href')=='#set-s1'
           page.locator('[data-done]').first.click()
-          assert page.locator('#next-set').get_attribute('href')=='#set-s3'
           page.goto(base)
           page.get_by_role('link',name='Resume session').click()
           assert page.url.endswith('#set-s3')
-          assert page.locator('#set-s3').evaluate('(e) => e.getBoundingClientRect().top') < 200
-          page.goto(base+'plan.html')
           assert page.locator('#timer-preview').inner_text()=='3:55'
           page.locator('#timer-dock').click();page.locator('#timer-toggle').click()
+          page.locator('#custom-rest-seconds').fill('75')
+          page.locator('#custom-rest button').click()
+          assert page.locator('#timer-clock').inner_text()=='1:15'
           page.get_by_role('button',name='Close rest timer').click()
           page.wait_for_function("!document.querySelector('#rest-dialog').open")
-          # Navigate from plan and restore its scroll position.
+          page.reload()
+          assert page.locator('#timer-preview').inner_text()=='1:15'
+          page.goto(base+'plan.html')
           link=page.locator('#day-2026-10-08');link.scroll_into_view_if_needed()
           y=page.evaluate('scrollY');link.click();page.locator('[data-return]').click()
           page.wait_for_url('**/plan.html');page.wait_for_timeout(150)
           assert abs(page.evaluate('scrollY')-y)<5
           page.goto(base+'session.html?id=2026-09-27')
-          page.locator('#set-s1 [data-timer-set]').click()
+          page.locator('#timer-dock').click()
           page.locator('[data-duration="30"]').click()
           page.locator('#timer-toggle').click();page.clock.fast_forward(31000)
           assert page.locator('#timer-clock').inner_text()=='0:00'
@@ -93,9 +94,9 @@ def run():
           page.reload()
           assert page.locator('#timer-preview').inner_text()=='0:00'
           page.wait_for_function("document.querySelector('#rest-dialog').open")
-          page.locator('#timer-dismiss').click()
+          page.get_by_role('button',name='Close rest timer').click()
           page.wait_for_function("!document.querySelector('#rest-dialog').open")
-          assert page.locator('#timer-dock').is_hidden()
+          assert page.locator('#timer-dock').is_visible()
           for d in data['days']:
             url='race.html?event='+str(d['event']) if d['kind']=='Race' else 'session.html?id='+d['id']
             page.goto(base+url)
@@ -165,12 +166,13 @@ def run():
             m.goto(base+route)
             assert m.evaluate('document.documentElement.scrollWidth <= innerWidth'), (width,route)
           m.goto(base+'session.html?id=2026-09-28')
-          for control in m.locator('[data-done],[data-skip],[data-timer-set],#next-set').all():
+          for control in m.locator('[data-done],[data-skip],#timer-dock').all():
             assert control.bounding_box()['height'] >= 48
-          m.locator('[data-timer-set]').first.click()
+          assert m.locator('#navigation').is_hidden()
+          assert abs(m.locator('#timer-footer').bounding_box()['y']+m.locator('#timer-footer').bounding_box()['height']-844)<2
+          m.locator('#timer-dock').click()
           dialog=m.locator('#rest-dialog').bounding_box()
           assert dialog['x'] >= 0 and dialog['width'] <= width
-          if width<=760: assert abs(dialog['y']+dialog['height']-844)<2
           assert m.locator('#timer-toggle').bounding_box()['height']>=48
           m.get_by_role('button',name='Close rest timer').click()
           m.wait_for_function("!document.querySelector('#rest-dialog').open")

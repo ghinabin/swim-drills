@@ -42,11 +42,7 @@ function resumeHref(day, progress=sessionProgress(day)) {
   return href(day)+(day.kind!=='Race'&&progress.started&&!progress.finished&&next?'#set-'+next.id:'');
 }
 function row(day) {
-  const progress=sessionProgress(day), isToday=day.date===today;
-  const type=day.kind==='Swim'?'Training':day.kind;
-  const action=day.kind==='Rest'?'View rest day':day.kind==='Race'?'Race preparation':progress.finished?'Review session':progress.started?'Resume session':'View session';
-  const state=day.kind==='Race'?(progress.finished?'Warm-up reviewed':progress.started?`${progress.done} of ${day.sets.length} warm-up sets done`:''):progress.finished?(progress.skipped?'Reviewed':'Complete'):progress.started?`${progress.done} of ${day.sets.length} sets done`:'';
-  return `<a class="prep-day ${isToday?'is-today':''} ${day.kind==='Rest'?'is-rest':''} ${day.kind==='Race'?'is-race':''}" id="day-${day.id}" href="${resumeHref(day,progress)}"><span class="prep-day-top"><span class="prep-date">${esc(formatDate(day.date))}</span><span class="prep-day-badge ${isToday?'badge-today':''}">${isToday?'Today':esc(type)}</span></span><h3 class="prep-day-title">${esc(day.title)}</h3><span class="prep-day-distance">${esc(distance(day))}${day.kind==='Race'?'':day.kind==='Rest'?' · No pool training':` · ${day.sets.length} sets`}</span>${state?`<span class="prep-day-progress">${esc(state)}</span>`:''}<span class="prep-day-action">${action}<span class="prep-card-arrow" aria-hidden="true">↗</span></span></a>`;
+  return `<a class="prep-day ${day.date===today?'is-today':''}" id="day-${day.id}" href="${resumeHref(day)}"><span class="prep-date">${esc(formatDate(day.date))}${day.date===today?'<small>Today</small>':''}</span><span><strong>${esc(day.title)}</strong><small>${esc(distance(day))}${day.kind!=='Swim'?' · '+esc(day.kind):''}</small></span><span aria-hidden="true">→</span></a>`;
 }
 function overview() {
   if (!nextDay) {
@@ -61,15 +57,14 @@ function overview() {
   if(race&&d.kind!=='Race') main.innerHTML+=`<a class="prep-race-link" href="${href(race)}">${race.event} m freestyle · ${esc(formatDate(race.date))} <span aria-hidden="true">→</span></a>`;
 }
 function plan() {
-  main.innerHTML=intro('Your plan','26 September – 13 October 2026 · 25 m pool')+`<a class="prep-find-day" data-jump href="#day-${(nextDay||days.at(-1)).id}">${nextDay?(nextDay.date===today?'Find today':'Find next day'):'Find races'} ↓</a>`;
+  main.innerHTML=intro('Your plan','26 September – 13 October 2026 · 25 m pool')+`<a class="text-link" data-jump href="#day-${(nextDay||days.at(-1)).id}">${nextDay?(nextDay.date===today?'Find today':'Find next day'):'Find races'} ↓</a>`;
   const weeks=[['26–27 September',days.slice(0,2)],['28 September – 4 October',days.slice(2,9)],['5–11 October',days.slice(9,16)],['Competition',days.slice(16)]];
-  main.innerHTML+=weeks.map(([label,list])=>`<section class="prep-section prep-week"><h2>${label}</h2><div class="prep-timeline">${list.map(row).join('')}</div></section>`).join('');
+  main.innerHTML+=weeks.map(([label,list])=>`<section class="prep-section"><h2>${label}</h2><div class="prep-timeline">${list.map(row).join('')}</div></section>`).join('');
   main.innerHTML+=`<details class="prep-details"><summary>Pool & schedule details</summary><p>25 m short-course pool · freestyle. Full rest day: Saturday only.</p><p>Normal training window: 7:30–9:00/9:30 AM. Race reporting times follow the meet schedule.</p><a class="text-link" href="SWIMMING-PLAN.md" download>Download full supplied plan →</a></details>`;
 }
 function techniqueDetails(){return `<details class="prep-details"><summary>Technique reminders</summary>${PREPARATION.techniques.map(([title,text])=>`<h3>${esc(title)}</h3><p>${esc(text)}</p>`).join('')}<p>Use normal practised racing breathing. No breath-hold test or hyperventilation.</p></details>`;}
 function setCard(set,i,day) {
-  const timers=!day.noTimer?set.timers.map((t,j)=>`<button class="prep-timer-button" data-timer-set="${set.id}" data-timer-index="${j}" aria-label="Rest timer: ${esc(set.name)}, ${esc(t.label)}, ${esc(set.rest)}"><span aria-hidden="true">◷</span> ${t.label==='Rest'?'Rest timer':esc(t.label)}<span aria-hidden="true">↗</span></button>`).join(''):'';
-  return `<article class="prep-set" id="set-${set.id}"><div class="prep-set-top"><span class="prep-number">${String(i+1).padStart(2,'0')}</span><h2>${esc(set.name)}</h2><span class="prep-set-status"></span></div><p class="prep-prescription">${esc(set.prescription)}</p><p class="prep-set-meta">${set.optional?'Optional':set.prescription.includes('50–100')?'50–100 m':set.metres+' m total'}${set.effort?` · <button class="prep-effort" data-effort>${esc(set.effort)} ⓘ</button>`:''}</p>${set.cue?`<p class="prep-cue">${esc(set.cue)}</p>`:''}${set.rest?`<div class="prep-rest-group"><p class="prep-rest"><strong>Rest</strong> ${esc(set.rest)}</p>${timers?`<div class="prep-rest-actions">${timers}</div>`:''}</div>`:''}<div class="prep-controls prep-set-controls"><button class="button secondary prep-done" data-done="${set.id}" aria-pressed="false">Mark set done</button><button class="text-button" data-skip="${set.id}" aria-pressed="false">Skip set</button></div></article>`;
+  return `<article class="prep-set classic-set" id="set-${set.id}"><button class="classic-set-toggle" data-done="${set.id}" aria-pressed="false"><span class="classic-number">${String(i+1).padStart(2,'0')}</span><span class="classic-content"><span class="classic-title">${esc(set.name)}</span><span class="prep-prescription">${esc(set.prescription)}</span><span class="prep-set-meta">${set.optional?'Optional':set.prescription.includes('50–100')?'50–100 m':set.metres+' m total'}${set.effort?' · '+esc(set.effort):''}</span>${set.rest?`<span class="prep-rest"><strong>Rest:</strong> ${esc(set.rest)}</span>`:''}${set.cue?`<span class="prep-cue">${esc(set.cue)}</span>`:''}</span><span class="classic-check" aria-hidden="true"></span></button><div class="classic-set-footer"><span class="prep-set-status"></span><button class="text-button" data-skip="${set.id}" aria-pressed="false">Skip set</button></div></article>`;
 }
 let activeDay;
 function session() {
@@ -78,9 +73,10 @@ function session() {
   const d=activeDay;
   if(d.kind==='Race'){location.replace(href(d));return;}
   document.title=d.title+' · Lane 50';
-  main.innerHTML=`<a class="prep-back" data-return href="${esc(SwimNavigation.returnURL())}">← ${esc(SwimNavigation.returnLabel())}</a>`+intro(d.title,formatDate(d.date)+' · '+distance(d)+(d.kind==='Rest'?'':' · 25 m pool'));
+  $('.site-header').innerHTML=`<a class="prep-back" data-return href="${esc(SwimNavigation.returnURL())}">← ${esc(SwimNavigation.returnLabel())}</a><span class="classic-session-date">${esc(formatDate(d.date))}</span>`;
+  main.innerHTML=intro(d.title,formatDate(d.date)+' · '+distance(d)+(d.kind==='Rest'?'':' · 25 m pool'));
   if(d.kind==='Rest') {main.innerHTML+=`<section class="prep-panel"><p>${esc(d.focus)}</p></section>`;return;}
-  main.innerHTML+=`<p class="prep-focus">${esc(d.focus)}</p>${d.note?`<p class="prep-note">${esc(d.note)}</p>`:''}${d.record?`<a class="text-link" data-jump href="#record-${d.record}">Record rehearsal ↓</a>`:''}<div class="prep-progress-bar"><p id="completion" class="prep-progress" role="status"></p><a id="next-set" class="prep-next-set" data-jump href="#set-s1">Next set ↓</a></div><div class="prep-sets">${d.sets.map((s,i)=>setCard(s,i,d)).join('')}</div>${d.record?recordForm(d.record):''}<details class="prep-details"><summary>Full instructions · ${esc(formatDate(d.date))}</summary><pre>${esc(d.source)}</pre></details>${techniqueDetails()}`;
+  main.innerHTML+=`<p class="prep-focus">${esc(d.focus)}</p>${d.note?`<p class="prep-note">${esc(d.note)}</p>`:''}${d.record?`<a class="text-link" data-jump href="#record-${d.record}">Record rehearsal ↓</a>`:''}<p class="completion-help">Tap a set to mark it done. Tap again to undo.</p><div class="classic-session-tools"><p id="completion" class="prep-progress" role="status"></p><button class="text-button" data-effort>Effort guide</button></div><div class="prep-sets">${d.sets.map((s,i)=>setCard(s,i,d)).join('')}</div>${d.record?recordForm(d.record):''}<details class="prep-details"><summary>Full instructions · ${esc(formatDate(d.date))}</summary><pre>${esc(d.source)}</pre></details>${techniqueDetails()}`;
   attachCompletion(d);
   attachSetControls(d);
   if(d.record) attachRecord(d.record);
@@ -93,7 +89,7 @@ function attachCompletion(day) {
       const card=$('#set-'+s.id),done=state[s.id]==='done',skip=state[s.id]==='skipped';
       card.classList.toggle('is-done',done);card.classList.toggle('is-skipped',skip);card.classList.toggle('is-next',next?.id===s.id);
       card.querySelector('.prep-set-status').textContent=done?'Done':skip?'Skipped':next?.id===s.id?'Next':'';
-      const b=card.querySelector('[data-done]');b.textContent=done?'✓ Done · undo':'Mark set done';b.setAttribute('aria-pressed',String(done));
+      const b=card.querySelector('[data-done]');b.setAttribute('aria-pressed',String(done));card.querySelector('.classic-check').textContent=done?'✓':'';
       const sk=card.querySelector('[data-skip]');sk.textContent=skip?'Undo skip':'Skip set';sk.setAttribute('aria-pressed',String(skip));
     });
     const nextLink=$('#next-set');
@@ -108,10 +104,6 @@ function attachCompletion(day) {
   });paint();
 }
 function attachSetControls(day){
-  document.querySelectorAll('[data-timer-set]').forEach(b=>b.onclick=()=>{
-    const set=day.sets.find(s=>s.id===b.dataset.timerSet), timing=set.timers[Number(b.dataset.timerIndex)];
-    openTimer(day,set,timing,b);
-  });
   document.querySelectorAll('[data-effort]').forEach(b=>b.onclick=()=>SwimNavigation.openDialog($('#effort-dialog'),b));
 }
 function recordForm(event) {
@@ -152,7 +144,7 @@ function attachRecord(event){
 function race(){
   const event=params.get('event')==='50'?50:params.get('event')==='100'?100:today>'2026-10-12'?100:50;
   const day=days.find(d=>d.event===event);activeDay=day;
-  main.innerHTML=intro('Race preparation','25 m short course · freestyle')+`<nav class="prep-event-tabs" aria-label="Choose race"><a href="race.html?event=50" ${event===50?'aria-current="page"':''}>50 m <small>Mon Oct 12</small></a><a href="race.html?event=100" ${event===100?'aria-current="page"':''}>100 m <small>Tue Oct 13</small></a></nav><nav class="prep-quick-links" aria-label="Race sections"><a data-jump href="#warm-up">Warm-up</a><a data-jump href="#race-cues">Race cues</a><a data-jump href="#race-result">Results</a></nav><p class="prep-focus">${esc(day.focus)}</p><details class="prep-details prep-logistics"><summary id="reporting-summary">Reporting time · ${esc(read('race:'+event).reporting||'not set')}</summary><label>Reporting time <input id="reporting-time" type="time" value="${esc(read('race:'+event).reporting||'')}"></label><p class="prep-hint">Enter the official time when known.</p><p id="reporting-status" role="status"></p></details><section class="prep-section" id="warm-up"><h2>Warm-up</h2><p class="prep-distance">${esc(day.distanceLabel)}</p><p class="prep-note">${esc(day.note)}</p><p id="completion" class="prep-progress" role="status"></p>${day.sets.map((s,i)=>setCard(s,i,day)).join('')}</section><section class="prep-section" id="race-cues"><h2>Your ${event} m race</h2><div class="prep-race-cues">${day.raceCues.map(([label,text])=>`<article><h3>${esc(label)}</h3><p>${esc(text)}</p></article>`).join('')}</div></section>${day.after?`<section class="prep-panel"><h2>After the 50</h2><p>${esc(day.after)}</p></section>`:''}<section class="prep-panel" id="race-result"><h2>Official result</h2><label>Final ${event} m time<input id="official-result" type="text" inputmode="decimal" placeholder="Seconds or m:ss.xx" value="${esc(read('race:'+event).result||'')}" aria-describedby="official-status"></label><p id="official-status" role="status"></p><p class="prep-hint">Optional · saved on this device</p></section><details class="prep-details" id="rehearsal-results"><summary>Rehearsal results · Oct 1 & 2</summary>${recordForm(50)}${recordForm(100)}<button class="button secondary" id="copy-results">Copy results</button><p id="copy-status" role="status"></p><textarea id="copy-fallback" hidden readonly aria-label="Results to copy"></textarea></details>${techniqueDetails()}<details class="prep-details"><summary>Full race-day instructions</summary><pre>${esc(day.source)}</pre></details>`;
+  main.innerHTML=intro('Race preparation','25 m short course · freestyle')+`<nav class="prep-event-tabs" aria-label="Choose race"><a href="race.html?event=50" ${event===50?'aria-current="page"':''}>50 m <small>Mon Oct 12</small></a><a href="race.html?event=100" ${event===100?'aria-current="page"':''}>100 m <small>Tue Oct 13</small></a></nav><nav class="prep-quick-links" aria-label="Race sections"><a data-jump href="#warm-up">Warm-up</a><a data-jump href="#race-cues">Race cues</a><a data-jump href="#race-result">Results</a></nav><p class="prep-focus">${esc(day.focus)}</p><details class="prep-details prep-logistics"><summary id="reporting-summary">Reporting time · ${esc(read('race:'+event).reporting||'not set')}</summary><label>Reporting time <input id="reporting-time" type="time" value="${esc(read('race:'+event).reporting||'')}"></label><p class="prep-hint">Enter the official time when known.</p><p id="reporting-status" role="status"></p></details><section class="prep-section" id="warm-up"><h2>Warm-up</h2><p class="prep-distance">${esc(day.distanceLabel)}</p><p class="prep-note">${esc(day.note)}</p><button class="text-button" data-effort>Effort guide</button><p id="completion" class="prep-progress" role="status"></p>${day.sets.map((s,i)=>setCard(s,i,day)).join('')}</section><section class="prep-section" id="race-cues"><h2>Your ${event} m race</h2><div class="prep-race-cues">${day.raceCues.map(([label,text])=>`<article><h3>${esc(label)}</h3><p>${esc(text)}</p></article>`).join('')}</div></section>${day.after?`<section class="prep-panel"><h2>After the 50</h2><p>${esc(day.after)}</p></section>`:''}<section class="prep-panel" id="race-result"><h2>Official result</h2><label>Final ${event} m time<input id="official-result" type="text" inputmode="decimal" placeholder="Seconds or m:ss.xx" value="${esc(read('race:'+event).result||'')}" aria-describedby="official-status"></label><p id="official-status" role="status"></p><p class="prep-hint">Optional · saved on this device</p></section><details class="prep-details" id="rehearsal-results"><summary>Rehearsal results · Oct 1 & 2</summary>${recordForm(50)}${recordForm(100)}<button class="button secondary" id="copy-results">Copy results</button><p id="copy-status" role="status"></p><textarea id="copy-fallback" hidden readonly aria-label="Results to copy"></textarea></details>${techniqueDetails()}<details class="prep-details"><summary>Full race-day instructions</summary><pre>${esc(day.source)}</pre></details>`;
   attachCompletion(day);attachSetControls(day);attachRecord(50);attachRecord(100);
   const raceState=read('race:'+event);
   $('#reporting-time').oninput=e=>{raceState.reporting=e.target.value;$('#reporting-summary').textContent='Reporting time · '+(e.target.value||'not set');$('#reporting-status').textContent=save('race:'+event,raceState)?'Saved on this device.':'Not saved. Change the time to retry.';};
@@ -175,11 +167,16 @@ function race(){
 }
 // Deadline-based rest timer survives navigation, refresh, and background tabs.
 let timer=read('timer',null),timerInterval;
-if (timer && (!Array.isArray(timer.options) || !Number.isFinite(timer.duration))) timer=null;
+if (timer && !Number.isFinite(timer.duration)) timer=null;
+const timerPresets=[30,60,120,180,240,300];
+const hasSessionTimer=()=>page==='session' && activeDay?.sets.length>0 && !activeDay.noTimer;
+if(!timer)timer={duration:30,remaining:30,deadline:null,status:'Ready'};
+timer.options=timerPresets;
+delete timer.day;delete timer.context;delete timer.prescription;
 function timeLabel(n){return `${Math.floor(n/60)}:${String(n%60).padStart(2,'0')}`;}
 function remaining(){return timer?.deadline?Math.max(0,Math.ceil((timer.deadline-Date.now())/1000)):timer?.remaining ?? timer?.duration ?? 0;}
 function timerShell(){
-  document.body.insertAdjacentHTML('beforeend',`<dialog id="effort-dialog" class="prep-dialog" aria-labelledby="effort-heading"><div class="prep-dialog-head"><h2 id="effort-heading">Effort guide</h2><button class="text-button" data-close-dialog aria-label="Close effort guide">Close</button></div>${Object.entries(PREPARATION.efforts).map(([k,v])=>`<p><strong>${esc(k)}</strong><br>${esc(v)}</p>`).join('')}</dialog><dialog id="rest-dialog" class="prep-dialog" aria-labelledby="rest-heading"><div class="prep-dialog-head"><h2 id="rest-heading">Rest timer</h2><button class="text-button" data-close-dialog aria-label="Close rest timer">Close</button></div><p id="timer-context"></p><p id="timer-prescription"></p><div class="prep-timer-options" id="timer-options"></div><p class="prep-clock" id="timer-clock" role="timer">0:00</p><div class="prep-controls"><button class="button" id="timer-toggle">Start</button><button class="button secondary" id="timer-reset">Reset</button></div><p id="timer-status" role="status"></p><button class="text-button" id="timer-dismiss">Dismiss timer</button></dialog><button class="prep-timer-dock" id="timer-dock" hidden><span>Rest timer<small id="timer-dock-state"></small></span><strong id="timer-preview"></strong></button>`);
+  document.body.insertAdjacentHTML('beforeend',`<dialog id="effort-dialog" class="prep-dialog" aria-labelledby="effort-heading"><div class="prep-dialog-head"><h2 id="effort-heading">Effort guide</h2><button class="text-button" data-close-dialog aria-label="Close effort guide">Close</button></div>${Object.entries(PREPARATION.efforts).map(([k,v])=>`<p><strong>${esc(k)}</strong><br>${esc(v)}</p>`).join('')}</dialog><dialog id="rest-dialog" class="prep-dialog" aria-labelledby="rest-heading"><div class="prep-dialog-head"><h2 id="rest-heading">Rest timer</h2><button class="text-button" data-close-dialog aria-label="Close rest timer">Close</button></div><p>Choose the rest shown in your session.</p><div class="prep-timer-options" id="timer-options"></div><form id="custom-rest"><label for="custom-rest-seconds">Custom rest · seconds</label><div><input id="custom-rest-seconds" type="number" inputmode="numeric" min="1" max="3600" step="1" required><button class="button secondary" type="submit">Set</button></div></form><p class="prep-clock" id="timer-clock" role="timer">0:00</p><div class="prep-controls"><button class="button" id="timer-toggle">Start</button><button class="button secondary" id="timer-reset">Reset</button></div><p id="timer-status" role="status"></p></dialog><footer class="classic-timer-footer" id="timer-footer" hidden><span class="classic-footer-label">Rest between repeats</span><button class="prep-timer-dock" id="timer-dock"><span>Rest timer<small id="timer-dock-state"></small></span><strong id="timer-preview"></strong></button></footer>`);
   $('#timer-dock').onclick=()=>{paintTimer();SwimNavigation.openDialog($('#rest-dialog'),$('#timer-dock'));};
   $('#timer-toggle').onclick=()=>{
     if(!timer)return;
@@ -188,33 +185,31 @@ function timerShell(){
     save('timer',timer);paintTimer();
   };
   $('#timer-reset').onclick=()=>{if(!timer)return;timer.deadline=null;timer.remaining=timer.duration;timer.status='Ready';save('timer',timer);paintTimer();};
-  $('#timer-dismiss').onclick=()=>{timer=null;save('timer',null);paintTimer();$('#rest-dialog [data-close-dialog]').click();};
+  $('#custom-rest').onsubmit=e=>{e.preventDefault();const input=$('#custom-rest-seconds');if(!input.reportValidity())return;setTimerDuration(Number(input.value));};
   timerInterval=setInterval(paintTimer,250);document.addEventListener('visibilitychange',paintTimer);paintTimer();
 }
-function openTimer(day,set,timing,trigger){
-  if(timer?.deadline){toast('A rest timer is already running. Pause or reset it before choosing another rest.');SwimNavigation.openDialog($('#rest-dialog'),trigger);return;}
-  const options=timing.seconds;
-  timer={day:day.id,context:`${set.name} · ${timing.label}`,prescription:set.rest,options,duration:options[0],remaining:options[0],deadline:null,status:'Ready'};
-  save('timer',timer);paintTimer();SwimNavigation.openDialog($('#rest-dialog'),trigger);
+function setTimerDuration(duration){
+  if(timer.deadline){toast('Pause the timer before changing its duration.');return;}
+  timer.duration=duration;timer.remaining=duration;timer.deadline=null;timer.status='Ready';save('timer',timer);paintTimer();
 }
 let optionsSignature='';
 function paintTimer(){
   if(!$('#timer-dock'))return;
-  $('#timer-dock').hidden=!timer||!!activeDay?.noTimer;
-  document.body.classList.toggle('has-prep-timer',!!timer&&!activeDay?.noTimer);
+  $('#timer-footer').hidden=!hasSessionTimer();
+  document.body.classList.toggle('has-prep-timer',hasSessionTimer());
   if(!timer)return;
   let n=remaining();
   if(timer.deadline&&n===0){timer.deadline=null;timer.remaining=0;timer.status='Rest complete';save('timer',timer);toast('Rest complete');try{navigator.vibrate?.(150);}catch(_){} }
   // Zero is meaningful once a countdown has completed.
   if(timer.status==='Rest complete')n=0;
   $('#timer-clock').textContent=timeLabel(n);$('#timer-preview').textContent=timeLabel(n);
-  $('#timer-context').textContent=timer.context;$('#timer-prescription').textContent=timer.prescription;
+  $('#custom-rest-seconds').disabled=!!timer.deadline;$('#custom-rest button').disabled=!!timer.deadline;
   $('#timer-status').textContent=timer.status;$('#timer-dock-state').textContent=timer.status;$('#timer-toggle').textContent=timer.deadline?'Pause':timer.status==='Paused'?'Resume':'Start';
   const signature=JSON.stringify([timer.options,timer.duration,!!timer.deadline]);
   if(signature!==optionsSignature){
     optionsSignature=signature;
     $('#timer-options').innerHTML=timer.options.map(s=>`<button class="button secondary" data-duration="${s}" aria-pressed="${s===timer.duration}" ${timer.deadline?'disabled':''}>${timeLabel(s)}</button>`).join('');
-    document.querySelectorAll('[data-duration]').forEach(b=>b.onclick=()=>{timer.duration=Number(b.dataset.duration);timer.remaining=timer.duration;timer.deadline=null;timer.status='Ready';save('timer',timer);paintTimer();});
+    document.querySelectorAll('[data-duration]').forEach(b=>b.onclick=()=>setTimerDuration(Number(b.dataset.duration)));
   }
 }
 ({overview,plan,session,race}[page]||overview)();
