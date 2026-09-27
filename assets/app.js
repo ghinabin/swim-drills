@@ -48,7 +48,7 @@ function row(day) {
   const status=day.kind==='Race'
     ? progress.finished?'Warm-up reviewed':progress.started?`${progress.done} of ${day.sets.length} warm-up sets done`:''
     : progress.finished?(progress.skipped?'Reviewed':'Complete'):progress.started?`${progress.done} of ${day.sets.length} sets done`:'';
-  return `<a class="prep-day ${day.date===today?'is-today':''} ${day.kind==='Rest'?'is-rest':''}" id="day-${day.id}" href="${resumeHref(day,progress)}"><span class="prep-day-date">${esc(fullDate(day.date))}${day.date===today?'<span class="prep-day-today">Today</span>':''}</span><strong class="prep-day-title">${esc(day.title)}</strong><span class="prep-day-bottom"><span>${esc(distance(day))} · ${esc(kind)}${status?' · '+esc(status):''}</span><span class="prep-day-arrow" aria-hidden="true">→</span></span></a>`;
+  return `<a class="prep-day ${day.date===today?'is-today':''} ${day.kind==='Rest'?'is-rest':''}" id="day-${day.id}" href="${resumeHref(day,progress)}" ${day.date===today?'aria-current="date"':''}><span class="prep-day-date">${esc(fullDate(day.date))}${day.date===today?'<span class="prep-day-today">Today</span>':''}</span><strong class="prep-day-title">${esc(day.title)}</strong><span class="prep-day-bottom"><span>${esc(distance(day))} · ${esc(kind)}${status?' · '+esc(status):''}</span><span class="prep-day-arrow" aria-hidden="true">→</span></span></a>`;
 }
 function overview() {
   if (!nextDay) {
@@ -56,7 +56,7 @@ function overview() {
     return;
   }
   const d=nextDay, {started,finished}=sessionProgress(d);
-  main.innerHTML=intro('Today','50 + 100 m freestyle · 25 m pool')+`<section class="prep-hero"><div class="eyebrow">${d.date===today?esc(formatDate(d.date)):'Plan starts '+esc(formatDate(d.date))}</div><h2>${esc(d.title)}</h2><p class="prep-distance">${esc(distance(d))}</p><p>${esc(d.focus)}</p><a class="button" href="${d.kind==='Rest'?'plan.html':resumeHref(d)}">${d.kind==='Rest'?'View plan':d.kind==='Race'?'Open race preparation':finished?'Review session':started?'Resume session':'Open session'} <span aria-hidden="true">→</span></a></section>`;
+  main.innerHTML=intro('Today','50 + 100 m freestyle · 25 m pool')+`<section class="prep-hero ${d.date===today?'is-today':''}"><div class="eyebrow">${d.date===today?esc(formatDate(d.date)):'Plan starts '+esc(formatDate(d.date))}</div><h2>${esc(d.title)}</h2><p class="prep-distance">${esc(distance(d))}</p><p>${esc(d.focus)}</p><a class="button" href="${d.kind==='Rest'?'plan.html':resumeHref(d)}">${d.kind==='Rest'?'View plan':d.kind==='Race'?'Open race preparation':finished?'Review session':started?'Resume session':'Open session'} <span aria-hidden="true">→</span></a></section>`;
   const next=days[days.indexOf(d)+1];
   if(next) main.innerHTML+=`<section class="prep-section"><h2>Coming next</h2>${row(next)}</section>`;
   const race=days.find(x=>x.kind==='Race'&&x.date>=today);
@@ -74,19 +74,42 @@ function setName(set) {
   if(set.name==='Easy swimming')return set.prescription.includes('50 m')?'Easy 50s':'Easy swim';
   return set.name;
 }
-function setEffort(set) {
+function setEffort(set,day) {
+  if(set.name==='Warm-up' && set.prescription.includes('BUILD'))return 'Easy, then BUILD';
   if(set.name==='Aerobic 50s')return 'Comfortable, steady';
+  if(set.name==='Technique')return 'Controlled, not all-out';
+  if(set.name==='Kick')return 'Controlled';
+  if(set.name==='Turn set')return 'Controlled';
+  if(set.name==='Turn preparation' && day.id==='2026-10-01')return 'Easy except at the wall';
+  if(set.name==='Turn preparation')return 'Controlled';
+  if(set.name==='Turns' && day.id==='2026-10-04')return 'Easy; focus on turns';
+  if(set.name==='Turns')return 'Controlled-fast into turn; controlled out';
+  if(set.name==='Start work')return 'Familiar start; easy recovery';
+  if(set.name==='Starts')return 'Easy swimming after start';
   return ({
     EASY:'EASY (2–4/10)',
     BUILD:'BUILD (gradually faster)',
     RP100:'RP100 (100 m rhythm · 8–9/10)',
     FAST:'FAST (9–10/10)',
+    'FAST / EASY':'FAST (9–10/10), then EASY',
+    'Approximately RP100':'About 100 m race rhythm (8–9/10)',
+    '~90–95%':'Strong (~90–95%), not all-out',
+    'RACE 50':'Very fast race effort',
+    'QUICK ~85–90% / EASY':'QUICK (~85–90%), then EASY',
+    'QUICK / EASY':'QUICK (brisk, controlled), then EASY',
+    QUICK:'QUICK (brisk, controlled)',
   })[set.effort] || set.effort;
+}
+function setCue(set,day) {
+  if(set.name==='Technique' && day.id==='2026-09-28')
+    return 'Keep this same catch in the faster sets later.';
+  return set.cue;
 }
 function setCard(set,i,day) {
   const total=set.optional?'Optional':set.prescription.includes('50–100')?'50–100 m':set.metres+' m';
-  const effort=setEffort(set);
-  return `<article class="prep-set classic-set" id="set-${set.id}"><button class="classic-set-toggle" data-done="${set.id}" aria-pressed="false"><span class="classic-number">${String(i+1).padStart(2,'0')}</span><span class="classic-content"><span class="classic-title">${esc(setName(set))}</span><span class="prep-prescription">${esc(set.prescription)}</span><span class="prep-set-meta"><span class="set-distance">${esc(total)}</span>${effort?`<span class="set-effort">${set.name==='Aerobic 50s'?'Pace':'Effort'}: ${esc(effort)}</span>`:''}${set.rest?`<span class="set-rest">Rest: ${esc(set.rest)}</span>`:''}</span>${set.cue?`<span class="prep-cue">${esc(set.cue)}</span>`:''}</span><span class="classic-check" aria-hidden="true"></span></button><div class="classic-set-footer"><span class="prep-set-status"></span><button class="text-button" data-skip="${set.id}" aria-pressed="false">Skip set</button></div></article>`;
+  const effort=setEffort(set,day), cue=setCue(set,day);
+  const paceNames=['Aerobic 50s','Technique','Kick','Turn set','Turn preparation','Turns','Starts','Start work'];
+  return `<article class="prep-set classic-set" id="set-${set.id}"><button class="classic-set-toggle" data-done="${set.id}" aria-pressed="false"><span class="classic-number">${String(i+1).padStart(2,'0')}</span><span class="classic-content"><span class="classic-title">${esc(setName(set))}</span><span class="prep-prescription">${esc(set.prescription)}</span><span class="prep-set-meta"><span class="set-distance">${esc(total)}</span>${effort?`<span class="set-effort">${paceNames.includes(set.name)?'Pace':'Effort'}: ${esc(effort)}</span>`:''}${set.rest?`<span class="set-rest">Rest: ${esc(set.rest)}</span>`:''}</span>${cue?`<span class="prep-cue">${esc(cue)}</span>`:''}</span><span class="classic-check" aria-hidden="true"></span></button><div class="classic-set-footer"><span class="prep-set-status"></span><button class="text-button" data-skip="${set.id}" aria-pressed="false">Skip set</button></div></article>`;
 }
 let activeDay;
 function session() {
@@ -98,19 +121,20 @@ function session() {
   $('.site-header').innerHTML=`<a class="prep-back" data-return href="${esc(SwimNavigation.returnURL())}">← ${esc(SwimNavigation.returnLabel())}</a><span class="classic-session-date">${esc(formatDate(d.date))}</span>`;
   main.innerHTML=intro(d.title,formatDate(d.date)+' · '+distance(d)+(d.kind==='Rest'?'':' · 25 m pool'));
   if(d.kind==='Rest') {main.innerHTML+=`<section class="prep-panel"><p>${esc(d.focus)}</p></section>`;return;}
-  main.innerHTML+=`<p class="prep-focus">${esc(d.focus)}</p>${d.note?`<p class="prep-note">${esc(d.note)}</p>`:''}${d.record?`<a class="text-link" data-jump href="#record-${d.record}">Record rehearsal ↓</a>`:''}<p class="completion-help">Tap a set to mark it done. Tap again to undo.</p><div class="classic-session-tools"><p id="completion" class="prep-progress" role="status"></p><button class="text-button" data-effort>Effort guide</button></div><div class="prep-sets">${d.sets.map((s,i)=>setCard(s,i,d)).join('')}</div>${d.record?recordForm(d.record):''}<details class="prep-details"><summary>Full instructions · ${esc(formatDate(d.date))}</summary><pre>${esc(d.source)}</pre></details>${techniqueDetails()}`;
+  main.innerHTML+=`<p class="prep-focus">${esc(d.focus)}</p>${d.note?`<p class="prep-note">${esc(d.note)}</p>`:''}${d.record?`<a class="text-link" data-jump href="#record-${d.record}">Record rehearsal ↓</a>`:''}<p class="completion-help">Tap a set to mark it done. Tap again to undo.</p><div class="classic-session-tools"><p id="completion" class="prep-progress" role="status"></p><button class="text-button" data-effort>Effort guide</button></div><div class="prep-sets">${d.sets.map((s,i)=>setCard(s,i,d)).join('')}</div><section class="session-complete" id="session-complete" aria-label="Day completion"><p id="session-complete-message">Finished your session?</p><button class="button" id="complete-day" type="button">Mark all drills complete</button></section>${d.record?recordForm(d.record):''}<details class="prep-details"><summary>Full instructions · ${esc(formatDate(d.date))}</summary><pre>${esc(d.source)}</pre></details>${techniqueDetails()}`;
   attachCompletion(d);
   attachSetControls(d);
   if(d.record) attachRecord(d.record);
 }
 function attachCompletion(day) {
   const state=read('session:'+day.id);
+  let bulkUndo=null;
   function paint(){
     const next=day.sets.find(s=>!['done','skipped'].includes(state[s.id]));
     day.sets.forEach(s=>{
       const card=$('#set-'+s.id),done=state[s.id]==='done',skip=state[s.id]==='skipped';
       card.classList.toggle('is-done',done);card.classList.toggle('is-skipped',skip);card.classList.toggle('is-next',next?.id===s.id);
-      card.querySelector('.prep-set-status').textContent=done?'Done':skip?'Skipped':next?.id===s.id?'Next':'';
+      card.querySelector('.prep-set-status').textContent=done?'Completed':skip?'Skipped':next?.id===s.id?'Next':'';
       const b=card.querySelector('[data-done]');b.setAttribute('aria-pressed',String(done));card.querySelector('.classic-check').textContent=done?'✓':'';
       const sk=card.querySelector('[data-skip]');sk.textContent=skip?'Undo skip':'Skip set';sk.setAttribute('aria-pressed',String(skip));
     });
@@ -118,12 +142,35 @@ function attachCompletion(day) {
     if(nextLink){nextLink.hidden=!next;if(next)nextLink.href='#set-'+next.id;}
     const done=day.sets.filter(s=>state[s.id]==='done').length,skipped=day.sets.filter(s=>state[s.id]==='skipped').length;
     $('#completion').textContent=`${done} of ${day.sets.length} sets done${skipped?` · ${skipped} skipped`:''}${!next?' · Session reviewed':''}`;
+    const bulk=$('#complete-day');
+    if(bulk){
+      const allDone=done===day.sets.length;
+      $('#session-complete').classList.toggle('is-complete',allDone);
+      $('#session-complete-message').textContent=allDone
+        ? day.kind==='Race'?'Warm-up complete.':`All ${done} drills complete.`
+        : skipped?`${done} completed · ${skipped} skipped`:'Finished your session?';
+      bulk.textContent=bulkUndo&&allDone?'Undo mark all':allDone?day.kind==='Race'?'Warm-up complete':'All drills complete':day.kind==='Race'?'Mark warm-up complete':'Mark all drills complete';
+      bulk.disabled=allDone&&!bulkUndo;
+    }
   }
   document.querySelectorAll('[data-done],[data-skip]').forEach(b=>b.onclick=()=>{
     const id=b.dataset.done||b.dataset.skip, value=b.dataset.done?'done':'skipped';
     if(state[id]===value)delete state[id];else state[id]=value;
+    bulkUndo=null;
     save('session:'+day.id,state);paint();
   });paint();
+  const bulk=$('#complete-day');
+  if(bulk)bulk.onclick=()=>{
+    if(bulkUndo){
+      for(const key of Object.keys(state))delete state[key];
+      Object.assign(state,bulkUndo);
+      bulkUndo=null;
+    }else{
+      bulkUndo={...state};
+      day.sets.forEach(set=>state[set.id]='done');
+    }
+    save('session:'+day.id,state);paint();
+  };
 }
 function attachSetControls(day){
   document.querySelectorAll('[data-effort]').forEach(b=>b.onclick=()=>SwimNavigation.openDialog($('#effort-dialog'),b));
@@ -166,7 +213,7 @@ function attachRecord(event){
 function race(){
   const event=params.get('event')==='50'?50:params.get('event')==='100'?100:today>'2026-10-12'?100:50;
   const day=days.find(d=>d.event===event);activeDay=day;
-  main.innerHTML=intro('Race preparation','25 m short course · freestyle')+`<nav class="prep-event-tabs" aria-label="Choose race"><a href="race.html?event=50" ${event===50?'aria-current="page"':''}>50 m <small>Mon Oct 12</small></a><a href="race.html?event=100" ${event===100?'aria-current="page"':''}>100 m <small>Tue Oct 13</small></a></nav><nav class="prep-quick-links" aria-label="Race sections"><a data-jump href="#warm-up">Warm-up</a><a data-jump href="#race-cues">Race cues</a><a data-jump href="#race-result">Results</a></nav><p class="prep-focus">${esc(day.focus)}</p><details class="prep-details prep-logistics"><summary id="reporting-summary">Reporting time · ${esc(read('race:'+event).reporting||'not set')}</summary><label>Reporting time <input id="reporting-time" type="time" value="${esc(read('race:'+event).reporting||'')}"></label><p class="prep-hint">Enter the official time when known.</p><p id="reporting-status" role="status"></p></details><section class="prep-section" id="warm-up"><h2>Warm-up</h2><p class="prep-distance">${esc(day.distanceLabel)}</p><p class="prep-note">${esc(day.note)}</p><button class="text-button" data-effort>Effort guide</button><p id="completion" class="prep-progress" role="status"></p>${day.sets.map((s,i)=>setCard(s,i,day)).join('')}</section><section class="prep-section" id="race-cues"><h2>Your ${event} m race</h2><div class="prep-race-cues">${day.raceCues.map(([label,text])=>`<article><h3>${esc(label)}</h3><p>${esc(text)}</p></article>`).join('')}</div></section>${day.after?`<section class="prep-panel"><h2>After the 50</h2><p>${esc(day.after)}</p></section>`:''}<section class="prep-panel" id="race-result"><h2>Official result</h2><label>Final ${event} m time<input id="official-result" type="text" inputmode="decimal" placeholder="Seconds or m:ss.xx" value="${esc(read('race:'+event).result||'')}" aria-describedby="official-status"></label><p id="official-status" role="status"></p><p class="prep-hint">Optional · saved on this device</p></section><details class="prep-details" id="rehearsal-results"><summary>Rehearsal results · Oct 1 & 2</summary>${recordForm(50)}${recordForm(100)}<button class="button secondary" id="copy-results">Copy results</button><p id="copy-status" role="status"></p><textarea id="copy-fallback" hidden readonly aria-label="Results to copy"></textarea></details>${techniqueDetails()}<details class="prep-details"><summary>Full race-day instructions</summary><pre>${esc(day.source)}</pre></details>`;
+  main.innerHTML=intro('Race preparation','25 m short course · freestyle')+`<nav class="prep-event-tabs" aria-label="Choose race"><a href="race.html?event=50" ${event===50?'aria-current="page"':''}>50 m <small>Mon Oct 12</small></a><a href="race.html?event=100" ${event===100?'aria-current="page"':''}>100 m <small>Tue Oct 13</small></a></nav><nav class="prep-quick-links" aria-label="Race sections"><a data-jump href="#warm-up">Warm-up</a><a data-jump href="#race-cues">Race cues</a><a data-jump href="#race-result">Results</a></nav><p class="prep-focus">${esc(day.focus)}</p><details class="prep-details prep-logistics"><summary id="reporting-summary">Reporting time · ${esc(read('race:'+event).reporting||'not set')}</summary><label>Reporting time <input id="reporting-time" type="time" value="${esc(read('race:'+event).reporting||'')}"></label><p class="prep-hint">Enter the official time when known.</p><p id="reporting-status" role="status"></p></details><section class="prep-section" id="warm-up"><h2>Warm-up</h2><p class="prep-distance">${esc(day.distanceLabel)}</p><p class="prep-note">${esc(day.note)}</p><button class="text-button" data-effort>Effort guide</button><p id="completion" class="prep-progress" role="status"></p>${day.sets.map((s,i)=>setCard(s,i,day)).join('')}<div class="session-complete" id="session-complete" aria-label="Warm-up completion"><p id="session-complete-message">Finished warming up?</p><button class="button" id="complete-day" type="button">Mark warm-up complete</button></div></section><section class="prep-section" id="race-cues"><h2>Your ${event} m race</h2><div class="prep-race-cues">${day.raceCues.map(([label,text])=>`<article><h3>${esc(label)}</h3><p>${esc(text)}</p></article>`).join('')}</div></section>${day.after?`<section class="prep-panel"><h2>After the 50</h2><p>${esc(day.after)}</p></section>`:''}<section class="prep-panel" id="race-result"><h2>Official result</h2><label>Final ${event} m time<input id="official-result" type="text" inputmode="decimal" placeholder="Seconds or m:ss.xx" value="${esc(read('race:'+event).result||'')}" aria-describedby="official-status"></label><p id="official-status" role="status"></p><p class="prep-hint">Optional · saved on this device</p></section><details class="prep-details" id="rehearsal-results"><summary>Rehearsal results · Oct 1 & 2</summary>${recordForm(50)}${recordForm(100)}<button class="button secondary" id="copy-results">Copy results</button><p id="copy-status" role="status"></p><textarea id="copy-fallback" hidden readonly aria-label="Results to copy"></textarea></details>${techniqueDetails()}<details class="prep-details"><summary>Full race-day instructions</summary><pre>${esc(day.source)}</pre></details>`;
   attachCompletion(day);attachSetControls(day);attachRecord(50);attachRecord(100);
   const raceState=read('race:'+event);
   $('#reporting-time').oninput=e=>{raceState.reporting=e.target.value;$('#reporting-summary').textContent='Reporting time · '+(e.target.value||'not set');$('#reporting-status').textContent=save('race:'+event,raceState)?'Saved on this device.':'Not saved. Change the time to retry.';};

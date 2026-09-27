@@ -35,6 +35,7 @@ def run():
           page.goto(base)
           assert page.locator('.nav-link').all_inner_texts()==['Today','Plan','Race']
           assert '100 m speed endurance' in page.locator('.prep-hero').inner_text()
+          assert page.locator('.prep-hero.is-today').evaluate('(e) => parseFloat(getComputedStyle(e).borderTopWidth)')>=2
           page.get_by_role('link',name='Open session').click()
           assert '1,000 m' in page.locator('.page-intro').inner_text()
           assert page.locator('.prep-set').count()==6
@@ -45,11 +46,19 @@ def run():
           page.wait_for_function("!document.querySelector('#effort-dialog').open")
           assert page.locator('[data-done][aria-pressed=true]').count()==0
           page.locator('[data-done]').first.click()
+          assert 'Completed' in page.locator('#set-s1 .classic-set-footer').inner_text()
+          assert page.locator('#set-s1').evaluate('(e) => getComputedStyle(e).backgroundColor')!=page.locator('#set-s3').evaluate('(e) => getComputedStyle(e).backgroundColor')
           page.locator('[data-skip]').nth(1).click()
           page.reload()
           assert '1 of 6 sets done · 1 skipped' in page.locator('#completion').inner_text()
           page.locator('[data-done]').first.click()
           assert page.locator('[data-done][aria-pressed=true]').count()==0
+          page.locator('#complete-day').click()
+          assert page.locator('[data-done][aria-pressed=true]').count()==6
+          assert page.locator('#session-complete-message').inner_text()=='All 6 drills complete.'
+          page.get_by_role('button',name='Undo mark all').click()
+          assert page.locator('[data-done][aria-pressed=true]').count()==0
+          assert page.locator('[data-skip][aria-pressed=true]').count()==1
           # One independent footer timer, no main menu or per-card timer controls.
           assert page.locator('#navigation').is_hidden()
           assert page.locator('[data-timer-set]').count()==0
@@ -69,6 +78,7 @@ def run():
           tuesday=page.locator('#day-2026-09-29')
           assert 'Monday 28 Sep' in monday.inner_text()
           assert 'Tuesday 29 Sep' in tuesday.inner_text()
+          assert monday.evaluate('(e) => parseFloat(getComputedStyle(e).borderTopWidth)')>=2
           first,second=monday.bounding_box(),tuesday.bounding_box()
           if width==390:
             assert second['y']-first['y']-first['height']>=10
@@ -96,6 +106,10 @@ def run():
           assert abs(page.evaluate('scrollY')-y)<5
           page.goto(base+'session.html?id=2026-09-27')
           assert 'Pace: Comfortable, steady' in page.locator('#set-s3').inner_text()
+          page.goto(base+'session.html?id=2026-09-28')
+          assert 'Pace: Controlled, not all-out' in page.locator('#set-s2').inner_text()
+          assert 'Keep this same catch in the faster sets later.' in page.locator('#set-s2').inner_text()
+          page.goto(base+'session.html?id=2026-09-27')
           page.locator('#timer-dock').click()
           page.locator('[data-duration="30"]').click()
           page.locator('#timer-toggle').click();page.clock.fast_forward(31000)
@@ -132,6 +146,10 @@ def run():
           page.locator('[name=p75]').fill('59')
           page.goto(base+'race.html?event=50')
           assert '500 m + optional 50–100 m' in page.locator('main').inner_text()
+          page.locator('#complete-day').click()
+          assert page.locator('#session-complete-message').inner_text()=='Warm-up complete.'
+          page.get_by_role('button',name='Undo mark all').click()
+          assert page.locator('[data-done][aria-pressed=true]').count()==0
           page.get_by_role('link',name='Race cues',exact=True).click()
           assert page.locator('#race-cues').evaluate('(e) => e.getBoundingClientRect().top') < 100
           page.get_by_role('link',name='Results',exact=True).click()

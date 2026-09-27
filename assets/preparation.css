@@ -131,3 +131,27 @@ body[data-page="session"] .prep-note { margin: 7px 0 13px; font-size: 14px; }
   body[data-page="session"] .prep-focus { font-size: 16px; }
   .classic-set-toggle { padding: 13px 14px; }
 }
+
+/* Clear current-day and completion states at a glance. */
+.prep-hero.is-today { border: 2px solid var(--amber); box-shadow: 0 0 0 3px #ffb22424; }
+.prep-day.is-today,
+.prep-timeline .prep-day.is-today:last-child { border: 2px solid var(--amber); background: #42371d; box-shadow: 0 0 0 2px #ffb22421; }
+.prep-day.is-today .prep-day-date,
+.prep-day.is-today .prep-day-bottom { color: #f7dfb1; }
+.classic-set.is-done { border: 2px solid var(--green); border-left-width: 5px; background: #103d38; }
+.classic-set.is-done .classic-set-toggle:hover { background: #ffffff08; }
+.classic-set.is-done .classic-check { background: var(--green); border-color: var(--green); color: #062733; font-size: 18px; font-weight: 800; }
+.classic-set.is-done .classic-set-footer .prep-set-status { color: var(--green); background: #65ddb024; border-radius: 99px; padding: 3px 10px; font-size: 12px; font-weight: 750; }
+.classic-set.is-skipped { border-color: #9e915c; border-style: dashed; }
+.classic-set.is-skipped .classic-set-footer .prep-set-status { color: #eac985; }
+.session-complete { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 16px 0 24px; padding: 16px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface); }
+.session-complete p { font-size: 14px; font-weight: 650; }
+.session-complete .button { flex-shrink: 0; }
+.session-complete.is-complete { border-color: var(--green); background: #103d38; }
+.session-complete.is-complete p { color: var(--green); }
+.session-complete.is-complete .button:disabled { opacity: 1; background: var(--green); color: #062733; }
+@media (max-width: 760px) {
+  .classic-check { width: 27px; height: 27px; }
+  .session-complete { flex-direction: column; align-items: stretch; }
+  .session-complete .button { width: 100%; }
+}
