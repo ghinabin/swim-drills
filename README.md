@@ -13,7 +13,9 @@ There are no application dependencies or build steps.
 - **Plan:** all 18 dates, including Saturday rest days and both races.
 - **Race:** event-specific warm-up, race cues, reporting time, results, and rehearsal records.
 - **Session:** exact ordered sets, tap-to-complete cards, skip controls, source instructions,
-  and one shared footer timer with presets and custom seconds. Day views use a
+  a shortcut to the next unfinished set, and one shared footer timer with direct
+  start/pause, presets, and custom seconds. Bulk completion preserves skipped sets
+  and provides undo. Day views use a
   top back link instead of the main navigation. September 30 has no stopwatch controls.
 
 Checks, skipped sets, rehearsal entries, race details, and rest timers are saved

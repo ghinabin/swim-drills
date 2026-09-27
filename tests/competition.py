@@ -54,11 +54,16 @@ def run():
           page.locator('[data-done]').first.click()
           assert page.locator('[data-done][aria-pressed=true]').count()==0
           page.locator('#complete-day').click()
-          assert page.locator('[data-done][aria-pressed=true]').count()==6
-          assert page.locator('#session-complete-message').inner_text()=='All 6 drills complete.'
+          assert page.locator('[data-done][aria-pressed=true]').count()==5
+          assert page.locator('[data-skip][aria-pressed=true]').count()==1
+          assert page.locator('#session-complete-message').inner_text()=='5 completed · 1 skipped'
+          assert page.locator('#next-set').is_hidden()
           page.get_by_role('button',name='Undo mark all').click()
           assert page.locator('[data-done][aria-pressed=true]').count()==0
           assert page.locator('[data-skip][aria-pressed=true]').count()==1
+          assert page.locator('#next-set').get_attribute('href')=='#set-s1'
+          page.locator('#next-set').click()
+          assert page.locator('#set-s1').evaluate('(e) => e.getBoundingClientRect().top')<80
           # One independent footer timer, no main menu or per-card timer controls.
           assert page.locator('#navigation').is_hidden()
           assert page.locator('[data-timer-set]').count()==0
@@ -99,6 +104,14 @@ def run():
           page.wait_for_function("!document.querySelector('#rest-dialog').open")
           page.reload()
           assert page.locator('#timer-preview').inner_text()=='1:15'
+          page.get_by_role('button',name='Start rest timer',exact=True).click()
+          page.clock.fast_forward(5000)
+          assert page.locator('#timer-preview').inner_text()=='1:10'
+          assert not page.locator('#rest-dialog').is_visible()
+          page.get_by_role('button',name='Pause rest timer',exact=True).click()
+          page.clock.fast_forward(5000)
+          assert page.locator('#timer-preview').inner_text()=='1:10'
+          assert page.get_by_role('button',name='Resume rest timer',exact=True).is_visible()
           page.goto(base+'plan.html')
           link=page.locator('#day-2026-10-08');link.scroll_into_view_if_needed()
           y=page.evaluate('scrollY');link.click();page.locator('[data-return]').click()
@@ -194,7 +207,7 @@ def run():
             m.goto(base+route)
             assert m.evaluate('document.documentElement.scrollWidth <= innerWidth'), (width,route)
           m.goto(base+'session.html?id=2026-09-28')
-          for control in m.locator('[data-done],[data-skip],#timer-dock').all():
+          for control in m.locator('[data-done],[data-skip],#timer-dock,#timer-quick-toggle,#next-set').all():
             assert control.bounding_box()['height'] >= 48
           assert m.locator('#navigation').is_hidden()
           assert abs(m.locator('#timer-footer').bounding_box()['y']+m.locator('#timer-footer').bounding_box()['height']-844)<2

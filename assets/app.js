@@ -2,6 +2,7 @@
 'use strict';
 const $ = selector => document.querySelector(selector);
 const main = $('#main');
+const icon = name => `<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${({back:'M19 12H5m6-6-6 6 6 6',forward:'m9 5 7 7-7 7',down:'M12 5v14m-6-6 6 6 6-6',download:'M12 3v12m-5-5 5 5 5-5M5 16v5h14v-5'})[name]}"/></svg>`;
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const localDate = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 const today = localDate(new Date());
@@ -48,25 +49,25 @@ function row(day) {
   const status=day.kind==='Race'
     ? progress.finished?'Warm-up reviewed':progress.started?`${progress.done} of ${day.sets.length} warm-up sets done`:''
     : progress.finished?(progress.skipped?'Reviewed':'Complete'):progress.started?`${progress.done} of ${day.sets.length} sets done`:'';
-  return `<a class="prep-day ${day.date===today?'is-today':''} ${day.kind==='Rest'?'is-rest':''}" id="day-${day.id}" href="${resumeHref(day,progress)}" ${day.date===today?'aria-current="date"':''}><span class="prep-day-date">${esc(fullDate(day.date))}${day.date===today?'<span class="prep-day-today">Today</span>':''}</span><strong class="prep-day-title">${esc(day.title)}</strong><span class="prep-day-bottom"><span>${esc(distance(day))} · ${esc(kind)}${status?' · '+esc(status):''}</span><span class="prep-day-arrow" aria-hidden="true">→</span></span></a>`;
+  return `<a class="prep-day ${day.date===today?'is-today':''} ${day.kind==='Rest'?'is-rest':''}" id="day-${day.id}" href="${resumeHref(day,progress)}" ${day.date===today?'aria-current="date"':''}><span class="prep-day-date">${esc(fullDate(day.date))}${day.date===today?'<span class="prep-day-today">Today</span>':''}</span><strong class="prep-day-title">${esc(day.title)}</strong><span class="prep-day-bottom"><span>${esc(distance(day))} · ${esc(kind)}${status?' · '+esc(status):''}</span><span class="prep-day-arrow">${icon('forward')}</span></span></a>`;
 }
 function overview() {
   if (!nextDay) {
-    main.innerHTML=intro('Preparation complete','September 26 – October 13, 2026')+'<section class="prep-panel"><h2>Your race block is complete.</h2><p>Your plan and saved results are still here.</p><a class="button" href="race.html">View results</a><a class="text-link" href="plan.html">View plan →</a></section>';
+    main.innerHTML=intro('Preparation complete','September 26 – October 13, 2026')+`<section class="prep-panel"><h2>Your race block is complete.</h2><p>Your plan and saved results are still here.</p><a class="button" href="race.html">View results</a><a class="text-link" href="plan.html">View plan ${icon('forward')}</a></section>`;
     return;
   }
-  const d=nextDay, {started,finished}=sessionProgress(d);
-  main.innerHTML=intro('Today','50 + 100 m freestyle · 25 m pool')+`<section class="prep-hero ${d.date===today?'is-today':''}"><div class="eyebrow">${d.date===today?esc(formatDate(d.date)):'Plan starts '+esc(formatDate(d.date))}</div><h2>${esc(d.title)}</h2><p class="prep-distance">${esc(distance(d))}</p><p>${esc(d.focus)}</p><a class="button" href="${d.kind==='Rest'?'plan.html':resumeHref(d)}">${d.kind==='Rest'?'View plan':d.kind==='Race'?'Open race preparation':finished?'Review session':started?'Resume session':'Open session'} <span aria-hidden="true">→</span></a></section>`;
+  const d=nextDay, {started,finished,done,skipped}=sessionProgress(d);
+  main.innerHTML=intro('Today','50 + 100 m freestyle · 25 m pool')+`<section class="prep-hero ${d.date===today?'is-today':''}"><div class="eyebrow">${d.date===today?esc(formatDate(d.date)):'Plan starts '+esc(formatDate(d.date))}</div><h2>${esc(d.title)}</h2><p class="prep-distance">${esc(distance(d))}</p><p>${esc(d.focus)}</p>${started?`<p class="hero-progress">${done} of ${d.sets.length} sets done${skipped?` · ${skipped} skipped`:''}</p>`:''}<a class="button" href="${d.kind==='Rest'?'plan.html':resumeHref(d)}">${d.kind==='Rest'?'View plan':d.kind==='Race'?'Open race preparation':finished?'Review session':started?'Resume session':'Open session'} ${icon('forward')}</a></section>`;
   const next=days[days.indexOf(d)+1];
   if(next) main.innerHTML+=`<section class="prep-section"><h2>Coming next</h2>${row(next)}</section>`;
   const race=days.find(x=>x.kind==='Race'&&x.date>=today);
-  if(race&&d.kind!=='Race') main.innerHTML+=`<a class="prep-race-link" href="${href(race)}">${race.event} m freestyle · ${esc(formatDate(race.date))} <span aria-hidden="true">→</span></a>`;
+  if(race&&d.kind!=='Race') main.innerHTML+=`<a class="prep-race-link" href="${href(race)}">${race.event} m freestyle · ${esc(formatDate(race.date))} ${icon('forward')}</a>`;
 }
 function plan() {
-  main.innerHTML=intro('Your plan','26 September – 13 October 2026 · 25 m pool')+`<a class="prep-find-day" data-jump href="#day-${(nextDay||days.at(-1)).id}">${nextDay?(nextDay.date===today?'Find today':'Find next day'):'Find races'} ↓</a>`;
+  main.innerHTML=intro('Your plan','26 September – 13 October 2026 · 25 m pool')+`<a class="prep-find-day" data-jump href="#day-${(nextDay||days.at(-1)).id}">${nextDay?(nextDay.date===today?'Find today':'Find next day'):'Find races'} ${icon('down')}</a>`;
   const weeks=[['26–27 September',days.slice(0,2)],['28 September – 4 October',days.slice(2,9)],['5–11 October',days.slice(9,16)],['Competition',days.slice(16)]];
   main.innerHTML+=weeks.map(([label,list])=>`<section class="prep-section"><h2>${label}</h2><div class="prep-timeline">${list.map(row).join('')}</div></section>`).join('');
-  main.innerHTML+=`<details class="prep-details"><summary>Pool & schedule details</summary><p>25 m short-course pool · freestyle. Full rest day: Saturday only.</p><p>Normal training window: 7:30–9:00/9:30 AM. Race reporting times follow the meet schedule.</p><a class="text-link" href="SWIMMING-PLAN.md" download>Download full supplied plan →</a></details>`;
+  main.innerHTML+=`<details class="prep-details"><summary>Pool & schedule details</summary><p>25 m short-course pool · freestyle. Full rest day: Saturday only.</p><p>Normal training window: 7:30–9:00/9:30 AM. Race reporting times follow the meet schedule.</p><a class="text-link" href="SWIMMING-PLAN.md" download>Download full supplied plan ${icon('download')}</a></details>`;
 }
 function techniqueDetails(){return `<details class="prep-details"><summary>Technique reminders</summary>${PREPARATION.techniques.map(([title,text])=>`<h3>${esc(title)}</h3><p>${esc(text)}</p>`).join('')}<p>Use normal practised racing breathing. No breath-hold test or hyperventilation.</p></details>`;}
 function setName(set) {
@@ -118,10 +119,10 @@ function session() {
   const d=activeDay;
   if(d.kind==='Race'){location.replace(href(d));return;}
   document.title=d.title+' · Lane 50';
-  $('.site-header').innerHTML=`<a class="prep-back" data-return href="${esc(SwimNavigation.returnURL())}">← ${esc(SwimNavigation.returnLabel())}</a><span class="classic-session-date">${esc(formatDate(d.date))}</span>`;
+  $('.site-header').innerHTML=`<a class="prep-back" data-return href="${esc(SwimNavigation.returnURL())}">${icon('back')}<span>${esc(SwimNavigation.returnLabel())}</span></a><span class="classic-session-date">${esc(formatDate(d.date))}</span>`;
   main.innerHTML=intro(d.title,formatDate(d.date)+' · '+distance(d)+(d.kind==='Rest'?'':' · 25 m pool'));
   if(d.kind==='Rest') {main.innerHTML+=`<section class="prep-panel"><p>${esc(d.focus)}</p></section>`;return;}
-  main.innerHTML+=`<p class="prep-focus">${esc(d.focus)}</p>${d.note?`<p class="prep-note">${esc(d.note)}</p>`:''}${d.record?`<a class="text-link" data-jump href="#record-${d.record}">Record rehearsal ↓</a>`:''}<p class="completion-help">Tap a set to mark it done. Tap again to undo.</p><div class="classic-session-tools"><p id="completion" class="prep-progress" role="status"></p><button class="text-button" data-effort>Effort guide</button></div><div class="prep-sets">${d.sets.map((s,i)=>setCard(s,i,d)).join('')}</div><section class="session-complete" id="session-complete" aria-label="Day completion"><p id="session-complete-message">Finished your session?</p><button class="button" id="complete-day" type="button">Mark all drills complete</button></section>${d.record?recordForm(d.record):''}<details class="prep-details"><summary>Full instructions · ${esc(formatDate(d.date))}</summary><pre>${esc(d.source)}</pre></details>${techniqueDetails()}`;
+  main.innerHTML+=`<p class="prep-focus">${esc(d.focus)}</p>${d.note?`<p class="prep-note">${esc(d.note)}</p>`:''}${d.record?`<a class="text-link" data-jump href="#record-${d.record}">Record rehearsal ${icon('down')}</a>`:''}<p class="completion-help">Tap a set to mark it done. Tap again to undo.</p><div class="classic-session-tools"><div class="session-progress"><p id="completion" class="prep-progress" role="status"></p><a id="next-set" class="text-link" data-jump hidden>Next unfinished set ${icon('down')}</a></div><button class="text-button" data-effort>Effort guide</button></div><div class="prep-sets">${d.sets.map((s,i)=>setCard(s,i,d)).join('')}</div><section class="session-complete" id="session-complete" aria-label="Day completion"><p id="session-complete-message">Finished your session?</p><button class="button" id="complete-day" type="button">Mark all drills complete</button></section>${d.record?recordForm(d.record):''}<details class="prep-details"><summary>Full instructions · ${esc(formatDate(d.date))}</summary><pre>${esc(d.source)}</pre></details>${techniqueDetails()}`;
   attachCompletion(d);
   attachSetControls(d);
   if(d.record) attachRecord(d.record);
@@ -144,13 +145,13 @@ function attachCompletion(day) {
     $('#completion').textContent=`${done} of ${day.sets.length} sets done${skipped?` · ${skipped} skipped`:''}${!next?' · Session reviewed':''}`;
     const bulk=$('#complete-day');
     if(bulk){
-      const allDone=done===day.sets.length;
+      const allDone=done===day.sets.length, reviewed=done+skipped===day.sets.length;
       $('#session-complete').classList.toggle('is-complete',allDone);
       $('#session-complete-message').textContent=allDone
         ? day.kind==='Race'?'Warm-up complete.':`All ${done} drills complete.`
-        : skipped?`${done} completed · ${skipped} skipped`:'Finished your session?';
-      bulk.textContent=bulkUndo&&allDone?'Undo mark all':allDone?day.kind==='Race'?'Warm-up complete':'All drills complete':day.kind==='Race'?'Mark warm-up complete':'Mark all drills complete';
-      bulk.disabled=allDone&&!bulkUndo;
+        : skipped?`${done} completed · ${skipped} skipped`:day.kind==='Race'?'Finished warming up?':'Finished your session?';
+      bulk.textContent=bulkUndo&&reviewed?'Undo mark all':reviewed?allDone?(day.kind==='Race'?'Warm-up complete':'All drills complete'):'Session reviewed':skipped?'Complete remaining drills':day.kind==='Race'?'Mark warm-up complete':'Mark all drills complete';
+      bulk.disabled=reviewed&&!bulkUndo;
     }
   }
   document.querySelectorAll('[data-done],[data-skip]').forEach(b=>b.onclick=()=>{
@@ -167,7 +168,7 @@ function attachCompletion(day) {
       bulkUndo=null;
     }else{
       bulkUndo={...state};
-      day.sets.forEach(set=>state[set.id]='done');
+      day.sets.forEach(set=>{if(state[set.id]!=='skipped')state[set.id]='done';});
     }
     save('session:'+day.id,state);paint();
   };
@@ -245,7 +246,7 @@ delete timer.day;delete timer.context;delete timer.prescription;
 function timeLabel(n){return `${Math.floor(n/60)}:${String(n%60).padStart(2,'0')}`;}
 function remaining(){return timer?.deadline?Math.max(0,Math.ceil((timer.deadline-Date.now())/1000)):timer?.remaining ?? timer?.duration ?? 0;}
 function timerShell(){
-  document.body.insertAdjacentHTML('beforeend',`<dialog id="effort-dialog" class="prep-dialog" aria-labelledby="effort-heading"><div class="prep-dialog-head"><h2 id="effort-heading">Effort guide</h2><button class="text-button" data-close-dialog aria-label="Close effort guide">Close</button></div>${Object.entries(PREPARATION.efforts).map(([k,v])=>`<p><strong>${esc(k)}</strong><br>${esc(v)}</p>`).join('')}</dialog><dialog id="rest-dialog" class="prep-dialog" aria-labelledby="rest-heading"><div class="prep-dialog-head"><h2 id="rest-heading">Rest timer</h2><button class="text-button" data-close-dialog aria-label="Close rest timer">Close</button></div><p>Choose the rest shown in your session.</p><div class="prep-timer-options" id="timer-options"></div><form id="custom-rest"><label for="custom-rest-seconds">Custom rest · seconds</label><div><input id="custom-rest-seconds" type="number" inputmode="numeric" min="1" max="3600" step="1" required><button class="button secondary" type="submit">Set</button></div></form><p class="prep-clock" id="timer-clock" role="timer">0:00</p><div class="prep-controls"><button class="button" id="timer-toggle">Start</button><button class="button secondary" id="timer-reset">Reset</button></div><p id="timer-status" role="status"></p></dialog><footer class="classic-timer-footer" id="timer-footer" hidden><span class="classic-footer-label">Rest between repeats</span><button class="prep-timer-dock" id="timer-dock"><span>Rest timer<small id="timer-dock-state"></small></span><strong id="timer-preview"></strong></button></footer>`);
+  document.body.insertAdjacentHTML('beforeend',`<dialog id="effort-dialog" class="prep-dialog" aria-labelledby="effort-heading"><div class="prep-dialog-head"><h2 id="effort-heading">Effort guide</h2><button class="text-button" data-close-dialog aria-label="Close effort guide">Close</button></div>${Object.entries(PREPARATION.efforts).map(([k,v])=>`<p><strong>${esc(k)}</strong><br>${esc(v)}</p>`).join('')}</dialog><dialog id="rest-dialog" class="prep-dialog" aria-labelledby="rest-heading"><div class="prep-dialog-head"><h2 id="rest-heading">Rest timer</h2><button class="text-button" data-close-dialog aria-label="Close rest timer">Close</button></div><p>Choose the rest shown in your session.</p><div class="prep-timer-options" id="timer-options"></div><form id="custom-rest"><label for="custom-rest-seconds">Custom rest · seconds</label><div><input id="custom-rest-seconds" type="number" inputmode="numeric" min="1" max="3600" step="1" required><button class="button secondary" type="submit">Set</button></div></form><p class="prep-clock" id="timer-clock" role="timer">0:00</p><div class="prep-controls"><button class="button" id="timer-toggle">Start</button><button class="button secondary" id="timer-reset">Reset</button></div><p id="timer-status" role="status"></p></dialog><footer class="classic-timer-footer" id="timer-footer" hidden><button class="prep-timer-dock" id="timer-dock"><span>Rest timer<small id="timer-dock-state"></small></span><strong id="timer-preview"></strong>${icon('forward')}</button><button class="button" id="timer-quick-toggle" type="button" aria-label="Start rest timer">Start</button></footer>`);
   $('#timer-dock').onclick=()=>{paintTimer();SwimNavigation.openDialog($('#rest-dialog'),$('#timer-dock'));};
   $('#timer-toggle').onclick=()=>{
     if(!timer)return;
@@ -253,6 +254,7 @@ function timerShell(){
     else {timer.remaining=remaining()||timer.duration;timer.deadline=Date.now()+timer.remaining*1000;timer.status='Running';}
     save('timer',timer);paintTimer();
   };
+  $('#timer-quick-toggle').onclick=()=>$('#timer-toggle').click();
   $('#timer-reset').onclick=()=>{if(!timer)return;timer.deadline=null;timer.remaining=timer.duration;timer.status='Ready';save('timer',timer);paintTimer();};
   $('#custom-rest').onsubmit=e=>{e.preventDefault();const input=$('#custom-rest-seconds');if(!input.reportValidity())return;setTimerDuration(Number(input.value));};
   timerInterval=setInterval(paintTimer,250);document.addEventListener('visibilitychange',paintTimer);paintTimer();
@@ -274,6 +276,11 @@ function paintTimer(){
   $('#timer-clock').textContent=timeLabel(n);$('#timer-preview').textContent=timeLabel(n);
   $('#custom-rest-seconds').disabled=!!timer.deadline;$('#custom-rest button').disabled=!!timer.deadline;
   $('#timer-status').textContent=timer.status;$('#timer-dock-state').textContent=timer.status;$('#timer-toggle').textContent=timer.deadline?'Pause':timer.status==='Paused'?'Resume':'Start';
+  const quick=$('#timer-quick-toggle');
+  const action=timer.deadline?'Pause':timer.status==='Paused'?'Resume':timer.status==='Rest complete'?'Restart':'Start';
+  quick.textContent=action;quick.setAttribute('aria-label',action+' rest timer');
+  $('#timer-footer').classList.toggle('is-finished',timer.status==='Rest complete');
+  $('#timer-dock').setAttribute('aria-label','Adjust rest timer, '+timeLabel(n)+', '+timer.status);
   const signature=JSON.stringify([timer.options,timer.duration,!!timer.deadline]);
   if(signature!==optionsSignature){
     optionsSignature=signature;
