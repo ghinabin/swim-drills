@@ -65,6 +65,15 @@ def run():
           page.wait_for_function("!document.querySelector('#rest-dialog').open")
           page.goto(base+'plan.html')
           assert page.locator('.prep-day').count()==18
+          monday=page.locator('#day-2026-09-28')
+          tuesday=page.locator('#day-2026-09-29')
+          assert 'Monday 28 Sep' in monday.inner_text()
+          assert 'Tuesday 29 Sep' in tuesday.inner_text()
+          first,second=monday.bounding_box(),tuesday.bounding_box()
+          if width==390:
+            assert second['y']-first['y']-first['height']>=10
+          else:
+            assert second['x']-first['x']-first['width']>=10
           assert page.locator('#timer-footer').is_hidden()
           page.locator('#day-2026-09-28').click()
           page.locator('[data-done]').first.click()
@@ -86,6 +95,7 @@ def run():
           page.wait_for_url('**/plan.html');page.wait_for_timeout(150)
           assert abs(page.evaluate('scrollY')-y)<5
           page.goto(base+'session.html?id=2026-09-27')
+          assert 'Pace: Comfortable, steady' in page.locator('#set-s3').inner_text()
           page.locator('#timer-dock').click()
           page.locator('[data-duration="30"]').click()
           page.locator('#timer-toggle').click();page.clock.fast_forward(31000)

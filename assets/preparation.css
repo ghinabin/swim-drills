@@ -72,3 +72,62 @@ body[data-page="session"] .site-header .prep-back { margin:0; min-height:48px; }
  body[data-page="session"] .offline-status { padding-bottom:115px; }
 }
 @media print { .classic-timer-footer { display:none; } }
+
+/* Compact, independent date cards for the Plan and Coming next. */
+.prep-timeline {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+}
+.prep-day {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 7px;
+  min-width: 0;
+  min-height: 126px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  scroll-margin-top: 16px;
+}
+.prep-timeline .prep-day:last-child { border: 1px solid var(--line); }
+.prep-day:hover,
+.prep-day:focus-visible { border-color: var(--cyan); background: var(--raised); }
+.prep-day.is-today { border-color: var(--amber); box-shadow: none; }
+.prep-day.is-rest { background: #082833; }
+.prep-day-date { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 13px; font-weight: 600; }
+.prep-day-today { color: var(--amber); }
+.prep-day .prep-day-title { color: var(--text); font-size: 18px; line-height: 1.25; letter-spacing: -.02em; }
+.prep-day-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; color: var(--muted); font-size: 12px; line-height: 1.35; }
+.prep-day-arrow { display: grid; place-items: center; width: 28px; height: 28px; flex: 0 0 28px; border-radius: 50%; background: #79d5e015; color: var(--cyan); font-size: 17px; }
+.prep-day.is-today .prep-day-arrow { color: var(--amber); }
+.prep-find-day { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 10px 15px; border: 1px solid var(--line); border-radius: 10px; color: var(--cyan); font-size: 13px; font-weight: 600; }
+
+/* Keep the earlier day interaction, with prescription, effort and rest easy to scan. */
+body[data-page="session"] .page-intro { margin-bottom: 16px; }
+body[data-page="session"] .prep-focus { margin-bottom: 7px; font-size: 17px; }
+body[data-page="session"] .prep-note { margin: 7px 0 13px; font-size: 14px; }
+.completion-help { margin-top: 12px; }
+.classic-set { margin-bottom: 10px; }
+.classic-set-toggle { padding: 15px 17px; }
+.classic-title { margin-bottom: 5px; font-size: 17px; }
+.classic-content .prep-prescription { font-size: 15px; line-height: 1.5; }
+.classic-content .prep-set-meta { display: flex; flex-wrap: wrap; gap: 5px 12px; margin: 7px 0 0; font-size: 12px; line-height: 1.4; }
+.classic-content .prep-set-meta > span { display: inline-block; }
+.classic-content .set-effort { color: var(--cyan); }
+.classic-content .set-rest { color: var(--amber); }
+.classic-content .prep-cue { margin-top: 7px; font-size: 13px; line-height: 1.5; }
+.classic-set-footer { min-height: 44px; }
+
+@media (max-width: 760px) {
+  .prep-timeline { grid-template-columns: 1fr; }
+  .prep-day { min-height: 114px; padding: 14px 16px; }
+  .prep-day .prep-day-title { font-size: 17px; }
+  body[data-page="session"] .prep-focus { font-size: 16px; }
+  .classic-set-toggle { padding: 13px 14px; }
+}

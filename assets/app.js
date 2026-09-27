@@ -25,6 +25,7 @@ function save(key, value) {
   catch (_) { toast('Not saved on this device. Keep this page open and try again.'); return false; }
 }
 const formatDate = key => new Date(key+'T12:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+const fullDate = key => new Date(key+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'});
 const href = day => day.kind==='Race' ? `race.html?event=${day.event}` : SwimNavigation.sessionURL(day.id);
 const distance = day => day.distanceLabel || `${day.total.toLocaleString()} m`;
 const nextDay = days.find(d=>d.date>=today);
@@ -42,7 +43,12 @@ function resumeHref(day, progress=sessionProgress(day)) {
   return href(day)+(day.kind!=='Race'&&progress.started&&!progress.finished&&next?'#set-'+next.id:'');
 }
 function row(day) {
-  return `<a class="prep-day ${day.date===today?'is-today':''}" id="day-${day.id}" href="${resumeHref(day)}"><span class="prep-date">${esc(formatDate(day.date))}${day.date===today?'<small>Today</small>':''}</span><span><strong>${esc(day.title)}</strong><small>${esc(distance(day))}${day.kind!=='Swim'?' · '+esc(day.kind):''}</small></span><span aria-hidden="true">→</span></a>`;
+  const progress=sessionProgress(day);
+  const kind=day.kind==='Swim'?'Training':day.kind;
+  const status=day.kind==='Race'
+    ? progress.finished?'Warm-up reviewed':progress.started?`${progress.done} of ${day.sets.length} warm-up sets done`:''
+    : progress.finished?(progress.skipped?'Reviewed':'Complete'):progress.started?`${progress.done} of ${day.sets.length} sets done`:'';
+  return `<a class="prep-day ${day.date===today?'is-today':''} ${day.kind==='Rest'?'is-rest':''}" id="day-${day.id}" href="${resumeHref(day,progress)}"><span class="prep-day-date">${esc(fullDate(day.date))}${day.date===today?'<span class="prep-day-today">Today</span>':''}</span><strong class="prep-day-title">${esc(day.title)}</strong><span class="prep-day-bottom"><span>${esc(distance(day))} · ${esc(kind)}${status?' · '+esc(status):''}</span><span class="prep-day-arrow" aria-hidden="true">→</span></span></a>`;
 }
 function overview() {
   if (!nextDay) {
@@ -57,14 +63,30 @@ function overview() {
   if(race&&d.kind!=='Race') main.innerHTML+=`<a class="prep-race-link" href="${href(race)}">${race.event} m freestyle · ${esc(formatDate(race.date))} <span aria-hidden="true">→</span></a>`;
 }
 function plan() {
-  main.innerHTML=intro('Your plan','26 September – 13 October 2026 · 25 m pool')+`<a class="text-link" data-jump href="#day-${(nextDay||days.at(-1)).id}">${nextDay?(nextDay.date===today?'Find today':'Find next day'):'Find races'} ↓</a>`;
+  main.innerHTML=intro('Your plan','26 September – 13 October 2026 · 25 m pool')+`<a class="prep-find-day" data-jump href="#day-${(nextDay||days.at(-1)).id}">${nextDay?(nextDay.date===today?'Find today':'Find next day'):'Find races'} ↓</a>`;
   const weeks=[['26–27 September',days.slice(0,2)],['28 September – 4 October',days.slice(2,9)],['5–11 October',days.slice(9,16)],['Competition',days.slice(16)]];
   main.innerHTML+=weeks.map(([label,list])=>`<section class="prep-section"><h2>${label}</h2><div class="prep-timeline">${list.map(row).join('')}</div></section>`).join('');
   main.innerHTML+=`<details class="prep-details"><summary>Pool & schedule details</summary><p>25 m short-course pool · freestyle. Full rest day: Saturday only.</p><p>Normal training window: 7:30–9:00/9:30 AM. Race reporting times follow the meet schedule.</p><a class="text-link" href="SWIMMING-PLAN.md" download>Download full supplied plan →</a></details>`;
 }
 function techniqueDetails(){return `<details class="prep-details"><summary>Technique reminders</summary>${PREPARATION.techniques.map(([title,text])=>`<h3>${esc(title)}</h3><p>${esc(text)}</p>`).join('')}<p>Use normal practised racing breathing. No breath-hold test or hyperventilation.</p></details>`;}
+function setName(set) {
+  if(set.name==='Sprint set')return 'Fast + easy 25s';
+  if(set.name==='Easy swimming')return set.prescription.includes('50 m')?'Easy 50s':'Easy swim';
+  return set.name;
+}
+function setEffort(set) {
+  if(set.name==='Aerobic 50s')return 'Comfortable, steady';
+  return ({
+    EASY:'EASY (2–4/10)',
+    BUILD:'BUILD (gradually faster)',
+    RP100:'RP100 (100 m rhythm · 8–9/10)',
+    FAST:'FAST (9–10/10)',
+  })[set.effort] || set.effort;
+}
 function setCard(set,i,day) {
-  return `<article class="prep-set classic-set" id="set-${set.id}"><button class="classic-set-toggle" data-done="${set.id}" aria-pressed="false"><span class="classic-number">${String(i+1).padStart(2,'0')}</span><span class="classic-content"><span class="classic-title">${esc(set.name)}</span><span class="prep-prescription">${esc(set.prescription)}</span><span class="prep-set-meta">${set.optional?'Optional':set.prescription.includes('50–100')?'50–100 m':set.metres+' m total'}${set.effort?' · '+esc(set.effort):''}</span>${set.rest?`<span class="prep-rest"><strong>Rest:</strong> ${esc(set.rest)}</span>`:''}${set.cue?`<span class="prep-cue">${esc(set.cue)}</span>`:''}</span><span class="classic-check" aria-hidden="true"></span></button><div class="classic-set-footer"><span class="prep-set-status"></span><button class="text-button" data-skip="${set.id}" aria-pressed="false">Skip set</button></div></article>`;
+  const total=set.optional?'Optional':set.prescription.includes('50–100')?'50–100 m':set.metres+' m';
+  const effort=setEffort(set);
+  return `<article class="prep-set classic-set" id="set-${set.id}"><button class="classic-set-toggle" data-done="${set.id}" aria-pressed="false"><span class="classic-number">${String(i+1).padStart(2,'0')}</span><span class="classic-content"><span class="classic-title">${esc(setName(set))}</span><span class="prep-prescription">${esc(set.prescription)}</span><span class="prep-set-meta"><span class="set-distance">${esc(total)}</span>${effort?`<span class="set-effort">${set.name==='Aerobic 50s'?'Pace':'Effort'}: ${esc(effort)}</span>`:''}${set.rest?`<span class="set-rest">Rest: ${esc(set.rest)}</span>`:''}</span>${set.cue?`<span class="prep-cue">${esc(set.cue)}</span>`:''}</span><span class="classic-check" aria-hidden="true"></span></button><div class="classic-set-footer"><span class="prep-set-status"></span><button class="text-button" data-skip="${set.id}" aria-pressed="false">Skip set</button></div></article>`;
 }
 let activeDay;
 function session() {
