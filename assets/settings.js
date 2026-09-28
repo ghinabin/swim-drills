@@ -21,8 +21,10 @@
         continue;
       }
       const fields = {
-        'rehearsal:50':['p25','p50','stroke25','stroke50','turn','technique'],
+        'rehearsal:50':['p25','p50','turn','technique'],
+        'rehearsal:100':['p25','p50','p75','p100'],
         'race:50':['reporting','result','eventNumber','heat','lane'],
+        'race:100':['reporting','result','eventNumber','heat','lane'],
       }[key];
       if (!Array.isArray(fields)) throw new Error('This backup contains an unknown record.');
       for (const [field, text] of Object.entries(value)) {
@@ -30,8 +32,6 @@
           throw new Error('This backup contains an invalid field.');
         if (field === 'reporting' && text && !/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(text))
           throw new Error('A reporting time in this backup is invalid.');
-        if (['stroke25','stroke50'].includes(field) && text && !/^\d{1,3}$/.test(text))
-          throw new Error('A stroke count in this backup is invalid.');
         if (field === 'turn' && !['','Good','Average','Poor'].includes(text)) throw new Error('Invalid turn rating.');
         if (field === 'technique' && !['','Good','Breaking down'].includes(text)) throw new Error('Invalid technique rating.');
       }

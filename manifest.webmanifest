@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Lane 50 — Breaststroke preparation",
+  "name": "Lane 50 — Competition preparation",
   "short_name": "Lane 50",
-  "description": "Your breaststroke plan, poolside sets and 50 m race result.",
+  "description": "Your swimming plan, poolside sets and race results.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
