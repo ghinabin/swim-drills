@@ -53,64 +53,42 @@ function row(day) {
 }
 function overview() {
   if (!nextDay) {
-    main.innerHTML=intro('Plan ended','September 26 – October 13, 2026')+`<section class="prep-panel"><h2>Your race block has ended.</h2><p>Your plan and saved results are still here.</p><a class="button" href="race.html?view=results">View results</a><a class="text-link" href="plan.html">View plan ${icon('forward')}</a></section>`;
+    main.innerHTML=intro('Plan ended','29 September – 12 October 2026')+`<section class="prep-panel"><h2>Your breaststroke race block has ended.</h2><p>Your plan and saved result are still here.</p><a class="button" href="race.html?view=results">View result</a><a class="text-link" href="plan.html">View plan ${icon('forward')}</a></section>`;
     return;
   }
   const d=nextDay, {started,finished,done,skipped,total}=sessionProgress(d);
-  main.innerHTML=intro('Today','50 + 100 m freestyle · 25 m pool')+`<section class="prep-hero ${d.date===today?'is-today':''}"><div class="eyebrow">${d.date===today?esc(formatDate(d.date)):'Plan starts '+esc(formatDate(d.date))}</div><h2>${esc(d.title)}</h2><p class="prep-distance">${esc(distance(d))}</p><p>${esc(d.focus)}</p>${started?`<p class="hero-progress">${done} of ${total} sets done${skipped?` · ${skipped} skipped`:''}</p>`:''}<a class="button" href="${d.kind==='Rest'?'plan.html':resumeHref(d)}">${d.kind==='Rest'?'View plan':d.kind==='Race'?'Open race preparation':finished?'Review session':started?'Resume session':'Open session'} ${icon('forward')}</a></section>`;
+  main.innerHTML=intro('Today','50 m breaststroke · 25 m pool')+`<section class="prep-hero ${d.date===today?'is-today':''}"><div class="eyebrow">${d.date===today?esc(formatDate(d.date)):'Plan starts '+esc(formatDate(d.date))}</div><h2>${esc(d.title)}</h2><p class="prep-distance">${esc(distance(d))}</p><p>${esc(d.focus)}</p>${started?`<p class="hero-progress">${done} of ${total} sets done${skipped?` · ${skipped} skipped`:''}</p>`:''}<a class="button" href="${d.kind==='Rest'?'plan.html':resumeHref(d)}">${d.kind==='Rest'?'View plan':d.kind==='Race'?'Open race preparation':finished?'Review session':started?'Resume session':'Open session'} ${icon('forward')}</a></section>`;
   const next=days[days.indexOf(d)+1];
   if(next) main.innerHTML+=`<section class="prep-section"><h2>Coming next</h2>${row(next)}</section>`;
   const race=days.find(x=>x.kind==='Race'&&x.date>=today);
-  if(race&&d.kind!=='Race') main.innerHTML+=`<a class="prep-race-link" href="${href(race)}">${race.event} m freestyle · ${esc(formatDate(race.date))} ${icon('forward')}</a>`;
+  if(race&&d.kind!=='Race') main.innerHTML+=`<a class="prep-race-link" href="${href(race)}">${race.event} m breaststroke · ${esc(formatDate(race.date))} ${icon('forward')}</a>`;
 }
 function plan() {
-  main.innerHTML=intro('Your plan','26 September – 13 October 2026 · 25 m pool')+`<a class="prep-find-day" data-jump href="#day-${(nextDay||days.at(-1)).id}">${nextDay?(nextDay.date===today?'Find today':'Find next day'):'Find races'} ${icon('down')}</a>`;
-  const weeks=[['26–27 September',days.slice(0,2)],['28 September – 4 October',days.slice(2,9)],['5–11 October',days.slice(9,16)],['Competition',days.slice(16)]];
+  main.innerHTML=intro('Your breaststroke plan','29 September – 12 October 2026 · 25 m pool')+`<a class="prep-find-day" data-jump href="#day-${(nextDay||days.at(-1)).id}">${nextDay?(nextDay.date===today?'Find today':'Find next day'):'Find race'} ${icon('down')}</a>`;
+  const weeks=[['29 September – 5 October',days.slice(0,7)],['6–11 October',days.slice(7,13)],['Competition',days.slice(13)]];
   main.innerHTML+=weeks.map(([label,list])=>`<section class="prep-section"><h2>${label}</h2><div class="prep-timeline">${list.map(row).join('')}</div></section>`).join('');
-  main.innerHTML+=`<details class="prep-details"><summary>Pool & schedule details</summary><p>25 m short-course pool · freestyle. Full rest day: Saturday only.</p><p>Normal training window: 7:30–9:00/9:30 AM. Race reporting times follow the meet schedule.</p><a class="text-link" href="SWIMMING-PLAN.md" download>Download full supplied plan ${icon('download')}</a></details>`;
+  main.innerHTML+=`<details class="prep-details"><summary>Training rules & safety</summary><p>25 m short-course pool · breaststroke. Saturday is the only full rest day.</p><p>Normal training window: 07:30–09:30. Race-day timing follows the meet schedule.</p>${PREPARATION.guidance.map(text=>`<p>${esc(text)}</p>`).join('')}<a class="text-link" href="BREASTSTROKE-PLAN.md" download>Download full breaststroke plan ${icon('download')}</a></details>`;
 }
-function techniqueDetails(){return `<details class="prep-details"><summary>Technique reminders</summary>${PREPARATION.techniques.map(([title,text])=>`<h3>${esc(title)}</h3><p>${esc(text)}</p>`).join('')}<p>Use normal practised racing breathing. No breath-hold test or hyperventilation.</p></details>`;}
+function techniqueDetails(){return `<details class="prep-details"><summary>Breaststroke technique reminders</summary>${PREPARATION.techniques.map(([title,text])=>`<h3>${esc(title)}</h3><p>${esc(text)}</p>`).join('')}<p>No breath-hold sets, hyperventilation, underwater targets, or forced kick counts.</p></details>`;}
 function setName(set) {
   if(set.name==='Sprint set')return 'Fast + easy 25s';
   if(set.name==='Easy swimming')return set.prescription.includes('50 m')?'Easy 50s':'Easy swim';
   return set.name;
 }
 function setEffort(set,day) {
-  if(set.name==='Warm-up' && set.prescription.includes('BUILD'))return 'Easy, then BUILD';
-  if(set.name==='Aerobic 50s')return 'Comfortable, steady';
-  if(set.name==='Technique')return 'Controlled, not all-out';
-  if(set.name==='Kick')return 'Controlled';
-  if(set.name==='Turn set')return 'Controlled';
-  if(set.name==='Turn preparation' && day.id==='2026-10-01')return 'Easy except at the wall';
-  if(set.name==='Turn preparation')return 'Controlled';
-  if(set.name==='Turns' && day.id==='2026-10-04')return 'Easy; focus on turns';
-  if(set.name==='Turns')return 'Controlled-fast into turn; controlled out';
-  if(set.name==='Start work')return 'Familiar start; easy recovery';
-  if(set.name==='Starts')return 'Easy swimming after start';
   return ({
     EASY:'EASY (2–4/10)',
-    BUILD:'BUILD (gradually faster)',
-    RP100:'RP100 (100 m rhythm · 8–9/10)',
-    FAST:'FAST (9–10/10)',
-    'FAST / EASY':'FAST (9–10/10), then EASY',
-    'Approximately RP100':'About 100 m race rhythm (8–9/10)',
-    '~90–95%':'Strong (~90–95%), not all-out',
-    'RACE 50':'Very fast race effort',
-    'QUICK ~85–90% / EASY':'QUICK (~85–90%), then EASY',
-    'QUICK / EASY':'QUICK (brisk, controlled), then EASY',
-    QUICK:'QUICK (brisk, controlled)',
+    CONTROLLED:'CONTROLLED (5–7/10)',
+    QUICK:'QUICK (8/10)',
+    'RACE PACE':'RACE PACE (9/10)',
+    MAX:'MAX (10/10)',
   })[set.effort] || set.effort;
 }
-function setCue(set,day) {
-  if(set.name==='Technique' && day.id==='2026-09-28')
-    return 'Keep this same catch in the faster sets later.';
-  return set.cue;
-}
+function setCue(set) { return set.cue; }
 function setCard(set,i,day) {
   const total=set.optional?'Optional':set.prescription.includes('50–100')?'50–100 m':set.metres+' m';
   const effort=setEffort(set,day), cue=setCue(set,day);
-  const paceNames=['Aerobic 50s','Technique','Kick','Turn set','Turn preparation','Turns','Starts','Start work'];
-  return `<article class="prep-set classic-set" id="set-${set.id}"><button class="classic-set-toggle" data-done="${set.id}" aria-pressed="false"><span class="classic-number">${String(i+1).padStart(2,'0')}</span><span class="classic-content"><span class="classic-title">${esc(setName(set))}</span><span class="prep-prescription">${esc(set.prescription)}</span><span class="prep-set-meta"><span class="set-distance">${esc(total)}</span>${effort?`<span class="set-effort">${paceNames.includes(set.name)?'Pace':'Effort'}: ${esc(effort)}</span>`:''}${set.rest?`<span class="set-rest">Rest: ${esc(set.rest)}</span>`:''}</span>${cue?`<span class="prep-cue">${esc(cue)}</span>`:''}</span><span class="classic-check" aria-hidden="true"></span></button><div class="classic-set-footer"><span class="prep-set-status"></span>${!day.noTimer&&set.timers?.length?`<button class="text-button set-rest-choice" data-rest-choice="${set.id}" aria-label="Choose rest for ${esc(setName(set))}">Use this rest</button>`:''}<button class="text-button" data-skip="${set.id}" aria-pressed="false">Skip set</button></div></article>`;
+  return `<article class="prep-set classic-set" id="set-${set.id}"><button class="classic-set-toggle" data-done="${set.id}" aria-pressed="false"><span class="classic-number">${String(i+1).padStart(2,'0')}</span><span class="classic-content"><span class="classic-title">${esc(setName(set))}</span><span class="prep-prescription">${esc(set.prescription)}</span><span class="prep-set-meta"><span class="set-distance">${esc(total)}</span>${effort?`<span class="set-effort">Effort: ${esc(effort)}</span>`:''}${set.rest?`<span class="set-rest">Rest: ${esc(set.rest)}</span>`:''}</span>${cue?`<span class="prep-cue">${esc(cue)}</span>`:''}</span><span class="classic-check" aria-hidden="true"></span></button><div class="classic-set-footer"><span class="prep-set-status"></span>${!day.noTimer&&set.timers?.length?`<button class="text-button set-rest-choice" data-rest-choice="${set.id}" aria-label="Choose rest for ${esc(setName(set))}">Use this rest</button>`:''}<button class="text-button" data-skip="${set.id}" aria-pressed="false">Skip set</button></div></article>`;
 }
 let activeDay;
 function session() {
@@ -195,7 +173,8 @@ function attachSetControls(day){
 }
 function recordForm(event) {
   const stored=read('rehearsal:'+event),fields=event===50?[['p25','First 25 m'],['p50','Total 50 m']]:[['p25','At 25 m'],['p50','At 50 m'],['p75','At 75 m'],['p100','At 100 m']];
-  return `<section class="prep-panel prep-record" id="record-${event}"><h2>${event} m rehearsal</h2><p>${event===50?'October 1 · record one timed swim.':'October 2 · elapsed times from the start, not individual length times.'}</p><p class="prep-hint">Auto-saved on this device · seconds or m:ss.xx. Final time alone is enough.</p><form data-record="${event}" novalidate><div class="prep-form-grid">${fields.map(([key,label])=>`<label>${label}<input name="${key}" inputmode="decimal" type="text" autocomplete="off" maxlength="24" placeholder="${key==='p100'?'1:20.50':'20.50'}" value="${esc(stored[key]||'')}" aria-describedby="error-${event}-${key}"><span class="field-error" id="error-${event}-${key}"></span></label>`).join('')}${event===50?selectField('turn','Turn',['Good','Average','Poor'],stored.turn)+selectField('technique','Technique in last 15 m',['Good','Breaking down'],stored.technique):''}</div><p class="prep-form-message" id="record-message-${event}" role="status"></p><p class="prep-derived" id="derived-${event}"></p></form></section>`;
+  const counts=event===50?`<label>First 25 stroke count<input name="stroke25" inputmode="numeric" type="text" autocomplete="off" maxlength="3" value="${esc(stored.stroke25||'')}" aria-describedby="error-${event}-stroke25"><span class="field-error" id="error-${event}-stroke25"></span></label><label>Second 25 stroke count<input name="stroke50" inputmode="numeric" type="text" autocomplete="off" maxlength="3" value="${esc(stored.stroke50||'')}" aria-describedby="error-${event}-stroke50"><span class="field-error" id="error-${event}-stroke50"></span></label>`:'';
+  return `<section class="prep-panel prep-record" id="record-${event}"><h2>${event} m breaststroke test</h2><p>5 October · record the single maximal 50.</p><p class="prep-hint">Auto-saved on this device · seconds or m:ss.xx. Total time alone is enough.</p><form data-record="${event}" novalidate><div class="prep-form-grid">${fields.map(([key,label])=>`<label>${label}<input name="${key}" inputmode="decimal" type="text" autocomplete="off" maxlength="24" placeholder="20.50" value="${esc(stored[key]||'')}" aria-describedby="error-${event}-${key}"><span class="field-error" id="error-${event}-${key}"></span></label>`).join('')}${counts}${selectField('turn','Turn',['Good','Average','Poor'],stored.turn)+selectField('technique','Technique in last 15 m',['Good','Breaking down'],stored.technique)}</div><p class="prep-form-message" id="record-message-${event}" role="status"></p><p class="prep-derived" id="derived-${event}"></p></form></section>`;
 }
 function selectField(name,label,options,value){return `<label>${label}<select name="${name}"><option value="">Not recorded</option>${options.map(o=>`<option ${value===o?'selected':''}>${o}</option>`).join('')}</select></label>`;}
 function seconds(value){
@@ -214,6 +193,7 @@ function analyseRecord(record,event){
     const before=i===0?0:values[i-1];
     if(Number.isFinite(n)&&before!==null&&Number.isFinite(before)&&n>before)derived.push(`${i*25}–${(i+1)*25} m: ${(n-before).toFixed(2)} s`);
   });
+  for(const key of ['stroke25','stroke50'])if(record[key]&&!/^\d{1,3}$/.test(record[key].trim()))errors[key]='Enter a whole-number stroke count.';
   const error=Object.values(errors)[0]||'';
   return {error,errors,text:error?'':derived.join(' · '),hasTime:values.some(n=>n!==null),complete:!error&&Number.isFinite(values.at(-1))};
 }
@@ -235,16 +215,16 @@ function attachRecord(event){
   document.addEventListener('lane:storage',()=>{if(!LaneStorage.unsaved)update();});update();
 }
 function resultText() {
-  return 'Lane 50 · 25 m pool · September 26–October 13, 2026\n\n'+[50,100].map(event=>{
+  return 'Lane 50 · 50 m breaststroke · 25 m pool · 29 September–12 October 2026\n\n'+[50].map(event=>{
     const official=read('race:'+event), rehearsal=read('rehearsal:'+event), analysis=analyseRecord(rehearsal,event);
     const n=seconds(official.result);
     const final=n===null?'Not recorded':Number.isFinite(n)?official.result+' ('+n.toFixed(2)+' s)':'Draft — needs correction';
-    const fields=Object.entries(rehearsal).filter(([key,value])=>value&&['p25','p50','p75','p100','turn','technique'].includes(key));
-    return `${event} m freestyle · ${event===50?'Oct 12':'Oct 13'}\nOfficial result: ${final}\nRehearsal · ${event===50?'Oct 1':'Oct 2'}: ${analysis.error?'Draft — needs correction':analysis.complete?'Recorded':'Draft / not recorded'}${!analysis.error?'\n'+fields.map(([key,value])=>`${key.startsWith('p')?'Elapsed at '+key.slice(1)+' m':key}: ${value}`).join('\n'):''}${analysis.text?'\nLengths: '+analysis.text:''}`;
+    const fields=Object.entries(rehearsal).filter(([key,value])=>value&&['p25','p50','stroke25','stroke50','turn','technique'].includes(key));
+    return `${event} m breaststroke · Oct 12\nOfficial result: ${final}\nMax test · Oct 5: ${analysis.error?'Draft — needs correction':analysis.complete?'Recorded':'Draft / not recorded'}${!analysis.error?'\n'+fields.map(([key,value])=>`${key.startsWith('p')?'Elapsed at '+key.slice(1)+' m':key==='stroke25'?'First 25 stroke count':key==='stroke50'?'Second 25 stroke count':key}: ${value}`).join('\n'):''}${analysis.text?'\nLengths: '+analysis.text:''}`;
   }).join('\n\n');
 }
 function copyControls() {
-  return '<button class="button secondary" id="copy-results">Copy all results</button><p id="copy-status" role="status"></p><textarea id="copy-fallback" hidden readonly aria-label="Results to copy"></textarea>';
+  return '<button class="button secondary" id="copy-results">Copy result</button><p id="copy-status" role="status"></p><textarea id="copy-fallback" hidden readonly aria-label="Result to copy"></textarea>';
 }
 function attachCopyResults(){
   $('#copy-results').onclick=async()=>{
@@ -254,29 +234,29 @@ function attachCopyResults(){
   };
 }
 function resultsPage(){
-  main.innerHTML=intro('Your results','50 + 100 m freestyle · 25 m pool')+`<p class="prep-note">Official races and rehearsals have different conditions. These are your recorded times.</p><div class="results-grid">${[50,100].map(event=>{
+  main.innerHTML=intro('Your result','50 m breaststroke · 25 m pool')+`<p class="prep-note">The official race and maximal training test have different conditions.</p><div class="results-grid">${[50].map(event=>{
     const r=read('race:'+event),rehearsal=read('rehearsal:'+event),n=seconds(r.result),analysis=analyseRecord(rehearsal,event);
-    return `<section class="prep-panel result-card"><p class="eyebrow">${event===50?'Mon 12 Oct':'Tue 13 Oct'}</p><h2>${event} m freestyle</h2><p class="result-time">${n===null?'Not recorded':Number.isFinite(n)?esc(r.result)+' <small>'+(r.result.includes(':')?'min:sec':'sec')+'</small>':'Draft · needs correction'}</p><a class="text-link" href="race.html?event=${event}#race-result">${n===null?'Record':'Edit'} official time ${icon('forward')}</a><div class="result-rehearsal"><h3>Rehearsal · ${event===50?'Oct 1':'Oct 2'}</h3><p>${analysis.error?'Draft · needs correction':analysis.complete?esc(rehearsal['p'+event]):'No final time recorded'}</p>${analysis.text?`<p class="prep-hint">${esc(analysis.text)}</p>`:''}<a class="text-link" href="race.html?event=${event}#rehearsal-results">Rehearsal details ${icon('forward')}</a></div></section>`;
+    return `<section class="prep-panel result-card"><p class="eyebrow">Mon 12 Oct</p><h2>${event} m breaststroke</h2><p class="result-time">${n===null?'Not recorded':Number.isFinite(n)?esc(r.result)+' <small>'+(r.result.includes(':')?'min:sec':'sec')+'</small>':'Draft · needs correction'}</p><a class="text-link" href="race.html?event=${event}#race-result">${n===null?'Record':'Edit'} official time ${icon('forward')}</a><div class="result-rehearsal"><h3>Max test · Oct 5</h3><p>${analysis.error?'Draft · needs correction':analysis.complete?esc(rehearsal.p50):'No final time recorded'}</p>${analysis.text?`<p class="prep-hint">${esc(analysis.text)}</p>`:''}<a class="text-link" href="race.html?event=${event}#rehearsal-results">Test details ${icon('forward')}</a></div></section>`;
   }).join('')}</div><div class="results-actions">${copyControls()}<a class="text-link" href="race.html?event=50">Race preparation ${icon('forward')}</a></div>`;
   attachCopyResults();
 }
 function race(){
   if(params.get('view')==='results'){resultsPage();return;}
-  const event=params.get('event')==='50'?50:params.get('event')==='100'?100:today>'2026-10-12'?100:50;
+  const event=50;
   const day=days.find(d=>d.event===event);activeDay=day;
   const raceState=read('race:'+event);
-  main.innerHTML=intro('Race preparation','25 m short course · freestyle')+`
-    <nav class="prep-event-tabs" aria-label="Choose race"><a href="race.html?event=50" ${event===50?'aria-current="page"':''}>50 m <small>Mon Oct 12</small></a><a href="race.html?event=100" ${event===100?'aria-current="page"':''}>100 m <small>Tue Oct 13</small></a></nav>
+  main.innerHTML=intro('Race preparation','50 m breaststroke · 25 m short course')+`
+    <p class="eyebrow">Monday 12 October · Satdobato</p>
     <p class="prep-focus">${esc(day.focus)}</p>
     <a class="button warmup-action" id="start-warmup" data-jump href="#warm-up">Start warm-up ${icon('forward')}</a>
     <details class="prep-details prep-logistics"><summary id="reporting-summary">Reporting time · ${esc(raceState.reporting||'not set')}</summary><p class="prep-hint">Enter official details when known. All fields are optional.</p><div class="prep-form-grid"><label>Reporting time<input id="reporting-time" type="time" value="${esc(raceState.reporting||'')}"></label>${[['eventNumber','Event number'],['heat','Heat'],['lane','Lane']].map(([key,label])=>`<label>${label}<input data-logistics="${key}" type="text" maxlength="40" value="${esc(raceState[key]||'')}"></label>`).join('')}</div><p id="reporting-status" role="status"></p></details>
     <nav class="prep-quick-links" aria-label="Race sections"><a data-jump href="#warm-up">Warm-up</a><a data-jump href="#race-cues">Race cues</a><a data-jump href="#race-result">Results</a></nav>
     <section class="prep-section" id="warm-up"><h2>Warm-up</h2><p class="prep-distance">${esc(day.distanceLabel)}</p><p class="prep-note">${esc(day.note)}</p><div class="classic-session-tools"><p id="completion" class="prep-progress" role="status"></p><button class="text-button" data-effort>Effort guide</button></div>${day.sets.map((set,i)=>setCard(set,i,day)).join('')}<div class="session-complete" id="session-complete" aria-label="Warm-up completion"><p id="session-complete-message">Finished warming up?</p><button class="button" id="complete-day" type="button">Mark warm-up complete</button></div></section>
     <section class="prep-section" id="race-cues"><h2>Your ${event} m race</h2><div class="prep-race-cues">${day.raceCues.map(([label,text])=>`<article><h3>${esc(label)}</h3><p>${esc(text)}</p></article>`).join('')}</div></section>
-    ${day.after?`<section class="prep-panel"><h2>After the 50</h2><p>${esc(day.after)}</p></section>`:''}
-    <section class="prep-panel" id="race-result"><h2>Official result</h2><label>Final ${event} m time<input id="official-result" type="text" inputmode="decimal" maxlength="24" placeholder="Seconds or m:ss.xx" value="${esc(raceState.result||'')}" aria-describedby="official-status"></label><p id="official-status" role="status"></p><p class="prep-hint">Optional · auto-saved on this device</p><a class="text-link" href="race.html?view=results">View both race results ${icon('forward')}</a></section>
-    <details class="prep-details" id="rehearsal-results"><summary>Rehearsal results · Oct 1 & 2</summary>${recordForm(50)}${recordForm(100)}${copyControls()}</details>${techniqueDetails()}<details class="prep-details"><summary>Full race-day instructions</summary><pre>${esc(day.source)}</pre></details>`;
-  attachCompletion(day);attachSetControls(day);attachRecord(50);attachRecord(100);attachCopyResults();
+    ${day.after?`<section class="prep-panel"><h2>After the race</h2><p>${esc(day.after)}</p></section>`:''}
+    <section class="prep-panel" id="race-result"><h2>Official result</h2><label>Final ${event} m time<input id="official-result" type="text" inputmode="decimal" maxlength="24" placeholder="Seconds or m:ss.xx" value="${esc(raceState.result||'')}" aria-describedby="official-status"></label><p id="official-status" role="status"></p><p class="prep-hint">Optional · auto-saved on this device</p><a class="text-link" href="race.html?view=results">View race result ${icon('forward')}</a></section>
+    <details class="prep-details" id="rehearsal-results"><summary>Max-test result · Oct 5</summary>${recordForm(50)}${copyControls()}</details>${techniqueDetails()}<details class="prep-details"><summary>Full race-day instructions</summary><pre>${esc(day.source)}</pre></details>`;
+  attachCompletion(day);attachSetControls(day);attachRecord(50);attachCopyResults();
   function logistics(){
     raceState.reporting=$('#reporting-time').value;
     document.querySelectorAll('[data-logistics]').forEach(input=>raceState[input.dataset.logistics]=input.value);

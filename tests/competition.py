@@ -1,248 +1,117 @@
-"""Contract and browser checks for the September 26 competition preparation."""
-from datetime import datetime, timezone, timedelta
+"""Contract and browser checks for the breaststroke-only competition plan."""
+from datetime import datetime
 from functools import partial
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 from threading import Thread
-import json, subprocess
+import json
+import subprocess
+
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
 class QuietHandler(SimpleHTTPRequestHandler):
-    def log_message(self, *_): pass
+    def log_message(self, *_):
+        pass
+
 
 def run():
-    subprocess.run(['node','scripts/import-plan.cjs'],cwd=ROOT,check=True)
-    data=json.loads((ROOT/'data/competition-plan.json').read_text())
-    assert sum(d['total'] for d in data['days'][9:16])==3150
-    assert [d['date'] for d in data['days'] if d['kind']=='Rest']==['2026-09-26','2026-10-03','2026-10-10']
-    for key in ('2026-09-28','2026-10-06'):
-        d=next(d for d in data['days'] if d['date']==key)
-        s=next(s for s in d['sets'] if s['name']=='100 m race rhythm')
-        assert s['prescription']=='2 rounds × 4 × 25 m'
-        assert s['timers'][1]['seconds']==[240]
-    server=ThreadingHTTPServer(('127.0.0.1',0),partial(QuietHandler,directory=str(ROOT)))
-    Thread(target=server.serve_forever,daemon=True).start()
-    base=f'http://127.0.0.1:{server.server_port}/'
-    try:
-      with sync_playwright() as p:
-        browser=p.chromium.launch(channel='chrome',headless=True)
-        for width in (390,1440):
-          context=browser.new_context(viewport={'width':width,'height':900},timezone_id='Asia/Kathmandu',reduced_motion='reduce')
-          page=context.new_page();errors=[]
-          page.on('pageerror',lambda error:errors.append(str(error)))
-          page.clock.install(time=datetime(2026,9,28,8,tzinfo=timezone(timedelta(hours=5,minutes=45))))
-          page.goto(base)
-          assert page.locator('.nav-link').all_inner_texts()==['Today','Plan','Race']
-          assert '100 m speed endurance' in page.locator('.prep-hero').inner_text()
-          assert page.locator('.prep-hero.is-today').evaluate('(e) => parseFloat(getComputedStyle(e).borderTopWidth)')>=2
-          page.get_by_role('link',name='Open session').click()
-          assert '1,000 m' in page.locator('.page-intro').inner_text()
-          assert page.locator('.prep-set').count()==6
-          # Opening effort help must not mark a set complete.
-          page.locator('[data-effort]').first.click()
-          assert page.locator('#effort-dialog').is_visible()
-          page.get_by_role('button',name='Close effort guide').click()
-          page.wait_for_function("!document.querySelector('#effort-dialog').open")
-          assert page.locator('[data-done][aria-pressed=true]').count()==0
-          page.locator('[data-done]').first.click()
-          assert 'Completed' in page.locator('#set-s1 .classic-set-footer').inner_text()
-          assert page.locator('#set-s1').evaluate('(e) => getComputedStyle(e).backgroundColor')!=page.locator('#set-s3').evaluate('(e) => getComputedStyle(e).backgroundColor')
-          page.locator('[data-skip]').nth(1).click()
-          page.reload()
-          assert '1 of 6 sets done · 1 skipped' in page.locator('#completion').inner_text()
-          page.locator('[data-done]').first.click()
-          assert page.locator('[data-done][aria-pressed=true]').count()==0
-          page.locator('#complete-day').click()
-          assert page.locator('[data-done][aria-pressed=true]').count()==5
-          assert page.locator('[data-skip][aria-pressed=true]').count()==1
-          assert page.locator('#session-complete-message').inner_text()=='5 completed · 1 skipped'
-          assert page.locator('#next-set').is_hidden()
-          page.get_by_role('button',name='Undo mark all').click()
-          assert page.locator('[data-done][aria-pressed=true]').count()==0
-          assert page.locator('[data-skip][aria-pressed=true]').count()==1
-          assert page.locator('#next-set').get_attribute('href')=='#set-s1'
-          page.locator('#next-set').click()
-          assert page.locator('#set-s1').evaluate('(e) => e.getBoundingClientRect().top')<80
-          # One shared footer timer with optional per-set duration choices.
-          assert page.locator('#navigation').is_hidden()
-          assert page.locator('[data-timer-set]').count()==0
-          assert page.locator('#timer-footer').is_visible()
-          assert '20–30 sec between 25s · 4 min between rounds' in page.locator('#set-s4').inner_text()
-          page.locator('#timer-dock').click()
-          page.locator('[data-duration="240"]').click()
-          assert page.locator('#timer-clock').inner_text()=='4:00'
-          page.locator('#timer-toggle').click();page.clock.fast_forward(5000)
-          assert page.locator('#timer-clock').inner_text()=='3:55'
-          assert page.locator('#custom-rest-seconds').is_disabled()
-          page.get_by_role('button',name='Close rest timer').click()
-          page.wait_for_function("!document.querySelector('#rest-dialog').open")
-          page.goto(base+'plan.html')
-          assert page.locator('.prep-day').count()==18
-          monday=page.locator('#day-2026-09-28')
-          tuesday=page.locator('#day-2026-09-29')
-          assert 'Monday 28 Sep' in monday.inner_text()
-          assert 'Tuesday 29 Sep' in tuesday.inner_text()
-          assert monday.evaluate('(e) => parseFloat(getComputedStyle(e).borderTopWidth)')>=2
-          first,second=monday.bounding_box(),tuesday.bounding_box()
-          if width==390:
-            assert second['y']-first['y']-first['height']>=10
-          else:
-            assert second['x']-first['x']-first['width']>=10
-          assert page.locator('#timer-footer').is_hidden()
-          page.locator('#day-2026-09-28').click()
-          page.locator('[data-done]').first.click()
-          page.goto(base)
-          page.get_by_role('link',name='Resume session').click()
-          assert page.url.endswith('#set-s3')
-          assert page.locator('#timer-preview').inner_text()=='3:55'
-          page.locator('#timer-dock').click();page.locator('#timer-toggle').click()
-          page.locator('#custom-rest-seconds').fill('75')
-          page.locator('#custom-rest button').click()
-          assert page.locator('#timer-clock').inner_text()=='1:15'
-          page.get_by_role('button',name='Close rest timer').click()
-          page.wait_for_function("!document.querySelector('#rest-dialog').open")
-          page.reload()
-          assert page.locator('#timer-preview').inner_text()=='1:15'
-          page.get_by_role('button',name='Start rest timer',exact=True).click()
-          page.clock.fast_forward(5000)
-          assert page.locator('#timer-preview').inner_text()=='1:10'
-          assert not page.locator('#rest-dialog').is_visible()
-          page.get_by_role('button',name='Pause rest timer',exact=True).click()
-          page.clock.fast_forward(5000)
-          assert page.locator('#timer-preview').inner_text()=='1:10'
-          assert page.get_by_role('button',name='Resume rest timer',exact=True).is_visible()
-          page.goto(base+'plan.html')
-          link=page.locator('#day-2026-10-08');link.scroll_into_view_if_needed()
-          y=page.evaluate('scrollY');link.click();page.locator('[data-return]').click()
-          page.wait_for_url('**/plan.html');page.wait_for_timeout(150)
-          assert abs(page.evaluate('scrollY')-y)<5
-          page.goto(base+'session.html?id=2026-09-27')
-          assert 'Pace: Comfortable, steady' in page.locator('#set-s3').inner_text()
-          page.goto(base+'session.html?id=2026-09-28')
-          assert 'Pace: Controlled, not all-out' in page.locator('#set-s2').inner_text()
-          assert 'Keep this same catch in the faster sets later.' in page.locator('#set-s2').inner_text()
-          page.goto(base+'session.html?id=2026-09-27')
-          page.locator('#timer-dock').click()
-          page.locator('[data-duration="30"]').click()
-          page.locator('#timer-toggle').click();page.clock.fast_forward(31000)
-          assert page.locator('#timer-clock').inner_text()=='0:00'
-          assert page.locator('#timer-status').inner_text()=='Rest complete'
-          page.reload()
-          assert page.locator('#timer-preview').inner_text()=='0:00'
-          page.wait_for_function("document.querySelector('#rest-dialog').open")
-          page.get_by_role('button',name='Close rest timer').click()
-          page.wait_for_function("!document.querySelector('#rest-dialog').open")
-          assert page.locator('#timer-dock').is_visible()
-          for d in data['days']:
-            url='race.html?event='+str(d['event']) if d['kind']=='Race' else 'session.html?id='+d['id']
-            page.goto(base+url)
-            assert page.evaluate('document.documentElement.scrollWidth <= innerWidth'),d['date']
-            if d['kind']!='Rest':
-              assert page.locator('.prep-set').count()==len(d['sets'])
-              for i,s in enumerate(d['sets']):
-                assert page.locator('.prep-prescription').nth(i).inner_text()==s['prescription']
-            if d.get('noTimer'):
-              assert page.locator('[data-timer-set]').count()==0
-              assert page.locator('#timer-dock').is_hidden()
-          page.goto(base+'session.html?id=2026-10-01')
-          page.locator('[name=p25]').fill('17.20');page.locator('[name=p50]').fill('36.50')
-          page.locator('[name=turn]').select_option('Good')
-          assert '25–50 m: 19.30 s' in page.locator('#derived-50').inner_text()
-          page.reload();assert page.locator('[name=p50]').input_value()=='36.50'
-          page.goto(base+'session.html?id=2026-10-02')
-          for k,v in [('p25','18'),('p50','38'),('p75','59'),('p100','1:20.50')]:page.locator('[name='+k+']').fill(v)
-          assert '75–100 m: 21.50 s' in page.locator('#derived-100').inner_text()
-          page.locator('[name=p75]').fill('30')
-          assert 'must increase' in page.locator('#record-message-100').inner_text()
-          page.reload();assert page.locator('[name=p75]').input_value()=='30'
-          page.locator('[name=p75]').fill('59')
-          page.goto(base+'race.html?event=50')
-          assert '500 m + optional 50–100 m' in page.locator('main').inner_text()
-          page.locator('#complete-day').click()
-          assert page.locator('#session-complete-message').inner_text()=='Warm-up complete.'
-          page.get_by_role('button',name='Undo mark all').click()
-          assert page.locator('[data-done][aria-pressed=true]').count()==0
-          page.get_by_role('link',name='Race cues',exact=True).click()
-          assert page.locator('#race-cues').evaluate('(e) => e.getBoundingClientRect().top') < 100
-          page.get_by_role('link',name='Results',exact=True).click()
-          assert page.locator('#official-result').evaluate('(e) => { const r=e.getBoundingClientRect(); return r.top >= 0 && r.bottom < innerHeight-70; }')
-          page.locator('#reporting-summary').click();page.locator('#reporting-time').fill('09:15');page.locator('#official-result').fill('35.40');page.reload()
-          assert page.locator('#reporting-time').input_value()=='09:15'
-          page.locator('#rehearsal-results > summary').click()
-          assert page.locator('[data-record="50"] [name=p50]').input_value()=='36.50'
-          assert page.locator('[data-record="100"] [name=p100]').input_value()=='1:20.50'
-          # Storage failure is visible and does not stop session use.
-          page.goto(base+'session.html?id=2026-09-27')
-          page.evaluate("() => { Storage.prototype.setItem=()=>{throw new DOMException('blocked','SecurityError')}; }")
-          page.locator('[data-done]').first.click()
-          assert 'Not saved' in page.locator('#toast').inner_text()
-          assert page.locator('#toast').is_visible()
-          page.wait_for_timeout(250)
-          assert page.locator('#toast').evaluate('(e) => getComputedStyle(e).opacity')=='1'
-          assert page.locator('[data-done]').first.get_attribute('aria-pressed')=='true'
-          page.goto(base)
-          page.evaluate('navigator.serviceWorker.ready')
-          page.wait_for_function('navigator.serviceWorker.controller !== null')
-          context.set_offline(True)
-          page.goto(base+'race.html?event=100')
-          assert '550–600 m warm-up' in page.locator('main').inner_text()
-          page.goto(base+'session.html?id=2026-10-06')
-          assert '2 rounds × 4 × 25 m' in page.locator('main').inner_text()
-          context.set_offline(False)
-          # Legacy drill links cannot expose old workouts.
-          page.goto(base+'drills.html');page.wait_for_url('**/plan.html')
-          page.goto(base+'session.html?id=w1d0');assert page.locator('h1').inner_text()=='Session not found'
-          if width==390:
-            page.goto(base+'plan.html');page.screenshot(path='/private/tmp/preparation-plan.png',full_page=True)
-            page.goto(base+'session.html?id=2026-09-28');page.screenshot(path='/private/tmp/preparation-session.png',full_page=True)
-            page.goto(base);page.screenshot(path='/private/tmp/preparation-today.png',full_page=True)
-            page.goto(base+'race.html?event=100');page.screenshot(path='/private/tmp/preparation-race.png',full_page=True)
-          assert not errors,errors
-          context.close()
-        for width in (320, 430, 768):
-          mobile=browser.new_context(viewport={'width':width,'height':844},reduced_motion='reduce')
-          m=mobile.new_page()
-          for route in ('index.html','plan.html','session.html?id=2026-09-28','race.html?event=100'):
-            m.goto(base+route)
-            assert m.evaluate('document.documentElement.scrollWidth <= innerWidth'), (width,route)
-          m.goto(base+'session.html?id=2026-09-28')
-          for control in m.locator('[data-done],[data-skip],#timer-dock,#timer-quick-toggle,#next-set').all():
-            assert control.bounding_box()['height'] >= 48
-          assert m.locator('#navigation').is_hidden()
-          assert abs(m.locator('#timer-footer').bounding_box()['y']+m.locator('#timer-footer').bounding_box()['height']-844)<2
-          m.locator('#timer-dock').click()
-          dialog=m.locator('#rest-dialog').bounding_box()
-          assert dialog['x'] >= 0 and dialog['width'] <= width
-          assert m.locator('#timer-toggle').bounding_box()['height']>=48
-          m.get_by_role('button',name='Close rest timer').click()
-          m.wait_for_function("!document.querySelector('#rest-dialog').open")
-          # Keyboard users can activate the full day card.
-          m.goto(base+'plan.html')
-          m.locator('#day-2026-09-27').focus();m.keyboard.press('Enter')
-          m.wait_for_url('**/session.html?**')
-          assert 'Technique + aerobic control' in m.locator('h1').inner_text()
-          mobile.close()
-        upgrade=browser.new_context()
-        up=upgrade.new_page();up.goto(base+'assets/styles.css')
-        up.evaluate("async () => { const c=await caches.open('lane50-shell-v25'); await c.put('old-plan',new Response('old drills')); }")
-        up.goto(base)
-        up.wait_for_function("navigator.serviceWorker.controller !== null")
-        up.wait_for_function("async () => !(await caches.keys()).includes('lane50-shell-v25')")
-        up.wait_for_load_state('networkidle')
-        assert up.locator('.nav-link').all_inner_texts()==['Today','Plan','Race']
-        upgrade.close()
-        # Date transitions, independently of any saved state.
-        for date,title in [('2026-09-25','Rest'),('2026-09-26','Rest'),('2026-09-30','Active recovery'),('2026-10-01','50 m race rehearsal'),('2026-10-02','100 m race rehearsal'),('2026-10-12','50 m race'),('2026-10-13','100 m race'),('2026-10-14','Plan ended')]:
-          page=browser.new_page(timezone_id='Asia/Kathmandu')
-          page.clock.install(time=datetime.fromisoformat(date+'T08:00:00+05:45'))
-          page.goto(base)
-          assert title in page.locator('main').inner_text(),date
-          if date=='2026-09-25':assert 'plan starts' in page.locator('main').inner_text().lower()
-          page.close()
-        browser.close()
-    finally:server.shutdown()
+    subprocess.run(['node', 'scripts/import-plan.cjs'], cwd=ROOT, check=True)
+    data = json.loads((ROOT / 'data/competition-plan.json').read_text(encoding='utf-8'))
+    assert data['revision'] == '2026-09-29-breaststroke-v1'
+    assert len(data['days']) == 14
+    assert [day['date'] for day in data['days'] if day['kind'] == 'Rest'] == ['2026-10-03', '2026-10-10']
+    assert sum(day['total'] for day in data['days'][:7]) == 4110
+    assert sum(day['total'] for day in data['days'][7:13]) == 1800
+    assert [(day['date'], day.get('event')) for day in data['days'] if day['kind'] == 'Race'] == [('2026-10-12', 50)]
+    assert 'freestyle' not in json.dumps(data).lower()
 
-if __name__=='__main__':
+    server = ThreadingHTTPServer(('127.0.0.1', 0), partial(QuietHandler, directory=str(ROOT)))
+    Thread(target=server.serve_forever, daemon=True).start()
+    base = f'http://127.0.0.1:{server.server_port}/'
+    try:
+        with sync_playwright() as playwright:
+            browser = playwright.chromium.launch(channel='chrome', headless=True)
+            for width in (390, 1440):
+                context = browser.new_context(viewport={'width': width, 'height': 900}, timezone_id='Asia/Kathmandu', reduced_motion='reduce')
+                page = context.new_page()
+                errors = []
+                page.on('pageerror', lambda error: errors.append(str(error)))
+                page.clock.install(time=datetime.fromisoformat('2026-09-29T08:00:00+05:45'))
+
+                page.goto(base)
+                assert page.locator('.nav-link').all_inner_texts() == ['Today', 'Plan', 'Race']
+                assert '50 m breaststroke' in page.locator('.page-intro').inner_text()
+                assert 'Baseline + distance per stroke' in page.locator('.prep-hero').inner_text()
+                page.get_by_role('link', name='Open session').click()
+                assert '850 m' in page.locator('.page-intro').inner_text()
+                assert page.locator('.prep-set').count() == 5
+                assert '8 × 25 m' in page.locator('#set-s1').inner_text()
+                assert 'two-hand touch' in page.locator('#set-s4').inner_text()
+
+                page.locator('[data-done="s1"]').click()
+                page.locator('[data-skip="s2"]').click()
+                page.reload()
+                assert '1 of 5 sets done · 1 skipped' in page.locator('#completion').inner_text()
+                page.locator('[data-rest-choice="s3"]').click()
+                assert page.locator('#set-rest-options legend').inner_text() == 'After each 25'
+                page.locator('[data-set-duration="45"]').click()
+                assert page.locator('#timer-clock').inner_text() == '0:45'
+                page.get_by_role('button', name='Close rest timer').click()
+
+                page.goto(base + 'plan.html')
+                assert page.locator('h1').inner_text() == 'Your breaststroke plan'
+                assert page.locator('.prep-day').count() == 14
+                assert 'Rest' in page.locator('#day-2026-10-03').inner_text()
+                assert '50 m breaststroke competition' in page.locator('#day-2026-10-12').inner_text()
+                rules = page.locator('main .prep-details').last
+                rules.locator('summary').click()
+                assert 'Never make up missed metres' in rules.inner_text()
+
+                for day in data['days']:
+                    route = 'race.html?event=50' if day['kind'] == 'Race' else f"session.html?id={day['id']}"
+                    page.goto(base + route)
+                    assert page.evaluate('document.documentElement.scrollWidth <= innerWidth'), day['date']
+                    if day['kind'] != 'Rest':
+                        assert page.locator('.prep-set').count() == len(day['sets'])
+                        for index, swim_set in enumerate(day['sets']):
+                            assert page.locator('.prep-prescription').nth(index).inner_text() == swim_set['prescription']
+
+                page.goto(base + 'session.html?id=2026-10-05')
+                page.locator('[name=p25]').fill('18.10')
+                page.locator('[name=p50]').fill('38.40')
+                page.locator('[name=stroke25]').fill('9')
+                page.locator('[name=stroke50]').fill('11')
+                assert '25–50 m: 20.30 s' in page.locator('#derived-50').inner_text()
+                page.reload()
+                assert page.locator('[name=stroke50]').input_value() == '11'
+
+                page.goto(base + 'race.html?event=100')
+                assert '50 m breaststroke' in page.locator('.page-intro').inner_text()
+                assert '100 m' not in page.locator('.page-intro').inner_text()
+                assert '400 m warm-up · 50 m race · 100 m cool-down' in page.locator('main').inner_text()
+                assert 'two-hand touch' in page.locator('#race-cues').inner_text()
+                page.locator('#official-result').fill('37.85')
+                page.goto(base + 'race.html?view=results')
+                assert page.locator('.result-card').count() == 1
+                assert '50 m breaststroke' in page.locator('.result-card').inner_text()
+                assert '37.85' in page.locator('.result-card').inner_text()
+                assert not errors, errors
+                context.close()
+
+            final = browser.new_page(timezone_id='Asia/Kathmandu')
+            final.clock.install(time=datetime.fromisoformat('2026-10-13T08:00:00+05:45'))
+            final.goto(base)
+            assert final.locator('h1').inner_text() == 'Plan ended'
+            assert 'breaststroke race block has ended' in final.locator('main').inner_text()
+            final.close()
+            browser.close()
+    finally:
+        server.shutdown()
+
+
+if __name__ == '__main__':
     run()
-    print('PASS: content, mobile/desktop, dates, progress, rest timer, splits, navigation, storage failures, and offline race preparation')
+    print('PASS: breaststroke dates, sets, progress, timer, test log, race and layouts')

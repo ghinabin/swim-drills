@@ -1,6 +1,6 @@
 /* Cache each release as one coherent app, including race-day preparation. */
-const CACHE = 'lane50-shell-v32-poolside';
-const FILES = ['./','index.html','plan.html','session.html','race.html','drills.html','progress.html','race-tools.html','preview.html','SWIMMING-PLAN.md','manifest.webmanifest','assets/icon-192.png','assets/icon-512.png','assets/styles.css','assets/preparation.css','assets/data.js','assets/navigation.js','assets/storage.js','assets/settings.js','assets/app.js','assets/offline.js'];
+const CACHE = 'lane50-shell-v33-breaststroke';
+const FILES = ['./','index.html','plan.html','session.html','race.html','drills.html','progress.html','race-tools.html','preview.html','BREASTSTROKE-PLAN.md','manifest.webmanifest','assets/icon-192.png','assets/icon-512.png','assets/styles.css','assets/preparation.css','assets/data.js','assets/navigation.js','assets/storage.js','assets/settings.js','assets/app.js','assets/offline.js'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES))));
 self.addEventListener('message', event => {
   if(event.data?.type === 'ACTIVATE_UPDATE')self.skipWaiting();

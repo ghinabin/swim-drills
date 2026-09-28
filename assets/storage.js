@@ -4,7 +4,7 @@
   const prefix = `lane50:${PREPARATION.revision}:`;
   const documentKey = prefix + 'records';
   const keys = [...PREPARATION.days.map(day => 'session:' + day.id),
-    'rehearsal:50', 'rehearsal:100', 'race:50', 'race:100', 'timer'];
+    'rehearsal:50', 'race:50', 'timer'];
   const clone = value => JSON.parse(JSON.stringify(value));
   let pending = {}, cached = {}, readError = false;
   function snapshot() {
