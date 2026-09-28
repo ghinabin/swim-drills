@@ -64,7 +64,7 @@ def run():
           assert page.locator('#next-set').get_attribute('href')=='#set-s1'
           page.locator('#next-set').click()
           assert page.locator('#set-s1').evaluate('(e) => e.getBoundingClientRect().top')<80
-          # One independent footer timer, no main menu or per-card timer controls.
+          # One shared footer timer with optional per-set duration choices.
           assert page.locator('#navigation').is_hidden()
           assert page.locator('[data-timer-set]').count()==0
           assert page.locator('#timer-footer').is_visible()
@@ -233,7 +233,7 @@ def run():
         assert up.locator('.nav-link').all_inner_texts()==['Today','Plan','Race']
         upgrade.close()
         # Date transitions, independently of any saved state.
-        for date,title in [('2026-09-25','Rest'),('2026-09-26','Rest'),('2026-09-30','Active recovery'),('2026-10-01','50 m race rehearsal'),('2026-10-02','100 m race rehearsal'),('2026-10-12','50 m race'),('2026-10-13','100 m race'),('2026-10-14','Preparation complete')]:
+        for date,title in [('2026-09-25','Rest'),('2026-09-26','Rest'),('2026-09-30','Active recovery'),('2026-10-01','50 m race rehearsal'),('2026-10-02','100 m race rehearsal'),('2026-10-12','50 m race'),('2026-10-13','100 m race'),('2026-10-14','Plan ended')]:
           page=browser.new_page(timezone_id='Asia/Kathmandu')
           page.clock.install(time=datetime.fromisoformat(date+'T08:00:00+05:45'))
           page.goto(base)

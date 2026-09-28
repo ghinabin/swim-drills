@@ -11,17 +11,31 @@ There are no application dependencies or build steps.
 
 - **Today:** current or next scheduled session, one focus, and resume action.
 - **Plan:** all 18 dates, including Saturday rest days and both races.
-- **Race:** event-specific warm-up, race cues, reporting time, results, and rehearsal records.
+- **Race:** event-specific warm-up, race cues, reporting time, optional event/heat/lane,
+  official results, rehearsal records, and a summary of both events.
 - **Session:** exact ordered sets, tap-to-complete cards, skip controls, source instructions,
-  a shortcut to the next unfinished set, and one shared footer timer with direct
-  start/pause, presets, and custom seconds. Bulk completion preserves skipped sets
-  and provides undo. Day views use a
+  a persistent shortcut to the next unfinished set, and one shared footer timer with
+  direct start/pause, prescribed rest choices, presets, and custom seconds. Choosing
+  a duration never starts the timer automatically. Bulk completion preserves skipped
+  and optional sets and provides undo. Day views use a
   top back link instead of the main navigation. September 30 has no stopwatch controls.
 
 Checks, skipped sets, rehearsal entries, race details, and rest timers are saved
 in this browser. They are not synchronised between devices. Storage failures
-are reported visibly. The app works offline after a successful initial load on
+leave a persistent warning with Retry; navigating away warns about unsaved changes.
+**Data & backup** exports progress, rehearsal drafts, official results, and race
+details as JSON. Restore previews the change, validates the plan revision and data,
+and saves matching records atomically; other records are preserved. The running
+timer is not exported. Earlier browser records are read automatically and remain
+preserved after migration to the current storage format.
+
+The app works offline after a successful initial load on
 HTTPS or localhost. Background timer alerts depend on browser/device support.
+Offline readiness is visible at the top of each screen. A web app manifest and icons
+support home-screen use; installation steps are in Data & backup. Availability varies
+by browser. Updates wait until the user chooses **Update app** or closes all app tabs,
+so an active session is not forcibly reloaded. For the first upgrade from the previous
+release, close all app tabs and reopen once to activate the new release.
 
 ## Source and updates
 
@@ -51,10 +65,13 @@ With Python Playwright and Google Chrome available, run:
 
 ```sh
 python3 tests/competition.py
+python3 tests/poolside.py
 ```
 
 The test validates all dates and set prescriptions, mobile/desktop rendering,
 completion and skip persistence, round rests and timer recovery, rehearsal split
 validation, reporting times, browser navigation, legacy URLs, storage errors,
-and offline sessions/race preparation. Earlier scripts in `tests` describe
-superseded app revisions; this is the current release check.
+and offline sessions/race preparation. The poolside suite additionally checks legacy
+record migration, persistent save failures and retry, contextual rests, optional work,
+field-level errors, result sharing, atomic backup/restore, and the new layouts.
+Earlier scripts in `tests` describe superseded app revisions.

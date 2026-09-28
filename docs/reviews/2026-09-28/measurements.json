@@ -1,0 +1,148 @@
+{
+  "today": {
+    "height": 952,
+    "viewport": 844,
+    "firstSet": null,
+    "fonts": [],
+    "offlineY": 815.984375
+  },
+  "plan": {
+    "height": 3028,
+    "viewport": 844,
+    "firstSet": null,
+    "fonts": [],
+    "offlineY": 2891.4375
+  },
+  "session": {
+    "height": 2392,
+    "viewport": 844,
+    "firstSet": 380.109375,
+    "fonts": [
+      {
+        "text": "6 \u00d7 25 m easy freestyle + 2 \u00d7 25 m backstroke/easy choice + 4 \u00d7 25 m BUILD",
+        "px": "15px"
+      },
+      {
+        "text": "Rest: 20\u201340 sec",
+        "px": "13px"
+      },
+      {
+        "text": "4 \u00d7 25 m",
+        "px": "15px"
+      }
+    ],
+    "offlineY": 2256.0625
+  },
+  "rehearsal": {
+    "height": 2831,
+    "viewport": 844,
+    "firstSet": 464.90625,
+    "fonts": [
+      {
+        "text": "150 m easy + 4 \u00d7 25 m BUILD",
+        "px": "15px"
+      },
+      {
+        "text": "4 \u00d7 25 m",
+        "px": "15px"
+      },
+      {
+        "text": "Smooth freestyle.",
+        "px": "14px"
+      }
+    ],
+    "offlineY": 2694.6875
+  },
+  "recovery": {
+    "height": 1706,
+    "viewport": 844,
+    "firstSet": 357.71875,
+    "fonts": [
+      {
+        "text": "200 m easy",
+        "px": "15px"
+      },
+      {
+        "text": "4 \u00d7 25 m",
+        "px": "15px"
+      },
+      {
+        "text": "Smooth freestyle.",
+        "px": "14px"
+      }
+    ],
+    "offlineY": 1569.484375
+  },
+  "rest": {
+    "height": 882,
+    "viewport": 844,
+    "firstSet": null,
+    "fonts": [],
+    "offlineY": 746
+  },
+  "race50": {
+    "height": 3576,
+    "viewport": 844,
+    "firstSet": 817.34375,
+    "fonts": [
+      {
+        "text": "200 m easy",
+        "px": "15px"
+      },
+      {
+        "text": "4 \u00d7 25 m",
+        "px": "15px"
+      },
+      {
+        "text": "Smooth technique.",
+        "px": "14px"
+      }
+    ],
+    "offlineY": 3439.390625
+  },
+  "race100": {
+    "height": 3189,
+    "viewport": 844,
+    "firstSet": 759.75,
+    "fonts": [
+      {
+        "text": "200 m easy",
+        "px": "15px"
+      },
+      {
+        "text": "4 \u00d7 25 m",
+        "px": "15px"
+      },
+      {
+        "text": "Smooth freestyle.",
+        "px": "14px"
+      }
+    ],
+    "offlineY": 3053.046875
+  },
+  "invalid_fields": 4,
+  "failed_save_after_6s": {
+    "completed": "true",
+    "toast_visible_class": "toast"
+  },
+  "today_landscape": {
+    "overflow": false
+  },
+  "plan_landscape": {
+    "overflow": false
+  },
+  "session_landscape": {
+    "overflow": false
+  },
+  "race50_landscape": {
+    "overflow": false
+  },
+  "race100_landscape": {
+    "overflow": false
+  },
+  "text200_overflow": false,
+  "post_results_destination": {
+    "url": "race.html",
+    "result_y": 2524.515625
+  }
+}

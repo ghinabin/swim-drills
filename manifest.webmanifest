@@ -1,0 +1,15 @@
+{
+  "id": "./",
+  "name": "Lane 50 — Competition preparation",
+  "short_name": "Lane 50",
+  "description": "Your swimming plan, poolside sets and race results.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#04202a",
+  "theme_color": "#04202a",
+  "icons": [
+    {"src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}

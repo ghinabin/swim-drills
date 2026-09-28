@@ -1,21 +1,29 @@
 (() => {
-  const status = document.createElement('p');
-  status.className = 'offline-status';
-  status.setAttribute('role', 'status');
-  document.querySelector('.layout').after(status);
-  let ready = false;
-  const paint = () => status.textContent = ready
-    ? (navigator.onLine ? 'Ready offline' : 'Offline')
-    : 'Preparing offline access…';
+  let ready = false, registration, updating = false;
+  const button = document.createElement('button');
+  button.className = 'text-button'; button.id = 'app-update';
+  button.textContent = 'Update app'; button.hidden = true;
+  document.querySelector('.app-status').append(button);
+  const message = text => document.querySelectorAll('[data-offline-status]').forEach(status=>status.textContent=text);
+  const paint = () => message(ready ? (navigator.onLine ? 'Ready offline' : 'Offline · ready') : 'Preparing offline…');
   paint();
   if (!('serviceWorker' in navigator) || !window.isSecureContext) {
-    status.textContent = 'Offline access requires HTTPS or localhost.';
+    message('Offline access requires HTTPS or localhost.');
     return;
   }
-  navigator.serviceWorker.register('sw.js').then(async registration => {
+  button.onclick = () => {
+    if (LaneStorage.unsaved) { toast('Save your changes or export a backup before updating.'); return; }
+    if (registration?.waiting) { updating = true; registration.waiting.postMessage({type:'ACTIVATE_UPDATE'}); }
+  };
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(updating)location.reload();});
+  navigator.serviceWorker.register('sw.js').then(async reg => {
+    registration = reg;
+    const checkUpdate = () => { button.hidden = !reg.waiting; };
+    checkUpdate();
+    reg.addEventListener('updatefound',()=>reg.installing?.addEventListener('statechange',checkUpdate));
     await navigator.serviceWorker.ready;
-    ready = true; paint();
+    ready = true; paint(); checkUpdate();
     window.addEventListener('online', () => { paint(); registration.update().catch(() => {}); });
-  }).catch(() => { status.textContent = 'Offline download unavailable. Reconnect and reload to retry.'; });
+  }).catch(() => message('Offline download unavailable. Reconnect and reload to retry.'));
   window.addEventListener('offline', paint);
 })();
