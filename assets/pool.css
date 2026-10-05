@@ -1,10 +1,121 @@
-/* Final taper: one part of the day at a time, large controls through a pouch. */
-.day-schedule{margin:28px 0}.day-schedule h2{font-size:18px;margin-bottom:12px}.day-phase-row{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:76px;padding:16px 4px;border-bottom:1px solid var(--line)}.day-phase-row span{display:grid;gap:6px}.day-phase-row small{color:var(--muted);line-height:1.5}.phase-off small{color:var(--muted)}.day-phase-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:16px 0 24px}.day-phase-nav a{display:grid;align-content:center;gap:4px;min-height:64px;border:1px solid var(--line);border-radius:10px;padding:12px;color:var(--muted);font-size:14px}.day-phase-nav a[aria-current]{color:var(--text);border:2px solid var(--amber);background:#42371d}.day-phase-nav small{font-size:12px}.phase-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}.optional-label{color:var(--cyan);font-size:13px;padding:6px 10px;border:1px solid var(--line);border-radius:8px}.phase-note{font-size:18px;line-height:1.6;color:var(--amber);margin:8px 0 20px}.phase-focus{font-size:17px;line-height:1.6;margin:12px 0}.preparation-list{list-style:none;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:0;margin:20px 0}.preparation-list li{padding:18px 20px;border-bottom:1px solid var(--line);font-size:19px;line-height:1.5}.preparation-list li:last-child{border-bottom:0}.pool-session-status{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 0}.pool-session-status p{font-size:14px;color:var(--muted)}.block-rest-note{font-size:15px;color:var(--muted);line-height:1.6;margin:12px 0 24px}.block-rest-note strong{color:var(--text)}.drill-group{margin:28px 0}.drill-group>h2{font-size:17px;letter-spacing:.04em;color:var(--cyan);margin:0 0 14px}.set-reading{padding:20px}.set-title-line{display:flex;align-items:center;gap:12px;margin-bottom:14px}.set-title-line h3{flex:1;font-size:17px}.set-title-line .prep-set-status{font-size:12px}.pool-prescription{font-size:24px;font-weight:700;line-height:1.45;color:var(--text);font-variant-numeric:tabular-nums}.pool-rest{font-size:19px;font-weight:650;color:var(--amber);line-height:1.5;margin-top:12px}.pool-effort{color:var(--cyan);font-size:16px;margin-top:10px}.pool-cue,.pool-condition{font-size:17px;line-height:1.6;margin-top:12px}.pool-condition{color:var(--amber)}.pool-set-actions{display:flex;align-items:center;gap:12px;padding:0 20px 20px}.pool-set-actions .button{min-height:60px;flex:1;gap:8px;padding:14px}.pool-set-actions .text-button{min-height:60px;padding:14px}.pool-set-actions .classic-check{display:none}.pool-set-actions .classic-check:not(:empty){display:inline-flex;width:24px;height:24px;min-width:24px}.classic-set.is-next{border-color:var(--amber);border-left-color:var(--amber)}.classic-set.is-done .pool-prescription{color:var(--green)}.classic-set.is-done [data-done]{background:#174b42;color:var(--green)}.classic-set.is-skipped .set-reading{opacity:.7}.classic-set{scroll-margin-top:20px}.volume-note{font-size:15px;line-height:1.6;border-left:3px solid var(--amber);padding:10px 14px;color:var(--text);margin:14px 0}.classic-timer-footer .footer-next{font-size:17px;line-height:1.45;min-height:56px}.classic-timer-footer .timer-row{gap:12px}.classic-timer-footer .timer-row>.button{min-height:60px;min-width:100px;font-size:18px}.classic-timer-footer .prep-timer-dock{min-height:60px}.classic-timer-footer .prep-timer-dock strong{font-size:30px}.classic-timer-footer .prep-timer-dock small{font-size:13px}.rest-choices .button{min-height:60px;font-size:20px}.prep-controls .button{min-height:60px}.supporting-tools .text-link{display:flex;margin:10px 0}.phase-rest h2{font-size:28px}.phase-rest p{font-size:19px;line-height:1.6}.session-complete{flex-wrap:wrap}.session-complete .button{white-space:normal;min-height:56px}.pouch-tools{display:flex;align-items:center;gap:12px;margin:12px 0}.pouch-tools button{min-height:56px}.pouch-tools small{font-size:13px;color:var(--muted)}body[data-page="race"].has-prep-timer main{padding-bottom:220px}.race-cue-note{margin-top:16px;color:var(--amber);font-size:18px;line-height:1.6}
-@media(max-width:760px){.day-phase-nav{grid-template-columns:repeat(2,minmax(0,1fr))}.pool-prescription{font-size:23px}.pool-rest{font-size:18px}.set-reading{padding:18px 16px}.pool-set-actions{padding:0 16px 18px;gap:8px}.pool-set-actions .text-button{padding:12px 8px}.set-title-line{flex-wrap:wrap}.set-title-line h3{font-size:16px}.set-title-line .prep-set-status{margin-left:auto}.prep-timeline .prep-day{min-height:112px}.prep-clock{font-size:64px}.classic-timer-footer{padding:10px 16px calc(10px + env(safe-area-inset-bottom))}body[data-page="session"] main{padding-bottom:220px}.app-status{font-size:12px}.app-status .text-button{font-size:12px}.prep-form-grid{grid-template-columns:1fr}.pool-session-status{align-items:flex-start}.pool-session-status .text-button{flex-shrink:0}.day-phase-row strong{font-size:18px}.prep-hero .button{min-height:60px;font-size:18px}}
-@media(min-width:761px){.pool-prescription{font-size:27px}.pool-set-actions .button{max-width:210px}.classic-timer-footer{max-width:840px;margin:auto}.prep-timeline{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.phase-switch{margin:12px 0;border:1px solid var(--line);border-radius:10px}.phase-switch summary{padding:18px 16px;min-height:56px;color:var(--cyan);font-size:15px;cursor:pointer}.phase-switch .day-phase-nav{margin:0 12px 12px}
-@media print{.pool-set-actions,.pouch-tools,.phase-switch{display:none!important}}
-.distance-estimate{display:block;color:var(--muted);font-size:12px;margin-top:6px}
-#timer-dock-context{max-width:200px;line-height:1.4;color:var(--text);font-size:11px}.classic-timer-footer .prep-timer-dock span{min-width:0}.classic-timer-footer .prep-timer-dock{gap:10px}#timer-preview{white-space:nowrap}
-.phase-switch .pouch-tools{margin:12px;padding:12px;border-top:1px solid var(--line)}.pool-session-status{margin:14px 0}.block-rest-note{margin:8px 0 16px}.drill-group:first-of-type{margin-top:18px}
-.phase-switch .app-status{margin:12px;padding:10px 0;border-top:1px solid var(--line);flex-wrap:wrap;gap:8px}.phase-switch .app-status button{min-height:56px}
+/* Compact pool checklist; the whole card is a large checkbox target. */
+.page-intro { margin-bottom: 12px; }
+.page-intro p { margin-top: 4px; font-size: 15px; }
+body[data-page="session"] .page-intro { margin-bottom: 10px; }
+body[data-page="session"] .page-intro h1 { font-size: 26px; }
+body[data-page="session"] .site-header { min-height: 56px; padding-top: 4px; padding-bottom: 4px; }
+.prep-hero { padding: 18px; gap: 10px; border-radius: 14px; }
+.prep-hero h2 { font-size: clamp(26px, 4vw, 34px); }
+.prep-hero .button { min-height: 48px; margin-top: 2px; }
+.prep-panel { padding: 16px; margin: 14px 0; gap: 10px; }
+.prep-section { margin-top: 20px; }
+.prep-section > h2 { margin-bottom: 10px; }
+.prep-distance { font-size: 19px; }
+.prep-race-link { padding: 12px 0; min-height: 48px; }
+.prep-timeline { gap: 8px; }
+.prep-timeline .prep-day { min-height: 100px; padding: 12px 14px; gap: 5px; }
+.prep-details { margin: 12px 0; }
+.prep-details > summary { min-height: 48px; padding-top: 10px; padding-bottom: 10px; }
+.supporting-tools .text-link { display: flex; margin: 4px 0; }
+
+.swim-period-tabs { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; margin: 8px 0; }
+.swim-period-tabs a { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 8px; border: 2px solid var(--line); border-radius: 8px; color: var(--muted); background: var(--surface); }
+.swim-period-tabs strong { font-size: 17px; }
+.swim-period-tabs small { font-size: 12px; }
+.swim-period-tabs a[aria-current] { border-color: var(--amber); background: #42371d; color: var(--text); }
+.exercise-shortcut { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; min-height: 48px; padding: 8px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; text-align: left; color: var(--cyan); margin-bottom: 10px; }
+.exercise-shortcut > span { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 8px; }
+.exercise-shortcut strong { font-size: 15px; }
+.exercise-shortcut small { font-size: 13px; color: var(--muted); }
+.exercise-shortcut .ui-icon { flex-shrink: 0; }
+.prep-hero .exercise-shortcut { margin: 0; }
+.phase-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.optional-label { color: var(--cyan); font-size: 13px; }
+.phase-note { color: var(--amber); font-size: 15px; line-height: 1.5; margin: 6px 0 10px; }
+.pool-session-status { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 2px 10px; margin: 8px 0 4px; color: var(--muted); }
+.pool-session-status p { font-size: 14px; }
+.check-hint { font-size: 12px; }
+.block-rest-note { font-size: 14px; line-height: 1.5; color: var(--muted); margin: 4px 0 12px; }
+.block-rest-note strong { color: var(--text); }
+.volume-note { font-size: 14px; line-height: 1.5; border-left: 3px solid var(--amber); padding: 8px 12px; margin: 8px 0; }
+.drill-group { margin: 14px 0; }
+.drill-group > h2 { color: var(--cyan); font-size: 14px; margin: 0 0 6px; }
+.classic-set, .classic-set.is-next, .classic-set.is-done { padding: 0; margin-bottom: 8px; border-width: 1px; border-left-width: 3px; border-radius: 10px; scroll-margin-top: calc(12px + var(--save-warning-height, 0px)); }
+.classic-set.is-next { border-color: var(--amber); }
+.classic-set.is-done { border-color: #347d69; background: #103d38; }
+.drill-card { display: block; width: 100%; min-height: 48px; padding: 12px; text-align: left; color: var(--text); background: transparent; border-radius: 8px; }
+.drill-card:hover { background: #ffffff06; }
+.drill-card:focus-visible { outline: 3px solid var(--cyan); outline-offset: -4px; }
+.drill-card:active { background: #ffffff0b; }
+.set-title-line { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.set-title-line .classic-number { width: auto; padding: 0; font-size: 12px; color: var(--muted); }
+.drill-title { flex: 1; min-width: 0; font-size: 15px; font-weight: 650; line-height: 1.4; }
+.set-title-line .classic-check { display: grid; place-items: center; flex-shrink: 0; width: 22px; height: 22px; border: 2px solid #a0bec6; border-radius: 4px; color: var(--green); }
+.is-done .drill-title { text-decoration: line-through; text-decoration-thickness: 2px; color: var(--green); }
+.is-done .classic-check { border-color: var(--green); background: var(--green); color: var(--bg); font-size: 16px; font-weight: 800; }
+.set-reading, .set-reading > span { display: block; }
+.pool-prescription { font-size: 19px; font-weight: 650; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.pool-rest { color: var(--amber); font-size: 15px; font-weight: 600; line-height: 1.5; margin-top: 4px; }
+.pool-effort { color: var(--cyan); font-size: 14px; margin-top: 4px; }
+.pool-cue, .pool-condition { font-size: 14px; line-height: 1.5; margin-top: 4px; }
+.pool-condition { color: var(--amber); }
+
+.preparation-list { list-style: none; padding: 0; margin: 12px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.preparation-list li { padding: 10px 12px; border-bottom: 1px solid var(--line); font-size: 16px; line-height: 1.5; }
+.preparation-list li:last-child { border-bottom: 0; }
+.exercise-dialog .prep-dialog-head { position: sticky; top: -20px; padding: 8px 0; background: var(--surface); z-index: 1; border-bottom: 1px solid var(--line); }
+.exercise-dialog .prep-dialog-head h2 { font-size: 21px; min-width: 0; }
+.exercise-dialog [data-close-dialog] { min-width: 80px; min-height: 48px; flex-shrink: 0; }
+.exercise-date { color: var(--muted); font-size: 14px; margin: 8px 0; }
+.exercise-dialog .preparation-list { margin-bottom: 0; }
+.phase-switch { margin: 10px 0; border: 1px solid var(--line); border-radius: 8px; }
+.phase-switch summary { padding: 10px 12px; min-height: 48px; color: var(--cyan); font-size: 14px; cursor: pointer; }
+.pouch-tools { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+.pouch-tools button { min-height: 48px; }
+.pouch-tools small { color: var(--muted); font-size: 13px; }
+.phase-switch .pouch-tools { padding: 0 12px 8px; margin: 0; }
+.phase-switch #app-update { margin: 0 12px 8px; }
+.phase-rest h2 { font-size: 24px; }
+.phase-rest p { font-size: 16px; }
+.race-cue-note { margin-top: 10px; color: var(--amber); font-size: 16px; }
+
+.classic-timer-footer { padding: 2px 16px calc(8px + env(safe-area-inset-bottom, 0px)); gap: 0; }
+.classic-timer-footer .footer-next { font-size: 14px; line-height: 1.4; min-height: 44px; padding: 4px; }
+.classic-timer-footer .timer-row { gap: 8px; }
+.classic-timer-footer .timer-row > .button { min-height: 48px; min-width: 80px; padding: 10px 12px; font-size: 16px; }
+.classic-timer-footer .prep-timer-dock { min-height: 48px; padding: 8px 10px; gap: 8px; }
+.classic-timer-footer .prep-timer-dock span { min-width: 0; font-size: 14px; }
+.classic-timer-footer .prep-timer-dock strong { font-size: 25px; white-space: nowrap; }
+.classic-timer-footer .prep-timer-dock small { font-size: 12px; }
+.classic-timer-footer #timer-dock-state { display: inline; margin-left: 6px; }
+#timer-dock-context { max-width: 260px; line-height: 1.4; color: var(--text); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+body[data-page="session"] main { padding-bottom: 24px; }
+body[data-page="session"].has-prep-timer main { padding-bottom: calc(var(--rest-footer-height, 140px) + 16px); }
+body.has-prep-timer .toast { bottom: calc(var(--rest-footer-height, 140px) + 16px); }
+.rest-source-label { display: block; font-size: 14px; margin-top: 8px; }
+#rest-source { width: 100%; min-height: 48px; margin: 4px 0 8px; font-size: 15px; }
+#set-rest-options { padding: 10px; }
+#set-rest-options fieldset { margin-top: 10px; }
+.rest-choices { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 6px; }
+#rest-dialog .rest-choices .button, #rest-dialog .prep-timer-options .button { min-width: 0; padding: 8px; }
+#rest-dialog [data-set-duration][aria-pressed="true"] { color: var(--amber); border-color: var(--amber); background: #42371d; }
+#rest-dialog { padding: 16px; }
+#rest-dialog .prep-dialog-head { position: sticky; top: -16px; padding: 8px 0; margin-bottom: 8px; background: var(--surface); z-index: 1; }
+#rest-dialog .prep-dialog-head h2 { font-size: 22px; }
+#rest-dialog #timer-selection:empty { display: none; }
+.rest-choices .button, .prep-controls .button { min-height: 48px; font-size: 17px; }
+#rest-dialog .prep-controls { margin-top: 12px; }
+
+@media (max-width: 760px) {
+  main { padding-left: 16px; padding-right: 16px; }
+  .prep-form-grid { grid-template-columns: 1fr; }
+}
+@media (min-width: 761px) {
+  .drill-card { padding: 14px; }
+  .pool-prescription { font-size: 21px; }
+  .prep-timeline { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media print {
+  .swim-period-tabs, .exercise-shortcut, .pouch-tools, .phase-switch, .check-hint { display: none !important; }
+  .drill-card, .drill-card span { color: black; }
+}

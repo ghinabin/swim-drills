@@ -6,9 +6,9 @@ A framework-free poolside companion for the supplied **October 4–13, 2026 fina
 Run `python3 -m http.server 8000` and open `http://localhost:8000`.
 No application dependencies or build step are required.
 
-- **Today:** today's AM swim or race first; Before pool, optional PM and Evening are separate links. Complete-rest days have no swimming controls.
+- **Today:** visible AM/PM tabs, defaulting to AM. Before-pool activation opens from the AM header; evening mobility opens from the PM header in a closeable modal. Complete-rest days have no swimming controls.
 - **Plan:** all ten dates grouped into final preparation, rest/activation and race days. AM estimates and PM availability stay distinct.
-- **Session:** one part of the day at a time. Drill blocks remain in the prescribed order. Large prescription/rest text, explicit Done/Undo and Skip controls, contextual rest choices and one persistent Next/rest footer support use through a phone pouch. Reading a card cannot complete it. Optional PM progress never completes the AM workout.
+- **Session:** visible AM/PM tabs and one swim at a time. Activation/mobility buttons at the top open modal exercise lists with a large Close button, Escape/Back support and return to the same scroll position. Drill blocks remain in the prescribed order. Compact cards act as accessible checkboxes: tap anywhere to check/uncheck, with a visible square checkbox and a struck-through title. Prescription, rest and cues stay readable. Done, Skip, per-card Rest and bulk-finish buttons are removed. The bottom Next/rest bar holds all timer selection and start/pause controls. Optional PM progress never completes the AM workout.
 - **Race:** event-specific activation, warm-up, race cues, optional reporting/heat/lane details, conditional post-50 recovery and official results. Older Oct 1/2 rehearsal records stay under an explicit earlier-records disclosure.
 - **Tools & reference:** Tempo remains available as an optional personal cadence tool, outside the three primary navigation destinations. The supplied plan is downloadable.
 
@@ -32,11 +32,11 @@ The previous source and structured plan are archived in `docs/archive`. Legacy d
 
 Progress saves on this device, separately for each plan revision and AM/PM phase. Old completion records are retained without attaching them to replacement workouts. Existing official results, reporting details and earlier rehearsal entries carry forward because the two race events are unchanged. Personal tempo profiles survive plan revisions.
 
-Storage failures produce a persistent warning with Retry; pending edits can be exported. Data & backup previews and validates imports, then saves atomically. Backups include phase progress, race details/results, earlier rehearsals and tempos; running timers are excluded. Mixed plan backups must match the current revision. Profile-only Tempo exports can be restored across revisions.
+Storage failures produce a persistent warning with Retry; successful saves show no banner. The Data & backup interface and offline status messages are removed. Existing saved records remain intact; historical skipped sets appear unchecked and do not count as completed work. Tempo still offers its separate profile export.
 
-The app works offline after a successful first load on HTTPS or localhost. Check “Ready offline” before the pool. Home-screen installation guidance is available in Data & backup. Updates wait for **Update app** or for all app tabs to close; an active session is not forcibly reloaded. The service worker caches a coherent release and requires a version bump for subsequent changes.
+The app works offline after a successful first load on HTTPS or localhost. Offline caching runs without a status banner. Updates wait for **Update app** or for all app tabs to close; an active session is not forcibly reloaded. The service worker caches a coherent release and requires a version bump for subsequent changes.
 
-Within a pool session, **Day parts & options** holds screen controls, offline status and Data & backup. **Keep screen on** requests a screen wake lock where supported. It is opt-in and reports failure. Rest countdowns use stored deadlines; foreground/background alerts depend on the device. Physical pouch touch accuracy, pool-light readability, sound audibility and iPhone/Android interruption behaviour still need device testing.
+Below the swim drills, **Pool options** holds screen controls and an Update app action only when a new release is waiting. **Keep screen on** requests a screen wake lock where supported. It is opt-in and reports failure. Rest countdowns use stored deadlines; foreground/background alerts depend on the device. Physical pouch touch accuracy, pool-light readability, sound audibility and iPhone/Android interruption behaviour still need device testing.
 
 ## Tempo
 
@@ -56,4 +56,4 @@ python3 tests/poolside.py
 python3 tests/tempo.py
 ```
 
-The current suites cover the final source contract, date routing, every AM/PM/activation/mobility view at mobile/desktop sizes, explicit completion, independent phase progress, contextual rests, deadline recovery, replacement-plan migration, failed saves/retry, phase backups, race records and coherent offline updates. Older test scripts describe superseded revisions.
+The current suites cover the final source contract, date routing, every AM/PM/activation/mobility view at mobile/desktop sizes, whole-card tap/keyboard completion and title strikethrough, independent phase progress, bottom-bar contextual rests, deadline recovery, replacement-plan migration, failed saves/retry, preserved historical records, race records and coherent offline updates. Older test scripts describe superseded revisions.

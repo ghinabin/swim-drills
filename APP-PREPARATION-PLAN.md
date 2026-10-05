@@ -17,21 +17,21 @@ Each day has four independent parts:
 3. **PM swim:** optional/easy conditions or explicit Off. Its progress does not affect AM.
 4. **Evening:** mobility sequence/duration, optional conditions, or explicit rest.
 
-Today leads with AM/race and lists the other three parts directly below. The session displays only the selected part. “Day parts & options” reveals the other parts and screen/data controls without filling the pool screen with permanent tabs. No automatic switching by clock time assumes when the swimmer trains.
+Today and pool sessions have two visible AM/PM tabs. AM is the default; opening a PM link explicitly selects PM. Before-pool activation sits at the top of AM; evening mobility/rest sits at the top of PM. Each opens a native modal with a large sticky Close button. Escape and browser Back also close it and restore the originating position/focus. Only the selected swim's drills fill the main view. Pool options below the drills contains screen controls and a pending-update action, leaving the top for the AM/PM tabs and exercise shortcut. No automatic switching by clock time assumes when the swimmer trains.
 
 ## Pool interaction
 
 Set groups follow the supplied order: warm-up → catch/pull or kick → starts/breakout → speed/race rhythm → turns/finish → easy finish, with the actual sequence varying by day. Nothing is reordered to fit a generic template.
 
-Each card shows the prescription first, then recovery, with technique and conditions beside the affected work. Reading the card is passive; separate 60 px Done/Undo, Rest and Skip actions carry interaction. The next incomplete set is highlighted and reachable through a persistent footer link. Marking a set done does not start rest or move the swimmer automatically. Optional reps and skipped sets do not count as completed required work.
+Each compact card shows its title/checkbox, prescription, recovery, technique and relevant conditions. The whole card is a semantic checkbox, activated by tap, Space or Enter. Checking crosses out only the title; instructions remain readable. Tap again to undo. There are no Done, Skip, per-card Rest or bulk-finish buttons. The next unchecked set is highlighted and reachable through the footer. Checking never starts or changes rest, or scrolls the swimmer automatically. Optional reps do not count as required work; historical skips are retained in storage but appear unchecked.
 
-A single countdown is selected from the current set, or from the explicit 30–60-second block-rest rule. Range choices stay within the prescription. Broken-set internal rest and rest before the next broken 50 have separate labels. Full recovery stays textual. Activation, mobility and off phases have no timer footer. A running timer retains its context through phase navigation rather than being mistaken for a new prescription.
+A single countdown is selected exclusively from the bottom rest bar. Its dialog defaults to the 30–60-second block-rest rule and offers a Rest for selector for each drill or a manual duration. Range choices stay within the prescription. Broken-set internal rest and rest before the next broken 50 have separate labels. Full recovery stays textual. Activation, mobility and off phases have no timer footer. A running timer retains its context through phase navigation rather than being mistaken for a new prescription.
 
-Keep screen on is an opt-in wake-lock request. All essential interactions are taps; none depend on swiping, dragging, long presses or accurate touches to small icons. Numbers and rest text remain large. Colour reinforces explicit Done, Skipped and Up next text. Full instructions, effort definitions and supporting records use disclosures.
+Keep screen on is an opt-in wake-lock request. All essential interactions are taps; none depend on swiping, dragging, long presses or accurate touches to small icons. The complete card is a large tap target; tabs, modal Close and timer controls retain at least 48 px height. Numbers and rest text remain readable. Checked boxes and struck-through titles communicate completion without relying on colour. Routine offline/save status and the Data & backup interface are removed; a Retry warning appears only when saving fails. Full instructions, effort definitions and supporting records use disclosures.
 
 ## Race days
 
-Choose 50 / October 12 or 100 / October 13. Keep reporting details near preparation; never infer reporting time. Activation opens separately. Warm-up follows the supplied sequence and permissions. Race cues are separate from workout completion, including the 100's third-length HOLD FORM cue. Preserve normal/familiar breathing instructions.
+Choose 50 / October 12 or 100 / October 13. Keep reporting details near preparation; never infer reporting time. Activation opens in a modal from the AM header; PM recovery opens through the PM tab. Warm-up follows the supplied sequence and permissions. Race cues are separate from workout completion, including the 100's third-length HOLD FORM cue. Preserve normal/familiar breathing instructions.
 
 After the 50: optional 300–400 m extremely easy recovery only if access allows and the swimmer feels normal; otherwise rest. No evening exercise. Do not create an October 13 recovery workout.
 
@@ -43,10 +43,10 @@ The latest source replaces the earlier visible schedule. All ten dates, AM/PM wo
 
 Supplied distances are estimates. Explicit variable/short skill reps are not converted into invented full lengths. Oct 6's listed fixed lengths total 1,200 m plus turns while its heading says ~900–1,000 m; retain both and flag the discrepancy. Oct 5 PM lists 400–450 m plus easy remainder against a ~400 m heading. These are source discrepancies, not permission to remove prescribed work.
 
-Use a new plan revision and stable phase/set identities. AM and PM completion remain separate. Carry forward only records describing the unchanged race events and earlier actual rehearsals. Preserve portable tempo profiles. Backup validation recognises phase-specific records and rejects unknown set IDs before writing atomically.
+Use a new plan revision and stable phase/set identities. AM and PM completion remain separate. Carry forward only records describing the unchanged race events and earlier actual rehearsals. Preserve portable tempo profiles. The storage layer still preserves prior revisions and supports atomic writes; removing the backup interface does not clear records.
 
 ## Verification and limits
 
-Validate source excerpts/sets, dates, complete-rest and PM-off states; check each phase at 320, 390, 768 and 1440 px. Exercise completion/undo/skip, phase navigation, contextual rest, timer pause/reload, storage failure/retry, replacement-plan migration, backup validation and offline updates. Keep the existing Tempo calculations/player regressions.
+Validate source excerpts/sets, dates, complete-rest and PM-off states; check each phase at 320, 390, 768 and 1440 px. Exercise whole-card completion/undo, Space/Enter, title-only strikethrough, phase navigation, bottom-bar contextual rest, timer pause/reload, storage failure/retry, replacement-plan migration and offline updates. Verify removed controls stay absent and older skipped records remain preserved. Keep the existing Tempo calculations/player regressions.
 
 Browser tests establish layout and state behaviour. Real pouch handling, wet-touch accuracy, bright pool lighting, and screen wake-lock/audio support require physical-device checks. No breath-hold timer, hypoxic task or reward for prolonged underwater swimming is added.

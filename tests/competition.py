@@ -39,29 +39,58 @@ def run():
           page.goto(base)
           assert page.locator('.nav-link').all_inner_texts()==['Today','Plan','Race']
           assert '100 pace + catch + turns' in page.locator('.prep-hero').inner_text()
-          assert page.locator('.day-phase-row').count()==3
+          assert page.locator('[data-period="am"]').get_attribute('aria-current')=='page'
+          page.locator('#exercise-before').click()
+          assert page.locator('#exercise-dialog-before').is_visible()
+          assert 'Bodyweight squat 1 × 10' in page.locator('#exercise-dialog-before').inner_text()
+          page.locator('#exercise-dialog-before [data-close-dialog]').click()
+          page.wait_for_function('!document.getElementById("exercise-dialog-before").open')
+          page.locator('[data-period="pm"]').click()
+          assert page.locator('[data-period="pm"]').get_attribute('aria-current')=='page'
+          assert page.locator('.prep-hero h2').inner_text()=='PM swim'
+          page.locator('#exercise-evening').click()
+          assert 'Wall slides' in page.locator('#exercise-dialog-evening').inner_text()
+          page.locator('#exercise-dialog-evening [data-close-dialog]').click()
+          page.wait_for_function('!document.getElementById("exercise-dialog-evening").open')
+          page.locator('[data-period="am"]').click()
           page.get_by_role('link',name='Open AM swim',exact=True).click()
           assert page.locator('h1').inner_text()=='AM swim'
           assert page.locator('[data-done]').count()==9
-          assert page.locator('.day-phase-nav').is_hidden()
-          # Reading a set never changes completion.
+          assert page.locator('[data-period="am"]').get_attribute('aria-current')=='page'
+          assert page.locator('[data-period="pm"]').is_visible()
+          page.locator('#exercise-before').click()
+          assert page.locator('#exercise-dialog-before').is_visible()
+          page.keyboard.press('Escape')
+          page.wait_for_function('!document.getElementById("exercise-dialog-before").open')
+          assert page.locator('#exercise-before').evaluate('(e)=>e===document.activeElement')
+          # The entire card toggles a checkbox; only its title is crossed out.
+          assert page.locator('[data-skip],[data-rest-choice],#complete-day,#skip-phase,#block-rest').count()==0
+          assert page.locator('#data-open,[data-offline-status]').count()==0
+          assert page.locator('[data-done]').first.get_attribute('role')=='checkbox'
+          assert page.locator('[data-done]').first.bounding_box()['height']>=48
           page.locator('.pool-prescription').first.click()
-          assert page.locator('[data-done][aria-pressed=true]').count()==0
-          for target in ('[data-done]','[data-rest-choice]','[data-skip]'):
-            assert page.locator(target).first.bounding_box()['height']>=56
-          page.locator('[data-done]').first.click()
-          page.locator('[data-skip]').nth(1).click();page.reload()
-          assert page.locator('[data-done][aria-pressed=true]').count()==1
-          assert page.locator('[data-skip][aria-pressed=true]').count()==1
+          assert page.locator('[data-done][aria-checked=true]').count()==1
+          assert page.locator('.drill-title').first.evaluate('(e)=>getComputedStyle(e).textDecorationLine')=='line-through'
+          assert page.locator('.pool-prescription').first.evaluate('(e)=>getComputedStyle(e).textDecorationLine')=='none'
+          page.locator('[data-done]').first.press('Space')
+          assert page.locator('[data-done][aria-checked=true]').count()==0
+          page.locator('[data-done]').first.press('Enter')
+          assert page.locator('[data-done][aria-checked=true]').count()==1
+          page.reload()
+          assert page.locator('[data-done][aria-checked=true]').count()==1
           page.locator('#next-set').click()
-          assert page.locator('#set-am-3').bounding_box()['y']<100
-          page.locator('#phase-switch summary').click()
-          page.get_by_role('link',name='PM swim Optional',exact=True).click()
+          assert page.locator('#set-am-2').bounding_box()['y']<100
+          page.locator('[data-period="pm"]').click()
           assert page.locator('h1').inner_text()=='PM swim'
-          assert page.locator('[data-done][aria-pressed=true]').count()==0
+          assert page.locator('[data-period="pm"]').get_attribute('aria-current')=='page'
+          page.locator('#exercise-evening').click()
+          assert 'Wall slides' in page.locator('#exercise-dialog-evening').inner_text()
+          page.go_back()
+          page.wait_for_function('!document.getElementById("exercise-dialog-evening").open')
+          assert page.locator('[data-done][aria-checked=true]').count()==0
           page.locator('[data-done]').first.click()
           page.goto(base+'session.html?id=2026-10-05')
-          assert page.locator('[data-done][aria-pressed=true]').count()==1
+          assert page.locator('[data-done][aria-checked=true]').count()==1
           assert page.locator('#navigation').is_hidden()
           assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
           if width==390:page.screenshot(path='/private/tmp/final-taper-am.png',full_page=True)
@@ -70,12 +99,19 @@ def run():
             for phase in day['phases']:
               page.goto(base+f'session.html?id={day["id"]}&phase={phase}')
               assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),(width,day['id'],phase)
-              if phase!='am' or day['kind']!='Race':
-                assert page.locator('[data-done]').count()==len(day['phases'][phase]['sets'])
-              if phase=='pm' and day['phases'][phase]['status']=='off':assert page.locator('#timer-footer').is_hidden()
+              period='pm' if phase in ('pm','evening') else 'am'
+              if phase in ('before','evening'):
+                page.locator('#exercise-dialog-'+phase).wait_for(state='visible')
+                assert page.locator('#exercise-dialog-'+phase).bounding_box()['width']<=width
+                assert page.locator('#exercise-dialog-'+phase+' .preparation-list li').count()==len(day['phases'][phase]['items'])
+                page.locator('#exercise-dialog-'+phase+' [data-close-dialog]').click()
+                page.wait_for_function('(phase)=>!document.getElementById("exercise-dialog-"+phase).open',arg=phase)
+              assert page.locator('[data-done]').count()==len(day['phases'][period]['sets'])
+              assert page.locator('[data-period="'+period+'"]').get_attribute('aria-current')=='page'
+              if period=='pm' and day['phases'][period]['status']=='off':assert page.locator('#timer-footer').is_hidden()
           assert not errors,errors
           context.close()
-        for date,label,action in [('2026-10-03','Catch + starts + 50 speed','Open AM swim'),('2026-10-10','Complete rest','View rest day'),('2026-10-11','Pre-race activation','Open AM swim'),('2026-10-12','50 m freestyle','Open race preparation'),('2026-10-13','100 m freestyle','Open race preparation'),('2026-10-14','Your races are finished.','View results')]:
+        for date,label,action in [('2026-10-03','Catch + starts + 50 speed','Open AM swim'),('2026-10-10','Complete rest','View AM rest'),('2026-10-11','Pre-race activation','Open AM swim'),('2026-10-12','50 m freestyle','Open race preparation'),('2026-10-13','100 m freestyle','Open race preparation'),('2026-10-14','Your races are finished.','View results')]:
           context=browser.new_context(timezone_id='Asia/Kathmandu');page=context.new_page()
           page.clock.install(time=datetime.fromisoformat(date+'T08:00:00+05:45'));page.goto(base)
           assert label in page.locator('main').inner_text()
@@ -84,5 +120,5 @@ def run():
           context.close()
         browser.close()
     finally:server.shutdown()
-    print('PASS final source contract, dates, all AM/PM/mobility screens, explicit completion, phase isolation, large targets and responsive navigation')
+    print('PASS final source contract, dates, all AM/PM/mobility screens, tap and keyboard checkboxes, phase isolation, accessible targets and responsive navigation')
 if __name__=='__main__':run()

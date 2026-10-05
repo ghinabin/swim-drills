@@ -5,7 +5,7 @@
   const blank = () => ({version:1, targets:{}, observations:{}, mode:'arms'});
   let profile, selected = null, target, state = 'Ready', draft;
   try { profile = TempoCore.validateProfile(LaneStorage.get('tempo:profile',blank())); }
-  catch (_) { profile = blank(); toast('Saved tempo data could not be read. Restore a valid backup or save a new calibration.'); }
+  catch (_) { profile = blank(); toast('Saved tempo data could not be read. Save a new calibration.'); }
   main.innerHTML = `<div class="page-intro"><h1>Freestyle Pace & Stroke Tempo Trainer</h1></div>
     <p>Find your own arm rhythm, then practise holding it. Tempo controls cadence; it does not predict race time.</p>
     <div class="tempo-grid" id="tempo-cards"></div>

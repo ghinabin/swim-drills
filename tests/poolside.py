@@ -13,7 +13,7 @@ class Quiet(SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path.split('?')[0]=='/sw.js':
             source=(ROOT/'sw.js').read_text()
-            if getattr(self.server,'next_release',False):source=source.replace('v34-final-taper','v35-test-update')
+            if getattr(self.server,'next_release',False):source=source.replace('v36-compact-checklist','v37-test-update')
             body=source.encode();self.send_response(200);self.send_header('Content-Type','application/javascript');self.send_header('Cache-Control','no-store');self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body)
         else:super().do_GET()
 
@@ -26,9 +26,6 @@ def run():
         page=context.new_page();errors=[];page.on('pageerror',lambda error:errors.append(str(error)))
         page.clock.install(time=datetime.fromisoformat('2026-10-05T08:00:00+05:45'))
         def visit(path):page.goto(base+path)
-        def open_data():
-            if page.locator('#phase-switch').count() and not page.locator('#phase-switch').evaluate('(e)=>e.open'):page.locator('#phase-switch summary').click()
-            page.locator('#data-open').click()
         def close(id):
             page.locator('#'+id+' [data-close-dialog]').click();page.wait_for_function('(id)=>!document.getElementById(id).open',arg=id)
         visit('index.html')
@@ -36,7 +33,7 @@ def run():
         old=PLAN['previousRevision']
         page.evaluate('(old)=>localStorage.setItem("lane50:"+old+":records",JSON.stringify({version:1,records:{"session:2026-10-05":{s1:"done"},"race:50":{heat:"3",result:"35.40"},"rehearsal:50":{p25:"16",p50:"35"}}}))',old)
         visit('session.html?id=2026-10-05')
-        assert page.locator('[data-done][aria-pressed=true]').count()==0
+        assert page.locator('[data-done][aria-checked=true]').count()==0
         assert page.locator('#timer-quick-toggle').inner_text()=='Choose'
         assert page.locator('#timer-preview').inner_text()=='—:—'
         page.evaluate('Object.defineProperty(navigator,"wakeLock",{configurable:true,value:undefined})')
@@ -50,7 +47,7 @@ def run():
         assert page.locator('[data-logistics="heat"]').input_value()=='3'
         assert page.locator('#official-result').input_value()=='35.40'
         visit('session.html?id=2026-10-08')
-        page.locator('[data-rest-choice="am-5"]').click()
+        page.locator('#timer-dock').click();page.locator('#rest-source').select_option('am-5')
         assert page.locator('#set-rest-options legend').all_inner_texts()==['Between the two 25s','Before broken 50 #2']
         page.locator('[data-set-duration="25"]').click()
         assert page.locator('#timer-clock').inner_text()=='0:25'
@@ -62,48 +59,50 @@ def run():
         close('rest-dialog');page.reload()
         assert page.locator('#timer-preview').inner_text()=='0:20'
         assert page.locator('#timer-quick-toggle').inner_text()=='Resume'
-        page.locator('[data-rest-choice="am-5"]').click();page.locator('[data-set-duration="270"]').click()
+        page.locator('#timer-dock').click();page.locator('#rest-source').select_option('am-5');page.locator('[data-set-duration="270"]').click()
         assert page.locator('#timer-clock').inner_text()=='4:30'
         close('rest-dialog')
-        assert page.locator('#set-am-8 [data-rest-choice]').count()==0 # full recovery has no invented countdown
-        page.get_by_text('Rest between drill blocks',exact=True).click();page.locator('#block-rest').click()
+        page.locator('#timer-dock').click();page.locator('#rest-source').select_option('am-8')
+        assert 'full recovery' in page.locator('#set-rest-options').inner_text().lower()
+        assert page.locator('[data-set-duration]').count()==0 # no invented full-recovery duration
+        page.locator('#rest-source').select_option('block')
         assert page.locator('#set-rest-options legend').inner_text()=='Between different drill blocks'
         page.locator('[data-set-duration="45"]').click();close('rest-dialog')
         assert page.locator('#timer-preview').inner_text()=='0:45'
-        # Failed writes persist in memory, warning/retry and backups.
+        # Checking a drill never starts or changes a rest timer.
+        page.locator('[data-done]').nth(1).click()
+        assert page.locator('#timer-preview').inner_text()=='0:45'
+        assert page.locator('#timer-quick-toggle').inner_text()=='Start'
+        page.locator('[data-done]').nth(1).click()
+        # The footer starts/pauses, while scrolling does not check a card.
+        page.locator('#timer-quick-toggle').click();page.clock.fast_forward(5000)
+        assert page.locator('#timer-preview').inner_text()=='0:40'
+        page.locator('[data-done]').nth(1).scroll_into_view_if_needed()
+        assert page.locator('[data-done][aria-checked=true]').count()==0
+        page.locator('#timer-quick-toggle').click()
+        # Failed writes remain checked in memory, with a visible Retry only on failure.
+        assert page.locator('#save-warning').is_hidden()
+        assert page.locator('#data-open,[data-offline-status]').count()==0
         page.evaluate('()=>{window.originalSet=Storage.prototype.setItem;Storage.prototype.setItem=()=>{throw Error("quota")};}')
         page.locator('[data-done]').first.click();assert page.locator('#save-warning').is_visible()
-        open_data()
-        with page.expect_download() as download:page.locator('#export-backup').click()
-        backup=json.loads(Path(download.value.path()).read_text());assert backup['records']['session:2026-10-08']['am-1']=='done'
-        assert 'timer' not in backup['records'];close('data-dialog')
+        assert page.locator('[data-done][aria-checked=true]').count()==1
+        assert page.evaluate('LaneStorage.get("session:2026-10-08")["am-1"]')=='done'
         page.evaluate('()=>{Storage.prototype.setItem=window.originalSet;}');page.locator('#save-retry').click();assert page.locator('#save-warning').is_hidden()
+        page.reload();assert page.locator('[data-done][aria-checked=true]').count()==1
         visit('session.html?id=2026-10-08&phase=pm')
         assert 'If tired: skip PM' in page.locator('.phase-note').inner_text()
-        page.locator('#skip-phase').click();assert page.locator('[data-skip][aria-pressed=true]').count()==4
-        page.reload();assert page.locator('[data-skip][aria-pressed=true]').count()==4
-        page.locator('#skip-phase').click();page.locator('[data-done]').first.click();page.locator('#skip-phase').click()
-        assert page.locator('[data-done][aria-pressed=true]').count()==1
-        assert page.locator('[data-skip][aria-pressed=true]').count()==3
-        page.locator('#skip-phase').click()
-        assert page.locator('[data-done][aria-pressed=true]').count()==1
-        assert page.locator('[data-skip][aria-pressed=true]').count()==0
-        page.locator('#skip-phase').click()
-        visit('session.html?id=2026-10-08');assert page.locator('[data-done][aria-pressed=true]').count()==1
-        # Phase records export and validate; unknown set IDs cannot be restored.
-        open_data()
-        with page.expect_download() as download:page.locator('#export-backup').click()
-        backup=json.loads(Path(download.value.path()).read_text())
-        assert len(backup['records']['session:2026-10-08:pm'])==4
-        invalid=json.loads(json.dumps(backup));invalid['records']['session:2026-10-08:pm']['am-99']='done'
-        def choose(data):page.locator('#backup-file').set_input_files({'name':'backup.json','mimeType':'application/json','buffer':json.dumps(data).encode()})
-        choose(invalid);page.wait_for_function('document.getElementById("restore-status").textContent.includes("unknown set")');assert page.locator('#restore-backup').is_hidden()
-        choose(backup);page.locator('#restore-backup').wait_for(state='visible')
-        before=page.evaluate('localStorage.getItem("lane50:portable-v1")')
-        page.evaluate('()=>{window.originalSet=Storage.prototype.setItem;Storage.prototype.setItem=()=>{throw Error("quota")};}')
-        page.locator('#restore-backup').click();assert 'Existing records have not changed' in page.locator('#restore-status').inner_text()
-        assert page.evaluate('localStorage.getItem("lane50:portable-v1")')==before
-        page.evaluate('()=>{Storage.prototype.setItem=window.originalSet;}');page.locator('#restore-backup').click();close('data-dialog')
+        assert page.locator('[data-done][aria-checked=true]').count()==0
+        page.locator('[data-done]').first.click();page.reload()
+        assert page.locator('[data-done][aria-checked=true]').count()==1
+        page.locator('[data-done]').first.click();page.reload()
+        assert page.locator('[data-done][aria-checked=true]').count()==0
+        # Historical skips remain stored, but do not mark new checkboxes completed.
+        page.evaluate('LaneStorage.save("session:2026-10-08:pm",{"pm-1":"skipped"})');page.reload()
+        assert page.locator('[data-done][aria-checked=true]').count()==0
+        assert page.locator('#next-set').get_attribute('href')=='#set-pm-1'
+        page.locator('[data-done]').first.click();page.reload()
+        assert page.locator('[data-done][aria-checked=true]').count()==1
+        visit('session.html?id=2026-10-08');assert page.locator('[data-done][aria-checked=true]').count()==1
         # Save recovery, results and reporting remain usable on new race content.
         visit('race.html?event=100');page.locator('#official-result').fill('1:14.20');page.reload();assert page.locator('#official-result').input_value()=='1:14.20'
         assert 'HOLD FORM' in page.locator('#race-cues').inner_text()
@@ -119,11 +118,11 @@ def run():
         page.wait_for_function('async()=>!!(await navigator.serviceWorker.getRegistration()).waiting')
         page.locator('#phase-switch summary').click()
         page.locator('#app-update').wait_for(state='visible')
-        assert page.locator('[data-done][aria-pressed=true]').count()==1
+        assert page.locator('[data-done][aria-checked=true]').count()==1
         page.locator('#app-update').click()
-        page.wait_for_function('async()=>(await caches.keys()).includes("lane50-shell-v35-test-update")&&!(await navigator.serviceWorker.getRegistration()).waiting')
+        page.wait_for_function('async()=>(await caches.keys()).includes("lane50-shell-v37-test-update")&&!(await navigator.serviceWorker.getRegistration()).waiting')
         assert not errors,errors
         browser.close()
     finally:server.shutdown()
-    print('PASS replacement-plan migration, AM/PM isolation, broken-set and block rests, timer pause/reload, failed saves, atomic backup, official results and offline updates')
+    print('PASS replacement-plan migration, AM/PM isolation, broken-set and block rests, timer pause/reload, tap completion, failed saves/retry, official results and offline updates')
 if __name__=='__main__':run()

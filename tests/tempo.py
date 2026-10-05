@@ -1,4 +1,4 @@
-"""Tempo calibration, player recovery, portable backup and offline UI."""
+"""Tempo calibration, player recovery, profile export and offline UI."""
 from functools import partial
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
@@ -54,12 +54,7 @@ def run():
         with page.expect_download() as download:page.locator('#export-tempos').click()
         backup=json.loads(Path(download.value.path()).read_text())
         assert backup['records']['tempo:profile']['targets']['custom']==72
-        backup['planRevision']='different-plan'
-        page.locator('#data-open').click()
-        page.locator('#backup-file').set_input_files({'name':'tempo.json','mimeType':'application/json','buffer':json.dumps(backup).encode()})
-        page.locator('#restore-backup').wait_for(state='visible')
-        page.locator('#data-dialog [data-close-dialog]').click()
-        page.wait_for_function('!document.getElementById("data-dialog").open')
+        assert page.locator('#data-open,[data-offline-status]').count()==0
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
         page.screenshot(path='/private/tmp/swim-tempo-mobile.png',full_page=True)
         page.wait_for_function('navigator.serviceWorker.controller !== null')
@@ -79,6 +74,6 @@ def run():
         assert page.locator('#player-rate').inner_text()=='60.0'
         assert not errors,errors
         browser.close()
-        print('PASS tempo calibration, cycle mode, audio controls/interruption, persistence, portable backup, mobile and offline')
+        print('PASS tempo calibration, cycle mode, audio controls/interruption, persistence, profile export, mobile and offline')
     finally:server.shutdown()
 if __name__=='__main__':run()
