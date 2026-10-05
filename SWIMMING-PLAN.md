@@ -1,770 +1,440 @@
-Yes. This is the **final pool plan I would coach you on from Saturday, September 26 through your races on October 12–13**.
+Yes. I’d use the following as your **single final schedule**, replacing the earlier versions. It includes dryland activation, AM swimming, optional PM swimming, evening mobility, catch/pull, flutter kick, starts, dolphin kicks, breakout, turns, 50 speed, and 100 pace.
 
-I’m treating both entries as **freestyle**, because your existing training and attached plan are freestyle-focused. Your previous plan correctly identified your major weakness as maintaining a strong second 25 m after a fast opening.  For the 100 m, we expand that problem to maintaining quality through **four 25 m lengths**.
+**Race:** 50 Free Oct 12 · 100 Free Oct 13  
+**Pool:** 25 m · **Oct 10:** full rest  
+**Rest notation:** rest shown after a repetition means **after each rep**. Between different drill blocks, take **30–60 sec** unless I specify longer.
 
-The plan intentionally includes a lot of turn work. In elite short-course racing, starts and turns contribute a substantial proportion of total race time, and turn performance significantly affects results across distances. ([PubMed][1]) The 100 m also has a substantial aerobic contribution alongside anaerobic energy systems, so we retain controlled swimming rather than converting everything into maximal sprinting. ([PubMed][2])
+## Oct 4 — Catch + Start + 50 Speed
 
-# NSA 14th Short-Course Final Preparation
+**Before pool · 10–15 min**
+- 2 min brisk walk/march
+- Arm circles × 10 each direction
+- Bodyweight squat 2 × 10
+- Calf raise 2 × 10
+- Glute bridge 2 × 10
+- Band pull-apart 2 × 10
+- Band external rotation 2 × 10/side
+- Plank 2 × 20 sec
 
-**50 m:** Monday, October 12
-**100 m:** Tuesday, October 13
-**Pool:** 25 m short course
-**Full rest day:** Saturday only
-**Normal training window:** 7:30–9:00/9:30 AM
+**AM swim · ~1,150–1,250 m**
+- 4 × 50 easy — **20 sec**
+- 4 × 25 build — **20 sec**
+- 2 × 25 front scull — **20 sec**
+- 2 × 25 fist — **20 sec**
+- 2 × 50 pull buoy — **30 sec**
+- 2 × 25 normal, focus catch — **30 sec**
+- 4 × dive → breakout → 15 m — **2–3 min**
+- 4 × wall push → 3–4 dolphins → breakout — **60–90 sec**
+- 4 × 25 @ 90–95% — **2 min**
+- 4 × fast approach → flip → dolphin → breakout — **60–90 sec**
+- 150–200 easy
 
-### Effort guide
+**PM swim · ~400–500 m EASY**
+- 200 easy
+- 4 × 25 streamline → dolphins → breakout — **30–45 sec**
+- 4 × 25 smooth freestyle — **20 sec**
+- 100 easy
 
-| Code     | Meaning                                            |
-| -------- | -------------------------------------------------- |
-| EASY     | 2–4/10, completely controlled                      |
-| BUILD    | Begin easy, progressively accelerate to ~7–8/10    |
-| RP100    | 8–9/10, your sustainable 100 m race rhythm         |
-| FAST     | 9–10/10 sprint with good technique                 |
-| RACE 50  | Very fast race execution                           |
-| Recovery | Swim very easily; goal is to feel better afterward |
-
-For **FAST** swimming, take the prescribed long rest. You are training speed—not your ability to survive repeated exhausted sprints.
-
----
-
-# Sat Sep 26 — REST
-
-**0 m.**
-
-No pool training. Normal easy activity is fine.
-
-This becomes your regular weekly recovery day.
-
----
-
-# Sun Sep 27 — Technique + aerobic control
-
-## 850 m
-
-| Set          | Distance | Instructions                                                    |      Rest |
-| ------------ | -------: | --------------------------------------------------------------- | --------: |
-| Easy warm-up |      200 | 8×25 relaxed freestyle                                          | 20–30 sec |
-| Technique    |      100 | 4×25 smooth freestyle: head still, relaxed recovery, firm catch |    30 sec |
-| Aerobic 50s  |      200 | 4×50 comfortable. Same rhythm second 25 as first                | 30–45 sec |
-| Kick         |      100 | 4×25 flutter kick with kickboard, controlled                    |    30 sec |
-| Build        |      100 | 4×25 gradually accelerate to ~75–80%                            |    45 sec |
-| Easy 50s     |      100 | 2×50 relaxed                                                    |    30 sec |
-| Cool-down    |       50 | 2×25 very easy                                                  |         — |
-
-### Focus
-
-Do **not** race today.
-
-Think:
-
-**long body → relaxed exhale → clean catch → small continuous kick.**
-
-You should finish fresher than on a hard training day.
+**Evening mobility · 10 min**
+Cat-cow × 8 → open book × 6/side → wall slide × 8 → lat stretch 20 sec/side → hip-flexor stretch 20 sec/side → calf stretch 20 sec/side.
 
 ---
 
-# Mon Sep 28 — 100 m speed endurance
+# Oct 5 — 100 Pace + Pull/Catch + Turns
 
-## 1,000 m — IMPORTANT SESSION
+**Before pool · 10 min**
 
-### Warm-up — 300 m
+Same activation as Oct 4, but only **1 set each**.
 
-6×25 easy freestyle = **150 m**
+**AM swim · ~1,050–1,150 m**
+- 150 easy
+- 4 × 25 build — **20 sec**
+- 2 × [25 pull buoy + 25 normal] — **20–30 sec**
+- 2 × 50 pull buoy — **30 sec**
+- **4 × 50 @ 100-race rhythm — 1:30–2:00**
+- 4 × 25: 12.5 fast + 12.5 easy — **45 sec**
+- 4–6 × turn → push → dolphins → breakout — **60–90 sec**
+- 2 × 25 fast finish — **1 min**
+- 150–200 easy
 
-2×25 backstroke/easy choice = **50 m**
+**PM swim · ~400 m EASY**
+- 150–200 easy
+- 2 × 25 scull
+- 2 × 25 fist
+- 4 × 25 smooth normal
+- 2 × 25 build to only 80%
+- easy remainder
 
-4×25 BUILD = **100 m**
+**Evening mobility · 5–10 min**
 
-Rest 20–40 sec.
-
-### Technique — 100 m
-
-4×25 smooth freestyle.
-
-Concentrate on maintaining the same catch when swimming faster.
-
-### Turn set — 200 m
-
-**4×50**
-
-Each 50:
-
-**25 controlled → attack wall normally → clean turn → immediately establish stroke rhythm → 25 controlled**
-
-Rest **60–75 sec**.
-
-Do not glide into the wall.
-
-### Main set — 200 m
-
-**2 rounds:**
-
-4×25 @ **RP100**
-
-Rest:
-
-* **20–30 sec between 25s**
-* **4 min between rounds**
-
-Treat them mentally as:
-
-**#1 — controlled fast**
-**#2 — rhythm**
-**#3 — hold technique**
-**#4 — strong finish**
-
-The goal is consistency—not making #1 ridiculously fast.
-
-### Speed endurance — 100 m
-
-**2×50 @ ~90–95%**
-
-Rest **4 minutes**.
-
-These should be hard, but your stroke should still resemble your normal freestyle.
-
-If #2 becomes wildly slower or technically poor, stop after #1.
-
-### Cool-down — 100 m
-
-4×25 easy.
+Wall slides + open book + lat + hip flexor + calf/ankle.
 
 ---
 
-# Tue Sep 29 — 50 m speed
+# Oct 6 — Recovery + Flutter Kick
 
-## 900 m — QUALITY SESSION
+### Before pool · ~8 min
 
-### Warm-up — 250 m
+Very light:
+- Arm circles × 10
+- Squat 1 × 10
+- Calf raise 1 × 10
+- Band pull-apart 1 × 10
+- External rotation 1 × 10/side
+- Easy mobility
 
-6×25 easy = 150
-2×25 technique = 50
-2×25 BUILD = 50
+### AM swim · ~900–1,000 m
 
-### Start activation — 100 m
+- 300 easy
+- **4 × 25 kickboard flutter — 20–30 sec**
+- **4 × 25 streamline flutter kick — 30 sec**
+- 2 × 25 scull — 20 sec
+- 2 × 25 fist — 20 sec
+- 4 × 25 normal — 20 sec
+- 6 × 50 smooth — **20–30 sec**
+- 4 × 25 build: 60 → 70 → 80 → 90% — **30 sec**
+- 2 clean turns
+- 100 easy
 
-If blocks are available and your coach/pool permits starts:
+### PM
 
-**2×25 familiar race start**
-**2×25 easy**
+**NO SWIMMING.**
 
-Take **2–3 min** before another start.
+### Evening · 15 min mobility
 
-Use only a start you already know. Starts should be supervised.
-
-### Main sprint set — 200 m
-
-**4×:**
-
-25 FAST
-+
-25 EASY
-
-Take **2–3 minutes after each fast 25**.
-
-The FAST lengths should be genuinely fast.
-
-Do not rush the recovery.
-
-### Pure-speed set — 100 m
-
-**4×25 FAST from push**
-
-Rest **2.5–3 min**.
-
-Target:
-
-**fast kick + firm catch + relaxed shoulders + stable head.**
-
-If sprint #3 is clearly deteriorating, do not force #4.
-
-### Easy aerobic swimming — 200 m
-
-4×50 relaxed.
-
-### Cool-down — 50 m
-
-2×25 easy.
+Cat-cow × 8  
+Open book × 6/side  
+Wall slide 2 × 8  
+Band external rotation 1 × 10/side  
+Lat stretch 2 × 20 sec  
+Hip flexor 2 × 20 sec/side  
+Calf/ankle 2 × 20 sec/side  
+Dead bug 2 × 6/side
 
 ---
 
-# Wed Sep 30 — Active recovery
+# Oct 7 — KEY SPEED DAY
 
-## 700 m
+### Before pool · 8–10 min
 
-Not a rest day, but **no hard training**.
+Light activation only.
 
-200 easy
+**NO skipping. No weights.**
 
-4×25 technique = 100
+### AM swim · ~850–950 m
 
-4×50 EASY = 200
+**Warm-up**
+- 150 easy
+- 4 × 25 build — 20 sec
 
-4×25 kickboard easy = 100
+**Catch activation**
+- 2 × 25 scull
+- 2 × 25 fist
+- 2 × 25 normal
 
-2×50 very easy = 100
+**Starts**
+- **4 × dive → 15 m — 3 MIN REST**
 
-**Total = 700 m**
+If possible, time them.
 
-No stopwatch.
+**Dolphin test**
+- 15 m with **2 dolphins**
+- Rest 2 min
+- 15 m with **3 dolphins**
+- Rest 2 min
+- 15 m with **4 dolphins**
 
-No sprinting.
+Use whichever produces your best complete breakout/15 m, not whichever keeps you underwater longest.
 
-No hard turns.
+**Sprint**
+- **4 × 25 @ ~95% — 2:30–3:00 rest**
 
----
+**Turns**
+- 4 × 10 m fast → flip → push → dolphins → breakout → sprint 5–7 m
+- **60–90 sec**
 
-# Thu Oct 1 — 50 m race rehearsal
+**Finish**
+- 2 × 25, attack final 10 m
 
-## 850 m
+150–200 easy.
 
-This is your first major checkpoint.
+### PM · ~300–400 m
 
-### Warm-up — 250 m
+- 150–200 easy
+- 4 × turn + breakout
+- 4 × 25 smooth
+- easy finish
 
-150 easy
-4×25 BUILD = 100
+No sprint.
 
-### Technique — 100 m
+### Evening
 
-4×25 smooth.
-
-### Start work — 100 m
-
-2×25 familiar supervised starts
-2×25 easy
-
-Full recovery.
-
-### Turn preparation — 100 m
-
-**4×25 involving your race wall approach/turn**, swimming easily except around the wall.
-
-Your objective:
-
-**carry speed into wall → compact turn → firm push → regain stroke rhythm.**
-
-### Easy reset — 100 m
-
-4×25 easy.
-
-Then rest **4–5 minutes**.
-
-## 50 m rehearsal — 50 m
-
-**ONE timed 50 m.**
-
-Race sequence:
-
-**Start → fast first 25 → clean turn → attack second 25 → finish through wall.**
-
-Do not do another timed 50 because you are unhappy with the result.
-
-Record:
-
-| Metric              | Record                |
-| ------------------- | --------------------- |
-| First 25            | ___                   |
-| Total 50            | ___                   |
-| Second 25           | Total − first 25      |
-| Turn                | Good / average / poor |
-| Technique last 15 m | Good / breaking down  |
-
-### Recovery — 150 m
-
-6×25 very easy.
+Only **5–10 min gentle mobility** because you already swam twice.
 
 ---
 
-# Fri Oct 2 — 100 m race rehearsal
+# Oct 8 — Race Rehearsal
 
-## 950 m — KEY SESSION
+### Before pool · ~8 min
 
-This is probably the most informative training session before your competition.
+Mobility + bands only.
 
-### Warm-up — 250 m
+### AM swim · ~750–850 m
 
-150 easy
-4×25 BUILD = 100
+- 250 easy
+- 4 × 25 build — 20 sec
+- 4 × 25 flutter kick: easy → moderate → build → moderate — **30 sec**
 
-### Technique — 100 m
+**Starts**
+- **3 × dive → 15 m — 3 min**
 
-4×25 smooth.
+Use your chosen dolphin count.
 
-### Race-rhythm preparation — 100 m
+### Broken 50 #1
 
-4×25 @ approximately RP100.
+**25 FAST**
 
-Rest **30 sec**.
+**20–30 sec**
 
-### Turn preparation — 100 m
+**25 FAST**
 
-2×50 controlled with clean turns.
+### REST 4–5 MIN
 
-Rest 60 sec.
+### Broken 50 #2
 
-### Reset — 100 m
+**25 FAST**
 
-4×25 very easy.
+**20–30 sec**
 
-Rest **4–5 minutes**.
+**25 FAST**
 
-# 100 m race rehearsal — 100 m
-
-Swim one strong race rehearsal at approximately **90–95%**, not a desperate PB attempt.
-
-Think:
-
-| Length     | Job                   |
-| ---------- | --------------------- |
-| **0–25**   | Fast but controlled   |
-| **25–50**  | Establish race rhythm |
-| **50–75**  | Protect technique     |
-| **75–100** | Commit and finish     |
-
-Have someone record:
-
-**25 / 50 / 75 / 100 m splits.**
-
-Those four numbers matter more than simply knowing the final 100 time.
-
-Elite 100 m freestyle research shows velocity and stroke characteristics typically decline later in the race; the objective isn't four identical lengths, but limiting unnecessary deterioration. ([PubMed][3])
-
-### Recovery — 200 m
-
-8×25 very easy.
-
-Finish.
-
----
-
-# Sat Oct 3 — REST
-
-**0 m.**
-
-No swimming workout.
-
----
-
-# Sun Oct 4 — Recovery + short-course skills
-
-## 700 m
-
-200 easy
-
-4×25 technique = 100
-
-4×50 EASY = 200
-
-4×25 turn-focused swimming = 100
-
-4×25 very easy = 100
-
-**Total 700 m.**
-
-Turn emphasis only.
-
-No hard sprinting after Friday's 100.
-
----
-
-# Mon Oct 5 — Sprint speed
-
-## 700 m
-
-### Warm-up
-
-200 easy
-
-### Build
-
-4×25 BUILD = 100
-
-### Main set
-
-**4×:**
-
-25 FAST
-25 EASY
-
-= 200 m
-
-Take **2–3 min recovery following each FAST length**.
-
-### Turns
-
-2×50 = 100
-
-First 25 controlled-fast → strong turn → second 25 controlled.
-
-Rest 90 sec.
-
-### Cool-down
-
-100 easy.
-
-### Goal
-
-This is now about **quality**, not conditioning.
-
----
-
-# Tue Oct 6 — 100 m race pace
-
-## 700 m
-
-### Warm-up
-
-200 easy.
-
-### Technique
-
-4×25 = 100.
-
-### Main set
-
-**2 rounds:**
-
-4×25 @ RP100
-
-Rest:
-**20–30 sec between 25s**
-**4 min between rounds**
-
-Total = 200 m.
-
-### Race-pace 50s
-
-**2×50 @ RP100**
-
-Rest **3 min**.
-
-The second 25 must remain technically controlled.
-
-### Cool-down
-
-100 easy.
-
-This is your **last significant 100 m speed-endurance workout**.
-
----
-
-# Wed Oct 7 — Recovery
-
-## 500 m
-
-200 easy
-
-4×25 smooth technique = 100
-
-4×50 easy = 200
-
-Done.
-
-No fast swimming.
-
-No hard kick set.
-
----
-
-# Thu Oct 8 — 50 m sharpening
-
-## 550 m
-
-### Warm-up
-
-200 easy.
-
-### Starts
-
-2×50:
-
-familiar supervised start → transition into normal swimming → finish remaining distance easily.
-
-**100 m total.**
-
-Take **2–3 min recovery**.
-
-### Sprint
-
-2×:
-
-25 FAST
-25 EASY
-
-= 100 m.
-
-Full **3-minute recovery**.
-
-### Race feel
-
-**1×50 @ ~90–95%**
-
-Not a PB attempt.
-
-Clean start/entry if available, clean turn, fast second 25.
-
-### Cool-down
-
-100 easy.
-
-**Total = 550 m.**
-
----
-
-# Fri Oct 9 — Activation
-
-## 400 m
-
-You should feel sharp—not tired.
-
-150 easy
-
-4×25 smooth technique = 100
-
-2×:
-
-25 QUICK at ~85–90%
-25 EASY
-
-= 100
-
-50 easy
-
-**Total = 400 m.**
-
-If something feels poor today, **don't chase it**.
-
-Competition is three days away.
-
----
-
-# Sat Oct 10 — REST
-
-**0 m.**
-
-This is intentional.
-
-The taper literature supports substantially reducing volume before competition while retaining some high-intensity swimming rather than eliminating intensity entirely. A meta-analysis found the strongest average result with roughly a two-week taper and a **41–60% reduction in training volume while preserving intensity and frequency**. ([PubMed][4])
-
-Your final week therefore falls from your previous ~1,000 m/day pattern to approximately **3,150 m for the week**, while you continue touching race speed.
-
----
-
-# Sun Oct 11 — Pre-meet shakeout
-
-## 300 m
-
-This session should make you want to swim more.
-
-100 easy.
-
-2×25 BUILD = 50.
+That's enough.
 
 Then:
 
-2×:
+- 2 × 50 @ 100-race rhythm — **2–3 min**
+- 3 race-quality turns — **full recovery**
+- 150–200 easy
 
-25 QUICK
-25 EASY
+### PM · OPTIONAL 300–400 m
 
-= 100.
+Only if you feel fresh:
 
-Take **2–3 min between quick lengths**.
+200 easy → 4 × 25 smooth → 2 × 25 build to 80% → easy.
 
-50 easy.
+**If tired: skip it.**
 
-Finished.
+### Evening
 
-### Absolutely no
-
-No timed 50.
-
-No timed 100.
-
-No exhausting kick set.
-
-No last-minute technique experiment.
+5–10 min gentle mobility only.
 
 ---
 
-# MON OCT 12
+# Oct 9 — Last Sharpening
 
-# 50 m RACE DAY
+### Before pool · 5–8 min
 
-Your training is finished.
+- Arm circles
+- Wall slides
+- Band pull-aparts
+- External rotations
+- 10 easy squats
+- 10 calf raises
 
-Today is about execution.
+Nothing strenuous.
 
-## Pool warm-up — approximately 500–600 m
+### AM swim · ~650–750 m
 
-If the competition provides sufficient warm-up access:
+- 250 easy
+- 2 × 25 fist — 20 sec
+- 2 × 25 normal — 20 sec
 
-200 easy
+**Starts**
+- **3 × dive → 15 m — 3 min**
 
-4×25 smooth technique = 100
+**Speed**
+- **3 × 25 @ 90–95% — 2–3 min**
 
-4×25 BUILD = 100
+**Turns**
+- **3 race-quality turns — 1–2 min**
 
-2×25 QUICK = 50
-Full recovery.
+**Finish**
+- 2 × 25, accelerate final 10 m
 
-2×25 easy = 50
+150–200 easy.
 
-Optional additional 50–100 easy depending on how you feel.
+### PM
 
-Research in competitive swimmers supports performing an in-water warm-up before 100 m racing, while excessively long warm-ups can be counterproductive. In one randomized study, 600 m and 1,200 m warm-ups produced better outcomes than 1,800 m. ([PubMed][5])
+**OFF.**
 
-Your exact meet warm-up is therefore deliberately modest compared with what high-volume elite swimmers might perform.
+### Evening
 
-## 50 m race cue
+~10 min easy mobility.
 
-### First 25
+No gym.
 
-**Explosive but controlled.**
-
-Don't spend the first 15 m fighting the water.
-
-Settle quickly into your fast stroke.
-
-### Turn
-
-**Attack wall → quick turn → firm push → immediately return to race rhythm.**
-
-The turn matters enormously in short course. ([PubMed][1])
-
-### Second 25
-
-This is where your training should show.
-
-Don't think:
-
-**"I'm tired."**
-
-Your technical cue is:
-
-**catch → kick → rhythm → wall.**
-
-Swim completely through the finish.
-
-### Breathing
-
-Use your **normal practised racing breathing**.
-
-Do not intentionally turn the race into a breath-hold test.
-
-No hyperventilation before the start. ([Australian Sports Commission][6])
-
-## After the 50
-
-If a cool-down lane is available:
-
-**100–200 m very easy.**
-
-Nothing hard.
-
-You race the 100 tomorrow.
+No strength training.
 
 ---
 
-# TUE OCT 13
+# Oct 10 — COMPLETE REST
 
-# 100 m RACE DAY
+### AM
 
-Use essentially the same warm-up.
+No dryland.
 
-## Warm-up — approximately 500–600 m
+No swimming.
 
-200 easy
+### Daytime
 
-4×25 technique = 100
+Normal easy walking is fine.
 
-4×25 BUILD = 100
+### PM
 
-2×25 @ approximately RP100 = 50
+No swimming.
 
-2×25 quick = 50
+Optional **5–10 min gentle mobility** only if you feel stiff.
 
-50–100 easy.
-
-Stay warm after exiting the pool.
-
----
-
-# Your 100 m race
-
-Treat it as **four separate jobs**.
-
-| Length     | Mental instruction                               |
-| ---------- | ------------------------------------------------ |
-| **0–25**   | Fast start, but don't race it like your 50       |
-| **25–50**  | Establish rhythm and hit the wall with speed     |
-| **50–75**  | **Most important length: HOLD**                  |
-| **75–100** | Commit, maintain catch/kick, finish through wall |
-
-The 100 m uses substantial contributions from both aerobic and anaerobic metabolism, which is why your preparation contains both controlled swimming and high-speed work rather than only maximal sprints. ([PubMed][2])
+**No skipping.  
+No gym.  
+No push-ups.  
+No pull-ups.  
+No kick workout.**
 
 ---
 
-# The four techniques I want you thinking about
+# Oct 11 — Pre-Race Activation
 
-### Freestyle swimming
+### Before pool · ~5 min
 
-Head stable.
+Very light:
 
-Rotate rather than lifting your head to breathe.
+Arm circles → band pull-aparts × 10 → wall slides × 8 → 10 easy squats.
 
-Firm catch.
+### AM swim · ~500–600 m
 
-Kick remains active when fatigue begins.
+- 200 easy
+- 4 × 25 build: **60 → 70 → 80 → 90%**
+- **1–2 × dive → 15 m — full recovery**
+- **2 × 25 @ 90–95% — 3 min**
+- **2 race-quality turns**
+- 150–200 easy
 
-Don't deliberately increase stroke rate so much that you lose the water.
+## GET OUT.
 
-### Turn
+Don't add laps because you feel good.
 
-No long glide before the wall.
+### PM
 
-Use the turn you already perform reliably.
+**OFF.**
 
-If your flip turn is already reliable, race it.
+### Evening
 
-Don't try to rebuild your entire turn during these final two weeks.
+5–8 min very gentle mobility if desired.
 
-### Breakout
-
-Push in a tight body line, use your **familiar** breakout and transition cleanly into swimming.
-
-There is **no prescribed underwater-distance target** in this program.
-
-### Finish
-
-Do not glide excessively toward the wall.
-
-Keep swimming through the touch.
+Then normal rest.
 
 ---
 
-# What matters most from now until October 13
+# Oct 12 — 50 FREE
 
-Your preparation is no longer about saying:
+## Before race
 
-**"I swam 1,000 m today."**
+Don't do your normal dryland workout.
 
-It's about being able to say:
+Just **5–10 min activation** near warm-up:
 
-**"My fast 25s stayed fast."**
-**"My second 25 stayed technically strong."**
-**"My turns were consistent."**
-**"I could maintain my 100 m rhythm."**
-**"I reached race week fresh."**
+Arm swings → shoulder circles → light bands → a few easy squats → mobility.
 
-That is much closer to how I want you training for these specific short-course sprint events. Starts and turns deserve particular attention in a 25 m pool, and the research specifically argues against treating competition preparation as predominantly free-swimming conditioning. ([PubMed][1])
+### Pool warm-up
 
-**One thing I want from you after October 2:** give me the four **25 m splits from your 100 m rehearsal** and your **October 1 50 m time + first-25 split**. With those numbers, I can tighten the Oct 4–13 race-pace work around your actual swimming rather than generic effort levels.
+If meet logistics permit:
 
-[1]: https://pubmed.ncbi.nlm.nih.gov/33663342/?utm_source=chatgpt.com "Start and turn performances of elite male swimmers: benchmarks and underlying mechanisms - PubMed"
-[2]: https://pubmed.ncbi.nlm.nih.gov/29466071/?utm_source=chatgpt.com "Dynamics of the Metabolic Response During a Competitive 100-m Freestyle in Elite Male Swimmers - PubMed"
-[3]: https://pubmed.ncbi.nlm.nih.gov/37305663/?utm_source=chatgpt.com "Association between elite swimmers' force production and 100 m front crawl inter-lap pacing and kinematics."
-[4]: https://pubmed.ncbi.nlm.nih.gov/17762369/?utm_source=chatgpt.com "Effects of tapering on performance: a meta-analysis - PubMed"
-[5]: https://pubmed.ncbi.nlm.nih.gov/26506059/?utm_source=chatgpt.com "The Effects of Different Warm-up Volumes on the 100-m Swimming Performance: A Randomized Crossover Study - PubMed"
-[6]: https://www.ausport.gov.au/ais/position_statements/breath-hold-training?utm_source=chatgpt.com "Breath Hold Training | ASC"
+- 200 easy
+- 4 × 25 build
+- 2 × 15 m fast — full recovery
+- 1 start if permitted
+- easy loosen
+
+### Race
+
+Your only sequence:
+
+**DIVE → TIGHT STREAMLINE → DOLPHINS → BREAKOUT → SPRINT**
+
+↓
+
+**FAST INTO TURN**
+
+↓
+
+**FLIP → HARD PUSH → STREAMLINE → DOLPHINS → BREAKOUT**
+
+↓
+
+**SPRINT → KICK → THROUGH THE WALL**
+
+Don't introduce a new breathing strategy today.
+
+### After race / PM
+
+If pool access allows and you're feeling normal:
+
+**300–400 m extremely easy recovery.**
+
+Otherwise rest.
+
+**No evening exercise.**
+
+---
+
+# Oct 13 — 100 FREE
+
+### Pre-pool
+
+5–10 min light activation only.
+
+### Pool warm-up
+
+- 200–300 easy
+- 4 × 25 build
+- 2 × 25 at 100-race feel
+- 1 × 15 fast
+- easy loosen
+
+### Race plan
+
+**25 #1 — FAST + CONTROLLED**
+
+Don't race it like your 50.
+
+**25 #2 — RHYTHM**
+
+Clean wall.
+
+**25 #3 — HOLD FORM**
+
+This is where breathlessness may become significant. Keep your catch, kick and stroke mechanics together rather than simply spinning your arms faster.
+
+**25 #4 — GO**
+
+Use everything remaining.
+
+---
+
+## Your daily intensity pattern
+
+Think of the entire taper like this:
+
+**Oct 4:** 🟠 quality  
+**Oct 5:** 🟠 quality  
+**Oct 6:** 🟢 recovery  
+**Oct 7:** 🔴 fastest quality  
+**Oct 8:** 🔴 race rehearsal  
+**Oct 9:** 🟠 short + sharp  
+**Oct 10:** ⚪ REST  
+**Oct 11:** 🟢 activation  
+**Oct 12:** **50 RACE**  
+**Oct 13:** **100 RACE**
+
+Most importantly, **don't add anything else now**. Your instinct may be to do more because competition is getting closer. Resist that. We now have catch, pull buoy, flutter kick, starts, dolphin kicks, breakout, turns, sprint speed, 100 pace, recovery and mobility covered.

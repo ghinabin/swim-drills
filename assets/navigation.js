@@ -5,6 +5,7 @@
     "index.html": "Today",
     "plan.html": "Plan",
     "race.html": "Race",
+    "tempo.html": "Tempo",
   };
   const file = location.pathname.split("/").pop() || "index.html";
   const params = new URLSearchParams(location.search);

@@ -6,16 +6,22 @@
   function validateBackup(backup) {
     if (!object(backup) || backup.format !== 'lane50-backup' || backup.version !== 1)
       throw new Error('Choose a Lane 50 backup file (version 1).');
-    if (backup.planRevision !== PREPARATION.revision)
+    if (backup.planRevision !== PREPARATION.revision && Object.keys(backup.records || {}).some(key => key !== 'tempo:profile'))
       throw new Error('This backup belongs to a different plan. Your current records have not changed.');
     if (!object(backup.records) || !Object.keys(backup.records).length)
       throw new Error('This backup has no records to restore.');
     for (const [key, value] of Object.entries(backup.records)) {
       if (!object(value)) throw new Error('A record in this backup is invalid.');
-      const day = PREPARATION.days.find(day => key === 'session:' + day.id);
+      if(key === 'tempo:profile') { TempoCore.validateProfile(value); continue; }
+      let day, sets;
+      for(const candidate of PREPARATION.days) {
+        if(key === 'session:'+candidate.id) { day=candidate; sets=candidate.sets; break; }
+        const phase=Object.entries(candidate.phases||{}).find(([phase])=>key === 'session:'+candidate.id+':'+phase);
+        if(phase) { day=candidate; sets=phase[1].sets; break; }
+      }
       if (day) {
         for (const [id, state] of Object.entries(value)) {
-          if (!day.sets.some(set => set.id === id) || !['done','skipped'].includes(state))
+          if (!sets.some(set => set.id === id) || !['done','skipped'].includes(state))
             throw new Error('This backup contains an unknown set or completion state.');
         }
         continue;
@@ -44,7 +50,10 @@
     return {format:'lane50-backup',version:1,planRevision:PREPARATION.revision,exportedAt:new Date().toISOString(),records};
   }
   query('main').insertAdjacentHTML('afterbegin', `<div class="app-status"><span data-offline-status role="status">Preparing offline…</span><button class="text-button" id="data-open">Data & backup</button></div><section class="save-warning" id="save-warning" hidden aria-label="Unsaved changes"><p id="save-message" role="status"></p><button class="button secondary" id="save-retry">Retry</button></section>`);
-  document.body.insertAdjacentHTML('beforeend', `<dialog class="prep-dialog data-dialog" id="data-dialog" aria-labelledby="data-heading" data-trigger="data-open"><div class="prep-dialog-head"><h2 id="data-heading">Your data</h2><button class="text-button" data-close-dialog>Close</button></div><p>Saved in this browser, on this device. There is no account or cloud sync. Clearing browser data removes your saved records.</p><p data-offline-status role="status">Preparing offline…</p><p id="data-save-state" role="status"></p><button class="button" id="export-backup">Export backup</button><p class="prep-hint">Includes set progress, rehearsal drafts, official results and race details for this plan. Keep the file somewhere you can find it.</p><hr><h3>Restore a backup</h3><label>Choose a Lane 50 backup<input type="file" id="backup-file" accept="application/json,.json"></label><p id="restore-status" role="status"></p><button class="button secondary" id="restore-backup" hidden>Restore these records</button><button class="button" id="reload-restored" hidden>Show restored records</button><hr><h3>Use from your home screen</h3><p>On iPhone or iPad, open in Safari and choose Share → Add to Home Screen. On Android, use your browser’s Install app or Add to Home screen option when available.</p><p class="prep-hint">Open once online and check “Ready offline” before heading to the pool.</p></dialog>`);
+  document.body.insertAdjacentHTML('beforeend', `<dialog class="prep-dialog data-dialog" id="data-dialog" aria-labelledby="data-heading" data-trigger="data-open"><div class="prep-dialog-head"><h2 id="data-heading">Your data</h2><button class="text-button" data-close-dialog>Close</button></div><p>Saved in this browser, on this device. There is no account or cloud sync. Clearing browser data removes your saved records.</p><p data-offline-status role="status">Preparing offline…</p><p id="data-save-state" role="status"></p><button class="button" id="export-backup">Export backup</button><p class="prep-hint">Includes saved tempos, set progress, rehearsal drafts, official results and race details for this plan. Export tempos separately from Tempo to transfer them to another plan. Keep the file somewhere you can find it.</p><hr><h3>Restore a backup</h3><label>Choose a Lane 50 backup<input type="file" id="backup-file" accept="application/json,.json"></label><p id="restore-status" role="status"></p><button class="button secondary" id="restore-backup" hidden>Restore these records</button><button class="button" id="reload-restored" hidden>Show restored records</button><hr><h3>Use from your home screen</h3><p>On iPhone or iPad, open in Safari and choose Share → Add to Home Screen. On Android, use your browser’s Install app or Add to Home screen option when available.</p><p class="prep-hint">Open once online and check “Ready offline” before heading to the pool.</p></dialog>`);
+  // Keep pool setup/reference controls in the day menu, leaving the drill visible.
+  if(document.body.dataset.page==='session' && query('#phase-switch'))
+    query('#phase-switch').append(query('.app-status'));
   const warning = query('#save-warning');
   function paintSave() {
     warning.hidden = !LaneStorage.unsaved && !LaneStorage.unavailable;
@@ -86,7 +95,7 @@
       if(version!==selection)return;
       candidate=validateBackup(JSON.parse(raw));
       const count=Object.keys(candidate).length;
-      status.textContent=`Ready to restore ${count} record${count===1?'':'s'} for this plan. Matching sessions and results will be replaced; other records stay as they are.`;
+      status.textContent=`Ready to restore ${count} record${count===1?'':'s'} for this plan. Matching records, including any saved tempos, will be replaced; other records stay as they are.`;
       query('#restore-backup').hidden=false;
     } catch(error) {
       if(version!==selection)return;
