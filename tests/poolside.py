@@ -13,7 +13,7 @@ class Quiet(SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path.split('?')[0]=='/sw.js':
             source=(ROOT/'sw.js').read_text()
-            if getattr(self.server,'next_release',False):source=source.replace('v36-compact-checklist','v37-test-update')
+            if getattr(self.server,'next_release',False):source=source.replace('v37-daily-overview','v38-test-update')
             body=source.encode();self.send_response(200);self.send_header('Content-Type','application/javascript');self.send_header('Cache-Control','no-store');self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body)
         else:super().do_GET()
 
@@ -33,9 +33,22 @@ def run():
         old=PLAN['previousRevision']
         page.evaluate('(old)=>localStorage.setItem("lane50:"+old+":records",JSON.stringify({version:1,records:{"session:2026-10-05":{s1:"done"},"race:50":{heat:"3",result:"35.40"},"rehearsal:50":{p25:"16",p50:"35"}}}))',old)
         visit('session.html?id=2026-10-05')
-        assert page.locator('[data-done][aria-checked=true]').count()==0
-        assert page.locator('#timer-quick-toggle').inner_text()=='Choose'
-        assert page.locator('#timer-preview').inner_text()=='—:—'
+        assert page.locator('[data-done]:checked').count()==0
+        assert page.locator('#timer-quick-toggle').inner_text()=='Start'
+        assert page.locator('#timer-preview').inner_text()=='0:20'
+        assert page.locator('#next-set').count()==0
+        # The default can start immediately; completed zero is preserved on reload.
+        page.locator('#timer-quick-toggle').click();page.clock.fast_forward(20000)
+        assert page.locator('#timer-preview').inner_text()=='0:00'
+        page.reload();assert page.locator('#timer-quick-toggle').inner_text()=='Restart'
+        page.locator('#timer-dock').click();assert page.locator('#rest-source').input_value()=='manual'
+        assert page.locator('[data-duration="20"]').get_attribute('aria-pressed')=='true'
+        page.locator('#timer-reset').click();close('rest-dialog')
+        assert page.locator('#timer-preview').inner_text()=='0:20'
+        # Upgrade an empty legacy timer to the ready twenty-second default.
+        page.evaluate('LaneStorage.save("timer",{duration:0,remaining:0,deadline:null,status:"Choose rest"})');page.reload()
+        assert page.locator('#timer-preview').inner_text()=='0:20'
+
         page.evaluate('Object.defineProperty(navigator,"wakeLock",{configurable:true,value:undefined})')
         page.locator('#phase-switch summary').click();page.locator('#keep-screen').click()
         assert 'Not supported' in page.locator('#screen-state').inner_text()
@@ -78,31 +91,31 @@ def run():
         page.locator('#timer-quick-toggle').click();page.clock.fast_forward(5000)
         assert page.locator('#timer-preview').inner_text()=='0:40'
         page.locator('[data-done]').nth(1).scroll_into_view_if_needed()
-        assert page.locator('[data-done][aria-checked=true]').count()==0
+        assert page.locator('[data-done]:checked').count()==0
         page.locator('#timer-quick-toggle').click()
         # Failed writes remain checked in memory, with a visible Retry only on failure.
         assert page.locator('#save-warning').is_hidden()
         assert page.locator('#data-open,[data-offline-status]').count()==0
         page.evaluate('()=>{window.originalSet=Storage.prototype.setItem;Storage.prototype.setItem=()=>{throw Error("quota")};}')
         page.locator('[data-done]').first.click();assert page.locator('#save-warning').is_visible()
-        assert page.locator('[data-done][aria-checked=true]').count()==1
+        assert page.locator('[data-done]:checked').count()==1
         assert page.evaluate('LaneStorage.get("session:2026-10-08")["am-1"]')=='done'
         page.evaluate('()=>{Storage.prototype.setItem=window.originalSet;}');page.locator('#save-retry').click();assert page.locator('#save-warning').is_hidden()
-        page.reload();assert page.locator('[data-done][aria-checked=true]').count()==1
+        page.reload();assert page.locator('[data-done]:checked').count()==1
         visit('session.html?id=2026-10-08&phase=pm')
         assert 'If tired: skip PM' in page.locator('.phase-note').inner_text()
-        assert page.locator('[data-done][aria-checked=true]').count()==0
+        assert page.locator('[data-done]:checked').count()==0
         page.locator('[data-done]').first.click();page.reload()
-        assert page.locator('[data-done][aria-checked=true]').count()==1
+        assert page.locator('[data-done]:checked').count()==1
         page.locator('[data-done]').first.click();page.reload()
-        assert page.locator('[data-done][aria-checked=true]').count()==0
+        assert page.locator('[data-done]:checked').count()==0
         # Historical skips remain stored, but do not mark new checkboxes completed.
         page.evaluate('LaneStorage.save("session:2026-10-08:pm",{"pm-1":"skipped"})');page.reload()
-        assert page.locator('[data-done][aria-checked=true]').count()==0
-        assert page.locator('#next-set').get_attribute('href')=='#set-pm-1'
+        assert page.locator('[data-done]:checked').count()==0
+        assert page.locator('#set-pm-1').evaluate('(e)=>e.classList.contains("is-next")')
         page.locator('[data-done]').first.click();page.reload()
-        assert page.locator('[data-done][aria-checked=true]').count()==1
-        visit('session.html?id=2026-10-08');assert page.locator('[data-done][aria-checked=true]').count()==1
+        assert page.locator('[data-done]:checked').count()==1
+        visit('session.html?id=2026-10-08');assert page.locator('[data-done]:checked').count()==1
         # Save recovery, results and reporting remain usable on new race content.
         visit('race.html?event=100');page.locator('#official-result').fill('1:14.20');page.reload();assert page.locator('#official-result').input_value()=='1:14.20'
         assert 'HOLD FORM' in page.locator('#race-cues').inner_text()
@@ -118,9 +131,9 @@ def run():
         page.wait_for_function('async()=>!!(await navigator.serviceWorker.getRegistration()).waiting')
         page.locator('#phase-switch summary').click()
         page.locator('#app-update').wait_for(state='visible')
-        assert page.locator('[data-done][aria-checked=true]').count()==1
+        assert page.locator('[data-done]:checked').count()==1
         page.locator('#app-update').click()
-        page.wait_for_function('async()=>(await caches.keys()).includes("lane50-shell-v37-test-update")&&!(await navigator.serviceWorker.getRegistration()).waiting')
+        page.wait_for_function('async()=>(await caches.keys()).includes("lane50-shell-v38-test-update")&&!(await navigator.serviceWorker.getRegistration()).waiting')
         assert not errors,errors
         browser.close()
     finally:server.shutdown()

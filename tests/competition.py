@@ -39,21 +39,21 @@ def run():
           page.goto(base)
           assert page.locator('.nav-link').all_inner_texts()==['Today','Plan','Race']
           assert '100 pace + catch + turns' in page.locator('.prep-hero').inner_text()
-          assert page.locator('[data-period="am"]').get_attribute('aria-current')=='page'
+          assert page.locator('[data-period]').count()==0
+          assert '9 drill blocks' in page.locator('.day-workload').inner_text()
+          assert '100 m rhythm' in page.locator('.day-drill-summary').inner_text()
           page.locator('#exercise-before').click()
           assert page.locator('#exercise-dialog-before').is_visible()
           assert 'Bodyweight squat 1 × 10' in page.locator('#exercise-dialog-before').inner_text()
           page.locator('#exercise-dialog-before [data-close-dialog]').click()
           page.wait_for_function('!document.getElementById("exercise-dialog-before").open')
-          page.locator('[data-period="pm"]').click()
-          assert page.locator('[data-period="pm"]').get_attribute('aria-current')=='page'
-          assert page.locator('.prep-hero h2').inner_text()=='PM swim'
+          page.locator('.day-later summary').click()
+          assert 'Optional' in page.locator('.day-later').inner_text()
           page.locator('#exercise-evening').click()
           assert 'Wall slides' in page.locator('#exercise-dialog-evening').inner_text()
           page.locator('#exercise-dialog-evening [data-close-dialog]').click()
           page.wait_for_function('!document.getElementById("exercise-dialog-evening").open')
-          page.locator('[data-period="am"]').click()
-          page.get_by_role('link',name='Open AM swim',exact=True).click()
+          page.get_by_role('link',name='Open drills',exact=True).click()
           assert page.locator('h1').inner_text()=='AM swim'
           assert page.locator('[data-done]').count()==9
           assert page.locator('[data-period="am"]').get_attribute('aria-current')=='page'
@@ -66,20 +66,20 @@ def run():
           # The entire card toggles a checkbox; only its title is crossed out.
           assert page.locator('[data-skip],[data-rest-choice],#complete-day,#skip-phase,#block-rest').count()==0
           assert page.locator('#data-open,[data-offline-status]').count()==0
-          assert page.locator('[data-done]').first.get_attribute('role')=='checkbox'
-          assert page.locator('[data-done]').first.bounding_box()['height']>=48
+          assert page.locator('[data-done]').first.get_attribute('type')=='checkbox'
+          assert page.locator('.drill-card').first.bounding_box()['height']>=48
           page.locator('.pool-prescription').first.click()
-          assert page.locator('[data-done][aria-checked=true]').count()==1
+          assert page.locator('[data-done]:checked').count()==1
           assert page.locator('.drill-title').first.evaluate('(e)=>getComputedStyle(e).textDecorationLine')=='line-through'
           assert page.locator('.pool-prescription').first.evaluate('(e)=>getComputedStyle(e).textDecorationLine')=='none'
           page.locator('[data-done]').first.press('Space')
-          assert page.locator('[data-done][aria-checked=true]').count()==0
-          page.locator('[data-done]').first.press('Enter')
-          assert page.locator('[data-done][aria-checked=true]').count()==1
+          assert page.locator('[data-done]:checked').count()==0
+          page.locator('.drill-title').first.click()
+          assert page.locator('[data-done]:checked').count()==1
           page.reload()
-          assert page.locator('[data-done][aria-checked=true]').count()==1
-          page.locator('#next-set').click()
-          assert page.locator('#set-am-2').bounding_box()['y']<100
+          assert page.locator('[data-done]:checked').count()==1
+          assert page.locator('#next-set,[data-next-set]').count()==0
+          assert page.locator('#set-am-2').evaluate('(e)=>e.classList.contains("is-next")')
           page.locator('[data-period="pm"]').click()
           assert page.locator('h1').inner_text()=='PM swim'
           assert page.locator('[data-period="pm"]').get_attribute('aria-current')=='page'
@@ -87,10 +87,10 @@ def run():
           assert 'Wall slides' in page.locator('#exercise-dialog-evening').inner_text()
           page.go_back()
           page.wait_for_function('!document.getElementById("exercise-dialog-evening").open')
-          assert page.locator('[data-done][aria-checked=true]').count()==0
+          assert page.locator('[data-done]:checked').count()==0
           page.locator('[data-done]').first.click()
           page.goto(base+'session.html?id=2026-10-05')
-          assert page.locator('[data-done][aria-checked=true]').count()==1
+          assert page.locator('[data-done]:checked').count()==1
           assert page.locator('#navigation').is_hidden()
           assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
           if width==390:page.screenshot(path='/private/tmp/final-taper-am.png',full_page=True)
@@ -109,9 +109,12 @@ def run():
               assert page.locator('[data-done]').count()==len(day['phases'][period]['sets'])
               assert page.locator('[data-period="'+period+'"]').get_attribute('aria-current')=='page'
               if period=='pm' and day['phases'][period]['status']=='off':assert page.locator('#timer-footer').is_hidden()
+          page.goto(base+'index.html?phase=pm')
+          assert page.locator('[data-period]').count()==0
+          assert page.locator('#day-title').inner_text()=='100 pace + catch + turns'
           assert not errors,errors
           context.close()
-        for date,label,action in [('2026-10-03','Catch + starts + 50 speed','Open AM swim'),('2026-10-10','Complete rest','View AM rest'),('2026-10-11','Pre-race activation','Open AM swim'),('2026-10-12','50 m freestyle','Open race preparation'),('2026-10-13','100 m freestyle','Open race preparation'),('2026-10-14','Your races are finished.','View results')]:
+        for date,label,action in [('2026-10-03','Catch + starts + 50 speed','Open drills'),('2026-10-10','Complete rest','View rest day'),('2026-10-11','Pre-race activation','Open drills'),('2026-10-12','50 m freestyle','Open race preparation'),('2026-10-13','100 m freestyle','Open race preparation'),('2026-10-14','Your races are finished.','View results')]:
           context=browser.new_context(timezone_id='Asia/Kathmandu');page=context.new_page()
           page.clock.install(time=datetime.fromisoformat(date+'T08:00:00+05:45'));page.goto(base)
           assert label in page.locator('main').inner_text()

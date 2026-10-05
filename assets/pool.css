@@ -34,7 +34,7 @@ body[data-page="session"] .site-header { min-height: 56px; padding-top: 4px; pad
 .phase-note { color: var(--amber); font-size: 15px; line-height: 1.5; margin: 6px 0 10px; }
 .pool-session-status { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 2px 10px; margin: 8px 0 4px; color: var(--muted); }
 .pool-session-status p { font-size: 14px; }
-.check-hint { font-size: 12px; }
+.check-hint { font-size: 13px; }
 .block-rest-note { font-size: 14px; line-height: 1.5; color: var(--muted); margin: 4px 0 12px; }
 .block-rest-note strong { color: var(--text); }
 .volume-note { font-size: 14px; line-height: 1.5; border-left: 3px solid var(--amber); padding: 8px 12px; margin: 8px 0; }
@@ -42,17 +42,16 @@ body[data-page="session"] .site-header { min-height: 56px; padding-top: 4px; pad
 .drill-group > h2 { color: var(--cyan); font-size: 14px; margin: 0 0 6px; }
 .classic-set, .classic-set.is-next, .classic-set.is-done { padding: 0; margin-bottom: 8px; border-width: 1px; border-left-width: 3px; border-radius: 10px; scroll-margin-top: calc(12px + var(--save-warning-height, 0px)); }
 .classic-set.is-next { border-color: var(--amber); }
-.classic-set.is-done { border-color: #347d69; background: #103d38; }
-.drill-card { display: block; width: 100%; min-height: 48px; padding: 12px; text-align: left; color: var(--text); background: transparent; border-radius: 8px; }
+.classic-set.is-done { border-color: var(--line); background: var(--surface); }
+.drill-card { cursor: pointer; display: block; width: 100%; min-height: 48px; padding: 12px; text-align: left; color: var(--text); background: transparent; border-radius: 8px; }
 .drill-card:hover { background: #ffffff06; }
-.drill-card:focus-visible { outline: 3px solid var(--cyan); outline-offset: -4px; }
+.drill-card:has(.drill-check:focus-visible) { outline: 3px solid var(--cyan); outline-offset: -4px; }
 .drill-card:active { background: #ffffff0b; }
 .set-title-line { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
 .set-title-line .classic-number { width: auto; padding: 0; font-size: 12px; color: var(--muted); }
 .drill-title { flex: 1; min-width: 0; font-size: 15px; font-weight: 650; line-height: 1.4; }
-.set-title-line .classic-check { display: grid; place-items: center; flex-shrink: 0; width: 22px; height: 22px; border: 2px solid #a0bec6; border-radius: 4px; color: var(--green); }
-.is-done .drill-title { text-decoration: line-through; text-decoration-thickness: 2px; color: var(--green); }
-.is-done .classic-check { border-color: var(--green); background: var(--green); color: var(--bg); font-size: 16px; font-weight: 800; }
+.drill-check { min-height: 20px; padding: 0; border: revert; border-radius: revert; background: revert; color: revert; appearance: auto; -webkit-appearance: checkbox; width: 20px; height: 20px; flex: 0 0 20px; margin: 0; accent-color: var(--cyan); cursor: pointer; }
+.is-done .drill-title { text-decoration: line-through; text-decoration-thickness: 1px; color: var(--muted); }
 .set-reading, .set-reading > span { display: block; }
 .pool-prescription { font-size: 19px; font-weight: 650; line-height: 1.4; font-variant-numeric: tabular-nums; }
 .pool-rest { color: var(--amber); font-size: 15px; font-weight: 600; line-height: 1.5; margin-top: 4px; }
@@ -80,7 +79,7 @@ body[data-page="session"] .site-header { min-height: 56px; padding-top: 4px; pad
 .race-cue-note { margin-top: 10px; color: var(--amber); font-size: 16px; }
 
 .classic-timer-footer { padding: 2px 16px calc(8px + env(safe-area-inset-bottom, 0px)); gap: 0; }
-.classic-timer-footer .footer-next { font-size: 14px; line-height: 1.4; min-height: 44px; padding: 4px; }
+.timer-hint { color: var(--muted); font-size: 13px; line-height: 1.4; padding: 5px 0; }
 .classic-timer-footer .timer-row { gap: 8px; }
 .classic-timer-footer .timer-row > .button { min-height: 48px; min-width: 80px; padding: 10px 12px; font-size: 16px; }
 .classic-timer-footer .prep-timer-dock { min-height: 48px; padding: 8px 10px; gap: 8px; }
@@ -90,8 +89,8 @@ body[data-page="session"] .site-header { min-height: 56px; padding-top: 4px; pad
 .classic-timer-footer #timer-dock-state { display: inline; margin-left: 6px; }
 #timer-dock-context { max-width: 260px; line-height: 1.4; color: var(--text); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 body[data-page="session"] main { padding-bottom: 24px; }
-body[data-page="session"].has-prep-timer main { padding-bottom: calc(var(--rest-footer-height, 140px) + 16px); }
-body.has-prep-timer .toast { bottom: calc(var(--rest-footer-height, 140px) + 16px); }
+body[data-page="session"].has-prep-timer main { padding-bottom: calc(var(--rest-footer-height, 100px) + 16px); }
+body.has-prep-timer .toast { bottom: calc(var(--rest-footer-height, 100px) + 16px); }
 .rest-source-label { display: block; font-size: 14px; margin-top: 8px; }
 #rest-source { width: 100%; min-height: 48px; margin: 4px 0 8px; font-size: 15px; }
 #set-rest-options { padding: 10px; }
@@ -106,6 +105,25 @@ body.has-prep-timer .toast { bottom: calc(var(--rest-footer-height, 140px) + 16p
 .rest-choices .button, .prep-controls .button { min-height: 48px; font-size: 17px; }
 #rest-dialog .prep-controls { margin-top: 12px; }
 
+
+/* Race setup uses the same compact controls as the workout. */
+body[data-page="race"] .page-intro h1 { font-size: 26px; }
+body[data-page="race"] .prep-focus { font-size: 16px; line-height: 1.5; }
+body[data-page="race"] .prep-event-tabs a { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 2px 8px; min-height: 48px; font-size: 18px; line-height: 1.35; padding: 10px 8px; }
+body[data-page="race"] .prep-event-tabs small { display: inline; font-size: 12px; margin: 0; }
+/* Home summarizes the whole day; session tabs remain inside the workout. */
+.daily-card .day-workload { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; }
+.day-workload > span { color: var(--muted); font-size: 14px; }
+.day-drill-summary { font-size: 14px; line-height: 1.6; color: var(--muted); }
+.day-drill-summary strong { color: var(--text); font-weight: 600; }
+.day-later > summary > span { min-width: 0; }
+.day-later summary small { display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 2px; }
+.day-later-swim { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 48px; color: var(--cyan); padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; }
+.day-later-swim span { display: flex; flex-wrap: wrap; gap: 2px 8px; align-items: baseline; }
+.day-later-swim small { color: var(--muted); font-size: 13px; }
+.day-later-note { color: var(--muted); font-size: 14px; line-height: 1.5; margin: 6px 0 10px; }
+.day-later .exercise-shortcut { margin: 0; }
+#rest-dialog .custom-duration > summary { min-height: 48px; display: list-item; list-style-position: inside; padding: 12px 0; color: var(--cyan); font-size: 14px; cursor: pointer; }
 @media (max-width: 760px) {
   main { padding-left: 16px; padding-right: 16px; }
   .prep-form-grid { grid-template-columns: 1fr; }
