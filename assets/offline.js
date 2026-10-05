@@ -3,7 +3,7 @@
   const button = document.createElement('button');
   button.className = 'text-button'; button.id = 'app-update';
   button.textContent = 'Update app'; button.hidden = true;
-  (document.querySelector('#phase-switch') || document.querySelector('.supporting-tools') || document.querySelector('main')).append(button);
+  document.querySelector('.supporting-tools')?.append(button);
   if (!('serviceWorker' in navigator) || !window.isSecureContext) return;
   button.onclick = () => {
     if (LaneStorage.unsaved) { toast('Retry saving your changes before updating.'); return; }

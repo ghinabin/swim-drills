@@ -67,19 +67,14 @@ body[data-page="session"] .site-header { min-height: 56px; padding-top: 4px; pad
 .exercise-dialog [data-close-dialog] { min-width: 80px; min-height: 48px; flex-shrink: 0; }
 .exercise-date { color: var(--muted); font-size: 14px; margin: 8px 0; }
 .exercise-dialog .preparation-list { margin-bottom: 0; }
-.phase-switch { margin: 10px 0; border: 1px solid var(--line); border-radius: 8px; }
-.phase-switch summary { padding: 10px 12px; min-height: 48px; color: var(--cyan); font-size: 14px; cursor: pointer; }
 .pouch-tools { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
 .pouch-tools button { min-height: 48px; }
 .pouch-tools small { color: var(--muted); font-size: 13px; }
-.phase-switch .pouch-tools { padding: 0 12px 8px; margin: 0; }
-.phase-switch #app-update { margin: 0 12px 8px; }
 .phase-rest h2 { font-size: 24px; }
 .phase-rest p { font-size: 16px; }
 .race-cue-note { margin-top: 10px; color: var(--amber); font-size: 16px; }
 
-.classic-timer-footer { padding: 2px 16px calc(8px + env(safe-area-inset-bottom, 0px)); gap: 0; }
-.timer-hint { color: var(--muted); font-size: 13px; line-height: 1.4; padding: 5px 0; }
+.classic-timer-footer { padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 0px)); gap: 0; }
 .classic-timer-footer .timer-row { gap: 8px; }
 .classic-timer-footer .timer-row > .button { min-height: 48px; min-width: 80px; padding: 10px 12px; font-size: 16px; }
 .classic-timer-footer .prep-timer-dock { min-height: 48px; padding: 8px 10px; gap: 8px; }
@@ -87,24 +82,16 @@ body[data-page="session"] .site-header { min-height: 56px; padding-top: 4px; pad
 .classic-timer-footer .prep-timer-dock strong { font-size: 25px; white-space: nowrap; }
 .classic-timer-footer .prep-timer-dock small { font-size: 12px; }
 .classic-timer-footer #timer-dock-state { display: inline; margin-left: 6px; }
-#timer-dock-context { max-width: 260px; line-height: 1.4; color: var(--text); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 body[data-page="session"] main { padding-bottom: 24px; }
 body[data-page="session"].has-prep-timer main { padding-bottom: calc(var(--rest-footer-height, 100px) + 16px); }
 body.has-prep-timer .toast { bottom: calc(var(--rest-footer-height, 100px) + 16px); }
-.rest-source-label { display: block; font-size: 14px; margin-top: 8px; }
-#rest-source { width: 100%; min-height: 48px; margin: 4px 0 8px; font-size: 15px; }
-#set-rest-options { padding: 10px; }
-#set-rest-options fieldset { margin-top: 10px; }
-.rest-choices { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 6px; }
-#rest-dialog .rest-choices .button, #rest-dialog .prep-timer-options .button { min-width: 0; padding: 8px; }
-#rest-dialog [data-set-duration][aria-pressed="true"] { color: var(--amber); border-color: var(--amber); background: #42371d; }
+.rest-choices { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }
 #rest-dialog { padding: 16px; }
-#rest-dialog .prep-dialog-head { position: sticky; top: -16px; padding: 8px 0; margin-bottom: 8px; background: var(--surface); z-index: 1; }
+#rest-dialog .prep-dialog-head { margin-bottom: 8px; }
 #rest-dialog .prep-dialog-head h2 { font-size: 22px; }
-#rest-dialog #timer-selection:empty { display: none; }
-.rest-choices .button, .prep-controls .button { min-height: 48px; font-size: 17px; }
-#rest-dialog .prep-controls { margin-top: 12px; }
-
+#rest-help { color: var(--muted); font-size: 14px; margin: 8px 0 14px; }
+#rest-times .button { min-width: 0; min-height: 52px; padding: 10px 8px; font-size: 20px; font-variant-numeric: tabular-nums; }
+#rest-times .button[aria-current="true"] { color: var(--amber); border-color: var(--amber); }
 
 /* Race setup uses the same compact controls as the workout. */
 body[data-page="race"] .page-intro h1 { font-size: 26px; }
@@ -123,7 +110,6 @@ body[data-page="race"] .prep-event-tabs small { display: inline; font-size: 12px
 .day-later-swim small { color: var(--muted); font-size: 13px; }
 .day-later-note { color: var(--muted); font-size: 14px; line-height: 1.5; margin: 6px 0 10px; }
 .day-later .exercise-shortcut { margin: 0; }
-#rest-dialog .custom-duration > summary { min-height: 48px; display: list-item; list-style-position: inside; padding: 12px 0; color: var(--cyan); font-size: 14px; cursor: pointer; }
 @media (max-width: 760px) {
   main { padding-left: 16px; padding-right: 16px; }
   .prep-form-grid { grid-template-columns: 1fr; }

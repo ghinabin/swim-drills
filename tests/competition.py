@@ -65,7 +65,7 @@ def run():
           assert page.locator('#exercise-before').evaluate('(e)=>e===document.activeElement')
           # The entire card toggles a checkbox; only its title is crossed out.
           assert page.locator('[data-skip],[data-rest-choice],#complete-day,#skip-phase,#block-rest').count()==0
-          assert page.locator('#data-open,[data-offline-status]').count()==0
+          assert page.locator('#data-open,[data-offline-status],#phase-switch,#day-source,#keep-screen').count()==0
           assert page.locator('[data-done]').first.get_attribute('type')=='checkbox'
           assert page.locator('.drill-card').first.bounding_box()['height']>=48
           page.locator('.pool-prescription').first.click()
@@ -79,6 +79,13 @@ def run():
           page.reload()
           assert page.locator('[data-done]:checked').count()==1
           assert page.locator('#next-set,[data-next-set]').count()==0
+          page.locator('#timer-dock').click()
+          assert page.locator('#rest-dialog select,#rest-dialog input,#timer-toggle,#timer-reset').count()==0
+          assert page.locator('[data-duration]').first.bounding_box()['height']>=48
+          assert page.locator('[data-duration="105"]').count()==1
+          assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+          page.locator('#rest-dialog [data-close-dialog]').click()
+          page.wait_for_function('!document.getElementById("rest-dialog").open')
           assert page.locator('#set-am-2').evaluate('(e)=>e.classList.contains("is-next")')
           page.locator('[data-period="pm"]').click()
           assert page.locator('h1').inner_text()=='PM swim'

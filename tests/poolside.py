@@ -1,4 +1,4 @@
-"""Final taper poolside: rest contexts, save recovery, migration and offline updates."""
+"""Final taper poolside: generic rest times, save recovery, migration and offline updates."""
 from datetime import datetime
 from functools import partial
 from http.server import ThreadingHTTPServer,SimpleHTTPRequestHandler
@@ -13,7 +13,7 @@ class Quiet(SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path.split('?')[0]=='/sw.js':
             source=(ROOT/'sw.js').read_text()
-            if getattr(self.server,'next_release',False):source=source.replace('v37-daily-overview','v38-test-update')
+            if getattr(self.server,'next_release',False):source=source.replace('v39-clean-session','v40-test-update')
             body=source.encode();self.send_response(200);self.send_header('Content-Type','application/javascript');self.send_header('Cache-Control','no-store');self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body)
         else:super().do_GET()
 
@@ -41,53 +41,63 @@ def run():
         page.locator('#timer-quick-toggle').click();page.clock.fast_forward(20000)
         assert page.locator('#timer-preview').inner_text()=='0:00'
         page.reload();assert page.locator('#timer-quick-toggle').inner_text()=='Restart'
-        page.locator('#timer-dock').click();assert page.locator('#rest-source').input_value()=='manual'
-        assert page.locator('[data-duration="20"]').get_attribute('aria-pressed')=='true'
-        page.locator('#timer-reset').click();close('rest-dialog')
+        page.locator('#timer-dock').click()
+        assert page.locator('#rest-source,#custom-rest,#timer-toggle,#timer-reset,#other-rest').count()==0
+        assert page.locator('[data-duration="20"]').get_attribute('aria-current')=='true'
+        page.locator('[data-duration="20"]').click()
+        page.wait_for_function('!document.getElementById("rest-dialog").open')
         assert page.locator('#timer-preview').inner_text()=='0:20'
+        assert page.locator('#timer-quick-toggle').inner_text()=='Pause'
+        page.locator('#timer-quick-toggle').click()
+
         # Upgrade an empty legacy timer to the ready twenty-second default.
         page.evaluate('LaneStorage.save("timer",{duration:0,remaining:0,deadline:null,status:"Choose rest"})');page.reload()
         assert page.locator('#timer-preview').inner_text()=='0:20'
 
-        page.evaluate('Object.defineProperty(navigator,"wakeLock",{configurable:true,value:undefined})')
-        page.locator('#phase-switch summary').click();page.locator('#keep-screen').click()
-        assert 'Not supported' in page.locator('#screen-state').inner_text()
-        assert page.locator('#keep-screen').get_attribute('aria-pressed')=='false'
-        page.locator('#phase-switch summary').click()
+        assert page.locator('#phase-switch,#day-source,#keep-screen').count()==0
         page.locator('[data-done]').first.click()
         assert page.evaluate('(old)=>localStorage.getItem("lane50:"+old+":records")!==null',old)
         visit('race.html?event=50')
         assert page.locator('[data-logistics="heat"]').input_value()=='3'
         assert page.locator('#official-result').input_value()=='35.40'
         visit('session.html?id=2026-10-08')
-        page.locator('#timer-dock').click();page.locator('#rest-source').select_option('am-5')
-        assert page.locator('#set-rest-options legend').all_inner_texts()==['Between the two 25s','Before broken 50 #2']
-        page.locator('[data-set-duration="25"]').click()
-        assert page.locator('#timer-clock').inner_text()=='0:25'
-        assert page.locator('#timer-status').inner_text()=='Ready'
-        page.locator('#timer-toggle').click();page.clock.fast_forward(5000)
-        assert page.locator('#timer-clock').inner_text()=='0:20'
-        page.locator('#timer-toggle').click();page.clock.fast_forward(5000)
-        assert page.locator('#timer-clock').inner_text()=='0:20'
-        close('rest-dialog');page.reload()
+        page.locator('#timer-dock').click()
+        # One sorted, unique list combines repetition, broken-set and block rests.
+        assert page.locator('[data-duration]').evaluate_all('(buttons)=>buttons.map(b=>Number(b.dataset.duration))')==[20,25,30,45,60,120,150,180,240,270,300]
+        assert page.locator('[data-duration="90"]').count()==0 # no unrelated presets
+        assert 'full recovery' in page.locator('#set-am-8 .pool-rest').inner_text().lower()
+        page.locator('[data-duration="25"]').click()
+        page.wait_for_function('!document.getElementById("rest-dialog").open')
+        assert page.locator('#timer-preview').inner_text()=='0:25'
+        assert page.locator('#timer-quick-toggle').inner_text()=='Pause'
+        assert page.locator('#timer-dock').evaluate('(e)=>e===document.activeElement')
+        page.clock.fast_forward(5000)
         assert page.locator('#timer-preview').inner_text()=='0:20'
+        page.locator('#timer-quick-toggle').click();page.clock.fast_forward(5000)
+        assert page.locator('#timer-preview').inner_text()=='0:20'
+        page.reload();assert page.locator('#timer-preview').inner_text()=='0:20'
         assert page.locator('#timer-quick-toggle').inner_text()=='Resume'
-        page.locator('#timer-dock').click();page.locator('#rest-source').select_option('am-5');page.locator('[data-set-duration="270"]').click()
-        assert page.locator('#timer-clock').inner_text()=='4:30'
-        close('rest-dialog')
-        page.locator('#timer-dock').click();page.locator('#rest-source').select_option('am-8')
-        assert 'full recovery' in page.locator('#set-rest-options').inner_text().lower()
-        assert page.locator('[data-set-duration]').count()==0 # no invented full-recovery duration
-        page.locator('#rest-source').select_option('block')
-        assert page.locator('#set-rest-options legend').inner_text()=='Between different drill blocks'
-        page.locator('[data-set-duration="45"]').click();close('rest-dialog')
+        page.locator('#timer-quick-toggle').click();page.clock.fast_forward(5000)
+        assert page.locator('#timer-preview').inner_text()=='0:15'
+        page.reload();assert page.locator('#timer-preview').inner_text()=='0:15'
+        # Opening/cancelling the picker does not stop or reset a running countdown.
+        page.locator('#timer-dock').click();page.clock.fast_forward(5000)
+        close('rest-dialog');assert page.locator('#timer-preview').inner_text()=='0:10'
+        # Picking a new time while running immediately starts a new rest.
+        page.locator('#timer-dock').click();page.locator('[data-duration="270"]').click()
+        page.wait_for_function('!document.getElementById("rest-dialog").open')
+        assert page.locator('#timer-preview').inner_text()=='4:30'
+        assert page.locator('#timer-quick-toggle').inner_text()=='Pause'
+        page.locator('#timer-dock').click();page.locator('[data-duration="45"]').press('Enter')
+        page.wait_for_function('!document.getElementById("rest-dialog").open')
         assert page.locator('#timer-preview').inner_text()=='0:45'
-        # Checking a drill never starts or changes a rest timer.
+        page.locator('#timer-quick-toggle').click()
+        # Checking a drill never changes the generic rest timer.
         page.locator('[data-done]').nth(1).click()
         assert page.locator('#timer-preview').inner_text()=='0:45'
-        assert page.locator('#timer-quick-toggle').inner_text()=='Start'
+        assert page.locator('#timer-quick-toggle').inner_text()=='Resume'
         page.locator('[data-done]').nth(1).click()
-        # The footer starts/pauses, while scrolling does not check a card.
+        # The footer resumes/pauses, while scrolling does not check a card.
         page.locator('#timer-quick-toggle').click();page.clock.fast_forward(5000)
         assert page.locator('#timer-preview').inner_text()=='0:40'
         page.locator('[data-done]').nth(1).scroll_into_view_if_needed()
@@ -104,6 +114,9 @@ def run():
         page.reload();assert page.locator('[data-done]:checked').count()==1
         visit('session.html?id=2026-10-08&phase=pm')
         assert 'If tired: skip PM' in page.locator('.phase-note').inner_text()
+        page.locator('#timer-dock').click()
+        assert page.locator('[data-duration]').evaluate_all('(buttons)=>buttons.map(b=>Number(b.dataset.duration))')==[20,30,45,60]
+        close('rest-dialog')
         assert page.locator('[data-done]:checked').count()==0
         page.locator('[data-done]').first.click();page.reload()
         assert page.locator('[data-done]:checked').count()==1
@@ -129,13 +142,16 @@ def run():
         visit('session.html?id=2026-10-08');server.next_release=True
         page.evaluate('async()=>{const r=await navigator.serviceWorker.getRegistration();await r.update()}')
         page.wait_for_function('async()=>!!(await navigator.serviceWorker.getRegistration()).waiting')
-        page.locator('#phase-switch summary').click()
+        assert page.locator('#app-update').count()==0
+        visit('index.html');page.locator('.supporting-tools summary').click()
         page.locator('#app-update').wait_for(state='visible')
-        assert page.locator('[data-done]:checked').count()==1
         page.locator('#app-update').click()
-        page.wait_for_function('async()=>(await caches.keys()).includes("lane50-shell-v38-test-update")&&!(await navigator.serviceWorker.getRegistration()).waiting')
+        page.wait_for_function('async()=>(await caches.keys()).includes("lane50-shell-v40-test-update")&&!(await navigator.serviceWorker.getRegistration()).waiting')
+        visit('session.html?id=2026-10-08')
+        assert page.locator('[data-done]:checked').count()==1
+        assert page.locator('#phase-switch,#day-source,#keep-screen').count()==0
         assert not errors,errors
         browser.close()
     finally:server.shutdown()
-    print('PASS replacement-plan migration, AM/PM isolation, broken-set and block rests, timer pause/reload, tap completion, failed saves/retry, official results and offline updates')
+    print('PASS replacement-plan migration, AM/PM isolation, generic repetition/block times, tap-to-start/auto-close, timer pause/reload, tap completion, failed saves/retry, official results and offline updates')
 if __name__=='__main__':run()

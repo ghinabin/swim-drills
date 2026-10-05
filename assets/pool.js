@@ -2,11 +2,12 @@
 (() => {
   'use strict';
   if (!['session','race'].includes(document.body.dataset.page) || !document.querySelector('[data-done]')) return;
+  const menu=document.querySelector('.phase-switch');
+  if(!menu)return;
   const tools = document.createElement('div');
   tools.className='pouch-tools';
   tools.innerHTML='<button class="button secondary" id="keep-screen" aria-pressed="false">Keep screen on</button><small id="screen-state" role="status">Optional · while this page is visible</small>';
-  const menu=document.querySelector('.phase-switch');
-  if(menu)menu.append(tools);else document.querySelector('.classic-session-tools').before(tools);
+  menu.append(tools);
   const button=tools.querySelector('button'),status=tools.querySelector('small');
   let wanted=false,lock=null,generation=0;
   async function acquire(){
