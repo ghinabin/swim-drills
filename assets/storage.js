@@ -33,7 +33,7 @@
     }
     const records = {};
     // Race logistics/results describe the same two events. Carry them forward,
-    // while replacement AM/PM workouts start with fresh completion state.
+    // while replacement workouts start with fresh completion state.
     if(PREPARATION.previousRevision) {
       const previous = portable.plans[PREPARATION.previousRevision] || JSON.parse(localStorage.getItem('lane50:'+PREPARATION.previousRevision+':records') || 'null')?.records || {};
       for(const key of ['race:50','race:100','rehearsal:50','rehearsal:100']) {

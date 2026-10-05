@@ -1,4 +1,4 @@
-Yes. I’d use the following as your **single final schedule**, replacing the earlier versions. It includes dryland activation, AM swimming, optional PM swimming, evening mobility, catch/pull, flutter kick, starts, dolphin kicks, breakout, turns, 50 speed, and 100 pace.
+Yes. I’d use the following as your **single final schedule**, replacing the earlier versions. From Oct 5 onward, use one 60–75 minute AM session for swimming and race skills; evenings are for mobility/recovery. Keep only short, useful skill reps and discard the extra swim volume. Oct 10 remains complete rest. It includes dryland activation, AM swimming, evening mobility/recovery, catch/pull, flutter kick, starts, dolphin kicks, breakout, turns, 50 speed, and 100 pace.
 
 **Race:** 50 Free Oct 12 · 100 Free Oct 13  
 **Pool:** 25 m · **Oct 10:** full rest  
@@ -29,12 +29,6 @@ Yes. I’d use the following as your **single final schedule**, replacing the ea
 - 4 × fast approach → flip → dolphin → breakout — **60–90 sec**
 - 150–200 easy
 
-**PM swim · ~400–500 m EASY**
-- 200 easy
-- 4 × 25 streamline → dolphins → breakout — **30–45 sec**
-- 4 × 25 smooth freestyle — **20 sec**
-- 100 easy
-
 **Evening mobility · 10 min**
 Cat-cow × 8 → open book × 6/side → wall slide × 8 → lat stretch 20 sec/side → hip-flexor stretch 20 sec/side → calf stretch 20 sec/side.
 
@@ -49,23 +43,16 @@ Same activation as Oct 4, but only **1 set each**.
 **AM swim · ~1,050–1,150 m**
 - 150 easy
 - 4 × 25 build — **20 sec**
+- 2 × 15 m easy streamline → dolphins → breakout — **30–45 sec**; cue: **TIGHT → DOLPHIN → BREAKOUT**
 - 2 × [25 pull buoy + 25 normal] — **20–30 sec**
 - 2 × 50 pull buoy — **30 sec**
 - **4 × 50 @ 100-race rhythm — 1:30–2:00**
 - 4 × 25: 12.5 fast + 12.5 easy — **45 sec**
-- 4–6 × turn → push → dolphins → breakout — **60–90 sec**
+- 2–3 × turn → push → dolphins → breakout — **60–90 sec**
 - 2 × 25 fast finish — **1 min**
 - 150–200 easy
 
-**PM swim · ~400 m EASY**
-- 150–200 easy
-- 2 × 25 scull
-- 2 × 25 fist
-- 4 × 25 smooth normal
-- 2 × 25 build to only 80%
-- easy remainder
-
-**Evening mobility · 5–10 min**
+**Evening mobility · 10–15 min**
 
 Wall slides + open book + lat + hip flexor + calf/ankle.
 
@@ -95,10 +82,6 @@ Very light:
 - 4 × 25 build: 60 → 70 → 80 → 90% — **30 sec**
 - 2 clean turns
 - 100 easy
-
-### PM
-
-**NO SWIMMING.**
 
 ### Evening · 15 min mobility
 
@@ -150,7 +133,7 @@ Use whichever produces your best complete breakout/15 m, not whichever keeps you
 - **4 × 25 @ ~95% — 2:30–3:00 rest**
 
 **Turns**
-- 4 × 10 m fast → flip → push → dolphins → breakout → sprint 5–7 m
+- 2–3 × 10 m fast → flip → push → dolphins → breakout → sprint 5–7 m
 - **60–90 sec**
 
 **Finish**
@@ -158,18 +141,9 @@ Use whichever produces your best complete breakout/15 m, not whichever keeps you
 
 150–200 easy.
 
-### PM · ~300–400 m
-
-- 150–200 easy
-- 4 × turn + breakout
-- 4 × 25 smooth
-- easy finish
-
-No sprint.
-
 ### Evening
 
-Only **5–10 min gentle mobility** because you already swam twice.
+**10–15 min gentle mobility**, then eat normally, hydrate and sleep well.
 
 ---
 
@@ -216,17 +190,9 @@ Then:
 - 3 race-quality turns — **full recovery**
 - 150–200 easy
 
-### PM · OPTIONAL 300–400 m
-
-Only if you feel fresh:
-
-200 easy → 4 × 25 smooth → 2 × 25 build to 80% → easy.
-
-**If tired: skip it.**
-
 ### Evening
 
-5–10 min gentle mobility only.
+10–15 min gentle mobility, then normal food, hydration and sleep.
 
 ---
 
@@ -263,10 +229,6 @@ Nothing strenuous.
 
 150–200 easy.
 
-### PM
-
-**OFF.**
-
 ### Evening
 
 ~10 min easy mobility.
@@ -289,9 +251,7 @@ No swimming.
 
 Normal easy walking is fine.
 
-### PM
-
-No swimming.
+### Evening recovery
 
 Optional **5–10 min gentle mobility** only if you feel stiff.
 
@@ -323,10 +283,6 @@ Arm circles → band pull-aparts × 10 → wall slides × 8 → 10 easy squats.
 ## GET OUT.
 
 Don't add laps because you feel good.
-
-### PM
-
-**OFF.**
 
 ### Evening
 
@@ -376,7 +332,7 @@ Your only sequence:
 
 Don't introduce a new breathing strategy today.
 
-### After race / PM
+### After race
 
 If pool access allows and you're feeling normal:
 

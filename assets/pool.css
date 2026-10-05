@@ -18,11 +18,6 @@ body[data-page="session"] .site-header { min-height: 56px; padding-top: 4px; pad
 .prep-details > summary { min-height: 48px; padding-top: 10px; padding-bottom: 10px; }
 .supporting-tools .text-link { display: flex; margin: 4px 0; }
 
-.swim-period-tabs { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; margin: 8px 0; }
-.swim-period-tabs a { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 8px; border: 2px solid var(--line); border-radius: 8px; color: var(--muted); background: var(--surface); }
-.swim-period-tabs strong { font-size: 17px; }
-.swim-period-tabs small { font-size: 12px; }
-.swim-period-tabs a[aria-current] { border-color: var(--amber); background: #42371d; color: var(--text); }
 .exercise-shortcut { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; min-height: 48px; padding: 8px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; text-align: left; color: var(--cyan); margin-bottom: 10px; }
 .exercise-shortcut > span { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 8px; }
 .exercise-shortcut strong { font-size: 15px; }
@@ -105,10 +100,6 @@ body[data-page="race"] .prep-event-tabs small { display: inline; font-size: 12px
 .day-drill-summary strong { color: var(--text); font-weight: 600; }
 .day-later > summary > span { min-width: 0; }
 .day-later summary small { display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 2px; }
-.day-later-swim { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 48px; color: var(--cyan); padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; }
-.day-later-swim span { display: flex; flex-wrap: wrap; gap: 2px 8px; align-items: baseline; }
-.day-later-swim small { color: var(--muted); font-size: 13px; }
-.day-later-note { color: var(--muted); font-size: 14px; line-height: 1.5; margin: 6px 0 10px; }
 .day-later .exercise-shortcut { margin: 0; }
 @media (max-width: 760px) {
   main { padding-left: 16px; padding-right: 16px; }
@@ -120,6 +111,6 @@ body[data-page="race"] .prep-event-tabs small { display: inline; font-size: 12px
   .prep-timeline { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
 @media print {
-  .swim-period-tabs, .exercise-shortcut, .pouch-tools, .phase-switch, .check-hint { display: none !important; }
+  .exercise-shortcut, .pouch-tools, .phase-switch, .check-hint { display: none !important; }
   .drill-card, .drill-card span { color: black; }
 }

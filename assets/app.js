@@ -35,7 +35,7 @@ $('#navigation').innerHTML = [['overview','index.html','Today'],['plan','plan.ht
 let activeDay;
 function phaseView(day,key='am') {
   const phase=day.phases[key] || day.phases.am;
-  return {...day,sets:phase.sets,phaseKey:key,phase,storageKey:key==='am'?'session:'+day.id:'session:'+day.id+':'+key,noTimer:!['am','pm'].includes(key)||phase.status==='off'};
+  return {...day,sets:phase.sets,phaseKey:key,phase,storageKey:key==='am'?'session:'+day.id:'session:'+day.id+':'+key,noTimer:key!=='am'||phase.status==='off'};
 }
 const sessionKey=day=>day.storageKey || 'session:'+day.id;
 function sessionProgress(day) {
@@ -51,15 +51,8 @@ function resumeHref(day,progress=sessionProgress(day)) {
 }
 function supportingTools(){return `<details class="prep-details supporting-tools"><summary>Tools & reference</summary><a class="text-link" href="tempo.html">Freestyle tempo trainer</a><a class="text-link" href="SWIMMING-PLAN.md" download>Full supplied schedule ${icon('download')}</a><p>Optional tools. Keep to the supplied taper; do not add extra sets.</p></details>`;}
 function row(day) {
-  const progress=sessionProgress(day),pm=day.phases.pm;
-  return `<a class="prep-day ${day.date===today?'is-today':''} ${day.kind==='Rest'?'is-rest':''}" id="day-${day.id}" href="${resumeHref(day,progress)}" ${day.date===today?'aria-current="date"':''}><span class="prep-day-date">${esc(fullDate(day.date))}${day.date===today?'<span class="prep-day-today">Today</span>':''}</span><strong class="prep-day-title">${esc(day.title)}</strong><span class="prep-day-bottom"><span>${esc(day.intensity)}${day.kind!=='Race'&&day.kind!=='Rest'?' · AM '+esc(distance(day)):''} · PM ${pm.status==='optional'?'optional':pm.status==='off'?'off':'not prescribed'}${progress.started?' · '+progress.done+'/'+progress.total+' AM sets done':''}</span><span class="prep-day-arrow">${icon('forward')}</span></span></a>`;
-}
-function periodTabs(day,key='am') {
-  return `<nav class="swim-period-tabs" aria-label="AM or PM session">${['am','pm'].map(period=>{
-    const phase=day.phases[period];
-    const url=period==='am'&&day.kind==='Race'?href(day):phaseURL(day,period);
-    return `<a href="${url}" data-period="${period}" ${period===key?'aria-current="page"':''}><strong>${period.toUpperCase()}</strong><small>${phase.status==='off'?'Off':phase.status==='unspecified'?'Not prescribed':phase.status==='optional'?'Optional':day.kind==='Race'?'Race day':'Swim'}</small></a>`;
-  }).join('')}</nav>`;
+  const progress=sessionProgress(day);
+  return `<a class="prep-day ${day.date===today?'is-today':''} ${day.kind==='Rest'?'is-rest':''}" id="day-${day.id}" href="${resumeHref(day,progress)}" ${day.date===today?'aria-current="date"':''}><span class="prep-day-date">${esc(fullDate(day.date))}${day.date===today?'<span class="prep-day-today">Today</span>':''}</span><strong class="prep-day-title">${esc(day.title)}</strong><span class="prep-day-bottom"><span>${esc(day.intensity)}${day.kind!=='Race'&&day.kind!=='Rest'?' · AM '+esc(distance(day)):''}${progress.started?' · '+progress.done+'/'+progress.total+' AM sets done':''}</span><span class="prep-day-arrow">${icon('forward')}</span></span></a>`;
 }
 function exerciseButton(day,key) {
   const exercise=key==='am'?'before':'evening',phase=day.phases[exercise];
@@ -79,11 +72,9 @@ function attachExerciseDialogs(day,initial=null) {
   }
 }
 function laterToday(day) {
-  const pm=day.phases.pm,evening=day.phases.evening;
-  const swim=pm.sets.length>0,mobility=evening.items.length>0;
-  if(!swim&&!mobility)return '';
-  const summary=[swim?(pm.status==='optional'?'Optional ':'')+(day.kind==='Race'?'recovery swim':'easy swim'):'No later swim',mobility?evening.distanceLabel+' mobility':''].filter(Boolean).join(' · ');
-  return `<details class="prep-details day-later"><summary><span>Later today<small>${esc(summary)}</small></span></summary>${swim?`<a class="day-later-swim" href="${phaseURL(day,'pm')}"><span><strong>${day.kind==='Race'?'Recovery swim':'Easy swim'}</strong><small>${esc(pm.distanceLabel)}${pm.status==='optional'?' · Optional':''}</small></span>${icon('forward')}</a><p class="day-later-note">${esc(pm.note)}</p>`:''}${mobility?exerciseButton(day,'pm'):''}</details>`;
+  const evening=day.phases.evening;
+  if(!evening.items.length)return '';
+  return `<details class="prep-details day-later"><summary><span>Evening recovery<small>${esc(evening.distanceLabel)} mobility</small></span></summary>${exerciseButton(day,'evening')}</details>`;
 }
 function overview() {
   if(!nextDay){main.innerHTML=intro('Plan ended','4–13 October 2026')+`<section class="prep-panel"><h2>Your races are finished.</h2><p>Your plan and saved results remain available.</p><a class="button" href="race.html?view=results">View results</a><a class="text-link" href="plan.html">Review plan</a></section>`+supportingTools();return;}
@@ -100,7 +91,7 @@ function plan() {
   main.innerHTML=intro('Your final taper','4–13 October 2026 · 25 m pool')+`<a class="prep-find-day" data-jump href="#day-${(nextDay||days.at(-1)).id}">${nextDay?(nextDay.date===today?'Find today':'Find next day'):'Find races'} ${icon('down')}</a>`;
   const groups=[['Final preparation',days.slice(0,6)],['Rest & activation',days.slice(6,8)],['Race days',days.slice(8)]];
   main.innerHTML+=groups.map(([label,list])=>`<section class="prep-section"><h2>${label}</h2><div class="prep-timeline">${list.map(row).join('')}</div></section>`).join('');
-  main.innerHTML+=`<details class="prep-details"><summary>How to read this plan</summary><p>Rest shown after a repetition means after EACH rep, not a send-off.</p><p>${esc(PREPARATION.defaultBlockRest.text)}</p><p>Distance headings are supplied estimates. Short skill repetitions, variable distances and any arithmetic differences remain visible within each session.</p><p>PM swims are optional. Oct 6, 9, 10 and 11 have no PM swimming. Oct 10 is complete rest.</p></details>`+supportingTools();
+  main.innerHTML+=`<details class="prep-details"><summary>How to read this plan</summary><p>Rest shown after a repetition means after EACH rep, not a send-off.</p><p>${esc(PREPARATION.defaultBlockRest.text)}</p><p>Distance headings are supplied estimates. Short skill repetitions, variable distances and any arithmetic differences remain visible within each session.</p><p>One AM swim with race skills; evenings are for mobility/recovery. Keep only short useful skill reps, without combining swim volumes. Oct 10 is complete rest.</p></details>`+supportingTools();
 }
 function techniqueDetails(){return `<details class="prep-details"><summary>Technique reminders</summary>${PREPARATION.techniques.map(([title,text])=>`<h3>${esc(title)}</h3><p>${esc(text)}</p>`).join('')}<p>Breathe normally. No breath-hold tests or hyperventilation.</p></details>`;}
 function setCard(set,i) {
@@ -114,20 +105,20 @@ function groupedSets(day) {
   });
   return html+(previous?'</section>':'');
 }
-function phaseNavigation(day,key) {
-  return periodTabs(day,key)+exerciseButton(day,key);
+function phaseNavigation(day) {
+  return exerciseButton(day,'am')+exerciseButton(day,'evening');
 }
 function session() {
   const day=days.find(d=>d.id===params.get('id'))||(!params.has('id')?nextDay:null);
   if(!day){main.innerHTML=intro('Session not found','This link belongs to an earlier plan.')+'<a class="button" href="plan.html">Open final taper plan</a>';return;}
   const requested=params.get('phase'),initial=['before','evening'].includes(requested)?requested:null;
-  const key=['pm','evening'].includes(requested)?'pm':'am';
-  if(initial){const url=new URL(location.href);if(key==='pm')url.searchParams.set('phase','pm');else url.searchParams.delete('phase');history.replaceState(history.state,'',url);}
-  if(day.kind==='Race'&&key==='am'){location.replace(href(day)+(initial?'#before-pool':''));return;}
+  const key='am';
+  if(requested){const url=new URL(location.href);url.searchParams.delete('phase');history.replaceState(history.state,'',url);}
+  if(day.kind==='Race'&&key==='am'){location.replace(href(day)+(initial?(initial==='before'?'#before-pool':'#evening'):''));return;}
   activeDay=phaseView(day,key);const d=activeDay,p=d.phase;
   document.title=p.label+' · '+formatDate(d.date)+' · Lane 50';
   $('.site-header').innerHTML=`<a class="prep-back" data-return href="${esc(SwimNavigation.returnURL())}">${icon('back')}<span>${esc(SwimNavigation.returnLabel())}</span></a><span class="classic-session-date">${esc(formatDate(d.date))}</span>`;
-  main.innerHTML=intro(p.label,day.title)+phaseNavigation(day,key);
+  main.innerHTML=intro(p.label,day.title)+phaseNavigation(day);
   if(p.status==='off'||p.status==='unspecified'){
     main.innerHTML+=`<section class="prep-panel phase-rest"><h2>${p.status==='off'?'Rest':'No workout supplied'}</h2><p>${esc(p.note)}</p>${day.kind==='Rest'?'<p>Normal easy walking is fine. No skipping rope, gym, push-ups, pull-ups or kick workout.</p>':''}</section>`;
   }else{
@@ -247,16 +238,16 @@ function race(){
   const raceState=read('race:'+event);
   main.innerHTML=intro('Race preparation','25 m short course · freestyle')+`
     <nav class="prep-event-tabs" aria-label="Choose race"><a href="race.html?event=50" ${event===50?'aria-current="page"':''}>50 m <small>Mon Oct 12</small></a><a href="race.html?event=100" ${event===100?'aria-current="page"':''}>100 m <small>Tue Oct 13</small></a></nav>
-    <p class="prep-focus">${esc(day.focus)}</p>${periodTabs(day,'am')}${exerciseButton(day,'am')}
+    <p class="prep-focus">${esc(day.focus)}</p>${exerciseButton(day,'am')}${exerciseButton(day,'evening')}
     <a class="button warmup-action" id="start-warmup" data-jump href="#warm-up">Start warm-up ${icon('forward')}</a>
     <details class="prep-details prep-logistics"><summary id="reporting-summary">Reporting time · ${esc(raceState.reporting||'not set')}</summary><p class="prep-hint">Enter official details when known. All fields are optional.</p><div class="prep-form-grid"><label>Reporting time<input id="reporting-time" type="time" value="${esc(raceState.reporting||'')}"></label>${[['eventNumber','Event number'],['heat','Heat'],['lane','Lane']].map(([key,label])=>`<label>${label}<input data-logistics="${key}" type="text" maxlength="40" value="${esc(raceState[key]||'')}"></label>`).join('')}</div><p id="reporting-status" role="status"></p></details>
     <nav class="prep-quick-links" aria-label="Race sections"><a data-jump href="#warm-up">Warm-up</a><a data-jump href="#race-cues">Race cues</a><a data-jump href="#race-result">Results</a></nav>
     <section class="prep-section" id="warm-up"><h2>Warm-up</h2><p class="prep-distance">${esc(day.distanceLabel)}</p><p class="prep-note">${esc(day.note)}</p><div class="classic-session-tools"><p id="completion" class="prep-progress" role="status"></p><button class="text-button" data-effort>Effort guide</button></div>${groupedSets(day)}</section>
     <section class="prep-section" id="race-cues"><h2>Your ${event} m race</h2><div class="prep-race-cues">${day.raceCues.map(([label,text])=>`<article><h3>${esc(label)}</h3><p>${esc(text)}</p></article>`).join('')}</div>${day.raceNote?`<p class="race-cue-note">${esc(day.raceNote)}</p>`:''}</section>
-    ${day.after?`<section class="prep-panel"><h2>After the 50 / PM</h2><p>${esc(day.after)}</p><a class="text-link" href="${phaseURL(day,'pm')}">Open optional recovery swim</a></section>`:''}
+    ${day.after?`<section class="prep-panel"><h2>After the 50</h2><p>${esc(day.after)}</p></section>`:''}
     <section class="prep-panel" id="race-result"><h2>Official result</h2><label>Final ${event} m time<input id="official-result" type="text" inputmode="decimal" maxlength="24" placeholder="Seconds or m:ss.xx" value="${esc(raceState.result||'')}" aria-describedby="official-status"></label><p id="official-status" role="status"></p><p class="prep-hint">Optional · auto-saved on this device</p><a class="text-link" href="race.html?view=results">View both race results ${icon('forward')}</a></section>
     <details class="prep-details" id="rehearsal-results"><summary>Earlier rehearsal records · Oct 1 & 2</summary>${recordForm(50)}${recordForm(100)}${copyControls()}</details>${techniqueDetails()}<details class="prep-details"><summary>Full race-day instructions</summary><pre>${esc(day.source)}</pre></details>`;
-  attachCompletion(day);attachSetControls(day);attachRecord(50);attachRecord(100);attachCopyResults();attachExerciseDialogs(day,location.hash==='#before-pool'?'before':null);
+  attachCompletion(day);attachSetControls(day);attachRecord(50);attachRecord(100);attachCopyResults();attachExerciseDialogs(day,location.hash==='#before-pool'?'before':location.hash==='#evening'?'evening':null);
   function logistics(){
     raceState.reporting=$('#reporting-time').value;
     document.querySelectorAll('[data-logistics]').forEach(input=>raceState[input.dataset.logistics]=input.value);

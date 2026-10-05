@@ -13,11 +13,13 @@ class Quiet(SimpleHTTPRequestHandler):
 def run():
     subprocess.run(['node','scripts/import-plan.cjs'],cwd=ROOT,check=True)
     plan=json.loads((ROOT/'data/competition-plan.json').read_text())
-    assert [len(d['sets']) for d in plan['days']]==[11,9,10,11,9,8,0,6,5,5]
+    assert [len(d['sets']) for d in plan['days']]==[11,10,10,11,9,8,0,6,5,5]
     assert [d['date'] for d in plan['days'] if d['kind']=='Rest']==['2026-10-10']
-    assert [d['date'] for d in plan['days'] if d['phases']['pm']['status']=='optional']==['2026-10-04','2026-10-05','2026-10-07','2026-10-08','2026-10-12']
+    assert all(list(d['phases'])==['before','am','evening'] for d in plan['days'])
+    assert plan['days'][1]['sets'][2]['metres']==30
+    assert '2–3' in next(s for s in plan['days'][3]['sets'] if s['group']=='Turns')['prescription']
     assert '3–4 dolphins' in plan['days'][0]['sets'][7]['prescription']
-    assert plan['days'][1]['sets'][4]['timers'][0]['seconds']==[90,105,120]
+    assert plan['days'][1]['sets'][5]['timers'][0]['seconds']==[90,105,120]
     assert '60 → 70 → 80 → 90%' in plan['days'][2]['sets'][7]['prescription']
     assert '2 dolphins' in plan['days'][3]['sets'][6]['prescription']
     assert plan['days'][3]['sets'][5]['timers'][0]['seconds']==[180]
@@ -40,7 +42,7 @@ def run():
           assert page.locator('.nav-link').all_inner_texts()==['Today','Plan','Race']
           assert '100 pace + catch + turns' in page.locator('.prep-hero').inner_text()
           assert page.locator('[data-period]').count()==0
-          assert '9 drill blocks' in page.locator('.day-workload').inner_text()
+          assert '10 drill blocks' in page.locator('.day-workload').inner_text()
           assert '100 m rhythm' in page.locator('.day-drill-summary').inner_text()
           page.locator('#exercise-before').click()
           assert page.locator('#exercise-dialog-before').is_visible()
@@ -48,16 +50,16 @@ def run():
           page.locator('#exercise-dialog-before [data-close-dialog]').click()
           page.wait_for_function('!document.getElementById("exercise-dialog-before").open')
           page.locator('.day-later summary').click()
-          assert 'Optional' in page.locator('.day-later').inner_text()
+          assert 'mobility' in page.locator('.day-later').inner_text()
+          assert page.locator('.day-later-swim').count()==0
           page.locator('#exercise-evening').click()
           assert 'Wall slides' in page.locator('#exercise-dialog-evening').inner_text()
           page.locator('#exercise-dialog-evening [data-close-dialog]').click()
           page.wait_for_function('!document.getElementById("exercise-dialog-evening").open')
           page.get_by_role('link',name='Open drills',exact=True).click()
           assert page.locator('h1').inner_text()=='AM swim'
-          assert page.locator('[data-done]').count()==9
-          assert page.locator('[data-period="am"]').get_attribute('aria-current')=='page'
-          assert page.locator('[data-period="pm"]').is_visible()
+          assert page.locator('[data-done]').count()==10
+          assert page.locator('[data-period]').count()==0
           page.locator('#exercise-before').click()
           assert page.locator('#exercise-dialog-before').is_visible()
           page.keyboard.press('Escape')
@@ -87,17 +89,15 @@ def run():
           page.locator('#rest-dialog [data-close-dialog]').click()
           page.wait_for_function('!document.getElementById("rest-dialog").open')
           assert page.locator('#set-am-2').evaluate('(e)=>e.classList.contains("is-next")')
-          page.locator('[data-period="pm"]').click()
-          assert page.locator('h1').inner_text()=='PM swim'
-          assert page.locator('[data-period="pm"]').get_attribute('aria-current')=='page'
+          # Legacy evening swim links resolve to the updated morning workout.
+          page.goto(base+'session.html?id=2026-10-05&phase=pm')
+          assert page.locator('h1').inner_text()=='AM swim'
+          assert 'phase=' not in page.url
+          assert page.locator('[data-done]:checked').count()==1
           page.locator('#exercise-evening').click()
           assert 'Wall slides' in page.locator('#exercise-dialog-evening').inner_text()
-          page.go_back()
+          page.locator('#exercise-dialog-evening [data-close-dialog]').click()
           page.wait_for_function('!document.getElementById("exercise-dialog-evening").open')
-          assert page.locator('[data-done]:checked').count()==0
-          page.locator('[data-done]').first.click()
-          page.goto(base+'session.html?id=2026-10-05')
-          assert page.locator('[data-done]:checked').count()==1
           assert page.locator('#navigation').is_hidden()
           assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
           if width==390:page.screenshot(path='/private/tmp/final-taper-am.png',full_page=True)
@@ -106,7 +106,7 @@ def run():
             for phase in day['phases']:
               page.goto(base+f'session.html?id={day["id"]}&phase={phase}')
               assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),(width,day['id'],phase)
-              period='pm' if phase in ('pm','evening') else 'am'
+              period='am'
               if phase in ('before','evening'):
                 page.locator('#exercise-dialog-'+phase).wait_for(state='visible')
                 assert page.locator('#exercise-dialog-'+phase).bounding_box()['width']<=width
@@ -114,8 +114,8 @@ def run():
                 page.locator('#exercise-dialog-'+phase+' [data-close-dialog]').click()
                 page.wait_for_function('(phase)=>!document.getElementById("exercise-dialog-"+phase).open',arg=phase)
               assert page.locator('[data-done]').count()==len(day['phases'][period]['sets'])
-              assert page.locator('[data-period="'+period+'"]').get_attribute('aria-current')=='page'
-              if period=='pm' and day['phases'][period]['status']=='off':assert page.locator('#timer-footer').is_hidden()
+              assert page.locator('[data-period]').count()==0
+              if day['phases'][period]['status']=='off':assert page.locator('#timer-footer').is_hidden()
           page.goto(base+'index.html?phase=pm')
           assert page.locator('[data-period]').count()==0
           assert page.locator('#day-title').inner_text()=='100 pace + catch + turns'
@@ -130,5 +130,5 @@ def run():
           context.close()
         browser.close()
     finally:server.shutdown()
-    print('PASS final source contract, dates, all AM/PM/mobility screens, tap and keyboard checkboxes, phase isolation, accessible targets and responsive navigation')
+    print('PASS final source contract, dates, all AM/activation/mobility screens, tap and keyboard checkboxes, legacy link recovery, accessible targets and responsive navigation')
 if __name__=='__main__':run()

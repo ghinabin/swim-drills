@@ -13,7 +13,7 @@ class Quiet(SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path.split('?')[0]=='/sw.js':
             source=(ROOT/'sw.js').read_text()
-            if getattr(self.server,'next_release',False):source=source.replace('v39-clean-session','v40-test-update')
+            if getattr(self.server,'next_release',False):source=source.replace('v41-am-only-taper','v42-test-update')
             body=source.encode();self.send_response(200);self.send_header('Content-Type','application/javascript');self.send_header('Cache-Control','no-store');self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body)
         else:super().do_GET()
 
@@ -113,27 +113,21 @@ def run():
         page.evaluate('()=>{Storage.prototype.setItem=window.originalSet;}');page.locator('#save-retry').click();assert page.locator('#save-warning').is_hidden()
         page.reload();assert page.locator('[data-done]:checked').count()==1
         visit('session.html?id=2026-10-08&phase=pm')
-        assert 'If tired: skip PM' in page.locator('.phase-note').inner_text()
-        page.locator('#timer-dock').click()
-        assert page.locator('[data-duration]').evaluate_all('(buttons)=>buttons.map(b=>Number(b.dataset.duration))')==[20,30,45,60]
-        close('rest-dialog')
+        assert page.locator('h1').inner_text()=='AM swim'
+        assert 'phase=' not in page.url
+        assert page.locator('[data-period]').count()==0
+        assert page.locator('[data-done]:checked').count()==1
+        # Historical skips remain stored, but do not mark checkboxes completed.
+        page.evaluate('LaneStorage.save("session:2026-10-08",{"am-1":"skipped"})');page.reload()
         assert page.locator('[data-done]:checked').count()==0
+        assert page.locator('#set-am-1').evaluate('(e)=>e.classList.contains("is-next")')
         page.locator('[data-done]').first.click();page.reload()
         assert page.locator('[data-done]:checked').count()==1
-        page.locator('[data-done]').first.click();page.reload()
-        assert page.locator('[data-done]:checked').count()==0
-        # Historical skips remain stored, but do not mark new checkboxes completed.
-        page.evaluate('LaneStorage.save("session:2026-10-08:pm",{"pm-1":"skipped"})');page.reload()
-        assert page.locator('[data-done]:checked').count()==0
-        assert page.locator('#set-pm-1').evaluate('(e)=>e.classList.contains("is-next")')
-        page.locator('[data-done]').first.click();page.reload()
-        assert page.locator('[data-done]:checked').count()==1
-        visit('session.html?id=2026-10-08');assert page.locator('[data-done]:checked').count()==1
         # Save recovery, results and reporting remain usable on new race content.
         visit('race.html?event=100');page.locator('#official-result').fill('1:14.20');page.reload();assert page.locator('#official-result').input_value()=='1:14.20'
         assert 'HOLD FORM' in page.locator('#race-cues').inner_text()
         assert page.locator('#timer-footer').is_hidden()
-        # Cache the coherent release and verify offline AM, PM and race content.
+        # Cache the coherent release and verify offline AM, legacy links and race content.
         page.wait_for_function('navigator.serviceWorker.controller!==null')
         context.set_offline(True)
         for path in ['session.html?id=2026-10-05','session.html?id=2026-10-08&phase=pm','race.html?event=50','tempo.html']:
@@ -146,12 +140,12 @@ def run():
         visit('index.html');page.locator('.supporting-tools summary').click()
         page.locator('#app-update').wait_for(state='visible')
         page.locator('#app-update').click()
-        page.wait_for_function('async()=>(await caches.keys()).includes("lane50-shell-v40-test-update")&&!(await navigator.serviceWorker.getRegistration()).waiting')
+        page.wait_for_function('async()=>(await caches.keys()).includes("lane50-shell-v42-test-update")&&!(await navigator.serviceWorker.getRegistration()).waiting')
         visit('session.html?id=2026-10-08')
         assert page.locator('[data-done]:checked').count()==1
         assert page.locator('#phase-switch,#day-source,#keep-screen').count()==0
         assert not errors,errors
         browser.close()
     finally:server.shutdown()
-    print('PASS replacement-plan migration, AM/PM isolation, generic repetition/block times, tap-to-start/auto-close, timer pause/reload, tap completion, failed saves/retry, official results and offline updates')
+    print('PASS replacement-plan migration, AM-only legacy routing, generic repetition/block times, tap-to-start/auto-close, timer pause/reload, tap completion, failed saves/retry, official results and offline updates')
 if __name__=='__main__':run()
