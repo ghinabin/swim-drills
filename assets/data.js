@@ -916,7 +916,7 @@ const PREPARATION = {
       "focus": "Easy swimming, flutter kick and clean technique.",
       "kind": "Swim",
       "intensity": "Recovery",
-      "source": "# Oct 6 — Recovery + Flutter Kick\n\n### Before pool · ~8 min\n\nVery light:\n- Arm circles × 10\n- Squat 1 × 10\n- Calf raise 1 × 10\n- Band pull-apart 1 × 10\n- External rotation 1 × 10/side\n- Easy mobility\n\n### AM swim · ~900–1,000 m\n\n- 300 easy\n- **4 × 25 kickboard flutter — 20–30 sec**\n- **4 × 25 streamline flutter kick — 30 sec**\n- 2 × 25 scull — 20 sec\n- 2 × 25 fist — 20 sec\n- 4 × 25 normal — 20 sec\n- 6 × 50 smooth — **20–30 sec**\n- 4 × 25 build: 60 → 70 → 80 → 90% — **30 sec**\n- 2 clean turns\n- 100 easy\n\n### Evening · 15 min mobility\n\nCat-cow × 8  \nOpen book × 6/side  \nWall slide 2 × 8  \nBand external rotation 1 × 10/side  \nLat stretch 2 × 20 sec  \nHip flexor 2 × 20 sec/side  \nCalf/ankle 2 × 20 sec/side  \nDead bug 2 × 6/side\n\n---",
+      "source": "# Oct 6 — Recovery + Flutter Kick\n\n### Before pool · ~8 min\n\nVery light:\n- Arm circles × 10\n- Squat 1 × 10\n- Calf raise 1 × 10\n- Band pull-apart 1 × 10\n- External rotation 1 × 10/side\n- Easy mobility\n\n### AM swim · ~900–1,000 m\n\n- 300 easy\n- **4 × 25 kickboard flutter — 20–30 sec**\n- **4 × 25 streamline flutter kick — 30 sec**\n- 2 × 25 scull — 20 sec\n- 2 × 25 fist — 20 sec\n- 4 × 25 normal — 20 sec\n- 6 × 50 smooth — **20–30 sec**\n- 4 × 25 build: 60 → 70 → 80 → 90% — **30 sec**\n- 2 × 50 m easy freestyle with a turn at 25 m\n- 100 easy\n\n### Evening · 15 min mobility\n\nCat-cow × 8  \nOpen book × 6/side  \nWall slide 2 × 8  \nBand external rotation 1 × 10/side  \nLat stretch 2 × 20 sec  \nHip flexor 2 × 20 sec/side  \nCalf/ankle 2 × 20 sec/side  \nDead bug 2 × 6/side\n\n---",
       "phases": {
         "before": {
           "label": "Before pool",
@@ -1092,11 +1092,11 @@ const PREPARATION = {
             {
               "group": "Turns",
               "name": "Turns",
-              "prescription": "2 clean turns",
+              "prescription": "2 × 50 m easy freestyle · turn at 25 m",
               "rest": "",
-              "cue": "",
-              "metres": null,
-              "effort": "",
+              "cue": "One turn per 50 m: swim 25 m, turn, push off in streamline, then swim 25 m back.",
+              "metres": 100,
+              "effort": "Easy",
               "optional": false,
               "timers": [],
               "id": "am-9"
@@ -1115,9 +1115,9 @@ const PREPARATION = {
             }
           ],
           "items": [],
-          "knownMetres": 1200,
+          "knownMetres": 1300,
           "distanceContext": "Source heading estimate; short skill reps and variable distances are kept as written.",
-          "volumeNote": "Listed fixed lengths total 1,200 m, plus 2 turns. The source heading says ~900–1,000 m. Confirm intended volume with your coach; this app preserves the listed sets."
+          "volumeNote": "Listed sets total 1,300 m, including 2 × 50 m turn practice. The source heading says ~900–1,000 m."
         },
         "evening": {
           "label": "Evening mobility",
@@ -1291,11 +1291,11 @@ const PREPARATION = {
         {
           "group": "Turns",
           "name": "Turns",
-          "prescription": "2 clean turns",
+          "prescription": "2 × 50 m easy freestyle · turn at 25 m",
           "rest": "",
-          "cue": "",
-          "metres": null,
-          "effort": "",
+          "cue": "One turn per 50 m: swim 25 m, turn, push off in streamline, then swim 25 m back.",
+          "metres": 100,
+          "effort": "Easy",
           "optional": false,
           "timers": [],
           "id": "am-9"

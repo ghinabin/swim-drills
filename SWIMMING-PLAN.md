@@ -80,7 +80,7 @@ Very light:
 - 4 × 25 normal — 20 sec
 - 6 × 50 smooth — **20–30 sec**
 - 4 × 25 build: 60 → 70 → 80 → 90% — **30 sec**
-- 2 clean turns
+- 2 × 50 m easy freestyle with a turn at 25 m
 - 100 easy
 
 ### Evening · 15 min mobility
